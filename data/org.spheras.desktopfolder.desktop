@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Desktop Folder
+Comment=Manage your desktop with folders
+Exec=org.spheras.desktopfolder
+Icon=org.spheras.desktopfolder
+Keywords=desktop;folder;file;organize
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GTK;Utility;

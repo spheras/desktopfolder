@@ -1,0 +1,15 @@
+Source: org.spheras.ekm4android
+Section: x11
+Priority: extra
+Maintainer: José Amuedo <joseamuedo@gmail.com>
+Build-Depends: cmake (>= 2.8),
+               debhelper (>= 9),
+               libgtk-3-dev,
+               valac (>= 0.16)
+Standards-Version: 3.9.3
+
+Package: org.spheras.ekm4android
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Control your Android Device with your PC mouse and keyboard
+ You can control all your Android device with your current mouse and Keyboard.

@@ -1,0 +1,11 @@
+compile first time
+··················
+meson build
+cd build
+ninja
+
+
+show debug messages
+···················
+export G_MESSAGES_DEBUG=all
+

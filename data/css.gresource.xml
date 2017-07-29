@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/spheras/desktopfolder">
+    <file alias="Application.css" compressed="true">Application.css</file>
+    <file alias="android_robot.png" compressed="true">img/android_robot2.png</file>
+  </gresource>
+</gresources>
