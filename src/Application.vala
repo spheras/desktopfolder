@@ -39,6 +39,17 @@ public class DesktopFolderApp : Granite.Application {
     }
 
     protected override void activate () {
+        base.activate ();
+        debug("activate event");
+        init();
+    }
+
+    public override void startup () {
+        base.startup ();
+        debug("startup event");
+    }
+
+    private void init(){
         //only one app at a time
         if (get_windows().length () > 0) {
             get_windows().data.present ();
@@ -64,6 +75,7 @@ public class DesktopFolderApp : Granite.Application {
         */
 
         syncFolders();
+
     }
 
     private void syncFolders () {
@@ -77,7 +89,7 @@ public class DesktopFolderApp : Granite.Application {
                 File file = File.new_for_commandline_arg (basePath+"/"+file_info.get_name());
                 FileType type = file.query_file_type (FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
                 if(type==FileType.DIRECTORY){
-                    var fw = new FolderWindow (this,file_info.get_name());
+                    var fw = new DesktopFolder.FolderWindow (this,file_info.get_name());
                     add_window(fw);
                     fw.show ();
                 }else{

@@ -1,8 +1,153 @@
-@define-color colorBackground rgba(0,0,0,0.2);
-@define-color colorForeground #FFFFFF;
+@define-color colorBackgroundYELLOW rgba(252,233,79,0.3);
+@define-color colorBackgroundORANGE rgba(252,175,62,0.3);
+@define-color colorBackgroundBROWN rgba(153,118,102,0.3);
+@define-color colorBackgroundGREEN rgba(138,225,52,0.3);
+@define-color colorBackgroundBLUE rgba(114,159,207,0.3);
+@define-color colorBackgroundPURPLE rgba(173,127,168,0.3);
+@define-color colorBackgroundRED rgba(239,41,41,0.3);
+@define-color colorBackgroundBLACK rgba(0,0,0,0.3);
+@define-color colorBackgroundTRANSPARENT rgba(0,0,0,0);
+@define-color colorBackgroundGRAY rgba(211,215,207,0.3);
+
+/* TITLE COLORS */
+@define-color colorForegroundLIGHT rgba(255,255,255,1);
+@define-color colorForegroundDARK rgba(0,0,0,1);
+@define-color colorForegroundHEADLESS rgba(0,0,0,0);
+.df_folder.light .titlebar .title{
+    color: @colorForegroundLIGHT;
+}
+.df_folder.dark .titlebar .title{
+    color: @colorForegroundDARK;
+}
+.df_folder.headless .titlebar .title{
+    color: @colorForegroundHEADLESS;
+}
+
+/* BODY COLORS */
+/* TRANSPARENT */
+.df_folder.window-frame.transparent, .df_folder.window-frame.transparent:backdrop {
+    border-color: @colorBackgroundTRANSPARENT;
+}
+.df_folder.background.transparent, .df_folder.background.transparent:backdrop {
+    background-color: @colorBackgroundTRANSPARENT;
+}
+.df_folder.transparent .titlebar, .df_folder.transparent .titlebar:backdrop{
+    background-color: @colorBackgroundTRANSPARENT;
+    border-color: @colorBackgroundTRANSPARENT;
+}
+
+/* GRAY */
+
+.df_folder.window-frame.gray, .df_folder.window-frame.gray:backdrop {
+    border-color: @colorBackgroundGRAY;
+}
+.df_folder.background.gray, .df_folder.background.gray:backdrop {
+    background-color: @colorBackgroundGRAY;
+}
+.df_folder.gray .titlebar, .df_folder.gray .titlebar:backdrop{
+    background-color: @colorBackgroundGRAY;
+    border-color: @colorBackgroundGRAY;
+}
+
+/* PURPLE */
+.df_folder.window-frame.purple, .df_folder.window-frame.purple:backdrop {
+    border-color: @colorBackgroundPURPLE;
+}
+.df_folder.background.purple, .df_folder.background.purple:backdrop {
+    background-color: @colorBackgroundPURPLE;
+}
+.df_folder.purple .titlebar, .df_folder.purple .titlebar:backdrop{
+    background-color: @colorBackgroundPURPLE;
+    border-color: @colorBackgroundPURPLE;
+}
+
+/* BLUE */
+.df_folder.window-frame.blue, .df_folder.window-frame.blue:backdrop {
+    border-color: @colorBackgroundBLUE;
+}
+.df_folder.background.blue, .df_folder.background.blue:backdrop {
+    background-color: @colorBackgroundBLUE;
+}
+.df_folder.blue .titlebar, .df_folder.blue .titlebar:backdrop{
+    background-color: @colorBackgroundBLUE;
+    border-color: @colorBackgroundBLUE;
+}
+
+/* GREEN */
+.df_folder.window-frame.green, .df_folder.window-frame.green:backdrop {
+    border-color: @colorBackgroundGREEN;
+}
+.df_folder.background.green, .df_folder.background.green:backdrop {
+    background-color: @colorBackgroundGREEN;
+}
+.df_folder.green .titlebar, .df_folder.green .titlebar:backdrop{
+    background-color: @colorBackgroundGREEN;
+    border-color: @colorBackgroundGREEN;
+}
+
+/* BROWN */
+.df_folder.window-frame.brown, .df_folder.window-frame.brown:backdrop {
+    border-color: @colorBackgroundBROWN;
+}
+.df_folder.background.brown, .df_folder.background.brown:backdrop {
+    background-color: @colorBackgroundBROWN;
+}
+.df_folder.brown .titlebar, .df_folder.brown .titlebar:backdrop{
+    background-color: @colorBackgroundBROWN;
+    border-color: @colorBackgroundBROWN;
+}
+
+/* BLACK */
+.df_folder.window-frame.black, .df_folder.window-frame.black:backdrop {
+    border-color: @colorBackgroundBLACK;
+}
+.df_folder.background.black, .df_folder.background.black:backdrop {
+    background-color: @colorBackgroundBLACK;
+}
+.df_folder.black .titlebar, .df_folder.black .titlebar:backdrop{
+    background-color: @colorBackgroundBLACK;
+    border-color: @colorBackgroundBLACK;
+}
+
+/* RED */
+.df_folder.window-frame.red, .df_folder.window-frame.red:backdrop {
+    border-color: @colorBackgroundRED;
+}
+.df_folder.background.red, .df_folder.background.red:backdrop {
+    background-color: @colorBackgroundRED;
+}
+.df_folder.red .titlebar, .df_folder.red .titlebar:backdrop{
+    background-color: @colorBackgroundRED;
+    border-color: @colorBackgroundRED;
+}
+
+/* YELLOW */
+.df_folder.window-frame.yellow, .df_folder.window-frame.yellow:backdrop {
+    border-color: @colorBackgroundYELLOW;
+}
+.df_folder.background.yellow, .df_folder.background.yellow:backdrop {
+    background-color: @colorBackgroundYELLOW;
+}
+.df_folder.yellow .titlebar, .df_folder.yellow .titlebar:backdrop{
+    background-color: @colorBackgroundYELLOW;
+    border-color: @colorBackgroundYELLOW;
+}
+
+/* ORANGE */
+.df_folder.window-frame.orange, .df_folder.window-frame.orange:backdrop {
+    border-color: @colorBackgroundORANGE;
+}
+.df_folder.background.orange, .df_folder.background.orange:backdrop {
+    background-color: @colorBackgroundORANGE;
+}
+.df_folder.orange .titlebar, .df_folder.orange .titlebar:backdrop{
+    background-color: @colorBackgroundORANGE;
+    border-color: @colorBackgroundORANGE;
+}
 
 
-.window-frame, .window-frame:backdrop {
+
+.df_folder.window-frame, .df_folder.window-frame:backdrop {
     background-color: transparent;
     box-shadow: none;
     text-shadow: none;
@@ -11,21 +156,21 @@
     border-style: inset;
     border-radius:4px;
     border-width: 1px;
-    border-color: @colorBackground;
 }
 
-.background, .background:backdrop {
+.df_folder.background, .df_folder.background:backdrop {
     background-color: @colorBackground;
     box-shadow: none;
     text-shadow: none;
     icon-shadow: none;
 
-    border-style:flat;
+    border-style: none;
     border-width:10px;
     border-color:red;
 }
 
-.titlebar .title{
+
+.df_folder .titlebar .title{
     box-shadow: none;
     text-shadow: none;
     icon-shadow: none;
@@ -37,8 +182,8 @@
     color: @colorForeground;
 }
 
-.titlebar,
-.titlebar:backdrop{
+.df_folder .titlebar,
+.df_folder .titlebar:backdrop{
     background-color: @colorBackground;
     background-image: none;
     padding:14px;
@@ -52,6 +197,25 @@
     border-color: @colorBackground;
 }
 
+.df_item{
+    border-radius:5px;
+    transition-property: background;
+    transition-duration: 0.5s;
+}
+
+.df_item.df_selected .df_label{
+    background:#6699ff;
+}
+
+.df_item.df_item_over{
+    background:rgba(255,255,255,0.2);
+}
+
 .df_icon, .df_label{
     color:white;
+}
+
+.df_rename{
+    margin:20px;
+    padding:20px;
 }

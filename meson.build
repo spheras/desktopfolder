@@ -30,9 +30,16 @@ m_dep = cc.find_library('m', required : false)
 executable(
     'org.spheras.desktopfolder',
     'src/Application.vala',
+    'src/utils/Util.vala',
+    'src/utils/MenuItemColor.vala',
+    'src/utils/MenuItemSeparator.vala',
+    'src/utils/ClipboardManager.vala',
+    'src/utils/DndHandler.vala',
     'src/Resources.vala',
-    'src/windows/folder.vala',
-    'src/windows/item.vala',
+    'src/windows/Folder.vala',
+    'src/windows/Item.vala',
+    'src/settings/FolderSettings.vala',
+    'src/settings/ItemSettings.vala',
     asresources,
     c_args: c_args,
     dependencies: [
@@ -42,6 +49,7 @@ executable(
         dependency('gobject-2.0'),
         dependency('gtk+-3.0'),
         dependency('cairo'),
+        dependency('json-glib-1.0'),
         dependency('gdk-pixbuf-2.0'),
         m_dep
     ],

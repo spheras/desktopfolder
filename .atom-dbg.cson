@@ -1,3 +1,7 @@
 "build/org.spheras.ekm4android":
 	path: "build/org.spheras.ekm4android"
 	cwd: "build"
+
+"build/org.spheras.desktopfolder":
+	path: "build/org.spheras.desktopfolder"
+	cwd: "build"
