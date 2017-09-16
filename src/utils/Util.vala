@@ -24,12 +24,10 @@ namespace DesktopFolder.Util
 
 	/**
 	 * Display a simple error message.
-	 *
 	 * @param title The title of the dialog.
 	 * @param message The error message.
 	 */
-	public void error_dialog(string title, string message)
-	{
+	public void show_error_dialog (string? title, string message){
 		var dialog = new Gtk.MessageDialog(null, 0,
 		                                   Gtk.MessageType.ERROR,
 		                                   Gtk.ButtonsType.CLOSE,
@@ -157,8 +155,7 @@ namespace DesktopFolder.Util
 
 		if (dir == null)
 		{
-			throw new FileError.NOENT(
-				_("Directory to remove doesn't exist: %s"), path);
+			throw new FileError.NOENT("Directory to remove doesn't exist: "+ path);
 		}
 
 		recursive_directory_after(path,

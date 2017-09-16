@@ -3,15 +3,5 @@
   <schema path="/org/spheras/desktopfolder/"
   id="org.spheras.desktopfolder"
   gettext-domain="org.spheras.desktopfolder">
-    <key name="window-x" type="i">
-      <default>-1</default>
-      <summary>Most recent x position of Nimbus</summary>
-      <description>Most recent x position of Nimbus</description>
-    </key>
-    <key name="window-y" type="i">
-      <default>-1</default>
-      <summary>Most recent y position of Nimbus</summary>
-      <description>Most recent y position of Nimbus</description>
-    </key>
   </schema>
 </schemalist>

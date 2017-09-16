@@ -1,0 +1,510 @@
+/*
+* Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public
+* License along with this program; if not, write to the
+* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA 02110-1301 USA
+*/
+public class DesktopFolder.ItemView : Gtk.EventBox {
+
+    //NOT SURE ABOUT THESE CONSTANTS!!! TODO!!!!!
+    public const int PADDING_X=13;
+    public const int PADDING_Y=41;
+    //DEFAULT SIZES
+    private const int DEFAULT_WIDTH=48;
+    private const int DEFAULT_HEIGHT=68;
+    private const int DEFAULT_MAX_WIDTH=100;
+    private const int MAX_CHARACTERS=25;
+    /** flag to know that the item has been moved */
+    private bool flagModified=false;
+    /** the manager of this item icon */
+    private ItemManager manager;
+    /** the context menu for this item */
+    private Gtk.Menu menu=null;
+
+    /** flag to know if we should hide the extension of the file */
+    private bool hide_extension=false;
+    /** the hidden extension of the file, it it was hidden, @see hide_extension*/
+    private string hidden_extension="";
+
+    /** the container of this item view */
+    private Gtk.Box container;
+    /** the label of the icon */
+    private Gtk.Label label;
+
+    /** set of variables to allow move the widget */
+    private const int SENSITIVITY = 10;
+    private int offsetx;
+    private int offsety;
+    private int px;
+    private int py;
+    private int maxx;
+    private int maxy;
+    /** ----------------------------------------- */
+
+    /**
+    * @constructor
+    * @param ItemManager manager the manager of this item view
+    */
+    public ItemView(ItemManager manager){
+        this.manager=manager;
+
+        //we set the default size
+        this.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+        //class for this widget
+        this.get_style_context ().add_class ("df_item");
+
+        //we connect the enter and leave events
+        this.enter_notify_event.connect (this.on_enter);
+        this.leave_notify_event.connect(this.on_leave);
+        this.button_press_event.connect(this.on_press);
+        this.button_release_event.connect(this.on_release);
+        this.motion_notify_event.connect(this.on_motion);
+
+        //we create the components to put inside the item (icon and label)
+        this.container=new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        this.container.margin=0;
+        this.container.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+        try {
+            var fileInfo=this.manager.get_file().query_info("standard::icon",FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+            Gtk.Image icon;
+            if(this.manager.is_desktop_file()){
+                GLib.DesktopAppInfo desktopApp=new GLib.DesktopAppInfo.from_filename(this.manager.get_absolute_path());
+                icon=new Gtk.Image.from_gicon(desktopApp.get_icon(),Gtk.IconSize.DIALOG);
+            }else{
+                icon=new Gtk.Image.from_gicon(fileInfo.get_icon(),Gtk.IconSize.DIALOG);
+            }
+            icon.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+            icon.get_style_context ().add_class ("df_icon");
+            string slabel=this.get_correct_label(this.manager.get_file_name());
+            this.label=new Gtk.Label (slabel);
+            this.label.set_size_request(DEFAULT_WIDTH,20);
+            this.label.get_style_context ().add_class ("df_label");
+            this.check_ellipse(slabel);
+            this.container.pack_start(icon,true,true);
+            this.container.pack_end(label,true,true);
+        }catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+
+        this.add(this.container);
+    }
+
+    /**
+    * @name get_correct_label
+    * @description return the correct label to be shown
+    */
+    private string get_correct_label(string file_name){
+        if(this.hide_extension){
+            int index=file_name.index_of(".",0);
+            if(index>0){
+                hidden_extension=file_name.substring(index);
+                return file_name.substring(0,index);
+            }
+            hidden_extension="";
+            return file_name;
+        }else{
+            int index=file_name.index_of(".desktop",0);
+            if(index>0){
+                //is a desktop file!
+                this.hide_extension=true;
+                hidden_extension=file_name.substring(index);
+                return file_name.substring(0,index);
+            }
+            hidden_extension="";
+            return file_name;
+        }
+    }
+
+    /**
+    * @name check_ellipse
+    * @description check if the ellipse should be shown
+    * @param string name the name to be shown in order to calculate if the ellipse will be shown
+    */
+    private void check_ellipse(string name){
+        if(name.length>MAX_CHARACTERS){
+            this.label.set_ellipsize(Pango.EllipsizeMode.MIDDLE);
+            this.set_size_request(DEFAULT_MAX_WIDTH,DEFAULT_WIDTH);
+        }else{
+            this.label.set_ellipsize(Pango.EllipsizeMode.NONE);
+            this.set_size_request(DEFAULT_WIDTH,DEFAULT_WIDTH);
+        }
+    }
+
+    /**
+    * @name on_enter
+    * @description on_enter signal to highlight the icon
+    * @param eventCrossing EventCrossing @see on_enter signal
+    * @return bool @see the on_enter signal
+    */
+    private bool on_enter(Gdk.EventCrossing eventCrossing){
+        this.get_style_context ().add_class ("df_item_over");
+        //debug("enter item");
+        return true;
+    }
+
+    /**
+    * @name on_leave
+    * @description on_leave signal to remove highlight of the icon
+    * @param eventCrossing EventCrossing @see on_enter signal
+    * @return bool @see the on_leave signal
+    */
+    private bool on_leave(Gdk.EventCrossing eventCrossing){
+        //we remove the highlight class
+        this.get_style_context ().remove_class ("df_item_over");
+
+        if(this.flagModified){
+            Gtk.Allocation allocation;
+            this.get_allocation(out allocation);
+             //HELP! don't know why these constants?? maybe padding??
+            int x=allocation.x - PADDING_X;
+            int y=allocation.y - PADDING_Y;
+
+            this.manager.save_position(x,y);
+            this.flagModified=false;
+        }
+        //debug("leave item");
+        return true;
+    }
+
+    /**
+    * @name rename
+    * @description action of rename the item selected by the user
+    * @param string new_name the new name for this item
+    */
+    public void rename(string new_name){
+        debug("renaming to:%s",new_name+this.hidden_extension);
+        if(this.manager.rename(new_name+this.hidden_extension)){
+            this.label.set_label(new_name);
+            this.check_ellipse(new_name);
+        }
+    }
+
+    /**
+    * @name select
+    * @description the user select the icon
+    */
+    public void select(){
+        Gtk.Window window=(Gtk.Window) this.get_toplevel();
+        ((FolderWindow)window).unselect_all();
+        this.manager.select();
+        this.get_style_context ().add_class ("df_selected");
+    }
+
+    /**
+    * @name unselect
+    * @description unselect the icon
+    */
+    public void unselect(){
+        this.manager.unselect();
+        this.get_style_context ().remove_class ("df_selected");
+    }
+
+    /**
+    * @name is_selected
+    * @description check whether the item is selected or not
+    * @return bool true->is selected
+    */
+    public bool is_selected(){
+        return this.manager.is_selected();
+    }
+
+    /**
+    * @name on_release
+    * @description the release button event
+    * @param EventButton event the event produced
+    * @return bool @see on_release signal
+    */
+    private bool on_release(Gdk.EventButton event){
+        /*
+        //TODO IF WE DO THIS ON PRESS EVENT, THE MOTION IS ALTERED
+        //I'VE NOT FOUND A WAY TO ALTER THE Z ORDER WITHOUT REMOVING AND ADDING AGAIN FROM CONTAINER :(
+        //we will move to top this icon
+        Gtk.Allocation allocation;
+        this.get_allocation(out allocation);
+         //HELP! don't know why these constants?? maybe padding??
+        int x=allocation.x - PADDING_X;
+        int y=allocation.y - PADDING_Y;
+        ((FolderWindow)this.manager.get_application_window()).raise(this,x,y);
+
+        return true;
+        */
+        return false;
+    }
+
+    /**
+    * @name on_press
+    * @description the mouse press event captured
+    * @param EventButton event the event produced
+    * @return bool @see on_press signal
+    */
+    private bool on_press(Gdk.EventButton event){
+        //debug("press:%i",(int)event.button);
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button==Gdk.BUTTON_PRIMARY) {
+            //first we must select the item
+            this.select();
+
+            Gtk.Widget p = this.parent;
+            // offset == distance of parent widget from edge of screen ...
+            p.get_window().get_position(out this.offsetx, out this.offsety);
+            //debug("offset:%i,%i",this.offsetx,this.offsety);
+            // plus distance from pointer to edge of widget
+
+            this.offsetx += (int)event.x+PADDING_X;
+            this.offsety += (int)event.y+PADDING_Y;
+
+            // maxx, maxy both relative to the parent
+            // note that we're rounding down now so that these max values don't get
+            // rounded upward later and push the widget off the edge of its parent.
+            Gtk.Allocation pAllocation;
+            p.get_allocation(out pAllocation);
+            Gtk.Allocation thisAllocation;
+            this.get_allocation(out thisAllocation);
+            this.maxx = RoundDownToMultiple(pAllocation.width - thisAllocation.width, SENSITIVITY);
+            this.maxy = RoundDownToMultiple(pAllocation.height - thisAllocation.height, SENSITIVITY);
+        }else if(event.type == Gdk.EventType.@2BUTTON_PRESS){
+            this.select();
+            on_double_click();
+        }else if(event.type==Gdk.EventType.BUTTON_PRESS && event.button==Gdk.BUTTON_SECONDARY){
+            this.select();
+            this.show_popup(event);
+        }
+
+        return true;
+    }
+
+    /**
+    * @name on_double_click
+    * @description double click event captured
+    */
+    private void on_double_click(){
+        //debug("doble click! %s",this.fileName);
+        this.manager.execute();
+    }
+
+    /**
+    * @name show_popup
+    * @description show the context popup for this item
+    * @param EventButton event the event button that originates this context menu
+    */
+    private void show_popup(Gdk.EventButton event){
+        //debug("evento:%f,%f",event.x,event.y);
+        //if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
+
+            //building the menu
+            this.menu = new Gtk.Menu ();
+
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN);
+            item.activate.connect ((item)=>{
+                this.manager.execute();
+            });
+            item.show();
+            menu.append (item);
+
+            item = new MenuItemSeparator();
+            item.show();
+            menu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CUT);
+            item.activate.connect ((item)=>{this.manager.cut();});
+            item.show();
+            menu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_COPY);
+            item.activate.connect ((item)=>{this.manager.copy();});
+            item.show();
+            menu.append (item);
+
+            item = new MenuItemSeparator();
+            item.show();
+            menu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_RENAME);
+            item.activate.connect ((item)=>{this.rename_dialog();});
+            item.show();
+            menu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
+            item.activate.connect ((item)=>{this.delete_dialog();});
+            item.show();
+            menu.append (item);
+
+            menu.show_all();
+        //}
+
+        //showing the menu
+        menu.popup(
+             null //parent menu shell
+            ,null //parent menu item
+            ,null //func
+            ,event.button // button
+            ,event.get_time() //Gtk.get_current_event_time() //time
+            );
+    }
+
+    /**
+    * @name cut
+    * @description cut the file to the clipboard
+    */
+    public void cut(){
+        this.manager.cut();
+    }
+
+    /**
+    * @name copy
+    * @description copy the file to the clipboard
+    */
+    public void copy(){
+        this.manager.copy();
+    }
+
+    /**
+    * @name delete_dialog
+    * @description the user wants to delete the item. It should be confirmed before the deletion occurs
+    */
+    public void delete_dialog(){
+        string message=_(DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE);
+
+        Gtk.Window window=(Gtk.Window) this.get_toplevel();
+
+        bool isdir=this.manager.is_folder();
+        if(!isdir){
+            message=DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
+        }
+
+        Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
+                                Gtk.MessageType.WARNING, Gtk.ButtonsType.OK_CANCEL, message);
+        msg.use_markup=true;
+        msg.response.connect ((response_id) => {
+            switch (response_id) {
+				case Gtk.ResponseType.OK:
+                    msg.destroy();
+                    if(isdir){
+                        this.manager.delete();
+                        break;
+                    }else{
+                        this.manager.delete();
+                    }
+					break;
+                default:
+                    msg.destroy();
+                    break;
+                    //uff
+            }
+        });
+        msg.show ();
+    }
+
+    /**
+    * @name rename_dialog
+    * @description the user wants to rename the icon. Some info is needed before the rename action is performed.
+    */
+    public void rename_dialog(){
+
+        Gtk.Window window=(Gtk.Window) this.get_toplevel();
+
+        //building the dialog
+        Gtk.Dialog dialog = new Gtk.Dialog.with_buttons(
+            null,
+            window, //parent
+            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, //flags
+            DesktopFolder.Lang.DIALOG_OK,Gtk.ResponseType.OK, //response OK
+            DesktopFolder.Lang.DIALOG_CANCEL,Gtk.ResponseType.CANCEL //response CANCEL
+            );
+
+        dialog.get_style_context ().add_class ("df_dialog");
+        dialog.set_decorated(false);
+
+        var grid = new Gtk.Grid ();
+        grid.get_style_context ().add_class ("df_rename");
+        grid.column_spacing = 12;
+
+            var description=new Gtk.Label (DesktopFolder.Lang.ITEM_RENAME_MESSAGE);
+            grid.attach(description,0,0,1,1);
+            var entry = new Gtk.Entry();
+            entry.activate.connect(()=>{
+                dialog.response(Gtk.ResponseType.OK);
+            });
+            entry.set_text (this.label.get_label());
+            grid.attach (entry, 0, 1, 1, 1);
+
+        dialog.get_content_area().pack_end(grid, true, true, 20);
+
+        dialog.show_all();
+        int result=dialog.run();
+        var new_name = entry.get_text();
+        dialog.destroy();
+
+        //renaming
+        if(result==Gtk.ResponseType.OK && new_name!=this.label.get_label()){
+            this.rename(new_name);
+        }
+
+    }
+
+    /**
+    * @name on_motion
+    * @description the on_motion event captured to allow the movement of the icon
+    * @param EventMotion event @see the on_motion signal
+    * @return bool @see the on_motion signal
+    */
+    private bool on_motion(Gdk.EventMotion event){
+        //debug("on_motion");
+        this.flagModified=true;
+        // x_root,x_root relative to screen
+    	// x,y relative to parent (fixed widget)
+    	// px,py stores previous values of x,y
+
+    	// get starting values for x,y
+    	int x = (int)event.x_root - this.offsetx;
+    	int y = (int)event.y_root - this.offsety;
+
+        // make sure the potential coordinates x,y:
+    	//   1) will not push any part of the widget outside of its parent container
+    	//   2) is a multiple of Sensitivity
+    	x = RoundToNearestMultiple(int.max(int.min(x, this.maxx), 0), SENSITIVITY);
+    	y = RoundToNearestMultiple(int.max(int.min(y, this.maxy), 0), SENSITIVITY);
+    	if (x != this.px || y != this.py) {
+    		this.px = x;
+    		this.py = y;
+
+            Gtk.Window window=(Gtk.Window) this.get_toplevel();
+            ((FolderWindow)window).move_item(this,x,y);
+    	}
+
+    	return true;
+    }
+
+    /**
+    * @name RoundDownToMultiple
+    * @description util function for the movement of icons
+    */
+    inline static int RoundDownToMultiple( int i,  int m)
+    {
+    	return i/m*m;
+    }
+
+    /**
+    * @name RoundToNearestMultiple
+    * @description util function for the movement of icons
+    */
+    inline static int RoundToNearestMultiple( int i, int m)
+    {
+    	if (i % m > (double)m / 2.0d)
+    		return (i/m+1)*m;
+    	return i/m*m;
+    }
+
+}

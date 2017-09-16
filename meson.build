@@ -1,5 +1,5 @@
 project('org.spheras.desktopfolder', ['vala', 'c'],
-    version: '0.0.1'
+    version: '1.0.0'
 )
 
 gnome = import('gnome')
@@ -20,7 +20,7 @@ config_h_dir = include_directories('.')
 
 c_args = [
   '-include', 'config.h',
-  '-DGWEATHER_I_KNOW_THIS_IS_UNSTABLE',
+  '-DWNCK_I_KNOW_THIS_IS_UNSTABLE'
 ]
 
 #We need to add the math library if required
@@ -29,17 +29,26 @@ m_dep = cc.find_library('m', required : false)
 
 executable(
     'org.spheras.desktopfolder',
+    'src/LanguageText.vala',
+    'src/Resources.vala',
     'src/Application.vala',
     'src/utils/Util.vala',
-    'src/utils/MenuItemColor.vala',
-    'src/utils/MenuItemSeparator.vala',
-    'src/utils/ClipboardManager.vala',
-    'src/utils/DndHandler.vala',
-    'src/Resources.vala',
-    'src/windows/Folder.vala',
-    'src/windows/Item.vala',
+    'src/utils/shortcut/Shortcut.vala',
+    'src/utils/shortcut/CustomShortcutSettings.vala',
+    'src/utils/menu/MenuItemColor.vala',
+    'src/utils/menu/MenuItemSeparator.vala',
+    'src/utils/clipboard/ClipboardFile.vala',
+    'src/utils/clipboard/ClipboardManager.vala',
+    'src/utils/dragndrop/DragNDrop.vala',
+    'src/utils/dragndrop/DndHandler.vala',
+    'src/utils/dragndrop/DndView.vala',
+    'src/utils/dragndrop/DndBehaviour.vala',
+    'src/widgets/FolderWindow.vala',
+    'src/widgets/ItemView.vala',
     'src/settings/FolderSettings.vala',
     'src/settings/ItemSettings.vala',
+    'src/logic/FolderManager.vala',
+    'src/logic/ItemManager.vala',
     asresources,
     c_args: c_args,
     dependencies: [
@@ -51,6 +60,7 @@ executable(
         dependency('cairo'),
         dependency('json-glib-1.0'),
         dependency('gdk-pixbuf-2.0'),
+        dependency('libwnck-3.0'),
         m_dep
     ],
     install : true

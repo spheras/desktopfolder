@@ -1,5 +1,4 @@
 public class DesktopFolder.FolderSettings: Object{
-
     public int x  { get; set; default = 0; }
     public int y  { get; set; default = 0; }
     public int w  { get; set; default = 0; }
@@ -122,7 +121,7 @@ public class DesktopFolder.FolderSettings: Object{
         }
     }
 
-    public static FolderSettings read_settings(File file) {
+    public static FolderSettings read_settings(File file, string name) {
         try{
             string content="";
             var dis = new DataInputStream (file.read());
@@ -133,6 +132,7 @@ public class DesktopFolder.FolderSettings: Object{
             }
             FolderSettings existent = Json.gobject_from_data (typeof (FolderSettings), content) as FolderSettings;
             existent.file=file;
+            existent.name=name;
             existent.check_all();
             return existent;
         } catch (Error e) {
@@ -147,12 +147,12 @@ public class DesktopFolder.FolderSettings: Object{
             ItemSettings is=ItemSettings.parse(this.items[i]);
             var basePath=Environment.get_home_dir ()+"/Desktop/"+this.name;
             var filepath=basePath+"/"+is.name;
-            debug("checking:"+filepath);
+            //debug("checking:"+filepath);
             File f=File.new_for_path (filepath);
             if (f.query_exists ()) {
                     all.append(is);
             }else{
-                debug("Alert! doesnt exist!");
+                debug("Alert! doesnt exist: %s",filepath);
                 //doesn't exist, we must remove the entry
             }
         }

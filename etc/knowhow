@@ -9,3 +9,6 @@ show debug messages
 ···················
 export G_MESSAGES_DEBUG=all
 
+generate pot file
+·················
+ninja org.spheras.desktopfolder-pot

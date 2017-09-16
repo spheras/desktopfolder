@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the org.spheras.desktopfolder package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: org.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-16 03:16+0200\n"
-"PO-Revision-Date: 2017-09-16 03:23+0200\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-09-16 03:14+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
-"Last-Translator: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
 
 #. Application Description
 #: src/LanguageText.vala:3
@@ -24,123 +23,121 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Devuelve a la vida tu Escritorio Minimalista \n"
-" Organiza ficheros en tu Escritorio usando Paneles."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:5
 msgid "_OK"
-msgstr "_OK"
+msgstr ""
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:7
 msgid "_CANCEL"
-msgstr "_CANCELAR"
+msgstr ""
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:9
 msgid "There is nothing on the clipboard to paste"
-msgstr "No hay nada en el portapeles para pegar"
+msgstr ""
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:11
 msgid "Cannot drop this file"
-msgstr "No se puede soltar este fichero"
+msgstr ""
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:13
 msgid "Invalid file name provided"
-msgstr "Nombre de fichero no válido"
+msgstr ""
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:15
 msgid "Copy Here"
-msgstr "Copiar Aquí"
+msgstr ""
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:17
 msgid "Move Here"
-msgstr "Mover Aquí"
+msgstr ""
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:19
 msgid "Link Here"
-msgstr "Linkar Aquí"
+msgstr ""
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:21
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #. Desktop-Folder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:23
 msgid "New Desktop-Folder Pane"
-msgstr "Nuevo Panel Desktop-Folder"
+msgstr ""
 
 #. Desktop-Folder menu - create a new Folder
 #: src/LanguageText.vala:25
 msgid "New Folder"
-msgstr "Nueva Carpeta"
+msgstr ""
 
 #. Desktop-Folder menu - create a new empty Text File
 #: src/LanguageText.vala:27
 msgid "New Text File"
-msgstr "Nuevo Fichero de Texto"
+msgstr ""
 
 #. Desktop-Folder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:29
 msgid "Rename this Desktop-Folder"
-msgstr "Renombar este panel Desktop-Folder"
+msgstr ""
 
 #. Desktop-Folder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:31
 msgid "Delete this Desktop-Folder"
-msgstr "Eliminar este panel Desktop-Folder"
+msgstr ""
 
 #. Desktop-Folder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:33
 msgid "Paste"
-msgstr "Pegar"
+msgstr ""
 
 #. Desktop-Folder menu - show the about dialog
 #: src/LanguageText.vala:35
 msgid "About"
-msgstr "Acerca de..."
+msgstr ""
 
 #. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
 #: src/LanguageText.vala:37
 msgid "New Desktop-Folder Panel"
-msgstr "Nuevo Panel Desktop-Folder"
+msgstr ""
 
 #. Desktop-Folder - Dialog Message to rename the current Desktop-Folder
 #: src/LanguageText.vala:39
 msgid "Enter the new name for the Desktop-Folder"
-msgstr "Introduzca el nuevo nombre para el panel Desktop-Folder"
+msgstr ""
 
 #. Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
 #: src/LanguageText.vala:41
 msgid "Enter the name for the Desktop-Folder Panel"
-msgstr "Introduzca el nombre para el Panel Desktop-Folder"
+msgstr ""
 
 #. Desktop-Folder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
 #: src/LanguageText.vala:43
 msgid "Enter the name for the folder"
-msgstr "Introduzca el nombre para la carpeta"
+msgstr ""
 
 #. Desktop-folder - The default name for the new folder to be created
 #: src/LanguageText.vala:45
 msgid "new folder"
-msgstr "Nueva Carpeta"
+msgstr ""
 
 #. Desktop-Folder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
 #: src/LanguageText.vala:47
 msgid "Enter the name for the text file"
-msgstr "Introduca el nombre para el fichero de texto"
+msgstr ""
 
 #. Desktop-folder - The default name for the new text file to be created
 #: src/LanguageText.vala:49
 msgid "new.txt"
-msgstr "nuevo.txt"
+msgstr ""
 
 #. Desktop-Folder - The message to confirm the deletion of a Desktop Folder
 #: src/LanguageText.vala:51
@@ -148,33 +145,31 @@ msgid ""
 "This will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el panel Desktop-Folder y TODO el contenido.\n"
-"<b>¿Estás seguro?</b>"
 
 #. Item Menu - Open/Execute the file
 #: src/LanguageText.vala:53
 msgid "Open"
-msgstr "Abrir"
+msgstr ""
 
 #. Item Menu - cut the file/folder
 #: src/LanguageText.vala:55
 msgid "Cut"
-msgstr "Cortar"
+msgstr ""
 
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:57
 msgid "Copy"
-msgstr "Copiar"
+msgstr ""
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:59
 msgid "Rename"
-msgstr "Renombrar"
+msgstr ""
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:61
 msgid "Delete"
-msgstr "Eliminar"
+msgstr ""
 
 #. Item - Delete Folder Item Dialog message
 #: src/LanguageText.vala:63
@@ -182,8 +177,6 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ la carpeta y TODO su contenido.\n"
-"<b>¿Estás seguro?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:65
@@ -191,10 +184,8 @@ msgid ""
 "This action will DELETE the file and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el fichero.\n"
-"<b>¿Estás seguro?</b>"
 
 #. Item - Rename Dialog Message
 #: src/LanguageText.vala:67
 msgid "Enter the new name"
-msgstr "Introduca el nuevo nombre"
+msgstr ""

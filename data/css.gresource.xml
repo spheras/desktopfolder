@@ -2,6 +2,6 @@
 <gresources>
   <gresource prefix="/org/spheras/desktopfolder">
     <file alias="Application.css" compressed="true">Application.css</file>
-    <file alias="android_robot.png" compressed="true">img/android_robot2.png</file>
+    <file alias="icon.png" compressed="true">img/icon.png</file>
   </gresource>
 </gresources>

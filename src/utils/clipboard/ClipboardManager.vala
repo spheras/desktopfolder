@@ -1,4 +1,6 @@
 /***
+    NOTE: This is an adaptation of the ClipboardManager class from elementary Files project.
+
     Copyright (c) 2016 elementary LLC (http://launchpad.net/elementary)
 
     Based on C code imported from Thunar
@@ -25,7 +27,8 @@
 ***/
 
 
-namespace DesktopFolder {
+namespace DesktopFolder.Clipboard {
+
     public class ClipboardManager : GLib.Object {
         private enum ClipboardTarget {
             GNOME_COPIED_FILES,
@@ -40,7 +43,7 @@ namespace DesktopFolder {
         };
 
         private Gtk.Clipboard clipboard;
-        private GLib.List<Item> files = null;
+        private GLib.List<ClipboardFile> files = null;
 
         private bool files_cutted = false;
 
@@ -81,19 +84,23 @@ namespace DesktopFolder {
         /** If @file is null, returns whether there are ANY cut files
          * otherwise whether @file is amongst the cut files
         **/
-        public bool has_cutted_file (Item? file) {
+        public bool has_cutted_file (ClipboardFile? file) {
+            //debug("has_cutted_file!!!");
             return files_cutted && (file == null || has_file (file));
         }
 
-        public bool has_file (Item file) {
+        public bool has_file (ClipboardFile file) {
+            //debug("has_file!!!");
             return files != null && (files.find (file) != null);
         }
 
-        public void copy_files (GLib.List<Item> files) {
+        public void copy_files (GLib.List<ClipboardFile> files) {
+            //debug("copy_files!!!");
             transfer_files (true, files);
         }
 
-        public void cut_files (GLib.List<Item> files) {
+        public void cut_files (GLib.List<ClipboardFile> files) {
+            //debug("cut_files!!!");
             transfer_files (false, files);
         }
 
@@ -114,6 +121,7 @@ namespace DesktopFolder {
                                  Gtk.Widget? widget = null,
                                  GLib.Callback? new_files_callback = null) {
 
+             //debug("paste_files!!!");
             /**
              *  @cb the clipboard.
              *  @sd selection_data returned from the clipboard.
@@ -129,18 +137,19 @@ namespace DesktopFolder {
                                         Gtk.Widget? widget = null,
                                         GLib.Callback? new_files_callback = null) {
 
+            //debug("contents_received!!!");
 
             /* check whether the retrieval worked */
             string? text;
-            
-            if (!DndHandler.selection_data_is_uri_list (sd, Marlin.TargetType.TEXT_URI_LIST, out text)) {
+
+            if (!DragnDrop.DndHandler.selection_data_is_uri_list (sd, DragnDrop.TargetType.TEXT_URI_LIST, out text)) {
                 warning ("Selection data not uri_list in Marlin.ClipboardManager contents_received");
                 return;
             }
 
             if (text == null) {
                 warning ("Empty selection data in Marlin.ClipboardManager contents_received");
-                Dialogs.show_error (widget, null, _("There is nothing on the clipboard to paste"));
+                DesktopFolder.Util.show_error_dialog ( null, DesktopFolder.Lang.CLIPBOARD_EMPTY);
                 return;
             }
 
@@ -153,20 +162,19 @@ namespace DesktopFolder {
                 text = text.substring (3);
             } else {
                 warning ("Invalid selection data in Marlin.ClipboardManager contents_received");
-                Dialogs.show_error (widget, null, _("There is nothing on the clipboard to paste"));
+                DesktopFolder.Util.show_error_dialog ( null, DesktopFolder.Lang.CLIPBOARD_EMPTY);
                 return;
             }
 
-            var file_list = EelGFile.list_new_from_string (text);
+            List<File> file_list = DragnDrop.Util.list_new_from_string (text);
 
             if (file_list != null) {
-                FileOperations.copy_move (file_list,
-                                          null,
-                                          target_file,
-                                          action,
-                                          widget,
-                                          new_files_callback,
-                                          widget);
+                DragnDrop.Util.copy_move(file_list,
+                                                 target_file,
+                                                 action,
+                                                 widget,
+                                                 new_files_callback,
+                                                 widget);
             }
 
             /* clear the clipboard if it contained "cutted data"
@@ -184,6 +192,7 @@ namespace DesktopFolder {
         }
 
         private void owner_changed (Gdk.Event? owner_change_event) {
+            //debug("owner_changed!!!");
             clipboard.request_contents (Gdk.Atom.intern_static_string ("TARGETS"), (cb, sd) => {
                 can_paste = false;
                 Gdk.Atom[] targets = null;
@@ -206,14 +215,15 @@ namespace DesktopFolder {
          * Sets the clipboard to contain @files_for_transfer and marks them to be copied
          * or moved according to @copy when the user pastes from the clipboard.
         **/
-        private void transfer_files (bool copy, GLib.List<Item> files_for_transfer) {
+        private void transfer_files (bool copy, GLib.List<ClipboardFile> files_for_transfer) {
+            //debug("transfer_files!!!");
             release_pending_files ();
             files_cutted = !copy;
 
             /* setup the new file list */
             foreach (var file in files_for_transfer) {
                 files.prepend (file);
-                file.delete.connect (on_file_destroyed);
+                file.on_delete.connect (on_file_destroyed);
             }
 
             /* acquire the Clipboard ownership */
@@ -225,12 +235,14 @@ namespace DesktopFolder {
             }
         }
 
-        private void on_file_destroyed (Item file) {
-            file.delete.disconnect (on_file_destroyed);
+        private void on_file_destroyed (ClipboardFile file) {
+            //debug("on_file_destroyed!!!");
+            file.on_delete.disconnect (on_file_destroyed);
             files.remove (file);
         }
 
         public static void get_callback (Gtk.Clipboard cb, Gtk.SelectionData sd, uint target_info, void* parent) {
+            //debug("get_callback!!!");
             var manager = parent as ClipboardManager;
             if (manager == null || manager.clipboard != cb) {
                 return;
@@ -239,7 +251,7 @@ namespace DesktopFolder {
             switch (target_info) {
                 case ClipboardTarget.GNOME_COPIED_FILES:
                     string prefix = manager.files_cutted ? "cut" : "copy";
-                    DndHandler.set_selection_data_from_file_list (sd,
+                    DragnDrop.DndHandler.set_selection_data_from_file_list (sd,
                                                                   manager.files,
                                                                   prefix);
                     break;
@@ -253,11 +265,12 @@ namespace DesktopFolder {
         }
 
         private string file_list_to_string () {
+            //debug("file_list_to_string!!!");
             var sb = new StringBuilder ("");
             uint count = 0;
             uint file_count = files.length ();
             foreach (var file in files) {
-                var loc = file.location;
+                var loc = file.get_target_location();
                 var pn = loc.get_parse_name ();
                 if (pn != null) {
                     sb.append (pn);
@@ -274,6 +287,7 @@ namespace DesktopFolder {
         }
 
         public static void clear_callback (Gtk.Clipboard cb, void* parent) {
+            //debug("clear_callback!!!");
             var manager = (ClipboardManager)parent;
             if (manager == null || manager.clipboard != cb) {
                 return;
@@ -283,8 +297,9 @@ namespace DesktopFolder {
         }
 
         private void release_pending_files () {
+            //debug("release_pending_files!!!");
             foreach (var file in this.files) {
-                file.delete.disconnect (on_file_destroyed);
+                file.on_delete.disconnect (on_file_destroyed);
             }
 
             files = null;
