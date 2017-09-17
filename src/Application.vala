@@ -130,12 +130,13 @@ public class DesktopFolderApp : Granite.Application {
 
             FileInfo file_info;
             List<DesktopFolder.FolderManager> updated_list=new List<DesktopFolder.FolderManager>();
-
+            int totalFolders=0;
             while ((file_info = enumerator.next_file ()) != null) {
                 string name=file_info.get_name();
                 File file = File.new_for_commandline_arg (base_path+"/"+name);
                 FileType type = file.query_file_type (FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
                 if(type==FileType.DIRECTORY){
+                    totalFolders++;
                     //maybe this is an existent already monitored folder
                     DesktopFolder.FolderManager fm=this.find_by_name(name);
                     if(fm==null){
@@ -150,12 +151,18 @@ public class DesktopFolderApp : Granite.Application {
                     //we only deal with folders to be shown
                 }
             }
+
             //finally we close any other not existent folder
             for(int i=0;i<this.folders.length();i++){
                 DesktopFolder.FolderManager fm=this.folders.nth(i).data;
                 fm.close();
             }
             this.folders=updated_list.copy();
+
+            if(totalFolders==0){
+                DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+DesktopFolder.Lang.APP_FIRST_PANEL,0755);
+                this.sync_folders();
+            }
         } catch (Error e) {
             //error! ??
             stderr.printf ("Error: %s\n", e.message);
@@ -282,7 +289,7 @@ public class DesktopFolderApp : Granite.Application {
     * @description create a short cut SUPER-D at the system shortcuts to minimize all windows
     */
     private static void create_shortchut(){
-        string path=""; //we expect to have the command at the path
+        string path="/usr/bin/"; //we expect to have the command at the path
         Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.init();
         var shortcut = new Pantheon.Keyboard.Shortcuts.Shortcut (100, Gdk.ModifierType.SUPER_MASK );
         string command_conflict="";
@@ -293,7 +300,7 @@ public class DesktopFolderApp : Granite.Application {
             debug("registering hotkey!");
             var relocatable_schema = Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.create_shortcut ();
             Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.edit_command ((string) relocatable_schema,
-                path + "desktopfolder "+ DesktopFolder.PARAM_SHOW_DESKTOP);
+                path + "org.spheras.desktopfolder "+ DesktopFolder.PARAM_SHOW_DESKTOP);
             Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.edit_shortcut ((string) relocatable_schema,
                 shortcut.to_gsettings ());
         }

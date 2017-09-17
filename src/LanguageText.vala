@@ -65,4 +65,6 @@ namespace DesktopFolder.Lang {
     public const string ITEM_DELETE_FILE_MESSAGE=_("This action will DELETE the file and ALL its content.\n<b>Are you sure?</b>");
     //Item - Rename Dialog Message
     public const string ITEM_RENAME_MESSAGE=_("Enter the new name");
+    //Name of the first desktop-folder panel, when no panels found
+    public const string APP_FIRST_PANEL=_("My First Panel");
 }

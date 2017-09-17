@@ -57,8 +57,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 decorated:true,
                 title: (manager.get_folder_name()),
                 deletable:false,
-                height_request: 100,
-                width_request: 100);
+                height_request: 300,
+                width_request: 300);
 
         this.set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
