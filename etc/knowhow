@@ -12,3 +12,10 @@ export G_MESSAGES_DEBUG=all
 generate pot file
 ·················
 ninja org.spheras.desktopfolder-pot
+
+
+debian build
+············
+from root directory -> $ debuild -uc -us
+
+hint: to execute rules -> ./debian/rules install

@@ -1,1 +1,9 @@
 /build
+debian/build/
+debian/debhelper-build-stamp
+debian/files
+debian/org.spheras.desktopfolder.debhelper.log
+debian/org.spheras.desktopfolder.substvars
+debian/org.spheras.desktopfolder/
+.atom-dbg.cson
+

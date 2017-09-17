@@ -27,28 +27,33 @@ c_args = [
 cc = meson.get_compiler('c')
 m_dep = cc.find_library('m', required : false)
 
+#Source files
+src = [
+       'src/LanguageText.vala',
+       'src/Resources.vala',
+       'src/Application.vala',
+       'src/utils/Util.vala',
+       'src/utils/shortcut/Shortcut.vala',
+       'src/utils/shortcut/CustomShortcutSettings.vala',
+       'src/utils/menu/MenuItemColor.vala',
+       'src/utils/menu/MenuItemSeparator.vala',
+       'src/utils/clipboard/ClipboardFile.vala',
+       'src/utils/clipboard/ClipboardManager.vala',
+       'src/utils/dragndrop/DragNDrop.vala',
+       'src/utils/dragndrop/DndHandler.vala',
+       'src/utils/dragndrop/DndView.vala',
+       'src/utils/dragndrop/DndBehaviour.vala',
+       'src/widgets/FolderWindow.vala',
+       'src/widgets/ItemView.vala',
+       'src/settings/FolderSettings.vala',
+       'src/settings/ItemSettings.vala',
+       'src/logic/FolderManager.vala',
+       'src/logic/ItemManager.vala'
+      ]
+
 executable(
     'org.spheras.desktopfolder',
-    'src/LanguageText.vala',
-    'src/Resources.vala',
-    'src/Application.vala',
-    'src/utils/Util.vala',
-    'src/utils/shortcut/Shortcut.vala',
-    'src/utils/shortcut/CustomShortcutSettings.vala',
-    'src/utils/menu/MenuItemColor.vala',
-    'src/utils/menu/MenuItemSeparator.vala',
-    'src/utils/clipboard/ClipboardFile.vala',
-    'src/utils/clipboard/ClipboardManager.vala',
-    'src/utils/dragndrop/DragNDrop.vala',
-    'src/utils/dragndrop/DndHandler.vala',
-    'src/utils/dragndrop/DndView.vala',
-    'src/utils/dragndrop/DndBehaviour.vala',
-    'src/widgets/FolderWindow.vala',
-    'src/widgets/ItemView.vala',
-    'src/settings/FolderSettings.vala',
-    'src/settings/ItemSettings.vala',
-    'src/logic/FolderManager.vala',
-    'src/logic/ItemManager.vala',
+    src,
     asresources,
     c_args: c_args,
     dependencies: [

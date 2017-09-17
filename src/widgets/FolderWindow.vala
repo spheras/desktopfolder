@@ -55,7 +55,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 resizable: true,
                 skip_taskbar_hint : true,
                 decorated:true,
-                title: ("prueba5-"+manager.get_folder_name()),
+                title: (manager.get_folder_name()),
                 deletable:false,
                 height_request: 100,
                 width_request: 100);
