@@ -28,6 +28,7 @@ public class DesktopFolderApp : Granite.Application {
 
     /** List of folder owned by the application */
     private List<DesktopFolder.FolderManager> folders=new List<DesktopFolder.FolderManager>();
+    private List<DesktopFolder.NoteManager> notes=new List<DesktopFolder.NoteManager>();
 
     construct {
         /* Needed by Glib.Application */
@@ -105,7 +106,7 @@ public class DesktopFolderApp : Granite.Application {
         */
 
         //we start creating the folders found at the desktop folder
-        this.sync_folders();
+        this.sync_folders_and_notes();
         this.monitor_desktop();
     }
 
@@ -119,18 +120,20 @@ public class DesktopFolderApp : Granite.Application {
     }
 
     /**
-    * @name sync_folders
-    * @description create as many folder windows as the desktop folder founds
+    * @name sync_folders_and_notes
+    * @description create as many folder and note windows as the desktop folder and note founds
     */
-    private void sync_folders () {
+    private void sync_folders_and_notes () {
         try {
             var base_path=DesktopFolderApp.get_app_folder();
             var directory = File.new_for_path (base_path);
             var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
 
             FileInfo file_info;
-            List<DesktopFolder.FolderManager> updated_list=new List<DesktopFolder.FolderManager>();
+            List<DesktopFolder.FolderManager> updated_folder_list=new List<DesktopFolder.FolderManager>();
+            List<DesktopFolder.NoteManager> updated_note_list=new List<DesktopFolder.NoteManager>();
             int totalFolders=0;
+            int totalNotes=0;
             while ((file_info = enumerator.next_file ()) != null) {
                 string name=file_info.get_name();
                 File file = File.new_for_commandline_arg (base_path+"/"+name);
@@ -138,15 +141,35 @@ public class DesktopFolderApp : Granite.Application {
                 if(type==FileType.DIRECTORY){
                     totalFolders++;
                     //maybe this is an existent already monitored folder
-                    DesktopFolder.FolderManager fm=this.find_by_name(name);
+                    DesktopFolder.FolderManager fm=this.find_folder_by_name(name);
                     if(fm==null){
                         //we've found a directory, let's create a desktop-folder window
                         fm=new DesktopFolder.FolderManager(this, name);
                     }else{
                         this.folders.remove(fm);
                     }
-                    updated_list.append(fm);
+                    updated_folder_list.append(fm);
                 }else{
+                    //maybe a desktop-folder note?
+                    string basename=file.get_basename();
+                    int index=basename.last_index_of(".",0);
+                    if(index>0){
+                        string ext=basename.substring(index+1);
+                        if(ext==DesktopFolder.NOTE_EXTENSION){
+                            debug("new note found!");
+                            //a note!
+                            totalNotes++;
+                            //maybe this is an existent already monitored folder
+                            DesktopFolder.NoteManager nm=this.find_note_by_name(name);
+                            if(nm==null){
+                                //we've found a directory, let's create a desktop-folder window
+                                nm=new DesktopFolder.NoteManager(this, basename.substring(0,index), file);
+                            }else{
+                                this.notes.remove(nm);
+                            }
+                            updated_note_list.append(nm);
+                        }
+                    }
                     //nothing
                     //we only deal with folders to be shown
                 }
@@ -157,11 +180,20 @@ public class DesktopFolderApp : Granite.Application {
                 DesktopFolder.FolderManager fm=this.folders.nth(i).data;
                 fm.close();
             }
-            this.folders=updated_list.copy();
+            this.folders=updated_folder_list.copy();
 
+
+            //finally we close any other not existent note
+            for(int i=0;i<this.notes.length();i++){
+                DesktopFolder.NoteManager nm=this.notes.nth(i).data;
+                nm.close();
+            }
+            this.notes=updated_note_list.copy();
+
+            //by default, at least one folder is needed
             if(totalFolders==0){
                 DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+DesktopFolder.Lang.APP_FIRST_PANEL,0755);
-                this.sync_folders();
+                this.sync_folders_and_notes();
             }
         } catch (Error e) {
             //error! ??
@@ -171,16 +203,32 @@ public class DesktopFolderApp : Granite.Application {
     }
 
     /**
-    * @name find_by_name
+    * @name find_folder_by_name
     * @description find a foldermanager managed by its name
     * @param string folder_name the name of the folder to find
     * @return FolderManager the Folder found or null if none
     */
-    private DesktopFolder.FolderManager? find_by_name(string folder_name){
+    private DesktopFolder.FolderManager? find_folder_by_name(string folder_name){
         for(int i=0;i<this.folders.length();i++){
             DesktopFolder.FolderManager fm=this.folders.nth(i).data;
             if(fm.get_folder_name()==folder_name){
                 return fm;
+            }
+        }
+        return null;
+    }
+
+    /**
+    * @name find_note_by_name
+    * @description find a notemanager managed by its name
+    * @param string note_name the name of the note to find
+    * @return NoteManager the Note found or null if none
+    */
+    private DesktopFolder.NoteManager? find_note_by_name(string note_name){
+        for(int i=0;i<this.notes.length();i++){
+            DesktopFolder.NoteManager nm=this.notes.nth(i).data;
+            if(nm.get_note_name()==note_name){
+                return nm;
             }
         }
         return null;
@@ -236,7 +284,7 @@ public class DesktopFolderApp : Granite.Application {
         if (file_type==FileType.DIRECTORY || !src.query_exists()){
             //new directory or removed, we need to synchronize
             //removed directory
-            this.sync_folders();
+            this.sync_folders_and_notes();
         }
     }
 

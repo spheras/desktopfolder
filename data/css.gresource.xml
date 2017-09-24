@@ -3,5 +3,7 @@
   <gresource prefix="/org/spheras/desktopfolder">
     <file alias="Application.css" compressed="true">Application.css</file>
     <file alias="icon.png" compressed="true">img/icon.png</file>
+    <file alias="hip-square.png" compressed="true">img/hip-square.png</file>
+    <file alias="clip.png" compressed="true">img/clip.png</file>
   </gresource>
 </gresources>

@@ -143,14 +143,12 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
         relocatable_schema = "";
 
         foreach (var custom_shortcut in custom_shortcuts) {
-            debug("checking:%s",custom_shortcut.shortcut);
+            //debug("checking:%s",custom_shortcut.shortcut);
             var shortcut = new Shortcut.parse (custom_shortcut.shortcut);
             if (shortcut.is_equal (new_shortcut)) {
                 command = custom_shortcut.command;
                 relocatable_schema = custom_shortcut.relocatable_schema;
                 return true;
-            }else{
-                debug("not equal!");
             }
         }
 

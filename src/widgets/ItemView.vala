@@ -376,9 +376,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     */
     public void delete_dialog(){
         string message=_(DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE);
-
         Gtk.Window window=(Gtk.Window) this.get_toplevel();
-
         bool isdir=this.manager.is_folder();
         if(!isdir){
             message=DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
@@ -412,46 +410,17 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     * @description the user wants to rename the icon. Some info is needed before the rename action is performed.
     */
     public void rename_dialog(){
-
-        Gtk.Window window=(Gtk.Window) this.get_toplevel();
-
-        //building the dialog
-        Gtk.Dialog dialog = new Gtk.Dialog.with_buttons(
-            null,
-            window, //parent
-            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, //flags
-            DesktopFolder.Lang.DIALOG_OK,Gtk.ResponseType.OK, //response OK
-            DesktopFolder.Lang.DIALOG_CANCEL,Gtk.ResponseType.CANCEL //response CANCEL
-            );
-
-        dialog.get_style_context ().add_class ("df_dialog");
-        dialog.set_decorated(false);
-
-        var grid = new Gtk.Grid ();
-        grid.get_style_context ().add_class ("df_rename");
-        grid.column_spacing = 12;
-
-            var description=new Gtk.Label (DesktopFolder.Lang.ITEM_RENAME_MESSAGE);
-            grid.attach(description,0,0,1,1);
-            var entry = new Gtk.Entry();
-            entry.activate.connect(()=>{
-                dialog.response(Gtk.ResponseType.OK);
-            });
-            entry.set_text (this.label.get_label());
-            grid.attach (entry, 0, 1, 1, 1);
-
-        dialog.get_content_area().pack_end(grid, true, true, 20);
-
-        dialog.show_all();
-        int result=dialog.run();
-        var new_name = entry.get_text();
-        dialog.destroy();
-
-        //renaming
-        if(result==Gtk.ResponseType.OK && new_name!=this.label.get_label()){
-            this.rename(new_name);
-        }
-
+        RenameDialog dialog = new RenameDialog (this.manager.get_application_window(),
+                                                DesktopFolder.Lang.ITEM_RENAME_TITLE,
+                                                DesktopFolder.Lang.ITEM_RENAME_MESSAGE,
+                                                this.label.get_label());
+        dialog.on_rename.connect((new_name)=>{
+            //renaming
+            if(new_name!=this.label.get_label()){
+                this.rename(new_name);
+            }
+        });
+        dialog.show_all ();
     }
 
     /**

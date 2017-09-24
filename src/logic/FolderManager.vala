@@ -49,8 +49,9 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
         this.load_folder_settings();
 
         //First we create a Folder Window above the desktop
+        this.application=application;
         this.view = new DesktopFolder.FolderWindow (this);
-        application.add_window(this.view);
+        this.application.add_window(this.view);
         this.view.show ();
 
         //let's sync the files found at this folder
@@ -249,6 +250,18 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     public void create_new_desktop_folder(string name){
         //cancelling the current monitor
         DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+name,0755);
+    }
+
+    /**
+    * @name create_new_note
+    * @description create a new note inside the desktop
+    * @param string name the name of the new note
+    */
+    public void create_new_note(string name){
+        NoteSettings ns=new NoteSettings(name);
+        string path=DesktopFolderApp.get_app_folder()+"/"+name+"."+DesktopFolder.NOTE_EXTENSION;
+        File f=File.new_for_path (path);
+        ns.save_to_file(f);
     }
 
     /**

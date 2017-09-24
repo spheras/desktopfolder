@@ -1,3 +1,16 @@
+/* NOTE COLORS */
+@define-color noteColorBackgroundYELLOW rgba(252,233,79,0.3);
+@define-color noteColorBackgroundORANGE rgba(252,175,62,0.3);
+@define-color noteColorBackgroundBROWN rgba(153,118,102,0.3);
+@define-color noteColorBackgroundGREEN rgba(138,225,52,0.3);
+@define-color noteColorBackgroundBLUE rgba(114,159,207,0.3);
+@define-color noteColorBackgroundPURPLE rgba(173,127,168,0.3);
+@define-color noteColorBackgroundRED rgba(239,41,41,0.3);
+@define-color noteColorBackgroundBLACK rgba(0,0,0,0.3);
+@define-color noteColorBackgroundTRANSPARENT rgba(0,0,0,0);
+@define-color noteColorBackgroundGRAY rgba(211,215,207,0.3);
+
+/* DESKTOP FOLDER COLORS */
 @define-color colorBackgroundYELLOW rgba(252,233,79,0.3);
 @define-color colorBackgroundORANGE rgba(252,175,62,0.3);
 @define-color colorBackgroundBROWN rgba(153,118,102,0.3);
@@ -23,6 +36,89 @@
     color: @colorForegroundHEADLESS;
 }
 
+
+/* BODY COLORS */
+/* TRANSPARENT */
+.df_folder.df_note.window-frame.transparent, .df_folder.df_note.window-frame.transparent:backdrop,
+.df_folder.df_note.background.transparent, .df_folder.df_note.background.transparent:backdrop,
+.df_folder.df_note.transparent .titlebar, .df_folder.df_note.transparent .titlebar:backdrop {
+    border-color: @noteColorBackgroundTRANSPARENT;
+    background-color: @noteColorBackgroundTRANSPARENT;
+    border-color: @noteColorBackgroundTRANSPARENT;
+}
+/* GRAY */
+.df_folder.df_note.window-frame.gray, .df_folder.df_note.window-frame.gray:backdrop,
+.df_folder.df_note.background.gray, .df_folder.df_note.background.gray:backdrop,
+.df_folder.df_note.gray .titlebar, .df_folder.df_note.gray .titlebar:backdrop {
+    border-color: @noteColorBackgroundGRAY;
+    background-color: @noteColorBackgroundGRAY;
+    border-color: @noteColorBackgroundGRAY;
+}
+/* PURPLE */
+.df_folder.df_note.window-frame.purple, .df_folder.df_note.window-frame.purple:backdrop,
+.df_folder.df_note.background.purple, .df_folder.df_note.background.purple:backdrop,
+.df_folder.df_note.purple .titlebar, .df_folder.df_note.purple .titlebar:backdrop {
+    border-color: @noteColorBackgroundPURPLE;
+    background-color: @noteColorBackgroundPURPLE;
+    border-color: @noteColorBackgroundPURPLE;
+}
+/* BLUE */
+.df_folder.df_note.window-frame.blue, .df_folder.df_note.window-frame.blue:backdrop,
+.df_folder.df_note.background.blue, .df_folder.df_note.background.blue:backdrop,
+.df_folder.df_note.blue .titlebar, .df_folder.df_note.blue .titlebar:backdrop {
+    border-color: @noteColorBackgroundBLUE;
+    background-color: @noteColorBackgroundBLUE;
+    border-color: @noteColorBackgroundBLUE;
+}
+/* GREEN */
+.df_folder.df_note.window-frame.green, .df_folder.df_note.window-frame.green:backdrop,
+.df_folder.df_note.background.green, .df_folder.df_note.background.green:backdrop,
+.df_folder.df_note.green .titlebar, .df_folder.df_note.green .titlebar:backdrop {
+    border-color: @noteColorBackgroundGREEN;
+    background-color: @noteColorBackgroundGREEN;
+    border-color: @noteColorBackgroundGREEN;
+}
+/* BROWN */
+.df_folder.df_note.window-frame.brown, .df_folder.df_note.window-frame.brown:backdrop,
+.df_folder.df_note.background.brown, .df_folder.df_note.background.brown:backdrop,
+.df_folder.df_note.brown .titlebar, .df_folder.df_note.brown .titlebar:backdrop {
+    border-color: @noteColorBackgroundBROWN;
+    background-color: @noteColorBackgroundBROWN;
+    border-color: @noteColorBackgroundBROWN;
+}
+/* BLACK */
+.df_folder.df_note.window-frame.black, .df_folder.df_note.window-frame.black:backdrop,
+.df_folder.df_note.background.black, .df_folder.df_note.background.black:backdrop,
+.df_folder.df_note.black .titlebar, .df_folder.df_note.black .titlebar:backdrop {
+    border-color: @noteColorBackgroundBLACK;
+    background-color: @noteColorBackgroundBLACK;
+    border-color: @noteColorBackgroundBLACK;
+}
+/* RED */
+.df_folder.df_note.window-frame.red, .df_folder.df_note.window-frame.red:backdrop,
+.df_folder.df_note.background.red, .df_folder.df_note.background.red:backdrop,
+.df_folder.df_note.red .titlebar, .df_folder.df_note.red .titlebar:backdrop {
+    border-color: @noteColorBackgroundRED;
+    background-color: @noteColorBackgroundRED;
+    border-color: @noteColorBackgroundRED;
+}
+/* YELLOW */
+.df_folder.df_note.window-frame.yellow, .df_folder.df_note.window-frame.yellow:backdrop,
+.df_folder.df_note.background.yellow, .df_folder.df_note.background.yellow:backdrop,
+.df_folder.df_note.yellow .titlebar, .df_folder.df_note.yellow .titlebar:backdrop {
+    border-color: @noteColorBackgroundYELLOW;
+    background-color: @noteColorBackgroundYELLOW;
+    border-color: @noteColorBackgroundYELLOW;
+}
+/* ORANGE */
+.df_folder.df_note.window-frame.orange, .df_folder.df_note.window-frame.orange:backdrop,
+.df_folder.df_note.background.orange, .df_folder.df_note.background.orange:backdrop,
+.df_folder.df_note.orange .titlebar, .df_folder.df_note.orange .titlebar:backdrop {
+    border-color: @noteColorBackgroundORANGE;
+    background-color: @noteColorBackgroundORANGE;
+    border-color: @noteColorBackgroundORANGE;
+}
+
 /* BODY COLORS */
 /* TRANSPARENT */
 .df_folder.window-frame.transparent, .df_folder.window-frame.transparent:backdrop {
@@ -35,9 +131,7 @@
     background-color: @colorBackgroundTRANSPARENT;
     border-color: @colorBackgroundTRANSPARENT;
 }
-
 /* GRAY */
-
 .df_folder.window-frame.gray, .df_folder.window-frame.gray:backdrop {
     border-color: @colorBackgroundGRAY;
 }
@@ -48,7 +142,6 @@
     background-color: @colorBackgroundGRAY;
     border-color: @colorBackgroundGRAY;
 }
-
 /* PURPLE */
 .df_folder.window-frame.purple, .df_folder.window-frame.purple:backdrop {
     border-color: @colorBackgroundPURPLE;
@@ -60,7 +153,6 @@
     background-color: @colorBackgroundPURPLE;
     border-color: @colorBackgroundPURPLE;
 }
-
 /* BLUE */
 .df_folder.window-frame.blue, .df_folder.window-frame.blue:backdrop {
     border-color: @colorBackgroundBLUE;
@@ -72,7 +164,6 @@
     background-color: @colorBackgroundBLUE;
     border-color: @colorBackgroundBLUE;
 }
-
 /* GREEN */
 .df_folder.window-frame.green, .df_folder.window-frame.green:backdrop {
     border-color: @colorBackgroundGREEN;
@@ -84,7 +175,6 @@
     background-color: @colorBackgroundGREEN;
     border-color: @colorBackgroundGREEN;
 }
-
 /* BROWN */
 .df_folder.window-frame.brown, .df_folder.window-frame.brown:backdrop {
     border-color: @colorBackgroundBROWN;
@@ -96,7 +186,6 @@
     background-color: @colorBackgroundBROWN;
     border-color: @colorBackgroundBROWN;
 }
-
 /* BLACK */
 .df_folder.window-frame.black, .df_folder.window-frame.black:backdrop {
     border-color: @colorBackgroundBLACK;
@@ -108,7 +197,6 @@
     background-color: @colorBackgroundBLACK;
     border-color: @colorBackgroundBLACK;
 }
-
 /* RED */
 .df_folder.window-frame.red, .df_folder.window-frame.red:backdrop {
     border-color: @colorBackgroundRED;
@@ -120,8 +208,8 @@
     background-color: @colorBackgroundRED;
     border-color: @colorBackgroundRED;
 }
-
 /* YELLOW */
+
 .df_folder.window-frame.yellow, .df_folder.window-frame.yellow:backdrop {
     border-color: @colorBackgroundYELLOW;
 }
@@ -132,7 +220,6 @@
     background-color: @colorBackgroundYELLOW;
     border-color: @colorBackgroundYELLOW;
 }
-
 /* ORANGE */
 .df_folder.window-frame.orange, .df_folder.window-frame.orange:backdrop {
     border-color: @colorBackgroundORANGE;
@@ -145,10 +232,11 @@
     border-color: @colorBackgroundORANGE;
 }
 
-
+.df_folder.df_note.window-frame, .df_folder.df_note.window-frame:backdrop {
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+}
 
 .df_folder.window-frame, .df_folder.window-frame:backdrop {
-    background-color: transparent;
     box-shadow: none;
     text-shadow: none;
     icon-shadow: none;
@@ -159,7 +247,6 @@
 }
 
 .df_folder.background, .df_folder.background:backdrop {
-    background-color: @colorBackground;
     box-shadow: none;
     text-shadow: none;
     icon-shadow: none;
@@ -179,12 +266,10 @@
     padding-left:14px;
     padding-right:14px;
     margin-top:14px;
-    color: @colorForeground;
 }
 
 .df_folder .titlebar,
 .df_folder .titlebar:backdrop{
-    background-color: @colorBackground;
     background-image: none;
     padding:14px;
 
@@ -194,7 +279,6 @@
 
     border-style:none;
     border-width:1px;
-    border-color: @colorBackground;
 }
 
 .df_item{
@@ -218,4 +302,11 @@
 .df_rename{
     margin:20px;
     padding:20px;
+}
+
+.df_hint{
+    color:white;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0.5;
 }

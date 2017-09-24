@@ -78,7 +78,7 @@ namespace Pantheon.Keyboard.Shortcuts
 
 		public bool is_equal (Shortcut shortcut)
 		{
-			debug("is equal? %d, %d : %d, %d",shortcut.modifiers, modifiers, (int)shortcut.accel_key, (int) accel_key);
+			//debug("is equal? %d, %d : %d, %d",shortcut.modifiers, modifiers, (int)shortcut.accel_key, (int) accel_key);
 			if (shortcut.modifiers == modifiers){
 				if (shortcut.accel_key == accel_key){
 					return true;

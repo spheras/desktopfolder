@@ -20,7 +20,64 @@
 namespace DesktopFolder.Util
 {
 
+	/**
+    * @name show_about
+    * @description show the about dialog
+    */
+    private void show_about(Gtk.Window parent){
+        // Configure the dialog:
+    	Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
+    	dialog.set_destroy_with_parent (true);
+    	dialog.set_transient_for (parent);
+    	dialog.set_modal (true);
 
+    	dialog.authors = {"José Amuedo - spheras - Just for learning"};
+        /*
+        dialog.artists = {"Darkwing Duck", "Launchpad McQuack"};
+    	dialog.documenters = null; // Real inventors don't document.
+    	dialog.translator_credits = null; // We only need a scottish version.
+        */
+    	dialog.program_name = "Desktop-Folder";
+    	dialog.comments = DesktopFolder.Lang.APP_DESCRIPTION;
+    	dialog.copyright = "GNU General Public License v3.0";
+    	dialog.version = "1.0";
+
+        string license="This program is free software: you can redistribute it and/or modify " +
+        "it under the terms of the GNU General Public License as published by "+
+        "the Free Software Foundation, either version 3 of the License, or "+
+        "(at your option) any later version.\n\n"+
+        "This program is distributed in the hope that it will be useful, "+
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of "+
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "+
+        "GNU General Public License for more details.\n\n"+
+        "You should have received a copy of the GNU General Public License "+
+        "along with this program.  If not, see <http://www.gnu.org/licenses/>.";
+
+    	dialog.license = license;
+    	dialog.wrap_license = true;
+
+        try{
+            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/icon.png");
+            dialog.set_logo(pixbuf);
+            dialog.set_icon(pixbuf);
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+
+
+    	dialog.website = "https://github.com/spheras/Desktop-Folder";
+    	dialog.website_label = "Desktop-Folder Github Place.";
+
+    	dialog.response.connect ((response_id) => {
+    		if (response_id == Gtk.ResponseType.CANCEL || response_id == Gtk.ResponseType.DELETE_EVENT) {
+    			dialog.hide_on_delete ();
+    		}
+    	});
+
+    	// Show the dialog:
+    	dialog.present ();
+    }
 
 	/**
 	 * Display a simple error message.

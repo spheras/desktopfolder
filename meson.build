@@ -43,12 +43,16 @@ src = [
        'src/utils/dragndrop/DndHandler.vala',
        'src/utils/dragndrop/DndView.vala',
        'src/utils/dragndrop/DndBehaviour.vala',
+       'src/utils/RenameDialog.vala',
        'src/widgets/FolderWindow.vala',
+       'src/widgets/NoteWindow.vala',
        'src/widgets/ItemView.vala',
        'src/settings/FolderSettings.vala',
        'src/settings/ItemSettings.vala',
+       'src/settings/NoteSettings.vala',
        'src/logic/FolderManager.vala',
-       'src/logic/ItemManager.vala'
+       'src/logic/ItemManager.vala',
+       'src/logic/NoteManager.vala'
       ]
 
 executable(

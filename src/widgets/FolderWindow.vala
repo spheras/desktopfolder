@@ -158,6 +158,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             item.show();
             menu.append (item);
 
+            //menu to create a new note
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+            item.activate.connect ((item)=>{
+                    this.new_note();
+            });
+            item.show();
+            menu.append (item);
+
 
             item = new MenuItemSeparator();
             item.show();
@@ -212,11 +220,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             //the about option to show a message dialog
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ABOUT);
             item.activate.connect ((item)=>{
-                this.show_about();
+                DesktopFolder.Util.show_about(this);
             });
             item.show();
             menu.append (item);
             menu.show_all();
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.HINT_SHOW_DESKTOP);
+            item.show();
+            menu.append (item);
+            menu.show_all();
+
         //}
 
         //finally we show the popup
@@ -372,107 +386,42 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         return (ItemView)null;
     }
 
-    /**
-    * @name show_about
-    * @description show the about dialog
-    */
-    private void show_about(){
-        // Configure the dialog:
-    	Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
-    	dialog.set_destroy_with_parent (true);
-    	dialog.set_transient_for (this);
-    	dialog.set_modal (true);
 
-    	dialog.authors = {"José Amuedo - spheras - Just for learning"};
-        /*
-        dialog.artists = {"Darkwing Duck", "Launchpad McQuack"};
-    	dialog.documenters = null; // Real inventors don't document.
-    	dialog.translator_credits = null; // We only need a scottish version.
-        */
-    	dialog.program_name = "Desktop-Folder";
-    	dialog.comments = DesktopFolder.Lang.APP_DESCRIPTION;
-    	dialog.copyright = "GNU General Public License v3.0";
-    	dialog.version = "1.0";
-
-        string license="This program is free software: you can redistribute it and/or modify " +
-        "it under the terms of the GNU General Public License as published by "+
-        "the Free Software Foundation, either version 3 of the License, or "+
-        "(at your option) any later version.\n\n"+
-        "This program is distributed in the hope that it will be useful, "+
-        "but WITHOUT ANY WARRANTY; without even the implied warranty of "+
-        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "+
-        "GNU General Public License for more details.\n\n"+
-        "You should have received a copy of the GNU General Public License "+
-        "along with this program.  If not, see <http://www.gnu.org/licenses/>.";
-
-    	dialog.license = license;
-    	dialog.wrap_license = true;
-
-        try{
-            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/icon.png");
-            dialog.set_logo(pixbuf);
-            dialog.set_icon(pixbuf);
-        } catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog("Error",e.message);
-        }
-
-
-    	dialog.website = "https://github.com/spheras/Desktop-Folder";
-    	dialog.website_label = "Desktop-Folder Github Place.";
-
-    	dialog.response.connect ((response_id) => {
-    		if (response_id == Gtk.ResponseType.CANCEL || response_id == Gtk.ResponseType.DELETE_EVENT) {
-    			dialog.hide_on_delete ();
-    		}
-    	});
-
-    	// Show the dialog:
-    	dialog.present ();
-    }
 
     /**
     * @name new_desktop_folder
     * @description show a dialog to create a new desktop folder
     */
     private void new_desktop_folder(){
-        //building the dialog
-        Gtk.Dialog dialog = new Gtk.Dialog.with_buttons(
-            null,
-            this, //parent
-            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, //flags
-            DesktopFolder.Lang.DIALOG_OK,Gtk.ResponseType.OK, //response OK
-            DesktopFolder.Lang.DIALOG_CANCEL,Gtk.ResponseType.CANCEL //response CANCEL
-            );
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW);
+        dialog.on_rename.connect((new_name)=>{
+            //creating the folder
+            if(new_name!=""){
+                this.manager.create_new_desktop_folder(new_name);
+            }
+        });
+        dialog.show_all ();
+    }
 
-        dialog.get_style_context ().add_class ("df_dialog");
-        dialog.set_decorated(false);
-
-        var grid = new Gtk.Grid ();
-        grid.get_style_context ().add_class ("df_rename");
-        grid.column_spacing = 12;
-
-            var description=new Gtk.Label (DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME);
-            grid.attach(description,0,0,1,1);
-            var entry = new Gtk.Entry();
-            entry.activate.connect(()=>{
-                dialog.response(Gtk.ResponseType.OK);
-            });
-            entry.set_text (DesktopFolder.Lang.DESKTOPFOLDER_NEW);
-            grid.attach (entry, 0, 1, 1, 1);
-
-        dialog.get_content_area().pack_end(grid, true, true, 20);
-
-        //showing the dialog
-        dialog.show_all();
-        int result=dialog.run();
-        var name = entry.get_text();
-        dialog.destroy();
-
-        //creating the folder
-        if(result==Gtk.ResponseType.OK && name!=""){
-            this.manager.create_new_desktop_folder(name);
-        }
+    /**
+    * @name new_note
+    * @description show a dialog to create a new desktop folder
+    */
+    private void new_note(){
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.NOTE_ENTER_TITLE,
+                                                DesktopFolder.Lang.NOTE_ENTER_NAME,
+                                                DesktopFolder.Lang.NOTE_NEW);
+        dialog.on_rename.connect((new_name)=>{
+            //creating the folder
+            if(new_name!=""){
+                this.manager.create_new_note(new_name);
+            }
+        });
+        dialog.show_all ();
     }
 
     /**
@@ -482,43 +431,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @param int y the y position where the new folder icon should be generated
     */
     private void new_folder(int x, int y){
-        //building the dialog
-        Gtk.Dialog dialog = new Gtk.Dialog.with_buttons(
-            null,
-            this, //parent
-            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, //flags
-            DesktopFolder.Lang.DIALOG_OK,Gtk.ResponseType.OK, //response OK
-            DesktopFolder.Lang.DIALOG_CANCEL,Gtk.ResponseType.CANCEL //response CANCEL
-            );
-
-        dialog.get_style_context ().add_class ("df_dialog");
-        dialog.set_decorated(false);
-
-        var grid = new Gtk.Grid ();
-        grid.get_style_context ().add_class ("df_rename");
-        grid.column_spacing = 12;
-
-            var description=new Gtk.Label (DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE);
-            grid.attach(description,0,0,1,1);
-            var entry = new Gtk.Entry();
-            entry.activate.connect(()=>{
-                dialog.response(Gtk.ResponseType.OK);
-            });
-            entry.set_text (DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
-            grid.attach (entry, 0, 1, 1, 1);
-
-        dialog.get_content_area().pack_end(grid, true, true, 20);
-
-        //showing the dialog
-        dialog.show_all();
-        int result=dialog.run();
-        var name = entry.get_text();
-        dialog.destroy();
-
-        //creating the folder
-        if(result==Gtk.ResponseType.OK && name!=""){
-            this.manager.create_new_folder(name,x, y);
-        }
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
+        dialog.on_rename.connect((new_name)=>{
+            //creating the folder
+            if(new_name!=""){
+                this.manager.create_new_folder(new_name,x, y);
+            }
+        });
+        dialog.show_all ();
     }
 
     /**
@@ -528,43 +451,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @param int y the y position where the new item should be placed
     */
     private void new_text_file(int x, int y){
-        //building the dialog
-        Gtk.Dialog dialog = new Gtk.Dialog.with_buttons(
-            null,
-            this, //parent
-            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, //flags
-            DesktopFolder.Lang.DIALOG_OK,Gtk.ResponseType.OK, //response OK
-            DesktopFolder.Lang.DIALOG_CANCEL,Gtk.ResponseType.CANCEL //response CANCEL
-            );
-
-        dialog.get_style_context ().add_class ("df_dialog");
-        dialog.set_decorated(false);
-
-        var grid = new Gtk.Grid ();
-        grid.get_style_context ().add_class ("df_rename");
-        grid.column_spacing = 12;
-
-            var description=new Gtk.Label (DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE);
-            grid.attach(description,0,0,1,1);
-            var entry = new Gtk.Entry();
-            entry.activate.connect(()=>{
-                dialog.response(Gtk.ResponseType.OK);
-            });
-            entry.set_text (DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
-            grid.attach (entry, 0, 1, 1, 1);
-
-        dialog.get_content_area().pack_end(grid, true, true, 20);
-
-        //showing the dialog
-        dialog.show_all();
-        int result=dialog.run();
-        var name = entry.get_text();
-        dialog.destroy();
-
-        //creating the file
-        if(result==Gtk.ResponseType.OK && name!=""){
-            this.manager.create_new_text_file(name, x, y);
-        }
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
+        dialog.on_rename.connect((new_name)=>{
+            if(new_name!=""){
+                this.manager.create_new_text_file(new_name, x, y);
+            }
+        });
+        dialog.show_all ();
     }
 
     /**
@@ -574,7 +470,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private void delete_folder(){
         //we need to ask and be sure
         string message=DesktopFolder.Lang.DESKTOPFOLDER_DELETE_MESSAGE;
-        Gtk.MessageDialog msg = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK_CANCEL, message);
+        Gtk.MessageDialog msg = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING,
+                                                       Gtk.ButtonsType.OK_CANCEL, message);
+       msg.use_markup=true;
         msg.response.connect ((response_id) => {
             switch (response_id) {
 				case Gtk.ResponseType.OK:
@@ -595,45 +493,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @description try to rename the current desktop folder
     */
     private void rename_folder(){
-        //building the dialog
-        Gtk.Dialog dialog = new Gtk.Dialog.with_buttons(
-            null,
-            this, //parent
-            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, //flags
-            DesktopFolder.Lang.DIALOG_OK,Gtk.ResponseType.OK, //response OK
-            DesktopFolder.Lang.DIALOG_CANCEL,Gtk.ResponseType.CANCEL //response CANCEL
-            );
-
-        dialog.get_style_context ().add_class ("df_dialog");
-        dialog.set_decorated(false);
-
-        var grid = new Gtk.Grid ();
-        grid.get_style_context ().add_class ("df_rename");
-        grid.column_spacing = 12;
-
-            var description=new Gtk.Label (DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE);
-            grid.attach(description,0,0,1,1);
-            var entry = new Gtk.Entry();
-            entry.activate.connect(()=>{
-                dialog.response(Gtk.ResponseType.OK);
-            });
-            entry.set_text (this.manager.get_folder_name());
-            grid.attach (entry, 0, 1, 1, 1);
-
-        dialog.get_content_area().pack_end(grid, true, true, 20);
-
-        //showing the dialog
-        dialog.show_all();
-        int result=dialog.run();
-        string new_name = entry.get_text();
-        dialog.destroy();
-
-        //renaming
-        if(result==Gtk.ResponseType.OK && new_name!=this.manager.get_folder_name()){
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_RENAME_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE,
+                                                this.manager.get_folder_name());
+        dialog.on_rename.connect((new_name)=>{
             if(this.manager.rename(new_name)){
                 this.set_title(new_name);
             }
-        }
+        });
+        dialog.show_all ();
     }
 
     /**

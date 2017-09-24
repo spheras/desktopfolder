@@ -1,3 +1,26 @@
+/*
+* Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public
+* License along with this program; if not, write to the
+* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA 02110-1301 USA
+*/
+
+/**
+* @class
+* Desktop Folder Settings
+*/
 public class DesktopFolder.FolderSettings: Object{
     public int x  { get; set; default = 0; }
     public int y  { get; set; default = 0; }
@@ -11,6 +34,10 @@ public class DesktopFolder.FolderSettings: Object{
 
     private File file;
 
+    /**
+    * @Constructor
+    * @param string name the name of the folder
+    */
     public FolderSettings (string name) {
         this.x=10;
         this.y=10;
@@ -20,6 +47,11 @@ public class DesktopFolder.FolderSettings: Object{
         this.items=new string[0];
 	}
 
+    /**
+    * @name set_item
+    * @description replace the current settings for a certain item with other new info
+    * @param ItemSettings item the new settings for the item with the same name
+    */
     public void set_item(ItemSettings item){
         //first, we create the list of itemsettings, and replace the old with the new one content
         List<ItemSettings> all=new List<ItemSettings>();
@@ -41,6 +73,12 @@ public class DesktopFolder.FolderSettings: Object{
         this.items=str_result;
     }
 
+    /**
+    * @name rename
+    * @description rename an item on this folder.
+    * @param oldName string the old name of the item
+    * @param newName string the new name of the item
+    */
     public void rename(string oldName, string newName){
         //first, we create the list of itemsettings, and replace the old with the new one content
         List<ItemSettings> all=new List<ItemSettings>();
@@ -62,6 +100,11 @@ public class DesktopFolder.FolderSettings: Object{
         this.items=str_result;
     }
 
+    /**
+    * @name add_item
+    * @description add an item setting to the list of items of this folder settings
+    * @param item ItemSettings the ItemSettings to be added
+    */
     public void add_item(ItemSettings item){
         int length=this.items.length;
         //i don't know why this can't compile
@@ -77,6 +120,12 @@ public class DesktopFolder.FolderSettings: Object{
         this.items=citems;
     }
 
+    /**
+    * @name get_item
+    * @description get an ItemSettings of an existent item inside this folder
+    * @param name string the name to find the item
+    * @return ItemSettings the ItemSettings found
+    */
     public ItemSettings get_item(string name){
         for(int i=0;i<this.items.length;i++){
             ItemSettings is=ItemSettings.parse(this.items[i]);
@@ -87,10 +136,19 @@ public class DesktopFolder.FolderSettings: Object{
         return (ItemSettings) null;
     }
 
+    /**
+    * @name save
+    * @description persist the changes to the filesystem. The File is the same as the saved initially.
+    */
     public void save(){
         this.save_to_file(this.file);
     }
 
+    /**
+    * @name save_to_file
+    * @description persist the changes to the filesystem. The file used is passed to the function, and saved for following saves.
+    * @param file File the file to be saved
+    */
     public void save_to_file(File file){
         this.file=file;
         //string data = Json.gobject_to_data (this, null);
@@ -121,6 +179,13 @@ public class DesktopFolder.FolderSettings: Object{
         }
     }
 
+    /**
+    * @name read_settings
+    * @description read the settings from a file to create a Folder Settings object
+    * @param file File the file where the settings are persisted
+    * @param name string the name of the folder
+    * @return FolderSettings the FolderSettings created
+    */
     public static FolderSettings read_settings(File file, string name) {
         try{
             string content="";
@@ -141,6 +206,10 @@ public class DesktopFolder.FolderSettings: Object{
         }
     }
 
+    /**
+    * @name check_all
+    * @description check if all the items described exists fisically, and fixes problems
+    */
     public void check_all(){
         List<ItemSettings> all=new List<ItemSettings>();
         for(int i=0;i<this.items.length;i++){
