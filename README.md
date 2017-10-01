@@ -1,6 +1,7 @@
 # Desktop-Folder
-Come back to life your elementary desktop!
+Come back to life your elementary desktop!  (BETA YET!)
 
+NOT YET IN APPCENTER! 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/org.spheras.desktopfolder)
 
 ![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/banner.png)
