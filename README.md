@@ -14,6 +14,12 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 - Create colorful notes
 - Open source project
 
+![Example1](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif01.gif)
+![Example2](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif02.gif)
+![Example3](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif03.gif)
+![Example4](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif04.gif)
+
+
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:
 
