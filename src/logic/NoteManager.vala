@@ -51,6 +51,14 @@ public class DesktopFolder.NoteManager : Object {
         this.view=new NoteWindow(this);
         this.application.add_window(this.view);
         this.view.show ();
+
+        //trying to put it in front of the rest
+        this.view.set_keep_below(false);
+        this.view.set_keep_above(true);
+        this.view.present();
+        this.view.set_keep_above(false);
+        this.view.set_keep_below(true);
+        //---------------------------------------
     }
 
     /**
@@ -68,6 +76,16 @@ public class DesktopFolder.NoteManager : Object {
             NoteSettings existent=NoteSettings.read_settings(this.file, this.get_note_name());
             this.settings=existent;
         }
+    }
+
+    /**
+    * @name on_text_change
+    * @description the text change event was produced
+    * @param {string} text the new text of the note
+    */
+    public void on_text_change(string text){
+        this.settings.text=text;
+        this.settings.save();
     }
 
     /**
@@ -188,6 +206,9 @@ public class DesktopFolder.NoteManager : Object {
     * @return bool true->everything is ok, false->something failed, rollback
     */
     public bool rename(string new_name){
+        if(new_name.length<=0){
+            return false;
+        }
         string old_name=this.note_name;
         string old_path=this.get_absolute_path();
         this.note_name=new_name;
@@ -196,10 +217,10 @@ public class DesktopFolder.NoteManager : Object {
         try{
             NoteSettings is=this.get_settings();
             is.name=new_name;
-            is.save();
 
             FileUtils.rename(old_path, new_path);
             this.file=File.new_for_path (new_path);
+            is.save_to_file(this.file);
 
             return true;
         }catch(Error e){

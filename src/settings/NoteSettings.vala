@@ -6,18 +6,21 @@ public class DesktopFolder.NoteSettings: Object{
     public string name { get; set; }
     public string bgcolor { get; set; }
     public string fgcolor { get; set; }
+    public int clipcolor{ get; set; }
     public string text {get; set;}
 
     private File file;
 
     public NoteSettings(string name){
-        this.x=10;
-        this.y=10;
+        this.x=110;
+        this.y=110;
         this.bgcolor="yellow";
         this.fgcolor="dark";
+        this.clipcolor=Random.int_range(1,6);;
         this.name=name;
-        this.text="Hello World";
+        this.text="Lorem Ipsum";
     }
+
 
     /**
     * @name save

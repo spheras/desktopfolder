@@ -61,7 +61,8 @@ executable(
     asresources,
     c_args: c_args,
     dependencies: [
-        dependency('granite'),
+#        dependency('granite'),
+        dependency('gio-unix-2.0'),
         dependency('gee-0.8'),
         dependency('glib-2.0'),
         dependency('gobject-2.0'),

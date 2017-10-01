@@ -21,7 +21,7 @@
 * @class
 * The Main Application
 */
-public class DesktopFolderApp : Granite.Application {
+public class DesktopFolderApp : Gtk.Application {
 
     /** File Monitor of desktop folder */
     private FileMonitor monitor=null;
@@ -36,9 +36,11 @@ public class DesktopFolderApp : Granite.Application {
         this.flags = ApplicationFlags.FLAGS_NONE;
 
         /* Needed by Granite.Application */
+        /*
         this.program_name = _(DesktopFolder.APP_TITLE);
         this.exec_name = DesktopFolder.APP_NAME;
         this.build_version = DesktopFolder.VERSION;
+        */
     }
 
     /**
@@ -84,12 +86,25 @@ public class DesktopFolderApp : Granite.Application {
 
         create_shortchut();
 
+        //we need the app folder (desktop folder)
+        var desktopFolder = File.new_for_path (DesktopFolderApp.get_app_folder());
+        if(!desktopFolder.query_exists()){
+            DirUtils.create(DesktopFolderApp.get_app_folder(),0755);
+        }
+
         //initializing the clipboard manager
         DesktopFolder.Clipboard.ClipboardManager.get_for_display ();
 
         //providing css styles
         var provider = new Gtk.CssProvider ();
-        provider.load_from_resource ("org/spheras/desktopfolder/Application.css");
+        File cssfile=File.new_for_path ("/etc/debug_app.css");
+        if(cssfile.query_exists()){
+            debug("loading css provider from css");
+            provider.load_from_file(cssfile);
+        }else{
+            debug("loading css from app");
+            provider.load_from_resource ("org/spheras/desktopfolder/Application.css");
+        }
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
@@ -155,14 +170,15 @@ public class DesktopFolderApp : Granite.Application {
                     int index=basename.last_index_of(".",0);
                     if(index>0){
                         string ext=basename.substring(index+1);
+                        string note_name=basename.substring(0,index);
                         if(ext==DesktopFolder.NOTE_EXTENSION){
-                            debug("new note found!");
                             //a note!
                             totalNotes++;
                             //maybe this is an existent already monitored folder
-                            DesktopFolder.NoteManager nm=this.find_note_by_name(name);
+                            DesktopFolder.NoteManager nm=this.find_note_by_name(note_name);
                             if(nm==null){
-                                //we've found a directory, let's create a desktop-folder window
+                                debug("new note found!");
+                                //we've found a note file, let's create a note window
                                 nm=new DesktopFolder.NoteManager(this, basename.substring(0,index), file);
                             }else{
                                 this.notes.remove(nm);
@@ -176,17 +192,18 @@ public class DesktopFolderApp : Granite.Application {
             }
 
             //finally we close any other not existent folder
-            for(int i=0;i<this.folders.length();i++){
-                DesktopFolder.FolderManager fm=this.folders.nth(i).data;
+            while(this.folders.length()>0){
+                DesktopFolder.FolderManager fm=this.folders.nth(0).data;
                 fm.close();
+                this.folders.remove(fm);
             }
             this.folders=updated_folder_list.copy();
 
-
             //finally we close any other not existent note
-            for(int i=0;i<this.notes.length();i++){
-                DesktopFolder.NoteManager nm=this.notes.nth(i).data;
+            while(this.notes.length()>0){
+                DesktopFolder.NoteManager nm=this.notes.nth(0).data;
                 nm.close();
+                this.notes.remove(nm);
             }
             this.notes=updated_note_list.copy();
 
@@ -278,10 +295,21 @@ public class DesktopFolderApp : Granite.Application {
     */
     private void desktop_changed (GLib.File src, GLib.File? dest, FileMonitorEvent event) {
         //something changed at the desktop folder
-        debug("Desktop - Change Detected");
+        bool flagNote=false;
+
+        string basename=src.get_basename();
+        int index=basename.last_index_of(".",0);
+        if(index>0){
+            string ext=basename.substring(index+1);
+            if(ext==DesktopFolder.NOTE_EXTENSION){
+                flagNote=true;
+            }
+        }
+
         //new content inside
         var file_type= src.query_file_type (FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
-        if (file_type==FileType.DIRECTORY || !src.query_exists()){
+        if (flagNote || file_type==FileType.DIRECTORY || !src.query_exists()){
+            //debug("Desktop - Change Detected");
             //new directory or removed, we need to synchronize
             //removed directory
             this.sync_folders_and_notes();

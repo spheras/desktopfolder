@@ -1,3 +1,5 @@
+/* @import url("resource:/org/spheras/desktopfolder/Reset.css"); */
+
 /* NOTE COLORS */
 @define-color noteColorBackgroundYELLOW rgba(252,233,79,0.3);
 @define-color noteColorBackgroundORANGE rgba(252,175,62,0.3);
@@ -239,7 +241,6 @@
 .df_folder.window-frame, .df_folder.window-frame:backdrop {
     box-shadow: none;
     text-shadow: none;
-    icon-shadow: none;
 
     border-style: inset;
     border-radius:4px;
@@ -249,18 +250,15 @@
 .df_folder.background, .df_folder.background:backdrop {
     box-shadow: none;
     text-shadow: none;
-    icon-shadow: none;
 
     border-style: none;
     border-width:10px;
     border-color:red;
 }
 
-
 .df_folder .titlebar .title{
     box-shadow: none;
     text-shadow: none;
-    icon-shadow: none;
     padding-top:4px;
     padding-bottom:4px;
     padding-left:14px;
@@ -275,7 +273,6 @@
 
     box-shadow: none;
     text-shadow: none;
-    icon-shadow: none;
 
     border-style:none;
     border-width:1px;
@@ -299,6 +296,20 @@
     color:white;
 }
 
+.df_folder.dark .df_item.df_selected .df_icon, .df_folder.dark .df_item.df_selected .df_label{
+    color: @colorForegroundLIGHT;
+}
+
+.df_folder.light .df_icon, .df_folder.light .df_label{
+    color: @colorForegroundLIGHT;
+}
+.df_folder.dark .df_icon, .df_folder.dark .df_label{
+    color: @colorForegroundDARK;
+}
+.df_folder.headless .df_icon, .df_folder.headless .df_label{
+    color: @colorForegroundLIGHT;
+}
+
 .df_rename{
     margin:20px;
     padding:20px;
@@ -309,4 +320,24 @@
     font-size: 12px;
     font-weight: bold;
     opacity: 0.5;
+}
+
+
+.df_note_text{
+    font-weight: bold;
+    font-size: 12px;
+    background: rgba(0,0,255,0);
+}
+.df_note_text:selected{
+    background-color:rgba(0,0,0,0.5);
+}
+
+.df_folder.df_note.light .df_note_text{
+    color: @colorForegroundLIGHT;
+}
+.df_folder.df_note.dark .df_note_text{
+    color: @colorForegroundDARK;
+}
+.df_folder.df_note.headless .df_note_text{
+    color: @colorForegroundDARK;
 }

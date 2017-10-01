@@ -79,6 +79,9 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     * @return bool true->the operation was succesfull
     */
     public bool rename(string new_name){
+        if(new_name.length<=0){
+            return false;
+        }
         string old_name=this.file_name;
         string old_path=this.get_absolute_path();
         this.file_name=new_name;

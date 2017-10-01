@@ -39,8 +39,10 @@ public class DesktopFolder.FolderSettings: Object{
     * @param string name the name of the folder
     */
     public FolderSettings (string name) {
-        this.x=10;
-        this.y=10;
+        this.x=100;
+        this.y=100;
+        this.w=300;
+        this.h=300;
         this.bgcolor="black";
         this.fgcolor="light";
         this.name=name;

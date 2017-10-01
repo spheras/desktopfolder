@@ -24,10 +24,10 @@
 public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     /** parent manager of this window */
     private NoteManager manager=null;
-    /** container of widgets */
-    private Gtk.Fixed container=null;
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
+    /** the text view */
+    private Gtk.TextView text=null;
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
@@ -57,8 +57,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
                 decorated:true,
                 title: (manager.get_note_name()),
                 deletable:false,
-                height_request: 300,
-                width_request: 200);
+                width_request: 140,
+                height_request: 160
+                );
 
         this.set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
@@ -67,6 +68,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
         //let's load the settings of the folder (if exist or a new one)
         NoteSettings settings=this.manager.get_settings();
+        if(settings.w>0){
+            //applying existing position and size configuration
+            this.resize(settings.w,settings.h);
+        }
+        if(settings.x>0 || settings.y>0){
+            this.move(settings.x,settings.y);
+        }
         //we set a class to this window to manage the css
         this.get_style_context ().add_class ("df_folder");
         this.get_style_context ().add_class ("df_note");
@@ -74,15 +82,61 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         this.get_style_context ().add_class (settings.bgcolor);
         this.get_style_context ().add_class (settings.fgcolor);
 
-        //creating the container widget
-        this.container=new Gtk.Fixed();
-        add(this.container);
+        // Box:
+		Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
+        box.get_style_context ().add_class ("df_note_container");
+        box.set_border_width(20);
+		this.add (box);
+
+        // A ScrolledWindow:
+		Gtk.ScrolledWindow scrolled = new Gtk.ScrolledWindow (null, null);
+        scrolled.get_style_context ().add_class ("df_note_scroll");
+		box.pack_start (scrolled, true, true, 0);
+
+        // The TextView:
+	    this.text = new Gtk.TextView ();
+		this.text.set_wrap_mode (Gtk.WrapMode.WORD);
+        this.text.get_style_context ().add_class ("df_note_text");
+		this.text.buffer.text = this.manager.get_settings().text;
+		scrolled.add (this.text);
+
+        this.show_all();
 
         //connecting to events
-        //this.configure_event.connect (this.on_configure);
+        this.configure_event.connect (this.on_configure);
         this.button_press_event.connect(this.on_press);
         this.draw.connect(this.draw_background);
+
+        text.focus_out_event.connect(this.on_focus_out);
         //this.key_release_event.connect(this.on_key);
+    }
+
+    /**
+    * @name on_focus_out
+    * @description focus out event
+    * @param {Gdk.EventFocus} event the event launched
+    * @return bool @see focus_out_event signal
+    */
+    private bool on_focus_out (Gdk.EventFocus event){
+        var buffer=this.text.get_buffer();
+        var text=buffer.text;
+        var saved_text=this.manager.get_settings().text;
+        if(text!=saved_text){
+            this.manager.on_text_change(text);
+        }
+        return false;
+    }
+
+    /**
+    * @name on_configure
+    * @description the configure event is produced when the window change its dimensions or location settings
+    */
+    private bool on_configure(Gdk.EventConfigure event){
+        if(event.type==Gdk.EventType.CONFIGURE){
+            //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
+            this.manager.set_new_shape(event.x, event.y, event.width, event.height);
+        }
+        return false;
     }
 
     /**
@@ -124,11 +178,39 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             item.show();
             menu.append (item);
 
+            //menu to create a new folder
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            item.activate.connect ((item)=>{
+                    this.new_desktop_folder();
+            });
+            item.show();
+            menu.append (item);
+
+            //menu to create a new note
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+            item.activate.connect ((item)=>{
+                    this.new_note();
+            });
+            item.show();
+            menu.append (item);
+
+            item = new MenuItemSeparator();
+            item.show();
+            menu.append (item);
+
+
             //Option to rename the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
             item.activate.connect ((item)=>{this.rename_note();});
             item.show();
             menu.append (item);
+
+            //option to delete the current folder
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
+            item.activate.connect ((item)=>{this.delete_note();});
+            item.show();
+            menu.append (item);
+
 
             item = new MenuItemSeparator();
             item.show();
@@ -158,6 +240,69 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             ,event.button // button
             ,event.get_time() //Gtk.get_current_event_time() //time
             );
+    }
+
+
+    /**
+    * @name delete_note
+    * @description try to delete the current note
+    */
+    private void delete_note(){
+        //we need to ask and be sure
+        string message=DesktopFolder.Lang.NOTE_DELETE_MESSAGE;
+        Gtk.MessageDialog msg = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING,
+                                                       Gtk.ButtonsType.OK_CANCEL, message);
+        msg.use_markup=true;
+        msg.response.connect ((response_id) => {
+            switch (response_id) {
+				case Gtk.ResponseType.OK:
+                    msg.destroy();
+                    this.manager.delete();
+					break;
+                default:
+                    msg.destroy();
+                    break;
+                    //uff
+            }
+        });
+        msg.show ();
+    }
+
+
+    /**
+    * @name new_note
+    * @description show a dialog to create a new desktop folder
+    */
+    private void new_note(){
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.NOTE_ENTER_TITLE,
+                                                DesktopFolder.Lang.NOTE_ENTER_NAME,
+                                                DesktopFolder.Lang.NOTE_NEW);
+        dialog.on_rename.connect((new_name)=>{
+            //creating the folder
+            if(new_name!=""){
+                DesktopFolder.FolderManager.create_new_note(new_name);
+            }
+        });
+        dialog.show_all ();
+    }
+
+    /**
+    * @name new_desktop_folder
+    * @description show a dialog to create a new desktop folder
+    */
+    private void new_desktop_folder(){
+        RenameDialog dialog = new RenameDialog (this,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW);
+        dialog.on_rename.connect((new_name)=>{
+            //creating the folder
+            if(new_name!=""){
+                DesktopFolder.FolderManager.create_new_desktop_folder(new_name);
+            }
+        });
+        dialog.show_all ();
     }
 
     /**
@@ -233,31 +378,75 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         shape(cr,width,height);
         cr.clip ();
 
-        var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/hip-square.png");
-        var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
-        var pat = new Cairo.Pattern.for_surface (surface);
-        pat.set_extend (Cairo.Extend.REPEAT);
-        cr.set_source (pat);
-        cr.paint_with_alpha (0.9);
+        try{
+            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/hip-square.png");
+            var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
+            var pat = new Cairo.Pattern.for_surface (surface);
+            pat.set_extend (Cairo.Extend.REPEAT);
+            cr.set_source (pat);
+            cr.paint_with_alpha (0.9);
+        } catch (Error e) {
+            //error! ??
+            stderr.printf ("Error: %s\n", e.message);
+        }
 
         //drawing border
         shape(cr,width,height);
         cr.set_line_width (3.0);
-        cr.set_source_rgba (0, 0, 0, 1);
+        cr.set_source_rgba (0, 0, 0, 0.2);
         cr.stroke();
 
+        //drawing corner
+        draw_corner(cr,width,height);
+        cr.stroke();
 
         base.draw (cr);
 
         cr.reset_clip();
 
         //drawing clip
-        pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/clip.png");
-        var clip=Gdk.cairo_surface_create_from_pixbuf(pixbuf, 1, null);
-        cr.set_source_surface (clip, 5, 5);
-        cr.paint();
+        try{
+            int clipcolor=this.manager.get_settings().clipcolor;
+            var color="";
+            switch(clipcolor){
+                case 1:
+                    color= "blue";
+                    break;
+                case 2:
+                    color= "green";
+                    break;
+                case 3:
+                    color= "orange";
+                    break;
+                case 4:
+                    color= "pink";
+                    break;
+                case 5:
+                    color= "red";
+                    break;
+                default:
+                case 6:
+                    color= "yellow";
+                    break;
+            }
+            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/clip-"+color+".png");
+            var clip=Gdk.cairo_surface_create_from_pixbuf(pixbuf, 1, null);
+            cr.set_source_surface (clip, 5, 5);
+            cr.paint();
+        } catch (Error e) {
+            //error! ??
+            stderr.printf ("Error: %s\n", e.message);
+        }
 
         return true;
+    }
+
+    private void draw_corner(Cairo.Context cr, double width, double height){
+        int margin=15;
+        int rightRadius=25;
+        cr.move_to(width-margin-rightRadius,margin);
+        cr.line_to(width-margin-rightRadius,margin+rightRadius);
+        cr.line_to(width-margin,margin+rightRadius);
     }
 
     /**

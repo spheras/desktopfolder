@@ -54,6 +54,14 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
         this.application.add_window(this.view);
         this.view.show ();
 
+        //trying to put it in front of the rest
+        this.view.set_keep_below(false);
+        this.view.set_keep_above(true);
+        this.view.present();
+        this.view.set_keep_above(false);
+        this.view.set_keep_below(true);
+        //---------------------------------------
+
         //let's sync the files found at this folder
         this.sync_files(0,0);
 
@@ -247,7 +255,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     * @description create a new folder inside the desktop
     * @param string name the name of the new desktop folder
     */
-    public void create_new_desktop_folder(string name){
+    public static void create_new_desktop_folder(string name){
         //cancelling the current monitor
         DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+name,0755);
     }
@@ -257,7 +265,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     * @description create a new note inside the desktop
     * @param string name the name of the new note
     */
-    public void create_new_note(string name){
+    public static void create_new_note(string name){
         NoteSettings ns=new NoteSettings(name);
         string path=DesktopFolderApp.get_app_folder()+"/"+name+"."+DesktopFolder.NOTE_EXTENSION;
         File f=File.new_for_path (path);
@@ -322,6 +330,10 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     * @return bool true->everything is ok, false->something failed, rollback
     */
     public bool rename(string new_name){
+        if(new_name.length<=0){
+            return false;
+        }
+
         var old_name=this.folder_name;
         var old_path=this.get_absolute_path();
         this.folder_name=new_name;

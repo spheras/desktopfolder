@@ -57,9 +57,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 decorated:true,
                 title: (manager.get_folder_name()),
                 deletable:false,
-                height_request: 300,
-                width_request: 300);
+                default_width:300,
+                default_height:300,
+                height_request: 50,
+                width_request: 50);
 
+        debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         this.set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
         //setting the folder name
@@ -400,7 +403,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         dialog.on_rename.connect((new_name)=>{
             //creating the folder
             if(new_name!=""){
-                this.manager.create_new_desktop_folder(new_name);
+                DesktopFolder.FolderManager.create_new_desktop_folder(new_name);
             }
         });
         dialog.show_all ();
@@ -418,7 +421,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         dialog.on_rename.connect((new_name)=>{
             //creating the folder
             if(new_name!=""){
-                this.manager.create_new_note(new_name);
+                DesktopFolder.FolderManager.create_new_note(new_name);
             }
         });
         dialog.show_all ();

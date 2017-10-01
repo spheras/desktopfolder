@@ -58,7 +58,7 @@ namespace DesktopFolder.Lang {
     //Desktop-folder - The default name for the new text file to be created
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_NAME=_("new.txt");
     //Desktop-Folder - The message to confirm the deletion of a Desktop Folder
-    public const string DESKTOPFOLDER_DELETE_MESSAGE=_("This will DELETE the DESKTOP-FOLDER and ALL the files inside.\n<b>Are you sure?</b>");
+    public const string DESKTOPFOLDER_DELETE_MESSAGE=_("This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n<b>Are you sure?</b>");
     //Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
     public const string NOTE_ENTER_TITLE=_("New Note");
     //Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
@@ -67,10 +67,14 @@ namespace DesktopFolder.Lang {
     public const string NOTE_NEW=_("New Note");
     //Menu popup option to rename the note
     public const string NOTE_MENU_RENAME_NOTE=_("Rename this Note");
+    //Menu popup option to delete the note
+    public const string NOTE_MENU_DELETE_NOTE=_("Delete This Note");
     //Note - Dialog Title Message to rename the current note
     public const string NOTE_RENAME_TITLE=_("Rename Note");
     //Note - Dialog Message to rename the current note
     public const string NOTE_RENAME_MESSAGE=_("Enter the new name");
+    //Note - Dialog Message to DELETE the current note
+    public const string NOTE_DELETE_MESSAGE=_("This action will DELETE the Note.\n<b>Are you sure?</b>");
 
     //Item Menu - Open/Execute the file
     public const string ITEM_MENU_OPEN=_("Open");

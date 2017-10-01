@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: org.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-16 03:16+0200\n"
-"PO-Revision-Date: 2017-09-16 03:23+0200\n"
+"POT-Creation-Date: 2017-09-24 17:13+0200\n"
+"PO-Revision-Date: 2017-09-24 17:13+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,8 +24,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Devuelve a la vida tu Escritorio Minimalista \n"
-" Organiza ficheros en tu Escritorio usando Paneles."
+"Devuelve a la vida tu Escritorio minimalista \n"
+" Organiza tus ficheros en el escritorio usando Paneles."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:5
@@ -35,22 +35,22 @@ msgstr "_OK"
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:7
 msgid "_CANCEL"
-msgstr "_CANCELAR"
+msgstr "_CANCEL"
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:9
 msgid "There is nothing on the clipboard to paste"
-msgstr "No hay nada en el portapeles para pegar"
+msgstr "No hay nada en el portapapeles para pegar"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:11
 msgid "Cannot drop this file"
-msgstr "No se puede soltar este fichero"
+msgstr "No puedes soltar este fichero"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:13
 msgid "Invalid file name provided"
-msgstr "Nombre de fichero no válido"
+msgstr "Nombre de fichero inválido"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:15
@@ -77,124 +77,173 @@ msgstr "Cancelar"
 msgid "New Desktop-Folder Pane"
 msgstr "Nuevo Panel Desktop-Folder"
 
+#. Desktop-Folder menu - create a new Note
+#. Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
+#: src/LanguageText.vala:25 src/LanguageText.vala:63 src/LanguageText.vala:67
+msgid "New Note"
+msgstr "Nueva Nota"
+
 #. Desktop-Folder menu - create a new Folder
-#: src/LanguageText.vala:25
+#. Desktop-Folder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
+#: src/LanguageText.vala:27 src/LanguageText.vala:49
 msgid "New Folder"
 msgstr "Nueva Carpeta"
 
 #. Desktop-Folder menu - create a new empty Text File
-#: src/LanguageText.vala:27
+#. Desktop-Folder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
+#: src/LanguageText.vala:29 src/LanguageText.vala:55
 msgid "New Text File"
 msgstr "Nuevo Fichero de Texto"
 
 #. Desktop-Folder menu - rename a Desktop-Folder Pane
-#: src/LanguageText.vala:29
+#: src/LanguageText.vala:31
 msgid "Rename this Desktop-Folder"
-msgstr "Renombar este panel Desktop-Folder"
+msgstr "Renombrar este Panel"
 
 #. Desktop-Folder menu - remove a Desktop-Folder Pane
-#: src/LanguageText.vala:31
+#: src/LanguageText.vala:33
 msgid "Delete this Desktop-Folder"
-msgstr "Eliminar este panel Desktop-Folder"
+msgstr "Eliminar este Panel"
 
 #. Desktop-Folder menu - past from clipboard to the desktop-folder
-#: src/LanguageText.vala:33
+#: src/LanguageText.vala:35
 msgid "Paste"
 msgstr "Pegar"
 
 #. Desktop-Folder menu - show the about dialog
-#: src/LanguageText.vala:35
+#: src/LanguageText.vala:37
 msgid "About"
 msgstr "Acerca de..."
 
 #. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
-#: src/LanguageText.vala:37
+#: src/LanguageText.vala:39
 msgid "New Desktop-Folder Panel"
-msgstr "Nuevo Panel Desktop-Folder"
+msgstr "Nuevo panel Desktop-Folder"
+
+#. Desktop-Folder - Dialog Title Message to rename the current Desktop-Folder
+#: src/LanguageText.vala:41
+msgid "Rename Panel"
+msgstr "Renombrar Panel"
 
 #. Desktop-Folder - Dialog Message to rename the current Desktop-Folder
-#: src/LanguageText.vala:39
-msgid "Enter the new name for the Desktop-Folder"
-msgstr "Introduzca el nuevo nombre para el panel Desktop-Folder"
+#. Note - Dialog Message to rename the current note
+#. Item - Rename Dialog Message
+#: src/LanguageText.vala:43 src/LanguageText.vala:75 src/LanguageText.vala:96
+msgid "Enter the new name"
+msgstr "Introduzca el nuevo nombre"
+
+#. Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:45
+msgid "New Panel"
+msgstr "Nuevo Panel"
 
 #. Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:41
-msgid "Enter the name for the Desktop-Folder Panel"
-msgstr "Introduzca el nombre para el Panel Desktop-Folder"
-
 #. Desktop-Folder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
-#: src/LanguageText.vala:43
-msgid "Enter the name for the folder"
-msgstr "Introduzca el nombre para la carpeta"
+#. Desktop-Folder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
+#. Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:47 src/LanguageText.vala:51 src/LanguageText.vala:57
+#: src/LanguageText.vala:65
+msgid "Enter the name"
+msgstr "Introduzca el nombre"
 
 #. Desktop-folder - The default name for the new folder to be created
-#: src/LanguageText.vala:45
+#: src/LanguageText.vala:53
 msgid "new folder"
 msgstr "Nueva Carpeta"
 
-#. Desktop-Folder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
-#: src/LanguageText.vala:47
-msgid "Enter the name for the text file"
-msgstr "Introduca el nombre para el fichero de texto"
-
 #. Desktop-folder - The default name for the new text file to be created
-#: src/LanguageText.vala:49
+#: src/LanguageText.vala:59
 msgid "new.txt"
 msgstr "nuevo.txt"
 
 #. Desktop-Folder - The message to confirm the deletion of a Desktop Folder
-#: src/LanguageText.vala:51
+#: src/LanguageText.vala:61
 msgid ""
-"This will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"
+"This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el panel Desktop-Folder y TODO el contenido.\n"
+"Esta acción ELIMINARÁ el panel y TODOS los ficheros contenidos.\n"
 "<b>¿Estás seguro?</b>"
 
+#. Menu popup option to rename the note
+#: src/LanguageText.vala:69
+msgid "Rename this Note"
+msgstr "Renombrar esta Nota"
+
+#. Menu popup option to delete the note
+#: src/LanguageText.vala:71
+msgid "Delete This Note"
+msgstr "Eliminar esta Nota"
+
+#. Note - Dialog Title Message to rename the current note
+#: src/LanguageText.vala:73
+msgid "Rename Note"
+msgstr "Renombrar Nota"
+
+#. Note - Dialog Message to DELETE the current note
+#: src/LanguageText.vala:77
+msgid ""
+"This action will DELETE the Note.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+"Esta acción ELIMINARÁ la Nota.\n"
+"<b>¿Está seguro?</b>"
+
 #. Item Menu - Open/Execute the file
-#: src/LanguageText.vala:53
+#: src/LanguageText.vala:80
 msgid "Open"
 msgstr "Abrir"
 
 #. Item Menu - cut the file/folder
-#: src/LanguageText.vala:55
+#: src/LanguageText.vala:82
 msgid "Cut"
 msgstr "Cortar"
 
 #. Item Menu - copy the file/folder
-#: src/LanguageText.vala:57
+#: src/LanguageText.vala:84
 msgid "Copy"
 msgstr "Copiar"
 
 #. Item Menu - rename the file/folder
-#: src/LanguageText.vala:59
+#: src/LanguageText.vala:86
 msgid "Rename"
 msgstr "Renombrar"
 
 #. Item Menu - delete the file/folder
-#: src/LanguageText.vala:61
+#: src/LanguageText.vala:88
 msgid "Delete"
 msgstr "Eliminar"
 
 #. Item - Delete Folder Item Dialog message
-#: src/LanguageText.vala:63
+#: src/LanguageText.vala:90
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
 "Esta acción ELIMINARÁ la carpeta y TODO su contenido.\n"
-"<b>¿Estás seguro?</b>"
+"<b>¿Está seguro?</b>"
 
 #. Item - Delete File Item Dialog message
-#: src/LanguageText.vala:65
+#: src/LanguageText.vala:92
 msgid ""
 "This action will DELETE the file and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
 "Esta acción ELIMINARÁ el fichero.\n"
-"<b>¿Estás seguro?</b>"
+"<b>¿Está seguro?</b>"
 
-#. Item - Rename Dialog Message
-#: src/LanguageText.vala:67
-msgid "Enter the new name"
-msgstr "Introduca el nuevo nombre"
+#. Item - Rename Dialog Title
+#: src/LanguageText.vala:94
+msgid "Rename Item"
+msgstr "Renombrar"
+
+#. Name of the first desktop-folder panel, when no panels found
+#: src/LanguageText.vala:98
+msgid "My First Panel"
+msgstr "Mi Primer Panel"
+
+#. Hint to show desktop shortcut
+#: src/LanguageText.vala:100
+msgid "Press ⌘-D to Show Desktop"
+msgstr "Presione ⌘-D para mostrar el Escritorio"
