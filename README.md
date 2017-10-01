@@ -3,7 +3,7 @@ Come back to life your elementary desktop!
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/org.spheras.desktopfolder)
 
-![Desktop-Folder Banner](https://github.com/spheras/Desktop-Folder/blob/master/data/banner.png?raw=true)
+![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/banner.png)
 
 ## Description
 Organize your desktop using folders panels.Come back to life your minimalist desktop and organize it dropping files, folder, launchers, and notes!
