@@ -95,16 +95,9 @@ public class DesktopFolderApp : Gtk.Application {
         //initializing the clipboard manager
         DesktopFolder.Clipboard.ClipboardManager.get_for_display ();
 
-        //providing css styles
+        //providing css style
         var provider = new Gtk.CssProvider ();
-        File cssfile=File.new_for_path ("/etc/debug_app.css");
-        if(cssfile.query_exists()){
-            debug("loading css provider from css");
-            provider.load_from_file(cssfile);
-        }else{
-            debug("loading css from app");
-            provider.load_from_resource ("org/spheras/desktopfolder/Application.css");
-        }
+        provider.load_from_resource ("org/spheras/desktopfolder/Application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
@@ -177,7 +170,7 @@ public class DesktopFolderApp : Gtk.Application {
                             //maybe this is an existent already monitored folder
                             DesktopFolder.NoteManager nm=this.find_note_by_name(note_name);
                             if(nm==null){
-                                debug("new note found!");
+                                //debug("new note found!");
                                 //we've found a note file, let's create a note window
                                 nm=new DesktopFolder.NoteManager(this, basename.substring(0,index), file);
                             }else{

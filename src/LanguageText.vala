@@ -2,9 +2,11 @@ namespace DesktopFolder.Lang {
     //Application Description
     public const string APP_DESCRIPTION=_("Come back to life your minimalist Desktop \n Organize files at your Desktop using Panes.");
     //Generic Dialog OK Button
-    public const string DIALOG_OK=_("_OK");
+    public const string DIALOG_OK=_("_Ok");
     //Generic Dialog CANCEL Button
-    public const string DIALOG_CANCEL=_("_CANCEL");
+    public const string DIALOG_CANCEL=_("_Cancel");
+    //Generic Dialog Select Button
+    public const string DIALOG_SELECT=_("_Select");
     //Trying to paste and the clipboard is empty
     public const string CLIPBOARD_EMPTY=_("There is nothing on the clipboard to paste");
     //Dialog Error Title: Invalid Filename provided
@@ -76,8 +78,10 @@ namespace DesktopFolder.Lang {
     //Note - Dialog Message to DELETE the current note
     public const string NOTE_DELETE_MESSAGE=_("This action will DELETE the Note.\n<b>Are you sure?</b>");
 
-    //Item Menu - Open/Execute the file
+    //Item Menu - Open the file
     public const string ITEM_MENU_OPEN=_("Open");
+    //Item Menu - Execute the file
+    public const string ITEM_MENU_EXECUTE=_("Execute");
     //Item Menu - cut the file/folder
     public const string ITEM_MENU_CUT=_("Cut");
     //Item Menu - copy the file/folder
@@ -89,7 +93,9 @@ namespace DesktopFolder.Lang {
     //Item - Delete Folder Item Dialog message
     public const string ITEM_DELETE_FOLDER_MESSAGE=_("This action will DELETE the folder and ALL its content.\n<b>Are you sure?</b>");
     //Item - Delete File Item Dialog message
-    public const string ITEM_DELETE_FILE_MESSAGE=_("This action will DELETE the file and ALL its content.\n<b>Are you sure?</b>");
+    public const string ITEM_DELETE_FILE_MESSAGE=_("This action will DELETE the file.\n<b>Are you sure?</b>");
+    //Item - Delete File Link Dialog message
+    public const string ITEM_DELETE_LINK_MESSAGE=_("This action will DELETE the link (just the link).\n<b>Are you sure?</b>");
     //Item - Rename Dialog Title
     public const string ITEM_RENAME_TITLE=_("Rename Item");
     //Item - Rename Dialog Message
@@ -98,5 +104,10 @@ namespace DesktopFolder.Lang {
     public const string APP_FIRST_PANEL=_("My First Panel");
     //Hint to show desktop shortcut
     public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
-
+    //Menu option to create a link to a file
+    public const string DESKTOPFOLDER_MENU_NEW_FILE_LINK=_("New Link to File");
+    //Menu option to create a link to a folder
+    public const string DESKTOPFOLDER_MENU_NEW_FOLDER_LINK=_("New Link to Folder");
+    //Dialog message to create a new link
+    public const string DESKTOPFOLDER_LINK_MESSAGE=_("Select the destination file/folder of the link");
 }

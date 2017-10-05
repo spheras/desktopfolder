@@ -19,3 +19,10 @@ debian build
 from root directory -> $ debuild -uc -us
 
 hint: to execute rules -> ./debian/rules install
+
+
+GTK introspector
+················
+gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
+
+after that, press ctrl+shift+D on the window you want to debug

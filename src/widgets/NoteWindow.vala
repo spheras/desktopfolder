@@ -36,6 +36,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "transparent", "yellow", "orange", "brown", "green", "blue", "purple", "red", "gray", "black" };
 
+    static construct {
+
+    }
+
     construct {
         set_keep_below (true);
         stick ();
@@ -60,6 +64,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
                 width_request: 140,
                 height_request: 160
                 );
+
+        var headerbar = new Gtk.HeaderBar();
+        headerbar.set_title(manager.get_note_name());
+        //headerbar.set_subtitle("HeaderBar Subtitle");
+        //headerbar.set_show_close_button(true);
+        this.set_titlebar(headerbar);
 
         this.set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);

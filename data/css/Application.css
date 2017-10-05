@@ -1,5 +1,3 @@
-/* @import url("resource:/org/spheras/desktopfolder/Reset.css"); */
-
 /* NOTE COLORS */
 @define-color noteColorBackgroundYELLOW rgba(252,233,79,0.3);
 @define-color noteColorBackgroundORANGE rgba(252,175,62,0.3);
@@ -234,11 +232,11 @@
     border-color: @colorBackgroundORANGE;
 }
 
-.df_folder.df_note.window-frame, .df_folder.df_note.window-frame:backdrop {
+.df_folder.df_note.window-frame, .df_folder.df_note.window-frame:backdrop, decoration  {
     box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
 }
 
-.df_folder.window-frame, .df_folder.window-frame:backdrop {
+.df_folder.window-frame, .df_folder.window-frame:backdrop, .df_folder.header-bar, .df_folder.header-bar:backdrop, decoration  {
     box-shadow: none;
     text-shadow: none;
 
@@ -247,7 +245,7 @@
     border-width: 1px;
 }
 
-.df_folder.background, .df_folder.background:backdrop {
+.df_folder.background, .df_folder.background:backdrop, decoration {
     box-shadow: none;
     text-shadow: none;
 
@@ -263,19 +261,33 @@
     padding-bottom:4px;
     padding-left:14px;
     padding-right:14px;
+    /*
     margin-top:14px;
+    */
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+.titlebar{
+padding-top:0px;
+padding-bottom:0px;
 }
 
 .df_folder .titlebar,
 .df_folder .titlebar:backdrop{
     background-image: none;
-    padding:14px;
+    background:red;
+    padding-left:14px;
+    padding-right:14px;
 
     box-shadow: none;
     text-shadow: none;
 
     border-style:none;
     border-width:1px;
+
+    padding-top:0px;
+    padding-bottom:0px;
 }
 
 .df_item{
@@ -294,6 +306,7 @@
 
 .df_icon, .df_label{
     color:white;
+    font-weight:bold;
 }
 
 .df_folder.dark .df_item.df_selected .df_icon, .df_folder.dark .df_item.df_selected .df_label{
@@ -304,7 +317,7 @@
     color: @colorForegroundLIGHT;
 }
 .df_folder.dark .df_icon, .df_folder.dark .df_label{
-    color: @colorForegroundDARK;
+    color: #333;
 }
 .df_folder.headless .df_icon, .df_folder.headless .df_label{
     color: @colorForegroundLIGHT;
@@ -322,12 +335,16 @@
     opacity: 0.5;
 }
 
-
 .df_note_text{
     font-weight: bold;
     font-size: 12px;
     background: rgba(0,0,255,0);
 }
+
+.df_note_text text{
+background:rgba(0,0,0,0);
+}
+
 .df_note_text:selected{
     background-color:rgba(0,0,0,0.5);
 }

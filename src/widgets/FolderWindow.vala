@@ -62,7 +62,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 height_request: 50,
                 width_request: 50);
 
-        debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+        var headerbar = new Gtk.HeaderBar();
+        headerbar.set_title(manager.get_folder_name());
+        //headerbar.set_subtitle("HeaderBar Subtitle");
+        //headerbar.set_show_close_button(true);
+        this.set_titlebar(headerbar);
+
         this.set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
         //setting the folder name
@@ -186,6 +192,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_TEXT_FILE);
             item.activate.connect ((item)=>{
                     this.new_text_file((int)event.x, (int)event.y);
+            });
+            item.show();
+            menu.append (item);
+
+            //menu to create a new link file
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+            item.activate.connect ((item)=>{
+                    this.new_link((int)event.x, (int)event.y,false);
+            });
+            item.show();
+            menu.append (item);
+
+            //menu to create a new link folder
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+            item.activate.connect ((item)=>{
+                    this.new_link((int)event.x, (int)event.y,true);
             });
             item.show();
             menu.append (item);
@@ -464,6 +486,33 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             }
         });
         dialog.show_all ();
+    }
+
+    /**
+    * @name new_link
+    * @description create a new linnk item inside this folder
+    * @param int x the x position where the new item should be placed
+    * @param int y the y position where the new item should be placed
+    * @param bool folder to indicate if we want to select a folder or a file
+    */
+    private void new_link(int x, int y, bool folder){
+        Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+				DesktopFolder.Lang.DESKTOPFOLDER_LINK_MESSAGE, this, Gtk.FileChooserAction.OPEN,
+				DesktopFolder.Lang.DIALOG_CANCEL,
+				Gtk.ResponseType.CANCEL,
+				DesktopFolder.Lang.DIALOG_SELECT,
+				Gtk.ResponseType.ACCEPT);
+
+        if(folder){
+            chooser.set_action(Gtk.FileChooserAction.SELECT_FOLDER);
+        }
+        // Process response:
+		if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+            var filename=chooser.get_filename();
+            debug("file:%s",filename);
+            this.manager.create_new_link(filename, x, y);
+		}
+        chooser.close();
     }
 
     /**

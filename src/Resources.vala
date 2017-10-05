@@ -23,4 +23,6 @@ namespace DesktopFolder {
     public const string NOTE_EXTENSION="dfn";
     /** param to show the desktop */
     public const string PARAM_SHOW_DESKTOP="show-desktop";
+    public const int ICON_SIZE=48;
+
 }

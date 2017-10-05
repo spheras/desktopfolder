@@ -57,6 +57,32 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+    * @name is_link
+    * @description check whether the item is a link to other folder/file or not
+    * @return {bool} true-> yes it is a link
+    */
+    public bool is_link(){
+        var file=this.get_file();
+        var path=file.get_path();
+        return FileUtils.test (path, FileTest.IS_SYMLINK);
+    }
+
+    /**
+    * @name is_executable
+    * @description check whether the item is a executable
+    * @return {bool} true-> yes it is a executable
+    */
+    public bool is_executable(){
+        var file=this.get_file();
+        var path=file.get_path();
+        if(!this.is_folder()) {
+            return FileUtils.test (path, FileTest.IS_EXECUTABLE);
+        }else{
+            return false;
+        }
+    }
+
+    /**
     * @name select
     * @description the item is selected
     */
@@ -157,6 +183,10 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             if(this.is_desktop_file()){
                 GLib.DesktopAppInfo desktopApp=new GLib.DesktopAppInfo.from_filename(this.get_absolute_path());
                 desktopApp.launch_uris(null,null);
+            }else if(this.is_executable()){
+                var command="\""+this.get_absolute_path()+"\"";
+                var appinfo = AppInfo.create_from_commandline(command,null,AppInfoCreateFlags.NONE);
+                appinfo.launch_uris (null, null);
             }else{
                 var command="xdg-open \""+this.folder.get_absolute_path()+"/"+this.file_name+"\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
@@ -220,8 +250,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     * @return bool true->the item is a folder
     */
     public bool is_folder(){
-        FileType type=this.get_file_type();
-        return type==FileType.DIRECTORY;
+        return FileUtils.test (this.get_absolute_path(), FileTest.IS_DIR);
     }
 
     /**

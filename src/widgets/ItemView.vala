@@ -20,7 +20,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
     //NOT SURE ABOUT THESE CONSTANTS!!! TODO!!!!!
     public const int PADDING_X=13;
-    public const int PADDING_Y=41;
+    public const int PADDING_Y=47;
     //DEFAULT SIZES
     private const int DEFAULT_WIDTH=48;
     private const int DEFAULT_HEIGHT=68;
@@ -44,7 +44,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private Gtk.Label label;
 
     /** set of variables to allow move the widget */
-    private const int SENSITIVITY = 10;
+    private const int SENSITIVITY = 4;
     private int offsetx;
     private int offsety;
     private int px;
@@ -52,6 +52,19 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private int maxx;
     private int maxy;
     /** ----------------------------------------- */
+
+    //this is the link image loaded
+    static Gdk.Pixbuf LINK_PIXBUF=null;
+    static construct {
+        try{
+            int scale=DesktopFolder.ICON_SIZE/3;
+            ItemView.LINK_PIXBUF=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/link.svg");
+            ItemView.LINK_PIXBUF=LINK_PIXBUF.scale_simple(scale,scale,Gdk.InterpType.BILINEAR);
+        }catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+    }
 
     /**
     * @constructor
@@ -77,14 +90,25 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.container.margin=0;
         this.container.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         try {
-            var fileInfo=this.manager.get_file().query_info("standard::icon",FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
             Gtk.Image icon;
+            var fileInfo=this.manager.get_file().query_info("standard::icon",FileQueryInfoFlags.NONE);
             if(this.manager.is_desktop_file()){
                 GLib.DesktopAppInfo desktopApp=new GLib.DesktopAppInfo.from_filename(this.manager.get_absolute_path());
-                icon=new Gtk.Image.from_gicon(desktopApp.get_icon(),Gtk.IconSize.DIALOG);
+                GLib.Icon gicon=desktopApp.get_icon();
+                if(this.manager.is_link()){
+                    icon=this.draw_link_mark(gicon);
+                }else{
+                    icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
+                }
             }else{
-                icon=new Gtk.Image.from_gicon(fileInfo.get_icon(),Gtk.IconSize.DIALOG);
+                GLib.Icon gicon=fileInfo.get_icon();
+                if(this.manager.is_link()){
+                    icon=this.draw_link_mark(gicon);
+                }else{
+                    icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
+                }
             }
+
             icon.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
             icon.get_style_context ().add_class ("df_icon");
             string slabel=this.get_correct_label(this.manager.get_file_name());
@@ -100,6 +124,35 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         }
 
         this.add(this.container);
+    }
+
+    /**
+    * @name draw_link_mark
+    * @description draw a link mark over the image of an icon
+    * @param gicon {GLib.Icon} the icon we want to modify and add the mark
+    * @result {Gtk.Image} the image produced
+    */
+    private Gtk.Image draw_link_mark(GLib.Icon gicon){
+        try{
+            Gtk.IconTheme theme=Gtk.IconTheme.get_default();
+            Gtk.IconInfo iconInfo=theme.lookup_by_gicon(gicon, ICON_SIZE,0);
+            Gdk.Pixbuf pixbuf=iconInfo.load_icon();
+            var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
+            var context = new Cairo.Context (surface);
+
+            int scale=DesktopFolder.ICON_SIZE/3;
+            var links=Gdk.cairo_surface_create_from_pixbuf(ItemView.LINK_PIXBUF, 1, null);
+            context.set_source_surface (links, ICON_SIZE-scale, ICON_SIZE-scale);
+            context.paint();
+
+            pixbuf=Gdk.pixbuf_get_from_surface(surface,0,0,ICON_SIZE,ICON_SIZE);
+            Gtk.Image icon=new Gtk.Image.from_pixbuf(pixbuf);
+            return icon;
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+        return null as Gtk.Image;
     }
 
     /**
@@ -306,7 +359,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             //building the menu
             this.menu = new Gtk.Menu ();
 
-            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN);
+            var label=DesktopFolder.Lang.ITEM_MENU_OPEN;
+            if(this.manager.is_executable()){
+                label=DesktopFolder.Lang.ITEM_MENU_EXECUTE;
+            }
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (label);
             item.activate.connect ((item)=>{
                 this.manager.execute();
             });
@@ -380,6 +437,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         bool isdir=this.manager.is_folder();
         if(!isdir){
             message=DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
+        }
+        if(this.manager.is_link()){
+            message=DesktopFolder.Lang.ITEM_DELETE_LINK_MESSAGE;
         }
 
         Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
@@ -475,5 +535,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     		return (i/m+1)*m;
     	return i/m*m;
     }
+
 
 }

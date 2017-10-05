@@ -300,6 +300,36 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     }
 
     /**
+    * @name create_new_link
+    * @description create a new link inside this folder
+    * @param string target the target of the new link file
+    * @param int x the x position of the new file
+    * @param int y the y position of the new file
+    */
+    public void create_new_link(string target, int x, int y){
+        //cancelling the current monitor
+        this.monitor.cancel();
+
+        //we create the text file with a touch command
+        try {
+            var file = File.new_for_path (target);
+            var name=file.get_basename();
+            var command="ln -s \""+target+"\" \""+ this.get_absolute_path()+"/"+name+"\"";
+            //debug("command: %s"+command);
+            var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+            appinfo.launch_uris (null, null);
+
+            //forcing the sync of the files as a new folder has been created
+            this.sync_files(x,y);
+            //monitoring again
+            this.monitor_folder();
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+    }
+
+    /**
     * @name delete
     * @description deleting myself!!
     */
