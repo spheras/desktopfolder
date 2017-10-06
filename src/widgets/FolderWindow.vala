@@ -408,10 +408,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 return element;
             }
         }
-        return (ItemView)null;
+        return null as ItemView;
     }
-
-
 
     /**
     * @name new_desktop_folder

@@ -42,6 +42,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private Gtk.Box container;
     /** the label of the icon */
     private Gtk.Label label;
+    /** the image shown */
+    private Gtk.Image icon=null;
 
     /** set of variables to allow move the widget */
     private const int SENSITIVITY = 4;
@@ -89,34 +91,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.container=new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
         this.container.margin=0;
         this.container.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
-        try {
-            Gtk.Image icon;
-            var fileInfo=this.manager.get_file().query_info("standard::icon",FileQueryInfoFlags.NONE);
-            if(this.manager.is_desktop_file()){
-                GLib.DesktopAppInfo desktopApp=new GLib.DesktopAppInfo.from_filename(this.manager.get_absolute_path());
-                GLib.Icon gicon=desktopApp.get_icon();
-                if(this.manager.is_link()){
-                    icon=this.draw_link_mark(gicon);
-                }else{
-                    icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
-                }
-            }else{
-                GLib.Icon gicon=fileInfo.get_icon();
-                if(this.manager.is_link()){
-                    icon=this.draw_link_mark(gicon);
-                }else{
-                    icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
-                }
-            }
 
-            icon.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
-            icon.get_style_context ().add_class ("df_icon");
+        try{
+            this.refresh_icon();
             string slabel=this.get_correct_label(this.manager.get_file_name());
             this.label=new Gtk.Label (slabel);
             this.label.set_size_request(DEFAULT_WIDTH,20);
             this.label.get_style_context ().add_class ("df_label");
             this.check_ellipse(slabel);
-            this.container.pack_start(icon,true,true);
             this.container.pack_end(label,true,true);
         }catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
@@ -127,16 +109,93 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
-    * @name draw_link_mark
+    * @name refresh_icon
+    * @description force to refresh the icon imagen shown
+    */
+    public void refresh_icon(){
+        Gtk.Image newImage=this.calculate_icon();
+        if(this.icon!=null){
+            this.container.remove (this.icon);
+        }
+        this.icon=newImage;
+        this.icon.set_size_request(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+        this.icon.get_style_context ().add_class ("df_icon");
+        this.container.pack_start(this.icon,true,true);
+        this.show_all();
+    }
+
+    /**
+    * @name calculate_icon
+    * @description calculate the icon image to show
+    * @return Gtk.Image the image to be shown
+    */
+    private Gtk.Image calculate_icon(){
+        try {
+            Gtk.Image icon;
+            var fileInfo=this.manager.get_file().query_info("standard::icon",FileQueryInfoFlags.NONE);
+            if(manager.get_settings().icon!=null && manager.get_settings().icon.length>0){
+                //we have a custom icon
+                int scale=DesktopFolder.ICON_SIZE;
+                Gdk.Pixbuf custom=new Gdk.Pixbuf.from_file(manager.get_settings().icon);
+                custom=custom.scale_simple(scale,scale,Gdk.InterpType.BILINEAR);
+                if(this.manager.is_link()){
+                    icon=this.draw_link_mark_pixbuf(custom);
+                }else{
+                    icon=new Gtk.Image.from_pixbuf(custom);
+                }
+            }else{
+                if(this.manager.is_desktop_file()){
+                    GLib.DesktopAppInfo desktopApp=new GLib.DesktopAppInfo.from_filename(this.manager.get_absolute_path());
+                    GLib.Icon gicon=desktopApp.get_icon();
+                    if(this.manager.is_link()){
+                        icon=this.draw_link_mark_gicon(gicon);
+                    }else{
+                        icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
+                    }
+                }else{
+                    GLib.Icon gicon=fileInfo.get_icon();
+                    if(this.manager.is_link()){
+                        icon=this.draw_link_mark_gicon(gicon);
+                    }else{
+                        icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
+                    }
+                }
+            }
+            return icon;
+        }catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+        return null as Gtk.Image;
+    }
+
+    /**
+    * @name draw_link_mark_gicon
     * @description draw a link mark over the image of an icon
     * @param gicon {GLib.Icon} the icon we want to modify and add the mark
     * @result {Gtk.Image} the image produced
     */
-    private Gtk.Image draw_link_mark(GLib.Icon gicon){
+    private Gtk.Image draw_link_mark_gicon(GLib.Icon gicon){
         try{
             Gtk.IconTheme theme=Gtk.IconTheme.get_default();
             Gtk.IconInfo iconInfo=theme.lookup_by_gicon(gicon, ICON_SIZE,0);
             Gdk.Pixbuf pixbuf=iconInfo.load_icon();
+            return this.draw_link_mark_pixbuf(pixbuf);
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog("Error",e.message);
+        }
+        return null as Gtk.Image;
+    }
+
+    /**
+    * @name draw_link_mark_pixbuf
+    * @description draw a link mark over a pixbuf
+    * @param pixbuf {Gdk.Pixbuf} the pixbuf to modify
+    * @result {Gtk.Image} the image produced
+    */
+    private Gtk.Image draw_link_mark_pixbuf(Gdk.Pixbuf pixbuf){
+        try{
             var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
             var context = new Cairo.Context (surface);
 
@@ -145,14 +204,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             context.set_source_surface (links, ICON_SIZE-scale, ICON_SIZE-scale);
             context.paint();
 
-            pixbuf=Gdk.pixbuf_get_from_surface(surface,0,0,ICON_SIZE,ICON_SIZE);
-            Gtk.Image icon=new Gtk.Image.from_pixbuf(pixbuf);
+            var pixbuf2=Gdk.pixbuf_get_from_surface(surface,0,0,ICON_SIZE,ICON_SIZE);
+            Gtk.Image icon=new Gtk.Image.from_pixbuf(pixbuf2);
             return icon;
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog("Error",e.message);
         }
-        return null as Gtk.Image;
     }
 
     /**
@@ -398,6 +456,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             item.show();
             menu.append (item);
 
+            if(this.manager.is_executable()){
+                item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CHANGEICON);
+                item.activate.connect ((item)=>{this.change_icon();});
+                item.show();
+                menu.append (item);
+            }
+
             menu.show_all();
         //}
 
@@ -482,6 +547,41 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         });
         dialog.show_all ();
     }
+
+    /**
+    * @name change_icon
+    * @description change the icon of an executable item
+    */
+    private void change_icon(){
+        Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+				DesktopFolder.Lang.ITEM_CHANGEICON_MESSAGE, this.manager.get_application_window(),
+                Gtk.FileChooserAction.OPEN,
+				DesktopFolder.Lang.DIALOG_CANCEL,
+				Gtk.ResponseType.CANCEL,
+				DesktopFolder.Lang.DIALOG_SELECT,
+				Gtk.ResponseType.ACCEPT);
+
+          Gtk.FileFilter filter = new Gtk.FileFilter();
+          filter.set_name("Images");
+          filter.add_mime_type("image");
+          filter.add_mime_type("image/png");
+          filter.add_mime_type("image/jpeg");
+          filter.add_mime_type("image/gif");
+          filter.add_pattern("*.png");
+          filter.add_pattern("*.jpg");
+          filter.add_pattern("*.gif");
+          filter.add_pattern("*.tif");
+          filter.add_pattern("*.xpm");
+          chooser.add_filter(filter);
+
+        // Process response:
+		if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+            var filename=chooser.get_filename();
+            this.manager.change_icon(filename);
+		}
+        chooser.close();
+    }
+
 
     /**
     * @name on_motion

@@ -99,6 +99,28 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+    * @name change_icon
+    * @description change the icon for the item
+    */
+    public void change_icon(string filename){
+        ItemSettings is=this.folder.get_settings().get_item(this.get_file_name());
+        is.icon=filename;
+        this.folder.get_settings().set_item(is);
+        this.folder.get_settings().save();
+        this.view.refresh_icon();
+    }
+
+
+    /**
+    * @name get_settings
+    * @description return the settings of the item
+    * @return ItemSettings the settings
+    */
+    public ItemSettings get_settings() {
+        return this.folder.get_settings().get_item(this.get_file_name());
+    }
+
+    /**
     * @name rename
     * @description rename the current item (file or folder)
     * @param new_name string the new name for this item

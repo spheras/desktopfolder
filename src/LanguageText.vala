@@ -22,7 +22,7 @@ namespace DesktopFolder.Lang {
     //Drop Menu - Cancel
     public const string DROP_MENU_CANCEL=_("Cancel");
     //Desktop-Folder menu - create a new Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("New Desktop-Folder Pane");
+    public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("New Panel");
     //Desktop-Folder menu - create a new Note
     public const string DESKTOPFOLDER_MENU_NEW_NOTE=_("New Note");
     //Desktop-Folder menu - create a new Folder
@@ -30,15 +30,15 @@ namespace DesktopFolder.Lang {
     //Desktop-Folder menu - create a new empty Text File
     public const string DESKTOPFOLDER_MENU_NEW_TEXT_FILE=_("New Text File");
     //Desktop-Folder menu - rename a Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER=_("Rename this Desktop-Folder");
+    public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER=_("Rename this Panel");
     //Desktop-Folder menu - remove a Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER=_("Delete this Desktop-Folder");
+    public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER=_("Delete this Panel");
     //Desktop-Folder menu - past from clipboard to the desktop-folder
     public const string DESKTOPFOLDER_MENU_PASTE=_("Paste");
     //Desktop-Folder menu - show the about dialog
     public const string DESKTOPFOLDER_MENU_ABOUT=_("About");
     //Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
-    public const string DESKTOPFOLDER_NEW=_("New Desktop-Folder Panel");
+    public const string DESKTOPFOLDER_NEW=_("New Panel");
     //Desktop-Folder - Dialog Title Message to rename the current Desktop-Folder
     public const string DESKTOPFOLDER_RENAME_TITLE=_("Rename Panel");
     //Desktop-Folder - Dialog Message to rename the current Desktop-Folder
@@ -90,12 +90,16 @@ namespace DesktopFolder.Lang {
     public const string ITEM_MENU_RENAME=_("Rename");
     //Item Menu - delete the file/folder
     public const string ITEM_MENU_DELETE=_("Delete");
+    //Item Menu - change icon
+    public const string ITEM_MENU_CHANGEICON=_("Change Icon");
     //Item - Delete Folder Item Dialog message
     public const string ITEM_DELETE_FOLDER_MESSAGE=_("This action will DELETE the folder and ALL its content.\n<b>Are you sure?</b>");
     //Item - Delete File Item Dialog message
     public const string ITEM_DELETE_FILE_MESSAGE=_("This action will DELETE the file.\n<b>Are you sure?</b>");
     //Item - Delete File Link Dialog message
     public const string ITEM_DELETE_LINK_MESSAGE=_("This action will DELETE the link (just the link).\n<b>Are you sure?</b>");
+    //Item - Change icon dialog message to select an image file
+    public const string ITEM_CHANGEICON_MESSAGE=_("Select the image icon to be used.");
     //Item - Rename Dialog Title
     public const string ITEM_RENAME_TITLE=_("Rename Item");
     //Item - Rename Dialog Message
