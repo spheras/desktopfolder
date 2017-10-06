@@ -351,6 +351,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         //this is the delete key code
         const int DELETE_KEY=65535;
         const int F2_KEY=65471;
+        const int INTRO_KEY=65293;
 
         //check if the control key is pressed
         var mods = event.state & Gtk.accelerator_get_default_mod_mask ();
@@ -391,6 +392,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         }else if(control_pressed && event.type==Gdk.EventType.KEY_RELEASE && (key=='v' || key=='V')){
             //ctrl+v key pressed
             this.manager.paste();
+        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==INTRO_KEY){
+            ItemView selected=this.get_selected_item();
+            if(selected!=null) {
+                selected.execute();
+                return true;
+            }
         }
         return false;
     }
