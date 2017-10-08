@@ -1,7 +1,7 @@
 # Desktop-Folder
 Come back to life your elementary desktop!  (BETA YET!)
 
-NOT YET IN APPCENTER! 
+NOT YET IN APPCENTER!
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/org.spheras.desktopfolder)
 
 ![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/banner.png)
@@ -11,7 +11,11 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 - Color and Transparent Panels
 - Resize and position everything
 - Drop files/folders everywhere
+- Drop launchers .desktop to panels
+- Create soft links to files and folders
 - Create colorful notes
+- Show Desktop Hotkey ⌘-D
+- Autostart on login
 - Open source project
 
 ![Example1](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif01.gif)
@@ -23,7 +27,6 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:
 
-* libgranite-dev
 * libgee-0.8-dev,
 * libcairo2-dev,
 * libjson-glib-dev,

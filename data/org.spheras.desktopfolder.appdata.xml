@@ -12,6 +12,8 @@
             <li>Color and Transparent Panels</li>
             <li>Resize and position everything over your Desktop</li>
             <li>Drop files/folders everywhere</li>
+            <li>Drop launchers .desktop to panels</li>
+            <li>Create soft links to files and folders</li>
             <li>Create colorful notes</li>
             <li>Show Desktop Hotkey ⌘-D</li>
             <li>Autostart on login</li>
@@ -49,7 +51,7 @@
         </screenshot>
     </screenshots>
     <developer_name>José Amuedo</developer_name>
-    <url type="homepage">https://github.com/spheras</url>
+    <url type="homepage">https://github.com/spheras/Desktop-Folder</url>
     <url type="bugtracker">https://github.com/spheras/Desktop-Folder/issues</url>
     <custom>
         <value key="x-appcenter-color-primary">#e9f4fc</value>

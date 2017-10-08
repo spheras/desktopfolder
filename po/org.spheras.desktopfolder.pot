@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: org.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-05 22:55+0200\n"
+"POT-Creation-Date: 2017-10-06 23:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,8 +75,10 @@ msgid "Cancel"
 msgstr ""
 
 #. Desktop-Folder menu - create a new Desktop-Folder Pane
-#: src/LanguageText.vala:25
-msgid "New Desktop-Folder Pane"
+#. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
+#. Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:25 src/LanguageText.vala:41 src/LanguageText.vala:47
+msgid "New Panel"
 msgstr ""
 
 #. Desktop-Folder menu - create a new Note
@@ -100,12 +102,12 @@ msgstr ""
 
 #. Desktop-Folder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:33
-msgid "Rename this Desktop-Folder"
+msgid "Rename this Panel"
 msgstr ""
 
 #. Desktop-Folder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:35
-msgid "Delete this Desktop-Folder"
+msgid "Delete this Panel"
 msgstr ""
 
 #. Desktop-Folder menu - past from clipboard to the desktop-folder
@@ -118,11 +120,6 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
-#: src/LanguageText.vala:41
-msgid "New Desktop-Folder Panel"
-msgstr ""
-
 #. Desktop-Folder - Dialog Title Message to rename the current Desktop-Folder
 #: src/LanguageText.vala:43
 msgid "Rename Panel"
@@ -131,13 +128,8 @@ msgstr ""
 #. Desktop-Folder - Dialog Message to rename the current Desktop-Folder
 #. Note - Dialog Message to rename the current note
 #. Item - Rename Dialog Message
-#: src/LanguageText.vala:45 src/LanguageText.vala:77 src/LanguageText.vala:102
+#: src/LanguageText.vala:45 src/LanguageText.vala:77 src/LanguageText.vala:106
 msgid "Enter the new name"
-msgstr ""
-
-#. Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:47
-msgid "New Panel"
 msgstr ""
 
 #. Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
@@ -218,53 +210,63 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#. Item - Delete Folder Item Dialog message
+#. Item Menu - change icon
 #: src/LanguageText.vala:94
+msgid "Change Icon"
+msgstr ""
+
+#. Item - Delete Folder Item Dialog message
+#: src/LanguageText.vala:96
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
 
 #. Item - Delete File Item Dialog message
-#: src/LanguageText.vala:96
+#: src/LanguageText.vala:98
 msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
 
 #. Item - Delete File Link Dialog message
-#: src/LanguageText.vala:98
+#: src/LanguageText.vala:100
 msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
 
+#. Item - Change icon dialog message to select an image file
+#: src/LanguageText.vala:102
+msgid "Select the image icon to be used."
+msgstr ""
+
 #. Item - Rename Dialog Title
-#: src/LanguageText.vala:100
+#: src/LanguageText.vala:104
 msgid "Rename Item"
 msgstr ""
 
 #. Name of the first desktop-folder panel, when no panels found
-#: src/LanguageText.vala:104
+#: src/LanguageText.vala:108
 msgid "My First Panel"
 msgstr ""
 
 #. Hint to show desktop shortcut
-#: src/LanguageText.vala:106
+#: src/LanguageText.vala:110
 msgid "Press ⌘-D to Show Desktop"
 msgstr ""
 
 #. Menu option to create a link to a file
-#: src/LanguageText.vala:108
+#: src/LanguageText.vala:112
 msgid "New Link to File"
 msgstr ""
 
 #. Menu option to create a link to a folder
-#: src/LanguageText.vala:110
+#: src/LanguageText.vala:114
 msgid "New Link to Folder"
 msgstr ""
 
 #. Dialog message to create a new link
-#: src/LanguageText.vala:112
+#: src/LanguageText.vala:116
 msgid "Select the destination file/folder of the link"
 msgstr ""

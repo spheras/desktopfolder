@@ -28,6 +28,8 @@ public class DesktopFolder.ItemSettings: Object{
     public int x { get; set; }
     /** y position */
     public int y { get; set; }
+    /** the icon for this file */
+    public string icon{get; set;}
 
     /**
     * @constructor
@@ -36,6 +38,7 @@ public class DesktopFolder.ItemSettings: Object{
         this.name="helloWorld.txt";
         this.x=5;
         this.x=5;
+        this.icon="";
 	}
 
     /**
@@ -43,7 +46,7 @@ public class DesktopFolder.ItemSettings: Object{
     * @description convert to string the item
     */
     public string to_string(){
-        return this.name + ";%d;%d".printf(this.x ,this.y);
+        return "%s;%d;%d;%s".printf(this.name,this.x ,this.y,this.icon);
     }
 
     /**
@@ -58,6 +61,9 @@ public class DesktopFolder.ItemSettings: Object{
         result.name=split[0];
         result.x=int.parse(split[1]);
         result.y=int.parse(split[2]);
+        if(split.length>3){
+            result.icon=split[3];
+        }
         return result;
     }
 }
