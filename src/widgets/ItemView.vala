@@ -420,6 +420,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     */
     private void on_double_click(){
         //debug("doble click! %s",this.fileName);
+        this.execute();
+    }
+
+    public void execute(){
         this.manager.execute();
     }
 
@@ -653,6 +657,4 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     		return (i/m+1)*m;
     	return i/m*m;
     }
-
-
 }
