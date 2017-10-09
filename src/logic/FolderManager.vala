@@ -179,7 +179,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     * @param y int the y position where any new item found should be positioned, <=0 if this algorithm must decide
     */
     private void sync_files(int x, int y){
-        //debug("syncingfiles for folder %s, %d, %d",this.folderName, x, y);
+        debug("syncingfiles for folder %s, %d, %d",this.get_folder_name(), x, y);
         try {
             this.load_folder_settings();
             this.clear_all();
@@ -191,6 +191,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
             FileInfo file_info;
             while ((file_info = enumerator.next_file ()) != null) {
                 string file_name=file_info.get_name();
+                debug("found:%s", file_name);
                 File file = File.new_for_commandline_arg (base_path + "/" + file_name);
 
                     if(file_name.index_of(".",0)!=0){
@@ -319,7 +320,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
             var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
             appinfo.launch_uris (null, null);
 
-            //forcing the sync of the files as a new folder has been created
+            //forcing the sync of the files as a new lynk has been created
             this.sync_files(x,y);
             //monitoring again
             this.monitor_folder();

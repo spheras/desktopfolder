@@ -153,11 +153,29 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                         icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
                     }
                 }else{
-                    GLib.Icon gicon=fileInfo.get_icon();
-                    if(this.manager.is_link()){
-                        icon=this.draw_link_mark_gicon(gicon);
+
+                    var ctypeInfo = this.manager.get_file().query_info("standard::content-type", FileQueryInfoFlags.NONE);
+                    string contentType=ctypeInfo.get_content_type();
+                    string mimeType=GLib.ContentType.get_mime_type(contentType);
+                    var isImage=GLib.ContentType.is_a(mimeType,"image/*");
+                    if(mimeType!=null && isImage){
+                        //reading the image to show it
+                        int scale=DesktopFolder.ICON_SIZE;
+                        Gdk.Pixbuf custom=new Gdk.Pixbuf.from_file(this.manager.get_file().get_path());
+                        custom=custom.scale_simple(scale,scale,Gdk.InterpType.BILINEAR);
+                        if(this.manager.is_link()){
+                            icon=this.draw_link_mark_pixbuf(custom);
+                        }else{
+                            icon=new Gtk.Image.from_pixbuf(custom);
+                        }
                     }else{
-                        icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
+                        //we get the default icon from the system
+                        GLib.Icon gicon=fileInfo.get_icon();
+                        if(this.manager.is_link()){
+                            icon=this.draw_link_mark_gicon(gicon);
+                        }else{
+                            icon=new Gtk.Image.from_gicon(gicon,Gtk.IconSize.DIALOG);
+                        }
                     }
                 }
             }

@@ -31,7 +31,7 @@ namespace DesktopFolder.Util
     	dialog.set_transient_for (parent);
     	dialog.set_modal (true);
 
-    	dialog.authors = {"José Amuedo - spheras - Just for learning"};
+    	dialog.authors = {"José Amuedo - spheras - Just for learning", "José Ignacio Centeno - Arrow Keys selection"};
         /*
         dialog.artists = {"Darkwing Duck", "Launchpad McQuack"};
     	dialog.documenters = null; // Real inventors don't document.
