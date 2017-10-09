@@ -423,6 +423,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.execute();
     }
 
+    /**
+    * @name execute
+    * @description execute the action associated with the item
+    */
     public void execute(){
         this.manager.execute();
     }
