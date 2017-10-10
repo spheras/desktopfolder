@@ -175,6 +175,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             item.show();
             menu.append (item);
 
+            //menu to create a new photo
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+            item.activate.connect ((item)=>{
+                    this.new_photo();
+            });
+            item.show();
+            menu.append (item);
+
 
             item = new MenuItemSeparator();
             item.show();
@@ -438,7 +446,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
 
     /**
     * @name new_note
-    * @description show a dialog to create a new desktop folder
+    * @description show a dialog to create a new note
     */
     private void new_note(){
         RenameDialog dialog = new RenameDialog (this,
@@ -452,6 +460,42 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             }
         });
         dialog.show_all ();
+    }
+
+    /**
+    * @name new_photo
+    * @description show a dialog to create a new photo
+    */
+    private void new_photo(){
+
+        Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+				DesktopFolder.Lang.PHOTO_SELECT_PHOTO_MESSAGE, this.manager.get_application_window(),
+                Gtk.FileChooserAction.OPEN,
+				DesktopFolder.Lang.DIALOG_CANCEL,
+				Gtk.ResponseType.CANCEL,
+				DesktopFolder.Lang.DIALOG_SELECT,
+				Gtk.ResponseType.ACCEPT);
+
+        Gtk.FileFilter filter = new Gtk.FileFilter();
+        filter.set_name("Images");
+        filter.add_mime_type("image");
+        filter.add_mime_type("image/png");
+        filter.add_mime_type("image/jpeg");
+        filter.add_mime_type("image/gif");
+        filter.add_pattern("*.png");
+        filter.add_pattern("*.jpg");
+        filter.add_pattern("*.gif");
+        filter.add_pattern("*.tif");
+        filter.add_pattern("*.xpm");
+        chooser.add_filter(filter);
+
+
+        // Process response:
+  		if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+              var filename=chooser.get_filename();
+              DesktopFolder.FolderManager.create_new_photo(filename);
+  		}
+        chooser.close();
     }
 
     /**

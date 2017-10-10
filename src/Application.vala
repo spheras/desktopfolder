@@ -29,6 +29,7 @@ public class DesktopFolderApp : Gtk.Application {
     /** List of folder owned by the application */
     private List<DesktopFolder.FolderManager> folders=new List<DesktopFolder.FolderManager>();
     private List<DesktopFolder.NoteManager> notes=new List<DesktopFolder.NoteManager>();
+    private List<DesktopFolder.PhotoManager> photos=new List<DesktopFolder.PhotoManager>();
 
     construct {
         /* Needed by Glib.Application */
@@ -140,8 +141,10 @@ public class DesktopFolderApp : Gtk.Application {
             FileInfo file_info;
             List<DesktopFolder.FolderManager> updated_folder_list=new List<DesktopFolder.FolderManager>();
             List<DesktopFolder.NoteManager> updated_note_list=new List<DesktopFolder.NoteManager>();
+            List<DesktopFolder.PhotoManager> updated_photo_list=new List<DesktopFolder.PhotoManager>();
             int totalFolders=0;
             int totalNotes=0;
+            int totalPhotos=0;
             while ((file_info = enumerator.next_file ()) != null) {
                 string name=file_info.get_name();
                 File file = File.new_for_commandline_arg (base_path+"/"+name);
@@ -163,12 +166,12 @@ public class DesktopFolderApp : Gtk.Application {
                     int index=basename.last_index_of(".",0);
                     if(index>0){
                         string ext=basename.substring(index+1);
-                        string note_name=basename.substring(0,index);
+                        string file_name=basename.substring(0,index);
                         if(ext==DesktopFolder.NOTE_EXTENSION){
                             //a note!
                             totalNotes++;
                             //maybe this is an existent already monitored folder
-                            DesktopFolder.NoteManager nm=this.find_note_by_name(note_name);
+                            DesktopFolder.NoteManager nm=this.find_note_by_name(file_name);
                             if(nm==null){
                                 //debug("new note found!");
                                 //we've found a note file, let's create a note window
@@ -177,6 +180,19 @@ public class DesktopFolderApp : Gtk.Application {
                                 this.notes.remove(nm);
                             }
                             updated_note_list.append(nm);
+                        }else if(ext==DesktopFolder.PHOTO_EXTENSION){
+                            //a photo
+                            totalPhotos++;
+                            //maybe this is an existent already monitored photo
+                            DesktopFolder.PhotoManager pm=this.find_photo_by_name(file_name);
+                            if(pm==null){
+                                //debug("new note found!");
+                                //we've found a note file, let's create a note window
+                                pm=new DesktopFolder.PhotoManager(this, basename.substring(0,index), file);
+                            }else{
+                                this.photos.remove(pm);
+                            }
+                            updated_photo_list.append(pm);
                         }
                     }
                     //nothing
@@ -199,6 +215,14 @@ public class DesktopFolderApp : Gtk.Application {
                 this.notes.remove(nm);
             }
             this.notes=updated_note_list.copy();
+
+            //finally we close any other not existent photo
+            while(this.photos.length()>0){
+                DesktopFolder.PhotoManager pm=this.photos.nth(0).data;
+                pm.close();
+                this.photos.remove(pm);
+            }
+            this.photos=updated_photo_list.copy();
 
             //by default, at least one folder is needed
             if(totalFolders==0){
@@ -238,6 +262,22 @@ public class DesktopFolderApp : Gtk.Application {
         for(int i=0;i<this.notes.length();i++){
             DesktopFolder.NoteManager nm=this.notes.nth(i).data;
             if(nm.get_note_name()==note_name){
+                return nm;
+            }
+        }
+        return null;
+    }
+
+    /**
+    * @name find_photo_by_name
+    * @description find a photomanager managed by its name
+    * @param string photo_name the name of the photo to find
+    * @return PhotoManager the Photo found or null if none
+    */
+    private DesktopFolder.PhotoManager? find_photo_by_name(string photo_name){
+        for(int i=0;i<this.photos.length();i++){
+            DesktopFolder.PhotoManager nm=this.photos.nth(i).data;
+            if(nm.get_photo_name()==photo_name){
                 return nm;
             }
         }

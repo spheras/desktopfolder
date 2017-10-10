@@ -21,6 +21,7 @@ namespace DesktopFolder {
     /** Name of the Folder Settings File */
     public const string FOLDER_SETTINGS_FILE=".desktopfolder";
     public const string NOTE_EXTENSION="dfn";
+    public const string PHOTO_EXTENSION="dfp";
     /** param to show the desktop */
     public const string PARAM_SHOW_DESKTOP="show-desktop";
     public const int ICON_SIZE=48;

@@ -47,12 +47,15 @@ src = [
        'src/widgets/FolderWindow.vala',
        'src/widgets/NoteWindow.vala',
        'src/widgets/ItemView.vala',
+       'src/widgets/PhotoWindow.vala',
        'src/settings/FolderSettings.vala',
        'src/settings/ItemSettings.vala',
        'src/settings/NoteSettings.vala',
+       'src/settings/PhotoSettings.vala',
        'src/logic/FolderManager.vala',
        'src/logic/ItemManager.vala',
-       'src/logic/NoteManager.vala'
+       'src/logic/NoteManager.vala',
+       'src/logic/PhotoManager.vala'
       ]
 
 executable(

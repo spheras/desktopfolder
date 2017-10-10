@@ -274,6 +274,18 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     }
 
     /**
+    * @name create_new_photo
+    * @description create a new photo inside the desktop
+    * @param string name the name of the new photo
+    */
+    public static void create_new_photo(string photo_path){
+        PhotoSettings ps=new PhotoSettings(photo_path);
+        string path=DesktopFolderApp.get_app_folder()+"/"+ps.name+"."+DesktopFolder.PHOTO_EXTENSION;
+        File f=File.new_for_path (path);
+        ps.save_to_file(f);
+    }
+
+    /**
     * @name create_new_text_file
     * @description create a new text file inside this folder
     * @param string name the name of the new text file
