@@ -3,6 +3,7 @@ public class DesktopFolder.PhotoSettings: Object{
     public int y  { get; set; default = 0; }
     public int w  { get; set; default = 0; }
     public int h  { get; set; default = 0; }
+    public int fixocolor { get; set; default=0; }
     public string name { get; set; }
     public string photo_path { get; set; }
 
@@ -14,8 +15,31 @@ public class DesktopFolder.PhotoSettings: Object{
         this.photo_path=photo_path;
         var file = File.new_for_path (photo_path);
         this.name=file.get_basename();
-    }
+        this.fixocolor=Random.int_range(1,6);
 
+        try{
+            //we calculate an aproximated image size
+            var pixbuf=new Gdk.Pixbuf.from_file(photo_path);
+            this.w=pixbuf.get_width();
+            //max a 30% of the screen
+            Gdk.Screen screen = Gdk.Screen.get_default();
+            int MAX= (screen.get_width()*30)/100;
+
+            this.h=pixbuf.get_height();
+            if(this.w>MAX){
+                int diff=this.w-MAX;
+                this.w=MAX;
+                this.h=this.h - diff;
+            }else if (this.h>MAX){
+                int diff=this.h-MAX;
+                this.h=MAX;
+                this.w=this.w - diff;
+            }
+        } catch (Error e) {
+            //error! ??
+            stderr.printf ("Error: %s\n", e.message);
+        }
+    }
 
     /**
     * @name save

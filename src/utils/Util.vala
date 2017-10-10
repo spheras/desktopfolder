@@ -269,4 +269,106 @@ namespace DesktopFolder.Util
 		var file = GLib.File.new_for_path(path);
 		return file.resolve_relative_path(".").get_path();
 	}
+
+	/**
+	 * Converts the given angle from degrees to radians.
+	 *
+	 * @param deg Angle in radians
+	 * @return Angle in degrees
+	 */
+	public static double deg_to_rad (double deg) {
+		return (deg * Math.PI / 180f);
+	}
+
+	/**
+	 * Converts the given angle from radians to degrees.
+	 *
+	 * @param rad Angle in degrees
+	 * @return Angle in radians
+	 */
+	public static double rad_to_deg (double rad) {
+		return (rad / Math.PI * 180f);
+	}
+
+	/**
+	* @name create_new_photo
+	* @param {Gtk.Window} window the parent window to show the dialog
+	* @description show a dialog to create a new photo
+	*/
+	public static void create_new_photo(Gtk.Window window){
+		Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+				DesktopFolder.Lang.PHOTO_SELECT_PHOTO_MESSAGE, window,
+				Gtk.FileChooserAction.OPEN,
+				DesktopFolder.Lang.DIALOG_CANCEL,
+				Gtk.ResponseType.CANCEL,
+				DesktopFolder.Lang.DIALOG_SELECT,
+				Gtk.ResponseType.ACCEPT);
+
+		Gtk.FileFilter filter = new Gtk.FileFilter();
+		filter.set_name("Images");
+		filter.add_mime_type("image");
+		filter.add_mime_type("image/png");
+		filter.add_mime_type("image/jpeg");
+		filter.add_mime_type("image/gif");
+		filter.add_pattern("*.png");
+		filter.add_pattern("*.jpg");
+		filter.add_pattern("*.gif");
+		filter.add_pattern("*.tif");
+		filter.add_pattern("*.xpm");
+		chooser.add_filter(filter);
+
+
+		// Process response:
+		if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+			  var photo_path=chooser.get_filename();
+			  PhotoSettings ps=new PhotoSettings(photo_path);
+	          string path=DesktopFolderApp.get_app_folder()+"/"+ps.name+"."+DesktopFolder.PHOTO_EXTENSION;
+	          File f=File.new_for_path (path);
+	          ps.save_to_file(f);
+		}
+		chooser.close();
+	}
+
+
+	/**
+    * @name create_new_desktop_folder
+    * @description create a new folder inside the desktop
+	* @param {Gtk.Window} window the parent window to show the dialog
+    */
+    public static void create_new_desktop_folder(Gtk.Window window){
+		RenameDialog dialog = new RenameDialog (window,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW);
+        dialog.on_rename.connect((new_name)=>{
+            //creating the folder
+            if(new_name!=""){
+				//cancelling the current monitor
+		        DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+new_name,0755);
+            }
+        });
+        dialog.show_all ();
+    }
+
+    /**
+    * @name create_new_note
+    * @description create a new note inside the desktop
+	* @param {Gtk.Window} window the parent window to show the dialog
+    */
+    public static void create_new_note(Gtk.Window window){
+		RenameDialog dialog = new RenameDialog (window,
+												DesktopFolder.Lang.NOTE_ENTER_TITLE,
+												DesktopFolder.Lang.NOTE_ENTER_NAME,
+												DesktopFolder.Lang.NOTE_NEW);
+		dialog.on_rename.connect((new_name)=>{
+			//creating the folder
+			if(new_name!=""){
+				NoteSettings ns=new NoteSettings(new_name);
+		        string path=DesktopFolderApp.get_app_folder()+"/"+new_name+"."+DesktopFolder.NOTE_EXTENSION;
+		        File f=File.new_for_path (path);
+		        ns.save_to_file(f);
+			}
+		});
+		dialog.show_all ();
+    }
 }

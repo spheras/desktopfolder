@@ -329,6 +329,7 @@ public class DesktopFolderApp : Gtk.Application {
     private void desktop_changed (GLib.File src, GLib.File? dest, FileMonitorEvent event) {
         //something changed at the desktop folder
         bool flagNote=false;
+        bool flagPhoto=false;
 
         string basename=src.get_basename();
         int index=basename.last_index_of(".",0);
@@ -336,12 +337,14 @@ public class DesktopFolderApp : Gtk.Application {
             string ext=basename.substring(index+1);
             if(ext==DesktopFolder.NOTE_EXTENSION){
                 flagNote=true;
+            }else if(ext==DesktopFolder.PHOTO_EXTENSION){
+                flagPhoto=true;
             }
         }
 
         //new content inside
         var file_type= src.query_file_type (FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
-        if (flagNote || file_type==FileType.DIRECTORY || !src.query_exists()){
+        if (flagNote || flagPhoto || file_type==FileType.DIRECTORY || !src.query_exists()){
             //debug("Desktop - Change Detected");
             //new directory or removed, we need to synchronize
             //removed directory

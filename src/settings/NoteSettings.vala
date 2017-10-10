@@ -16,7 +16,7 @@ public class DesktopFolder.NoteSettings: Object{
         this.y=110;
         this.bgcolor="yellow";
         this.fgcolor="dark";
-        this.clipcolor=Random.int_range(1,6);;
+        this.clipcolor=Random.int_range(1,6);
         this.name=name;
         this.text="Lorem Ipsum";
     }

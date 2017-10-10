@@ -431,17 +431,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @description show a dialog to create a new desktop folder
     */
     private void new_desktop_folder(){
-        RenameDialog dialog = new RenameDialog (this,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW);
-        dialog.on_rename.connect((new_name)=>{
-            //creating the folder
-            if(new_name!=""){
-                DesktopFolder.FolderManager.create_new_desktop_folder(new_name);
-            }
-        });
-        dialog.show_all ();
+        DesktopFolder.Util.create_new_desktop_folder(this);
     }
 
     /**
@@ -449,17 +439,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @description show a dialog to create a new note
     */
     private void new_note(){
-        RenameDialog dialog = new RenameDialog (this,
-                                                DesktopFolder.Lang.NOTE_ENTER_TITLE,
-                                                DesktopFolder.Lang.NOTE_ENTER_NAME,
-                                                DesktopFolder.Lang.NOTE_NEW);
-        dialog.on_rename.connect((new_name)=>{
-            //creating the folder
-            if(new_name!=""){
-                DesktopFolder.FolderManager.create_new_note(new_name);
-            }
-        });
-        dialog.show_all ();
+        DesktopFolder.Util.create_new_note(this);
     }
 
     /**
@@ -467,35 +447,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @description show a dialog to create a new photo
     */
     private void new_photo(){
-
-        Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-				DesktopFolder.Lang.PHOTO_SELECT_PHOTO_MESSAGE, this.manager.get_application_window(),
-                Gtk.FileChooserAction.OPEN,
-				DesktopFolder.Lang.DIALOG_CANCEL,
-				Gtk.ResponseType.CANCEL,
-				DesktopFolder.Lang.DIALOG_SELECT,
-				Gtk.ResponseType.ACCEPT);
-
-        Gtk.FileFilter filter = new Gtk.FileFilter();
-        filter.set_name("Images");
-        filter.add_mime_type("image");
-        filter.add_mime_type("image/png");
-        filter.add_mime_type("image/jpeg");
-        filter.add_mime_type("image/gif");
-        filter.add_pattern("*.png");
-        filter.add_pattern("*.jpg");
-        filter.add_pattern("*.gif");
-        filter.add_pattern("*.tif");
-        filter.add_pattern("*.xpm");
-        chooser.add_filter(filter);
-
-
-        // Process response:
-  		if (chooser.run () == Gtk.ResponseType.ACCEPT) {
-              var filename=chooser.get_filename();
-              DesktopFolder.FolderManager.create_new_photo(filename);
-  		}
-        chooser.close();
+        DesktopFolder.Util.create_new_photo(this);
     }
 
     /**

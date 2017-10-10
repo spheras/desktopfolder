@@ -204,6 +204,15 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             item.show();
             menu.append (item);
 
+            //menu to create a new photo
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+            item.activate.connect ((item)=>{
+                    this.new_photo();
+            });
+            item.show();
+            menu.append (item);
+
+
             item = new MenuItemSeparator();
             item.show();
             menu.append (item);
@@ -278,23 +287,20 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         msg.show ();
     }
 
+    /**
+    * @name new_photo
+    * @description show a dialog to create a new photo
+    */
+    private void new_photo(){
+        DesktopFolder.Util.create_new_photo(this);
+    }
 
     /**
     * @name new_note
     * @description show a dialog to create a new desktop folder
     */
     private void new_note(){
-        RenameDialog dialog = new RenameDialog (this,
-                                                DesktopFolder.Lang.NOTE_ENTER_TITLE,
-                                                DesktopFolder.Lang.NOTE_ENTER_NAME,
-                                                DesktopFolder.Lang.NOTE_NEW);
-        dialog.on_rename.connect((new_name)=>{
-            //creating the folder
-            if(new_name!=""){
-                DesktopFolder.FolderManager.create_new_note(new_name);
-            }
-        });
-        dialog.show_all ();
+        DesktopFolder.Util.create_new_note(this);
     }
 
     /**
@@ -302,17 +308,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     * @description show a dialog to create a new desktop folder
     */
     private void new_desktop_folder(){
-        RenameDialog dialog = new RenameDialog (this,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_NEW);
-        dialog.on_rename.connect((new_name)=>{
-            //creating the folder
-            if(new_name!=""){
-                DesktopFolder.FolderManager.create_new_desktop_folder(new_name);
-            }
-        });
-        dialog.show_all ();
+        DesktopFolder.Util.create_new_desktop_folder(this);
     }
 
     /**
