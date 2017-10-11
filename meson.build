@@ -1,4 +1,4 @@
-project('org.spheras.desktopfolder', ['vala', 'c'],
+project('com.github.spheras.desktopfolder', ['vala', 'c'],
     version: '1.0.0'
 )
 
@@ -59,7 +59,7 @@ src = [
       ]
 
 executable(
-    'org.spheras.desktopfolder',
+    'com.github.spheras.desktopfolder',
     src,
     asresources,
     c_args: c_args,

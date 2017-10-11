@@ -60,7 +60,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     static construct {
         try{
             int scale=DesktopFolder.ICON_SIZE/3;
-            ItemView.LINK_PIXBUF=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/link.svg");
+            ItemView.LINK_PIXBUF=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/link.svg");
             ItemView.LINK_PIXBUF=LINK_PIXBUF.scale_simple(scale,scale,Gdk.InterpType.BILINEAR);
         }catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);

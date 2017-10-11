@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/org/spheras/desktopfolder">
+  <gresource prefix="/com/github/spheras/desktopfolder">
     <file alias="Application.css" compressed="true">css/Application.css</file>
 
     <file alias="icon.png" compressed="true">img/icon.png</file>

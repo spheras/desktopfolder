@@ -57,7 +57,7 @@ namespace DesktopFolder.Util
     	dialog.wrap_license = true;
 
         try{
-            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/icon.png");
+            var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/icon.png");
             dialog.set_logo(pixbuf);
             dialog.set_icon(pixbuf);
         } catch (Error e) {
@@ -66,7 +66,7 @@ namespace DesktopFolder.Util
         }
 
 
-    	dialog.website = "https://github.com/spheras/Desktop-Folder";
+    	dialog.website = "https://github.com/spheras/desktopfolder";
     	dialog.website_label = "Desktop-Folder Github Place.";
 
     	dialog.response.connect ((response_id) => {

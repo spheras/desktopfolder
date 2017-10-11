@@ -51,7 +51,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     */
     public FolderWindow (FolderManager manager){
         Object (application: manager.get_application(),
-                icon_name: "org.spheras.desktopfolder",
+                icon_name: "com.github.spheras.desktopfolder",
                 resizable: true,
                 skip_taskbar_hint : true,
                 decorated:true,

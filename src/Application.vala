@@ -48,7 +48,7 @@ public class DesktopFolderApp : Gtk.Application {
     * @constructor
     */
     public DesktopFolderApp () {
-        Object (application_id: "org.spheras.desktopfolder",
+        Object (application_id: "com.github.spheras.desktopfolder",
         flags: ApplicationFlags.FLAGS_NONE);
     }
 
@@ -98,7 +98,7 @@ public class DesktopFolderApp : Gtk.Application {
 
         //providing css style
         var provider = new Gtk.CssProvider ();
-        provider.load_from_resource ("org/spheras/desktopfolder/Application.css");
+        provider.load_from_resource ("com/github/spheras/desktopfolder/Application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
@@ -412,7 +412,7 @@ public class DesktopFolderApp : Gtk.Application {
             debug("registering hotkey!");
             var relocatable_schema = Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.create_shortcut ();
             Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.edit_command ((string) relocatable_schema,
-                path + "org.spheras.desktopfolder "+ DesktopFolder.PARAM_SHOW_DESKTOP);
+                path + "com.github.spheras.desktopfolder "+ DesktopFolder.PARAM_SHOW_DESKTOP);
             Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.edit_shortcut ((string) relocatable_schema,
                 shortcut.to_gsettings ());
         }

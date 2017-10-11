@@ -2,8 +2,8 @@
 debian/build/
 debian/debhelper-build-stamp
 debian/files
-debian/org.spheras.desktopfolder.debhelper.log
-debian/org.spheras.desktopfolder.substvars
-debian/org.spheras.desktopfolder/
+debian/com.github.spheras.desktopfolder.debhelper.log
+debian/com.github.spheras.desktopfolder.substvars
+debian/com.github.spheras.desktopfolder/
 .atom-dbg.cson
 

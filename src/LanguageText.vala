@@ -21,51 +21,51 @@ namespace DesktopFolder.Lang {
     public const string DROP_MENU_LINK=_("Link Here");
     //Drop Menu - Cancel
     public const string DROP_MENU_CANCEL=_("Cancel");
-    //Desktop-Folder menu - create a new Desktop-Folder Pane
+    //desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("New Panel");
-    //Desktop-Folder menu - create a new Note
+    //desktopfolder menu - create a new Note
     public const string DESKTOPFOLDER_MENU_NEW_NOTE=_("New Note");
-    //Desktop-Folder menu - create a new Folder
+    //desktopfolder menu - create a new Folder
     public const string DESKTOPFOLDER_MENU_NEW_FOLDER=_("New Folder");
-    //Desktop-Folder menu - create a new empty Text File
+    //desktopfolder menu - create a new empty Text File
     public const string DESKTOPFOLDER_MENU_NEW_TEXT_FILE=_("New Text File");
-    //Desktop-Folder menu - rename a Desktop-Folder Pane
+    //desktopfolder menu - rename a Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER=_("Rename this Panel");
-    //Desktop-Folder menu - remove a Desktop-Folder Pane
+    //desktopfolder menu - remove a Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER=_("Delete this Panel");
-    //Desktop-Folder menu - past from clipboard to the desktop-folder
+    //desktopfolder menu - past from clipboard to the desktop-folder
     public const string DESKTOPFOLDER_MENU_PASTE=_("Paste");
-    //Desktop-Folder menu - show the about dialog
+    //desktopfolder menu - show the about dialog
     public const string DESKTOPFOLDER_MENU_ABOUT=_("About");
-    //Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
+    //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string DESKTOPFOLDER_NEW=_("New Panel");
-    //Desktop-Folder - Dialog Title Message to rename the current Desktop-Folder
+    //desktopfolder - Dialog Title Message to rename the current Desktop-Folder
     public const string DESKTOPFOLDER_RENAME_TITLE=_("Rename Panel");
-    //Desktop-Folder - Dialog Message to rename the current Desktop-Folder
+    //desktopfolder - Dialog Message to rename the current Desktop-Folder
     public const string DESKTOPFOLDER_RENAME_MESSAGE=_("Enter the new name");
-    //Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+    //desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
     public const string DESKTOPFOLDER_ENTER_TITLE=_("New Panel");
-    //Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
+    //desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
     public const string DESKTOPFOLDER_ENTER_NAME=_("Enter the name");
-    //Desktop-Folder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
+    //desktopfolder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_FOLDER_TITLE=_("New Folder");
-    //Desktop-Folder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
+    //desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_FOLDER_MESSAGE=_("Enter the name");
-    //Desktop-folder - The default name for the new folder to be created
+    //desktopfolder - The default name for the new folder to be created
     public const string DESKTOPFOLDER_NEW_FOLDER_NAME=_("new folder");
-    //Desktop-Folder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
+    //desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_TITLE=_("New Text File");
-    //Desktop-Folder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
+    //desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE=_("Enter the name");
-    //Desktop-folder - The default name for the new text file to be created
+    //desktopfolder - The default name for the new text file to be created
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_NAME=_("new.txt");
-    //Desktop-Folder - The message to confirm the deletion of a Desktop Folder
+    //desktopfolder - The message to confirm the deletion of a Desktop Folder
     public const string DESKTOPFOLDER_DELETE_MESSAGE=_("This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n<b>Are you sure?</b>");
-    //Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+    //desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
     public const string NOTE_ENTER_TITLE=_("New Note");
-    //Desktop-Folder - Dialog Text to ask the new name for the Desktop-Folder
+    //desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
     public const string NOTE_ENTER_NAME=_("Enter the name");
-    //Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
+    //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string NOTE_NEW=_("New Note");
     //Menu popup option to rename the note
     public const string NOTE_MENU_RENAME_NOTE=_("Rename this Note");
@@ -118,7 +118,7 @@ namespace DesktopFolder.Lang {
     public const string PHOTO_MENU_DELETE_PHOTO=_("Delete this Photo");
     //Note - Dialog Message to DELETE the current photo
     public const string PHOTO_DELETE_MESSAGE=_("This action will DELETE the Photo.\n<b>Are you sure?</b>");
-    //Desktop-Folder menu - create a new Photo
+    //desktopfolder menu - create a new Photo
     public const string DESKTOPFOLDER_MENU_NEW_PHOTO=_("New Photo");
     //dialog message to select an image file to be shown at the desktop
     public const string PHOTO_SELECT_PHOTO_MESSAGE=_("Select the picture to show");

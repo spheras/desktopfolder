@@ -1,4 +1,4 @@
-Source: org.spheras.desktopfolder
+Source: com.github.spheras.desktopfolder
 Section: x11
 Priority: extra
 Maintainer: José Amuedo <joseamuedo@gmail.com>
@@ -16,7 +16,7 @@ Build-Depends: cmake (>= 2.8),
                libglib2.0-dev
 
 Standards-Version: 3.9.3
-Package: org.spheras.desktopfolder
+Package: com.github.spheras.desktopfolder
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Come back to life your minimalist Desktop!

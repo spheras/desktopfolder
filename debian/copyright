@@ -1,6 +1,6 @@
 Format: http://dep.debian.net/deps/dep5
 Upstream-Name: cmake-hello-world
-Source:  https://github.com/spheras/Desktop-Folder
+Source:  https://github.com/spheras/desktopfolder
 
 Files: *
 Copyright: 2017 José Amuedo <joseamuedo@gmail.com>

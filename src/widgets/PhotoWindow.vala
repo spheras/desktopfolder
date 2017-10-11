@@ -53,7 +53,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     */
     public PhotoWindow (PhotoManager manager){
         Object (application: manager.get_application(),
-                icon_name: "org.spheras.desktopfolder",
+                icon_name: "com.github.spheras.desktopfolder",
                 resizable: true,
                 skip_taskbar_hint : true,
                 decorated:true,
@@ -311,7 +311,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             //drawing the shadow
             if(this.manager.get_settings().fixocolor==0){
                 if(this.shadowSurface==null){
-                    var shadowPixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/shadow.png");
+                    var shadowPixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/shadow.png");
                     shadowPixbuf=shadowPixbuf.scale_simple(pixwidth,40,Gdk.InterpType.BILINEAR);
                     this.shadowSurface=Gdk.cairo_surface_create_from_pixbuf(shadowPixbuf, 0, null);
                 }
@@ -361,7 +361,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             }
             if(color!=null){
                 if(this.fixoPixbuf==null){
-                    this.fixoPixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/fixo-"+color+".svg");
+                    this.fixoPixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/fixo-"+color+".svg");
                     this.fixoPixbuf=fixoPixbuf.scale_simple(100,100,Gdk.InterpType.BILINEAR);
                 }
                 var fixoSurface=Gdk.cairo_surface_create_from_pixbuf(this.fixoPixbuf, 0, null);
