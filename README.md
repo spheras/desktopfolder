@@ -1,7 +1,8 @@
 # Desktop-Folder
-Come back to life your elementary desktop!  (BETA YET!)
+Come back to life your Pantheon or Gnome3 desktop!
 
-NOT YET IN APPCENTER!
+NOT YET IN ELEMENTARY APPCENTER!
+
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/org.spheras.desktopfolder)
 
 ![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/banner.png)
@@ -23,6 +24,8 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 ![Example3](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif03.gif)
 ![Example4](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif04.gif)
 
+## How to install
+(under construction)
 
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:

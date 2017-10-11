@@ -325,6 +325,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
                 var photoPixbuf=new Gdk.Pixbuf.from_file(photopath);
                 photoPixbuf=photoPixbuf.scale_simple(pixwidth,pixheight,Gdk.InterpType.BILINEAR);
                 this.photoSurface=Gdk.cairo_surface_create_from_pixbuf(photoPixbuf, 0, null);
+                //DesktopFolder.Util.blur_image_surface((Cairo.ImageSurface)this.photoSurface,4);
             }
             cr.set_source_surface (this.photoSurface, width/2 - pixwidth/2, height/2 - pixheight/2);
             cr.paint();

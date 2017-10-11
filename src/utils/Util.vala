@@ -371,4 +371,139 @@ namespace DesktopFolder.Util
 		});
 		dialog.show_all ();
     }
+
+	/**
+	* @name blur_image_surface
+	* @description Performs a simple 2D Gaussian blur of radius @radius on surface @surface.
+	*/
+	public static void blur_image_surface (Cairo.ImageSurface surface, int radius) {
+		debug("start blur1");
+
+		Cairo.ImageSurface tmp;
+		int width, height;
+		int src_stride, dst_stride;
+		int x, y, z, w;
+		uchar[] src;
+		uchar[] dst;
+		int s, d;
+		uint32 a, p;
+		int i, j, k;
+		uint8 kernel[17];
+		int size =(int) (17 / sizeof (uint8));
+		int half =(int) ((17 / sizeof(uint8)) / 2);
+
+		if (surface.status()!=Cairo.Status.SUCCESS){
+			return;
+		}
+
+		width = surface.get_width ();
+		height = surface.get_height ();
+
+		debug("start blur2");
+
+		switch (surface.get_format()) {
+			case Cairo.Format.A1:
+			default:
+				/* Don't even think about it! */
+				return;
+			case Cairo.Format.A8:
+				/* Handle a8 surfaces by effectively unrolling the loops by a
+				* factor of 4 - this is safe since we know that stride has to be a
+				* multiple of uint32_t. */
+				width = width / 4;
+				break;
+			case Cairo.Format.RGB24:
+			case Cairo.Format.ARGB32:
+				break;
+		}
+
+		debug("start blur2.1");
+
+		tmp = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height);
+		if (tmp.status()!=Cairo.Status.SUCCESS)
+			return;
+
+			debug("start blur2.2");
+		src = surface.get_data();
+		debug("start blur2.3");
+		src_stride = surface.get_stride();
+		debug("start blur2.4");
+
+		debug("start blur2.5");
+
+		dst = tmp.get_data();
+		dst_stride = tmp.get_stride();
+
+		debug("start blur3");
+
+		a = 0;
+		for (i = 0; i < size; i++) {
+			double f = i - half;
+			kernel[i] = (uint8) (Math.exp (- f * f / 30.0) * 80);
+			a = a+kernel[i];
+		}
+
+		/* Horizontally blur from surface -> tmp */
+		for (i = 0; i < height; i++) {
+			s = i*src_stride;
+			d = i*dst_stride;
+			for (j = 0; j < width; j++) {
+				if (radius < j && j < width - radius) {
+					dst[d+j] = src[s+j];
+					continue;
+				}
+
+				x = y = z = w = 0;
+				for (k = 0; k < size; k++) {
+					if (j - half + k < 0 || j - half + k >= width){
+						continue;
+					}
+
+					p = src[s+ j - half + k];
+
+					x = x + (int) (((p >> 24) & 0xff) * kernel[k]);
+					y = y + (int) (((p >> 16) & 0xff) * kernel[k]);
+					z = z + (int) (((p >>  8) & 0xff) * kernel[k]);
+					w = w + (int) (((p >>  0) & 0xff) * kernel[k]);
+				}
+				dst[d+j] = (uchar) ((x / a << 24) | (y / a << 16) | (z / a << 8) | w / a);
+			}
+		}
+
+		debug("start blur4");
+
+		/* Then vertically blur from tmp -> surface */
+		for (i = 0; i < height; i++) {
+			s = i* dst_stride;
+			d = i * src_stride;
+			for (j = 0; j < width; j++) {
+				if (radius <= i && i < height - radius) {
+					src[j] = dst[j];
+					continue;
+				}
+
+				x = y = z = w = 0;
+				for (k = 0; k < size; k++) {
+					if (i - half + k < 0 || i - half + k >= height){
+						continue;
+					}
+
+					s = (i - half + k) * dst_stride;
+					p = dst[s+j];
+
+					x = x + (int) (((p >> 24) & 0xff) * kernel[k]);
+					y = y + (int) (((p >> 16) & 0xff) * kernel[k]);
+					z = z + (int) (((p >>  8) & 0xff) * kernel[k]);
+					w = w + (int) (((p >>  0) & 0xff) * kernel[k]);
+				}
+				src[d+j] = (uchar) ((x / a << 24) | (y / a << 16) | (z / a << 8) | w / a);
+			}
+		}
+
+		debug("start blur5");
+
+		//cairo_surface_destroy (tmp);
+		surface.mark_dirty ();
+	}
+
 }
