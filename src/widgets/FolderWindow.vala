@@ -96,6 +96,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect(this.on_press);
         this.key_release_event.connect(this.on_key);
+        this.key_press_event.connect(this.on_key);
 
         //TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
     }
@@ -355,7 +356,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     */
     private bool on_key(Gdk.EventKey event){
         int key=(int)event.keyval;
-        debug("event key %d",key);
+        //debug("event key %d",key);
         //this is the delete key code
         const int DELETE_KEY=65535;
         const int F2_KEY=65471;
@@ -411,48 +412,51 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 selected.execute();
                 return true;
             }
-        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_LEFT_KEY){
+        }else if(event.type==Gdk.EventType.KEY_PRESS && key==ARROW_LEFT_KEY){
             //left arrow pressed
             move_selected_to((a,b)=>{
-                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
-                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
-                    return (b.y>=a.y && b.y<=(a.y+a.height)) || (a.y>=b.y && a.y<=(b.y+b.height));
-                },(a,b)=>{
-                    return a.x < b.x;
-                });
-        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_UP_KEY){
+                return (b.y>=a.y && b.y<=(a.y+a.height)) || (a.y>=b.y && a.y<=(b.y+b.height));
+            },(a,b)=>{
+                return a.x < b.x;
+            });
+        }else if(event.type==Gdk.EventType.KEY_PRESS && key==ARROW_UP_KEY){
             //up arrow pressed
             move_selected_to((a,b)=>{
-                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
-                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
-                    return (b.x>=a.x && b.x<=(a.x+a.width)) || (a.x>=b.x && a.x<=(b.x+b.width));
-                },(a,b)=>{
-                    return a.y < b.y;
-                });
-        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_RIGHT_KEY){
+                return (b.x>=a.x && b.x<=(a.x+a.width)) || (a.x>=b.x && a.x<=(b.x+b.width));
+            },(a,b)=>{
+                return a.y < b.y;
+            });
+        }else if(event.type==Gdk.EventType.KEY_PRESS && key==ARROW_RIGHT_KEY){
             //right arrow pressed
             move_selected_to((a,b)=>{
-                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
-                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
-                    return (b.y>=a.y && b.y<=(a.y+a.height)) || (a.y>=b.y && a.y<=(b.y+b.height));
-                },(a,b)=>{
-                    return a.x > b.x;
-                });
-        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_DOWN_KEY){
+                return (b.y>=a.y && b.y<=(a.y+a.height)) || (a.y>=b.y && a.y<=(b.y+b.height));
+            },(a,b)=>{
+                return a.x > b.x;
+            });
+        }else if(event.type==Gdk.EventType.KEY_PRESS && key==ARROW_DOWN_KEY){
             //down arrow pressed
             move_selected_to((a,b)=>{
-                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
-                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
-                    return (b.x>=a.x && b.x<=(a.x+a.width)) || (a.x>=b.x && a.x<=(b.x+b.width));
-                },(a,b)=>{
-                    return a.y > b.y;
-                });
+                return (b.x>=a.x && b.x<=(a.x+a.width)) || (a.x>=b.x && a.x<=(b.x+b.width));
+            },(a,b)=>{
+                return a.y > b.y;
+            });
         }
         return false;
     }
 
+    /**
+    * @name CompareAllocations
+    * @description Comparator of GtkAllocation objects to order the selection with the keyboard
+    * @return {bool} if the a element is greater than the b element
+    */
     private delegate bool CompareAllocations(Gtk.Allocation a, Gtk.Allocation b);
 
+    /**
+    * @name move_selected_to
+    * @description select the next item following a direction
+    * @param {CompareAllocations} same_axis;
+    * @param {CompareAllocations} is_selectable
+    */
     private void move_selected_to(CompareAllocations same_axis, CompareAllocations is_selectable){
         List<weak Gtk.Widget> children = this.container.get_children();
         ItemView actual_item = this.get_selected_item();
@@ -465,11 +469,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             elem.get_allocation(out elem_allocation);
             if(same_axis(elem_allocation,actual_allocation) && is_selectable(elem_allocation,actual_allocation)){
                 if(next_item==null){
-                    //Si es el primer elemento seleccionable que encuentra
+                    //If this is the first element is selectable found
                     next_allocation=elem_allocation;
                     next_item=(ItemView)elem;
                 }else if (!is_selectable(elem_allocation,next_allocation)) {
-                    //Si esta mas cerca que el que ya ha encontrado
+                    //If it is nearer from the last found
                     next_allocation=elem_allocation;
                     next_item=(ItemView)elem;
                 }
@@ -477,7 +481,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         }
         if(next_item!=null){
             next_item.select();
-            debug("Posicion nuevo elemento (x,y)=(%d,%d)",next_allocation.x,next_allocation.y);
         }else {
             debug("There are no elements on this direction");
         }

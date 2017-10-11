@@ -15,6 +15,7 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 - Drop launchers .desktop to panels
 - Create soft links to files and folders
 - Create colorful notes
+- Photos over your desktop
 - Show Desktop Hotkey ⌘-D
 - Autostart on login
 - Open source project
