@@ -347,11 +347,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     */
     private bool on_key(Gdk.EventKey event){
         int key=(int)event.keyval;
-        //debug("event key %d",key);
+        debug("event key %d",key);
         //this is the delete key code
         const int DELETE_KEY=65535;
         const int F2_KEY=65471;
         const int INTRO_KEY=65293;
+        const int ARROW_LEFT_KEY=65361;
+        const int ARROW_UP_KEY=65362;
+        const int ARROW_RIGHT_KEY=65363;
+        const int ARROW_DOWN_KEY=65364;
 
         //check if the control key is pressed
         var mods = event.state & Gtk.accelerator_get_default_mod_mask ();
@@ -393,13 +397,82 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             //ctrl+v key pressed
             this.manager.paste();
         }else if(event.type==Gdk.EventType.KEY_RELEASE && key==INTRO_KEY){
+            //INTRO key pressed
             ItemView selected=this.get_selected_item();
             if(selected!=null) {
                 selected.execute();
                 return true;
             }
+        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_LEFT_KEY){
+            //left arrow pressed
+            move_selected_to((a,b)=>{
+                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
+                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
+                    return (b.y>=a.y && b.y<=(a.y+a.height)) || (a.y>=b.y && a.y<=(b.y+b.height));
+                },(a,b)=>{
+                    return a.x < b.x;
+                });
+        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_UP_KEY){
+            //up arrow pressed
+            move_selected_to((a,b)=>{
+                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
+                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
+                    return (b.x>=a.x && b.x<=(a.x+a.width)) || (a.x>=b.x && a.x<=(b.x+b.width));
+                },(a,b)=>{
+                    return a.y < b.y;
+                });
+        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_RIGHT_KEY){
+            //right arrow pressed
+            move_selected_to((a,b)=>{
+                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
+                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
+                    return (b.y>=a.y && b.y<=(a.y+a.height)) || (a.y>=b.y && a.y<=(b.y+b.height));
+                },(a,b)=>{
+                    return a.x > b.x;
+                });
+        }else if(event.type==Gdk.EventType.KEY_RELEASE && key==ARROW_DOWN_KEY){
+            //down arrow pressed
+            move_selected_to((a,b)=>{
+                    debug("a:x,y,width: %d,%d,%d",a.x,a.y,a.width);
+                    debug("b:x,y,width: %d,%d,%d",b.x,b.y,b.width);
+                    return (b.x>=a.x && b.x<=(a.x+a.width)) || (a.x>=b.x && a.x<=(b.x+b.width));
+                },(a,b)=>{
+                    return a.y > b.y;
+                });
         }
         return false;
+    }
+
+    private delegate bool CompareAllocations(Gtk.Allocation a, Gtk.Allocation b);
+
+    private void move_selected_to(CompareAllocations same_axis, CompareAllocations is_selectable){
+        List<weak Gtk.Widget> children = this.container.get_children();
+        ItemView actual_item = this.get_selected_item();
+        Gtk.Allocation actual_allocation;
+        actual_item.get_allocation(out actual_allocation);
+        ItemView next_item = null;
+        Gtk.Allocation next_allocation=actual_allocation;
+        foreach (Gtk.Widget elem in children ) {
+            Gtk.Allocation elem_allocation;
+            elem.get_allocation(out elem_allocation);
+            if(same_axis(elem_allocation,actual_allocation) && is_selectable(elem_allocation,actual_allocation)){
+                if(next_item==null){
+                    //Si es el primer elemento seleccionable que encuentra
+                    next_allocation=elem_allocation;
+                    next_item=(ItemView)elem;
+                }else if (!is_selectable(elem_allocation,next_allocation)) {
+                    //Si esta mas cerca que el que ya ha encontrado
+                    next_allocation=elem_allocation;
+                    next_item=(ItemView)elem;
+                }
+            }
+        }
+        if(next_item!=null){
+            next_item.select();
+            debug("Posicion nuevo elemento (x,y)=(%d,%d)",next_allocation.x,next_allocation.y);
+        }else {
+            debug("There are no elements on this direction");
+        }
     }
 
     /**
