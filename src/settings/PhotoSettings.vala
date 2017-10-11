@@ -1,26 +1,45 @@
-public class DesktopFolder.NoteSettings: Object{
+public class DesktopFolder.PhotoSettings: Object{
     public int x  { get; set; default = 0; }
     public int y  { get; set; default = 0; }
     public int w  { get; set; default = 0; }
     public int h  { get; set; default = 0; }
+    public int fixocolor { get; set; default=0; }
     public string name { get; set; }
-    public string bgcolor { get; set; }
-    public string fgcolor { get; set; }
-    public int clipcolor{ get; set; }
-    public string text {get; set;}
+    public string photo_path { get; set; }
 
     private File file;
 
-    public NoteSettings(string name){
+    public PhotoSettings(string photo_path){
         this.x=110;
         this.y=110;
-        this.bgcolor="yellow";
-        this.fgcolor="dark";
-        this.clipcolor=Random.int_range(1,6);
-        this.name=name;
-        this.text="Lorem Ipsum";
-    }
+        this.photo_path=photo_path;
+        var file = File.new_for_path (photo_path);
+        this.name=file.get_basename();
+        this.fixocolor=Random.int_range(1,6);
 
+        try{
+            //we calculate an aproximated image size
+            var pixbuf=new Gdk.Pixbuf.from_file(photo_path);
+            this.w=pixbuf.get_width();
+            //max a 30% of the screen
+            Gdk.Screen screen = Gdk.Screen.get_default();
+            int MAX= (screen.get_width()*30)/100;
+
+            this.h=pixbuf.get_height();
+            if(this.w>MAX){
+                int diff=this.w-MAX;
+                this.w=MAX;
+                this.h=this.h - diff;
+            }else if (this.h>MAX){
+                int diff=this.h-MAX;
+                this.h=MAX;
+                this.w=this.w - diff;
+            }
+        } catch (Error e) {
+            //error! ??
+            stderr.printf ("Error: %s\n", e.message);
+        }
+    }
 
     /**
     * @name save
@@ -67,12 +86,12 @@ public class DesktopFolder.NoteSettings: Object{
 
     /**
     * @name read_settings
-    * @description read the settings from a file to create a Note Settings object
+    * @description read the settings from a file to create a Photo Settings object
     * @param file File the file where the settings are persisted
-    * @param name string the name of the note
-    * @return NoteSettings the NoteSettings created
+    * @param name string the name of the photo
+    * @return PhotoSettings the PhotoSettings created
     */
-    public static NoteSettings read_settings(File file, string name) {
+    public static PhotoSettings read_settings(File file, string name) {
         try{
             string content="";
             var dis = new DataInputStream (file.read());
@@ -81,13 +100,13 @@ public class DesktopFolder.NoteSettings: Object{
             while ((line = dis.read_line (null)) != null) {
                 content=content+line;
             }
-            NoteSettings existent = Json.gobject_from_data (typeof (NoteSettings), content) as NoteSettings;
+            PhotoSettings existent = Json.gobject_from_data (typeof (PhotoSettings), content) as PhotoSettings;
             existent.file=file;
             existent.name=name;
             return existent;
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
-            return null as NoteSettings;
+            return null as PhotoSettings;
         }
     }
 

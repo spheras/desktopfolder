@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: org.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-06 23:52+0200\n"
+"POT-Creation-Date: 2017-10-10 19:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -269,4 +269,26 @@ msgstr ""
 #. Dialog message to create a new link
 #: src/LanguageText.vala:116
 msgid "Select the destination file/folder of the link"
+msgstr ""
+
+#. Menu popup option to remove a photo
+#: src/LanguageText.vala:118
+msgid "Delete this Photo"
+msgstr ""
+
+#. Note - Dialog Message to DELETE the current photo
+#: src/LanguageText.vala:120
+msgid ""
+"This action will DELETE the Photo.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
+#. Desktop-Folder menu - create a new Photo
+#: src/LanguageText.vala:122
+msgid "New Photo"
+msgstr ""
+
+#. dialog message to select an image file to be shown at the desktop
+#: src/LanguageText.vala:124
+msgid "Select the picture to show"
 msgstr ""

@@ -191,7 +191,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
             FileInfo file_info;
             while ((file_info = enumerator.next_file ()) != null) {
                 string file_name=file_info.get_name();
-                debug("found:%s", file_name);
+                //debug("found:%s", file_name);
                 File file = File.new_for_commandline_arg (base_path + "/" + file_name);
 
                     if(file_name.index_of(".",0)!=0){
@@ -251,27 +251,6 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
         this.monitor_folder();
     }
 
-    /**
-    * @name create_new_desktop_folder
-    * @description create a new folder inside the desktop
-    * @param string name the name of the new desktop folder
-    */
-    public static void create_new_desktop_folder(string name){
-        //cancelling the current monitor
-        DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+name,0755);
-    }
-
-    /**
-    * @name create_new_note
-    * @description create a new note inside the desktop
-    * @param string name the name of the new note
-    */
-    public static void create_new_note(string name){
-        NoteSettings ns=new NoteSettings(name);
-        string path=DesktopFolderApp.get_app_folder()+"/"+name+"."+DesktopFolder.NOTE_EXTENSION;
-        File f=File.new_for_path (path);
-        ns.save_to_file(f);
-    }
 
     /**
     * @name create_new_text_file

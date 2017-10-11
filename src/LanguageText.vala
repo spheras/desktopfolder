@@ -114,4 +114,13 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_NEW_FOLDER_LINK=_("New Link to Folder");
     //Dialog message to create a new link
     public const string DESKTOPFOLDER_LINK_MESSAGE=_("Select the destination file/folder of the link");
+    //Menu popup option to remove a photo
+    public const string PHOTO_MENU_DELETE_PHOTO=_("Delete this Photo");
+    //Note - Dialog Message to DELETE the current photo
+    public const string PHOTO_DELETE_MESSAGE=_("This action will DELETE the Photo.\n<b>Are you sure?</b>");
+    //Desktop-Folder menu - create a new Photo
+    public const string DESKTOPFOLDER_MENU_NEW_PHOTO=_("New Photo");
+    //dialog message to select an image file to be shown at the desktop
+    public const string PHOTO_SELECT_PHOTO_MESSAGE=_("Select the picture to show");
+
 }
