@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 Daniel Foré <daniel@elementary.io> -->
+<component type="desktop-application">
+    <id>com.github.spheras.desktopfolder.desktop</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0+</project_license>
+    <name>Desktop Folder</name>
+    <summary>Organize your Desktop using folders panels</summary>
+    <description>
+        <p>Come back to life your minimalist desktop and organize it dropping files, folder, launchers, and notes!</p>
+        <ul>
+            <li>Color and Transparent Panels</li>
+            <li>Resize and position everything over your Desktop</li>
+            <li>Drop files/folders everywhere</li>
+            <li>Drop launchers .desktop to panels</li>
+            <li>Create soft links to files and folders</li>
+            <li>Create colorful notes</li>
+            <li>Photos over your desktop</li>
+            <li>Show Desktop Hotkey ⌘-D</li>
+            <li>Autostart on login</li>
+            <li>Open source project</li>
+        </ul>
+        <p>Remember to logout after install to start the application.</p>
+    </description>
+    <provides>
+        <binary>com.github.spheras.desktopfolder</binary>
+    </provides>
+    <screenshots>
+        <screenshot type="default">
+            <caption>Overall Desktop view</caption>
+            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-1.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Green Note Example</caption>
+            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-2.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Yellow Note Example</caption>
+            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-3.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Yellow Panel Example with launcher Icons</caption>
+            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-4.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Purple Panel Example with launcher Icons</caption>
+            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-5.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Green Panel Example with Files and Folders</caption>
+            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-6.png</image>
+        </screenshot>
+    </screenshots>
+    <developer_name>José Amuedo</developer_name>
+    <url type="homepage">https://github.com/spheras/desktopfolder</url>
+    <url type="bugtracker">https://github.com/spheras/desktopfolder/issues</url>
+    <custom>
+        <value key="x-appcenter-color-primary">#e9f4fc</value>
+        <value key="x-appcenter-color-primary-text">#044b6c</value>
+        <value key="x-appcenter-suggested-price">0</value>
+    </custom>
+</component>
