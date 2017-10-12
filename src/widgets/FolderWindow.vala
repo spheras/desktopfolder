@@ -454,12 +454,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private delegate bool CompareAllocations(Gtk.Allocation a, Gtk.Allocation b);
 
     private void move_selected_to(CompareAllocations same_axis, CompareAllocations is_selectable){
-        List<weak Gtk.Widget> children = this.container.get_children();
         ItemView actual_item = this.get_selected_item();
+        if(!(actual_item is Gtk.Widget)){
+            debug("There is no selected widget on the forlder");
+            return;
+        }
         Gtk.Allocation actual_allocation;
         actual_item.get_allocation(out actual_allocation);
         ItemView next_item = null;
         Gtk.Allocation next_allocation=actual_allocation;
+
+        List<weak Gtk.Widget> children = this.container.get_children();
         foreach (Gtk.Widget elem in children ) {
             Gtk.Allocation elem_allocation;
             elem.get_allocation(out elem_allocation);
