@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/com/github/spheras/desktopfolder/"
+  id="com.github.spheras.desktopfolder"
+  gettext-domain="com.github.spheras.desktopfolder">
+  </schema>
+</schemalist>

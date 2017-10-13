@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # TODO how could it be started with the normal user? (not root-sudo)
-#if ( pidof org.spheras.desktopfolder );then
-#    killall org.spheras.desktopfolder
+#if ( pidof com.github.spheras.desktopfolder );then
+#    killall com.github.spheras.desktopfolder
 #fi
-#su $USER -c "/usr/bin/org.spheras.desktopfolder &"
+#su $USER -c "/usr/bin/com.github.spheras.desktopfolder &"
 #
 echo "Remember: You'll need to logout/reboot to launch the application."
 

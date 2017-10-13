@@ -1,10 +1,11 @@
 # Desktop-Folder
-Come back to life your elementary desktop!  (BETA YET!)
+Come back to life your Pantheon or Gnome3 desktop!
 
-NOT YET IN APPCENTER!
-[![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/org.spheras.desktopfolder)
+NOT YET IN ELEMENTARY APPCENTER!
 
-![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/banner.png)
+[![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
+
+![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/banner.png)
 
 ## Description
 Organize your desktop using folders panels.Come back to life your minimalist desktop and organize it dropping files, folder, launchers, and notes!
@@ -14,15 +15,18 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 - Drop launchers .desktop to panels
 - Create soft links to files and folders
 - Create colorful notes
+- Photos over your desktop
 - Show Desktop Hotkey ⌘-D
 - Autostart on login
 - Open source project
 
-![Example1](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif01.gif)
-![Example2](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif02.gif)
-![Example3](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif03.gif)
-![Example4](https://raw.githubusercontent.com/spheras/Desktop-Folder/master/etc/gif04.gif)
+![Example1](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif01.gif)
+![Example2](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif02.gif)
+![Example3](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif03.gif)
+![Example4](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif04.gif)
 
+## How to install
+(under construction)
 
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:
@@ -42,7 +46,7 @@ Run `meson build` to configure the build environment and then change to the buil
     mesonconf -Dprefix=/usr
     ninja
 
-To install, use `ninja install`, then execute with `org.spheras.desktopfolder`
+To install, use `ninja install`, then execute with `com.github.spheras.desktopfolder`
 
     sudo ninja install
-    org.spheras.desktopfolder
+    com.github.spheras.desktopfolder

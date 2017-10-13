@@ -55,7 +55,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     */
     public NoteWindow (NoteManager manager){
         Object (application: manager.get_application(),
-                icon_name: "org.spheras.desktopfolder",
+                icon_name: "com.github.spheras.desktopfolder",
                 resizable: true,
                 skip_taskbar_hint : true,
                 decorated:true,
@@ -385,7 +385,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         cr.clip ();
 
         try{
-            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/hip-square.png");
+            var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/hip-square.png");
             var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
             var pat = new Cairo.Pattern.for_surface (surface);
             pat.set_extend (Cairo.Extend.REPEAT);
@@ -435,7 +435,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
                     color= "yellow";
                     break;
             }
-            var pixbuf=new Gdk.Pixbuf.from_resource("/org/spheras/desktopfolder/clip-"+color+".png");
+            var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/clip-"+color+".png");
             var clip=Gdk.cairo_surface_create_from_pixbuf(pixbuf, 1, null);
             cr.set_source_surface (clip, 5, 5);
             cr.paint();

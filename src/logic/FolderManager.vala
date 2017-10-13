@@ -316,7 +316,9 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     public void delete(){
         //lets delete
         try{
-            DesktopFolder.Util.recursive_delete(this.get_absolute_path());
+            File file=File.new_for_path (this.get_absolute_path());
+            file.trash();
+            //DesktopFolder.Util.recursive_delete(this.get_absolute_path());
             this.close();
         }catch(Error error){
             stderr.printf ("Error: %s\n", error.message);
