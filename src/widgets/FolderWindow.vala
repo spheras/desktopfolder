@@ -375,6 +375,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             if(selected!=null){
                 selected.delete_dialog();
                 return true;
+            }else{
+                this.delete_folder();
             }
             return false;
         }else if(event.type==Gdk.EventType.KEY_RELEASE && key==F2_KEY){
@@ -383,6 +385,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             if(selected!=null){
                 selected.rename_dialog();
                 return true;
+            }else{
+                this.rename_folder();
             }
             return false;
         }else if(control_pressed && event.type==Gdk.EventType.KEY_RELEASE && (key=='c' || key=='C')){
