@@ -458,8 +458,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     /**
     * @name move_selected_to
     * @description select the next item following a direction
-    * @param {CompareAllocations} same_axis;
-    * @param {CompareAllocations} is_selectable
+    * @param {CompareAllocations} same_axis a function to check that the next item is on the same axis than the previous one
+    * @param {CompareAllocations} is_selectable a function to check that the next item is in the correct direction
     */
     private void move_selected_to(CompareAllocations same_axis, CompareAllocations is_selectable){
         ItemView actual_item = this.get_selected_item();
