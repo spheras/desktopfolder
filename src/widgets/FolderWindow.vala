@@ -499,9 +499,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     */
     private void move_selected_to(CompareAllocations same_axis, CompareAllocations is_selectable){
         ItemView actual_item = this.get_selected_item();
-        if(!(actual_item is Gtk.Widget)){
-            debug("There is no selected widget on the forlder");
-            return;
+        if(actual_item == null){
+            actual_item = (ItemView)this.container.get_children ().nth_data(0);
+            if(actual_item == null){
+                debug("There is not widgets on the folder.");
+                return;
+            }
         }
         Gtk.Allocation actual_allocation;
         actual_item.get_allocation(out actual_allocation);
