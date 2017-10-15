@@ -58,6 +58,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
                 icon_name: "com.github.spheras.desktopfolder",
                 resizable: true,
                 skip_taskbar_hint : true,
+                type_hint:Gdk.WindowTypeHint.DESKTOP,
                 decorated:true,
                 title: (manager.get_note_name()),
                 deletable:false,
@@ -115,6 +116,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         //connecting to events
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect(this.on_press);
+        this.button_release_event.connect(this.on_release);
         this.draw.connect(this.draw_background);
 
         text.focus_out_event.connect(this.on_focus_out);
@@ -128,6 +130,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     * @return bool @see focus_out_event signal
     */
     private bool on_focus_out (Gdk.EventFocus event){
+        //we are now a dock Window, to avoid minimization when show desktop
+        //TODO exists a way to make resizable and moveable a dock window?
+        this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+
         var buffer=this.text.get_buffer();
         var text=buffer.text;
         var saved_text=this.manager.get_settings().text;
@@ -143,9 +149,25 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     */
     private bool on_configure(Gdk.EventConfigure event){
         if(event.type==Gdk.EventType.CONFIGURE){
+            //we are now a dock Window, to avoid minimization when show desktop
+            //TODO exists a way to make resizable and moveable a dock window?
+            //this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
         }
+        return false;
+    }
+
+    /**
+    * @name on_release
+    * @description release event captured.
+    * @return bool @see widget on_release signal
+    */
+    private bool on_release(Gdk.EventButton event){
+        //we are now a dock Window, to avoid minimization when show desktop
+        //TODO exists a way to make resizable and moveable a dock window?
+        this.type_hint=Gdk.WindowTypeHint.DESKTOP;
         return false;
     }
 
@@ -155,6 +177,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     * @return bool @see widget on_press signal
     */
     private bool on_press(Gdk.EventButton event){
+        //we are now a normal Window, to allow resizing and movement
+        //TODO exists a way to make resizable and moveable a dock window?
+        this.type_hint=Gdk.WindowTypeHint.NORMAL;
+
         //debug("press:%i,%i",(int)event.button,(int)event.y);
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button==Gdk.BUTTON_SECONDARY)) {
@@ -172,6 +198,11 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     private void show_popup(Gdk.EventButton event){
         //debug("evento:%f,%f",event.x,event.y);
         //if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
+
+            //Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
+            //TODO exists a way to make resizable and moveable a dock window?
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+
             this.menu = new Gtk.Menu ();
 
             //section to change the window head and body colors
@@ -198,17 +229,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
             //menu to create a new note
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-            item.activate.connect ((item)=>{
-                    this.new_note();
-            });
+            item.activate.connect ((item)=>{this.new_note();});
             item.show();
             menu.append (item);
 
             //menu to create a new photo
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-            item.activate.connect ((item)=>{
-                    this.new_photo();
-            });
+            item.activate.connect ((item)=>{this.new_photo();});
             item.show();
             menu.append (item);
 

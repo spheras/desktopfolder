@@ -392,7 +392,12 @@ public class DesktopFolderApp : Gtk.Application {
         unowned List<Wnck.Window> windows = screen.get_windows();
 
         foreach(Wnck.Window w in windows){
-            w.minimize();
+            Wnck.Application window_app=w.get_application();
+            string name=window_app.get_name();
+            //debug("app name:%s",name);
+            if(name!=DesktopFolder.APP_ID){
+                w.minimize();
+            }
         }
     }
 

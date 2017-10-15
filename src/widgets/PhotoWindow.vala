@@ -57,6 +57,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
                 resizable: true,
                 skip_taskbar_hint : true,
                 decorated:true,
+                type_hint:Gdk.WindowTypeHint.DOCK,
                 title: (manager.get_photo_name()),
                 deletable:false,
                 width_request: 140,
@@ -100,6 +101,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
         //connecting to events
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect(this.on_press);
+        this.button_release_event.connect(this.on_release);
         this.draw.connect(this.draw_background);
     }
 
@@ -109,6 +111,10 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     */
     private bool on_configure(Gdk.EventConfigure event){
         if(event.type==Gdk.EventType.CONFIGURE){
+            //we are now a dock Window, to avoid minimization when show desktop
+            //TODO exists a way to make resizable and moveable a dock window?
+            this.type_hint=Gdk.WindowTypeHint.DOCK;
+
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
 
@@ -121,11 +127,27 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     }
 
     /**
+    * @name on_release
+    * @description release event captured.
+    * @return bool @see widget on_release signal
+    */
+    private bool on_release(Gdk.EventButton event){
+        //we are now a dock Window, to avoid minimization when show desktop
+        //TODO exists a way to make resizable and moveable a dock window?
+        this.type_hint=Gdk.WindowTypeHint.DOCK;
+        return false;
+    }
+
+    /**
     * @name on_press
     * @description press event captured. The Window should show the popup on right button
     * @return bool @see widget on_press signal
     */
     private bool on_press(Gdk.EventButton event){
+        //we are now a normal Window, to allow resizing and movement
+        //TODO exists a way to make resizable and moveable a dock window?
+        this.type_hint=Gdk.WindowTypeHint.NORMAL;
+
         //debug("press:%i,%i",(int)event.button,(int)event.y);
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button==Gdk.BUTTON_SECONDARY)) {
@@ -152,6 +174,11 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     private void show_popup(Gdk.EventButton event){
         //debug("evento:%f,%f",event.x,event.y);
         //if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
+
+            //Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
+            //TODO exists a way to make resizable and moveable a dock window?
+            this.type_hint=Gdk.WindowTypeHint.DOCK;
+
             this.menu = new Gtk.Menu ();
 
             Gtk.MenuItem item = new MenuItemColor(FIXO_TAGS_COLORS);
