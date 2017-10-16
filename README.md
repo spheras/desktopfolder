@@ -1,8 +1,6 @@
 # Desktop-Folder
 Come back to life your Pantheon or Gnome3 desktop!
 
-NOT YET IN ELEMENTARY APPCENTER!
-
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
 ![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/banner.png)
@@ -26,7 +24,13 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 ![Example4](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif04.gif)
 
 ## How to install
-(under construction)
+If you are an elementary user, you can get it direclty from the AppCenter. Just click here:
+
+[![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
+
+If you are a Gnome3 user, you can try downloading the .deb release. Go to the releases section (https://github.com/spheras/desktopfolder/releases) and download the last statble version.  Once downloaded you can install it in your system. For instance, with apt:
+
+`sudo apt install ./downloaded.deb`
 
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:
