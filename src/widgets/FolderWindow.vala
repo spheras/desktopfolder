@@ -449,6 +449,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             if(selected!=null){
                 selected.delete_dialog();
                 return true;
+            }else{
+                this.delete_folder();
             }
             return false;
         }else if(event.type==Gdk.EventType.KEY_RELEASE && key==F2_KEY){
@@ -457,6 +459,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             if(selected!=null){
                 selected.rename_dialog();
                 return true;
+            }else{
+                this.rename_folder();
             }
             return false;
         }else if(control_pressed && event.type==Gdk.EventType.KEY_RELEASE && (key=='c' || key=='C')){
@@ -527,16 +531,24 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     /**
     * @name move_selected_to
     * @description select the next item following a direction
-    * @param {CompareAllocations} same_axis;
-    * @param {CompareAllocations} is_selectable
+    * @param {CompareAllocations} same_axis a function to check that the next item is on the same axis than the previous one
+    * @param {CompareAllocations} is_selectable a function to check that the next item is in the correct direction
     */
     private void move_selected_to(CompareAllocations same_axis, CompareAllocations is_selectable){
-        List<weak Gtk.Widget> children = this.container.get_children();
         ItemView actual_item = this.get_selected_item();
+        if(actual_item == null){
+            actual_item = (ItemView)this.container.get_children ().nth_data(0);
+            if(actual_item == null){
+                debug("There is not widgets on the folder.");
+                return;
+            }
+        }
         Gtk.Allocation actual_allocation;
         actual_item.get_allocation(out actual_allocation);
         ItemView next_item = null;
         Gtk.Allocation next_allocation=actual_allocation;
+
+        List<weak Gtk.Widget> children = this.container.get_children();
         foreach (Gtk.Widget elem in children ) {
             Gtk.Allocation elem_allocation;
             elem.get_allocation(out elem_allocation);
