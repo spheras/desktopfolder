@@ -40,7 +40,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         set_keep_below (true);
         stick ();
         this.hide_titlebar_when_maximized = false;
-        set_type_hint(Gdk.WindowTypeHint.MENU);
+        set_type_hint(Gdk.WindowTypeHint.DESKTOP);
         set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
     }
@@ -194,7 +194,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                  (event.button==Gdk.BUTTON_PRIMARY)) {
             int width = this.get_allocated_width ();
             int height = this.get_allocated_height ();
-            int margin=20;
+            int margin=30;
             //debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
             if(event.x>margin && event.y>margin && event.x<width-margin && event.y<height-margin){
                 this.begin_move_drag((int)event.button,(int) event.x_root,(int) event.y_root, event.time);

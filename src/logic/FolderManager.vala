@@ -316,10 +316,21 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     public void delete(){
         //lets delete
         try{
-            File file=File.new_for_path (this.get_absolute_path());
-            file.trash();
-            //DesktopFolder.Util.recursive_delete(this.get_absolute_path());
-            this.close();
+            if(this.application.count_widgets()>1){
+                File file=File.new_for_path (this.get_absolute_path());
+                file.trash();
+                //DesktopFolder.Util.recursive_delete(this.get_absolute_path());
+                this.close();
+            }else{
+                for(int i=0;i<this.items.length();i++){
+                    this.items.nth_data(i).delete();
+                }
+                
+                this.clear_all();
+                this.rename(DesktopFolder.Lang.APP_FIRST_PANEL);
+                this.view.queue_draw();
+                this.view.show_all();
+            }
         }catch(Error error){
             stderr.printf ("Error: %s\n", error.message);
             Util.show_error_dialog("Error",error.message);
