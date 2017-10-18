@@ -296,7 +296,11 @@ padding-bottom:0px;
     transition-duration: 0.5s;
 }
 
-.df_item.df_selected .df_label{
+.df_folder .df_item.df_selected .df_label{
+    background:#999999;
+}
+
+.df_folder.df_active .df_item.df_selected .df_label{
     background:#6699ff;
 }
 
@@ -342,12 +346,17 @@ padding-bottom:0px;
 }
 
 .df_note_text text{
-background:rgba(0,0,0,0);
+    background:rgba(0,0,0,0);
 }
 
-.df_note_text:selected{
+.df_folder .df_note_text:selected{
     background-color:rgba(0,0,0,0.5);
 }
+
+.df_folder.df_active .df_note_text:selected{
+    background-color:rgba(0,0,255,0.5);
+}
+
 
 .df_folder.df_note.light .df_note_text{
     color: @colorForegroundLIGHT;

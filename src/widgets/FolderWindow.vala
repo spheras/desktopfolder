@@ -57,7 +57,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 skip_taskbar_hint : true,
                 decorated:true,
                 title: (manager.get_folder_name()),
-                type_hint:Gdk.WindowTypeHint.DOCK,
+                type_hint:Gdk.WindowTypeHint.DESKTOP,
                 deletable:false,
                 default_width:300,
                 default_height:300,
@@ -101,6 +101,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.key_release_event.connect(this.on_key);
         this.key_press_event.connect(this.on_key);
 
+        //help: doesn't have the gtk window any active signal? or css :active state?
+        Wnck.Screen screen = Wnck.Screen.get_default();
+        screen.active_window_changed.connect(on_active_change);
 
         /*
         this.focus_in_event.connect((event)=>{debug("focus_in");return false;});
@@ -110,6 +113,30 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.window_state_event.connect(on_window_state_event);
         */
         //TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+    }
+
+    /**
+    * @name on_active_change
+    * @description the screen actived window has change signal
+    * @param {Wnck.Window} the previous actived window
+    */
+    private void on_active_change(Wnck.Window previous){
+        string sclass="df_active";
+        Gtk.StyleContext style=this.get_style_context();
+        if(this.is_active){
+            if(!style.has_class(sclass)){
+                style.add_class ("df_active");
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }else{
+            if(style.has_class(sclass)){
+                style.remove_class ("df_active");
+                this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }
     }
 
     /**
@@ -128,7 +155,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         if(event.type==Gdk.EventType.CONFIGURE){
             //we are now a dock Window, to avoid minimization when show desktop
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DOCK;
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
@@ -144,7 +171,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private bool on_release(Gdk.EventButton event){
         //we are now a dock Window, to avoid minimization when show desktop
         //TODO exists a way to make resizable and moveable a dock window?
-        this.type_hint=Gdk.WindowTypeHint.DOCK;
+        this.type_hint=Gdk.WindowTypeHint.DESKTOP;
         return false;
     }
 
@@ -163,6 +190,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             (event.button==Gdk.BUTTON_SECONDARY)) {
             this.show_popup(event);
             return true;
+        }else if (event.type == Gdk.EventType.BUTTON_PRESS &&
+                 (event.button==Gdk.BUTTON_PRIMARY)) {
+            int width = this.get_allocated_width ();
+            int height = this.get_allocated_height ();
+            int margin=20;
+            //debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
+            if(event.x>margin && event.y>margin && event.x<width-margin && event.y<height-margin){
+                this.begin_move_drag((int)event.button,(int) event.x_root,(int) event.y_root, event.time);
+            }
+
         }
         return false;
     }
@@ -178,7 +215,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
 
             //Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DOCK;
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
 

@@ -121,6 +121,34 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
         text.focus_out_event.connect(this.on_focus_out);
         //this.key_release_event.connect(this.on_key);
+
+        //help: doesn't have the gtk window any active signal? or css :active state?
+        Wnck.Screen screen = Wnck.Screen.get_default();
+        screen.active_window_changed.connect(on_active_change);
+    }
+
+    /**
+    * @name on_active_change
+    * @description the screen actived window has change signal
+    * @param {Wnck.Window} the previous actived window
+    */
+    private void on_active_change(Wnck.Window previous){
+        string sclass="df_active";
+        Gtk.StyleContext style=this.get_style_context();
+        if(this.is_active){
+            if(!style.has_class(sclass)){
+                style.add_class ("df_active");
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }else{
+            if(style.has_class(sclass)){
+                style.remove_class ("df_active");
+                this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }
     }
 
     /**
