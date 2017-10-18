@@ -39,15 +39,23 @@ public class DesktopFolder.FolderSettings: Object{
     * @param string name the name of the folder
     */
     public FolderSettings (string name) {
+        this.reset();
+	}
+
+    /**
+    * @name reset
+    * @description reset the properties
+    */
+    public void reset(){
         this.x=100;
         this.y=100;
         this.w=300;
         this.h=300;
-        this.bgcolor="black";
-        this.fgcolor="light";
+        this.bgcolor="df_black";
+        this.fgcolor="df_light";
         this.name=name;
         this.items=new string[0];
-	}
+    }
 
     /**
     * @name set_item
@@ -200,6 +208,14 @@ public class DesktopFolder.FolderSettings: Object{
             FolderSettings existent = Json.gobject_from_data (typeof (FolderSettings), content) as FolderSettings;
             existent.file=file;
             existent.name=name;
+
+            //regression for classes, now must have a df_ prefix
+            if(existent.bgcolor.length>0 && !existent.bgcolor.has_prefix("df_")){
+                existent.bgcolor="df_"+existent.bgcolor;
+            }
+            if(existent.fgcolor.length>0 && !existent.fgcolor.has_prefix("df_")){
+                existent.fgcolor="df_"+existent.fgcolor;
+            }
             existent.check_all();
             return existent;
         } catch (Error e) {

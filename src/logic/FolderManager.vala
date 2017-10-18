@@ -325,9 +325,12 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
                 for(int i=0;i<this.items.length();i++){
                     this.items.nth_data(i).delete();
                 }
-                
+
                 this.clear_all();
+                this.settings.reset();
+                this.settings.save();
                 this.rename(DesktopFolder.Lang.APP_FIRST_PANEL);
+                this.view.reload_settings();
                 this.view.queue_draw();
                 this.view.show_all();
             }

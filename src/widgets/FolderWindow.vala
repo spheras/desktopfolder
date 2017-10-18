@@ -34,7 +34,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private const string HEAD_TAGS_COLORS_CLASS[3] = { "headless", "light", "dark"};
     /** body tags colors */
     private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
-    private const string BODY_TAGS_COLORS_CLASS[10] = { "transparent", "yellow", "orange", "brown", "green", "blue", "purple", "red", "gray", "black" };
+    private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     construct {
         set_keep_below (true);
@@ -76,23 +76,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         //setting the folder name
         this.manager=manager;
 
-        //we set a class to this window to manage the css
-        this.get_style_context ().add_class ("df_folder");
-
         //creating the container widget
         this.container=new Gtk.Fixed();
         add(this.container);
 
-        //let's load the settings of the folder (if exist or a new one)
-        FolderSettings settings=this.manager.get_settings();
-        if(settings.w>0){
-            //applying existing position and size configuration
-            this.resize(settings.w,settings.h);
-            this.move(settings.x,settings.y);
-        }
-        //applying existing colors configuration
-        this.get_style_context ().add_class (settings.bgcolor);
-        this.get_style_context ().add_class (settings.fgcolor);
+        this.reload_settings();
 
         //connecting to events
         this.configure_event.connect (this.on_configure);
@@ -113,6 +101,31 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.window_state_event.connect(on_window_state_event);
         */
         //TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+    }
+
+    public void reload_settings(){
+        //let's load the settings of the folder (if exist or a new one)
+        FolderSettings settings=this.manager.get_settings();
+        if(settings.w>0){
+            //applying existing position and size configuration
+            this.resize(settings.w,settings.h);
+            this.move(settings.x,settings.y);
+        }
+        List<unowned string> classes=this.get_style_context().list_classes();
+        for(int i=0;i<classes.length();i++){
+            string class=classes.nth_data(i);
+            if(class.has_prefix("df_")){
+                this.get_style_context().remove_class(class);
+            }
+        }
+        //we set a class to this window to manage the css
+        this.get_style_context ().add_class ("df_folder");
+
+        //applying existing colors configuration
+        this.get_style_context ().add_class (settings.bgcolor);
+        this.get_style_context ().add_class (settings.fgcolor);
+
+        this.set_title(manager.get_folder_name());
     }
 
     /**
