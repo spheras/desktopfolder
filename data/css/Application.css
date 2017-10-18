@@ -24,13 +24,15 @@
 
 /* TITLE COLORS */
 @define-color colorForegroundLIGHT rgba(255,255,255,1);
-@define-color colorForegroundDARK rgba(0,0,0,1);
+@define-color colorForegroundDARK rgba(0,0,0,0.75);
 @define-color colorForegroundHEADLESS rgba(0,0,0,0);
 .df_folder.light .titlebar .title{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 .df_folder.dark .titlebar .title{
     color: @colorForegroundDARK;
+    text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 .df_folder.headless .titlebar .title{
     color: @colorForegroundHEADLESS;
@@ -306,18 +308,21 @@ padding-bottom:0px;
 
 .df_icon, .df_label{
     color:white;
-    font-weight:bold;
+    /*font-weight:bold;*/
 }
 
 .df_folder.dark .df_item.df_selected .df_icon, .df_folder.dark .df_item.df_selected .df_label{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .df_folder.light .df_icon, .df_folder.light .df_label{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 .df_folder.dark .df_icon, .df_folder.dark .df_label{
-    color: #333;
+    color: rgba(0,0,0,0.75);
+    text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 .df_folder.headless .df_icon, .df_folder.headless .df_label{
     color: @colorForegroundLIGHT;
@@ -342,18 +347,21 @@ padding-bottom:0px;
 }
 
 .df_note_text text{
-background:rgba(0,0,0,0);
+    background:rgba(0,0,0,0);
 }
 
 .df_note_text:selected{
     background-color:rgba(0,0,0,0.5);
 }
 
+/* Text shadows below don't work. */
 .df_folder.df_note.light .df_note_text{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 .df_folder.df_note.dark .df_note_text{
     color: @colorForegroundDARK;
+    text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 .df_folder.df_note.headless .df_note_text{
     color: @colorForegroundDARK;
