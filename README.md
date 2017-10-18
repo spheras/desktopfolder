@@ -1,5 +1,5 @@
 # Desktop-Folder
-Bring your desktop back to life
+Bring your desktop back to life.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
