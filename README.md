@@ -23,7 +23,7 @@ If you use elementary OS, you can get it directly from the AppCenter.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
-If you use GNOME 3, you can try the .deb release in the [releases section](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
+If you use GNOME 3, you should use the latest [.deb release](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
 
 `sudo apt install ./com.github.spheras.desktopfolder_[version]_amd64.deb`
 
