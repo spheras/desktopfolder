@@ -27,7 +27,7 @@ If you use GNOME 3, you should use the latest [.deb release](https://github.com/
 
 `sudo apt install ./com.github.spheras.desktopfolder_[version]_amd64.deb`
 
-After installing, re-login to start using Desktop Folder. You can also run `com.github.spheras.desktopfolder` to start it immediately.
+After installing, re-login to start using Desktop Folder.
 
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:
