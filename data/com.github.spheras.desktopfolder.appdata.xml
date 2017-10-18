@@ -5,49 +5,44 @@
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
     <name>Desktop Folder</name>
-    <summary>Organize your Desktop using folders panels</summary>
+    <summary>Bring your desktop back to life</summary>
     <description>
-        <p>Come back to life your minimalist desktop and organize it dropping files, folder, launchers, and notes!</p>
+        <p>Organize your desktop with panels that hold your things.</p>
         <ul>
-            <li>Color and Transparent Panels</li>
-            <li>Resize and position everything over your Desktop</li>
-            <li>Drop files/folders everywhere</li>
-            <li>Drop launchers .desktop to panels</li>
-            <li>Create soft links to files and folders</li>
-            <li>Create colorful notes</li>
-            <li>Photos over your desktop</li>
-            <li>Show Desktop Hotkey ⌘-D</li>
-            <li>Autostart on login</li>
-            <li>Open source project</li>
+            <li>Access files, folders and apps from your desktop</li>
+            <li>Drop files, folders, links and .desktop launchers inside panels</li>
+            <li>Resize, position and color panels</li>
+            <li>Display photos and keep notes on your desktop</li>
+            <li>Reveal the desktop with ⌘-D</li>
         </ul>
-        <p>Remember to logout after install to start the application.</p>
+        <p>Re-login after installing to start using Desktop Folder.</p>
     </description>
     <provides>
         <binary>com.github.spheras.desktopfolder</binary>
     </provides>
     <screenshots>
         <screenshot type="default">
-            <caption>Overall Desktop view</caption>
+            <caption>Overall desktop view</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-1.png</image>
         </screenshot>
         <screenshot>
-            <caption>Green Note Example</caption>
+            <caption>Green note example</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-2.png</image>
         </screenshot>
         <screenshot>
-            <caption>Yellow Note Example</caption>
+            <caption>Yellow note example</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-3.png</image>
         </screenshot>
         <screenshot>
-            <caption>Yellow Panel Example with launcher Icons</caption>
+            <caption>Yellow panel example with launcher icons</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-4.png</image>
         </screenshot>
         <screenshot>
-            <caption>Purple Panel Example with launcher Icons</caption>
+            <caption>Purple panel example with launcher icons</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-5.png</image>
         </screenshot>
         <screenshot>
-            <caption>Green Panel Example with Files and Folders</caption>
+            <caption>Green panel example with files and folders</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-6.png</image>
         </screenshot>
     </screenshots>
