@@ -27,7 +27,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
     /** the text view */
-    private Gtk.TextView text=null;
+    private Gtk.SourceView text=null;
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
@@ -105,7 +105,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 		box.pack_start (scrolled, true, true, 0);
 
         // The TextView:
-	    this.text = new Gtk.TextView ();
+	    this.text = new Gtk.SourceView(); //Gtk.TextView ();
 		this.text.set_wrap_mode (Gtk.WrapMode.WORD);
         this.text.get_style_context ().add_class ("df_note_text");
 		this.text.buffer.text = this.manager.get_settings().text;
@@ -137,16 +137,20 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         Gtk.StyleContext style=this.get_style_context();
         if(this.is_active){
             if(!style.has_class(sclass)){
+                debug("active");
                 style.add_class ("df_active");
                 //we need to force a queue_draw
                 this.queue_draw();
+                this.text.queue_draw();
             }
         }else{
             if(style.has_class(sclass)){
+                debug("inactive");
                 style.remove_class ("df_active");
                 this.type_hint=Gdk.WindowTypeHint.DESKTOP;
                 //we need to force a queue_draw
                 this.queue_draw();
+                this.text.queue_draw();
             }
         }
     }

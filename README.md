@@ -37,6 +37,7 @@ You'll need the following dependencies to build:
 * libjson-glib-dev,
 * libgdk-pixbuf2.0-dev,
 * libwnck-3-dev
+* libgtksourceview-3.0-dev
 * meson
 * valac
 
