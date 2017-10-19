@@ -31,18 +31,25 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
-    private const string HEAD_TAGS_COLORS_CLASS[3] = { "headless", "light", "dark"};
+    private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
     /** body tags colors */
     private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     construct {
         set_keep_below (true);
-        stick ();
         this.hide_titlebar_when_maximized = false;
         set_type_hint(Gdk.WindowTypeHint.DESKTOP);
+
         set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
+        this.set_property("skip-pager-hint", true);
+        this.set_property("skip_taskbar_hint", true);
+        this.set_property("skip_pager_hint", true);
+        this.skip_pager_hint = true;
+        this.skip_taskbar_hint = true;
+
+        stick ();
     }
 
     /**
@@ -55,6 +62,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 resizable: true,
                 accept_focus:true,
                 skip_taskbar_hint : true,
+                skip_pager_hint:true,
                 decorated:true,
                 title: (manager.get_folder_name()),
                 type_hint:Gdk.WindowTypeHint.DESKTOP,
@@ -72,6 +80,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.set_titlebar(headerbar);
 
         this.set_skip_taskbar_hint(true);
+        skip_pager_hint = true;
+        skip_taskbar_hint = true;
         this.set_property("skip-taskbar-hint", true);
         //setting the folder name
         this.manager=manager;
@@ -133,9 +143,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @description the screen actived window has change signal
     * @param {Wnck.Window} the previous actived window
     */
-    private void on_active_change(Wnck.Window previous){
+    private void on_active_change(Wnck.Window? previous){
         string sclass="df_active";
         Gtk.StyleContext style=this.get_style_context();
+        //debug("%s is active? %s",this.manager.get_folder_name(), this.is_active ? "true" : "false");
         if(this.is_active){
             if(!style.has_class(sclass)){
                 style.add_class ("df_active");

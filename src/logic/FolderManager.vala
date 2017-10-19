@@ -130,7 +130,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
             //we ignore the settings file changes
         }else{
             debug("%s - Change Detected",this.get_folder_name());
-            if(dest!=null){
+            if(dest!=null && src.query_exists() && dest.query_exists()){
                 //something has been renamed
                 string new_filename=dest.get_basename ();
                 this.settings.rename(old_filename,new_filename);

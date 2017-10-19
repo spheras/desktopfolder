@@ -40,7 +40,7 @@ namespace DesktopFolder.Util
     	dialog.program_name = "Desktop-Folder";
     	dialog.comments = DesktopFolder.Lang.APP_DESCRIPTION;
     	dialog.copyright = "GNU General Public License v3.0";
-    	dialog.version = "1.0.1";
+    	dialog.version = DesktopFolder.VERSION;
 
         string license="This program is free software: you can redistribute it and/or modify " +
         "it under the terms of the GNU General Public License as published by "+

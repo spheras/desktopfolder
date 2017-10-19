@@ -31,7 +31,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
-    private const string HEAD_TAGS_COLORS_CLASS[3] = { "headless", "light", "dark"};
+    private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
     /** body tags colors */
     private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
@@ -132,7 +132,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     * @description the screen actived window has change signal
     * @param {Wnck.Window} the previous actived window
     */
-    private void on_active_change(Wnck.Window previous){
+    private void on_active_change(Wnck.Window? previous){
         string sclass="df_active";
         Gtk.StyleContext style=this.get_style_context();
         if(this.is_active){

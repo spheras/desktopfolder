@@ -87,8 +87,8 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
         //we set a class to this window to manage the css
         this.get_style_context ().add_class ("df_folder");
         this.get_style_context ().add_class ("df_photo");
-        this.get_style_context ().add_class ("transparent");
-        this.get_style_context ().add_class ("headless");
+        this.get_style_context ().add_class ("df_transparent");
+        this.get_style_context ().add_class ("df_headless");
 
         // Box:
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
@@ -114,7 +114,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     * @description the screen actived window has change signal
     * @param {Wnck.Window} the previous actived window
     */
-    private void on_active_change(Wnck.Window previous){
+    private void on_active_change(Wnck.Window? previous){
         string sclass="df_active";
         Gtk.StyleContext style=this.get_style_context();
         if(this.is_active){

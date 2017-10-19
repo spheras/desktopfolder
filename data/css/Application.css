@@ -251,7 +251,7 @@
 
     border-style: none;
     border-width:10px;
-    border-color:df_red;
+    border-color:#FF0000;
 }
 
 .df_folder .titlebar .title{
@@ -276,7 +276,7 @@ padding-bottom:0px;
 .df_folder .titlebar,
 .df_folder .titlebar:backdrop{
     background-image: none;
-    background:df_red;
+    background:#FF0000;
     padding-left:14px;
     padding-right:14px;
 
