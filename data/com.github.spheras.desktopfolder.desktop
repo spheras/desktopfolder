@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=Desktop-Folder
+Name[lt]=Darbalaukio aplankas
 Comment=Manage your desktop with folder panels
+Comment[lt]=Tvarkyti savo darbalaukį aplanko polangių pagalba
 Exec=com.github.spheras.desktopfolder
 Icon=com.github.spheras.desktopfolder
 Keywords=desktop;folder;file;organize;
