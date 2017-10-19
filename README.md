@@ -1,22 +1,17 @@
 # Desktop-Folder
-Come back to life your Pantheon or Gnome3 desktop!
+Bring your desktop back to life.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
-![Desktop-Folder Banner](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/banner.png)
+![Desktop Folder Banner](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/banner.png)
 
 ## Description
-Organize your desktop using folders panels.Come back to life your minimalist desktop and organize it dropping files, folder, launchers, and notes!
-- Color and Transparent Panels
-- Resize and position everything
-- Drop files/folders everywhere
-- Drop launchers .desktop to panels
-- Create soft links to files and folders
-- Create colorful notes
-- Photos over your desktop
-- Show Desktop Hotkey ⌘-D
-- Autostart on login
-- Open source project
+Organize your desktop with panels that hold your things.
+- Access files, folders and apps from your desktop
+- Drop files, folders, links and .desktop launchers inside panels
+- Resize, position and color panels
+- Display photos and keep notes on your desktop
+- Reveal the desktop with ⌘-D
 
 ![Example1](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif01.gif)
 ![Example2](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif02.gif)
@@ -24,13 +19,15 @@ Organize your desktop using folders panels.Come back to life your minimalist des
 ![Example4](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif04.gif)
 
 ## How to install
-If you are an elementary user, you can get it direclty from the AppCenter. Just click here:
+If you use elementary OS, you can get it directly from the AppCenter.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
-If you are a Gnome3 user, you can try downloading the .deb release. Go to the releases section (https://github.com/spheras/desktopfolder/releases) and download the last statble version.  Once downloaded you can install it in your system. For instance, with apt:
+If you use GNOME 3, you should use the latest [.deb release](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
 
-`sudo apt install ./downloaded.deb`
+`sudo apt install ./com.github.spheras.desktopfolder_[version]_amd64.deb`
+
+After installing, re-login to start using Desktop Folder.
 
 ## Building, Testing, and Installation
 You'll need the following dependencies to build:
