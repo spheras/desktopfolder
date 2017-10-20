@@ -13,12 +13,14 @@
     <file alias="clip-yellow.png" compressed="true">img/clip-yellow.png</file>
     <file alias="link.svg" compressed="true">img/link.svg</file>
 
-    <file alias="fixo-blue.svg" compressed="true">img/fixo-blue.svg</file>
+    <file alias="fixo-blueberry.svg" compressed="true">img/fixo-blueberry.svg</file>
     <file alias="fixo-black.svg" compressed="true">img/fixo-black.svg</file>
-    <file alias="fixo-green.svg" compressed="true">img/fixo-green.svg</file>
-    <file alias="fixo-pink.svg" compressed="true">img/fixo-pink.svg</file>
+    <file alias="fixo-lime.svg" compressed="true">img/fixo-lime.svg</file>
+    <file alias="fixo-grape.svg" compressed="true">img/fixo-grape.svg</file>
     <file alias="fixo-white.svg" compressed="true">img/fixo-white.svg</file>
-    <file alias="fixo-yellow.svg" compressed="true">img/fixo-yellow.svg</file>
+    <file alias="fixo-banana.svg" compressed="true">img/fixo-banana.svg</file>
+    <file alias="fixo-strawberry.svg" compressed="true">img/fixo-strawberry.svg</file>
+    <file alias="fixo-orange.svg" compressed="true">img/fixo-orange.svg</file>
     <file alias="shadow.png" compressed="true">img/shadow.png</file>
   </gresource>
 </gresources>

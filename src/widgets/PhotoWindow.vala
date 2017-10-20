@@ -27,7 +27,8 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
 
-    private const string FIXO_TAGS_COLORS[7] = { null, "#fce94f", "#8ae234", "#729fcf", "#fe44f8", "#FFFFFF", "#000000" };
+    //private const string FIXO_TAGS_COLORS[7] = { null, "#fce94f", "#8ae234", "#729fcf", "#fe44f8", "#FFFFFF", "#000000" };
+    private const string FIXO_TAGS_COLORS[9] = { null, "#ffe16b", "#ffa154", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#ffffff", "#000000" };
 
     //cached shadow photo and fixos
     private Cairo.Surface shadowSurface=null;
@@ -368,56 +369,64 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             cr.paint();
 
             //lets draw the fixo
-            int fixoWidth=100;
-            int fixoHeight=100;
+            int fixoWidth=56;
+            int fixoHeight=56;
+            int fixoMargin=4;
             int fixocolor=this.manager.get_settings().fixocolor;
+            // private const string FIXO_TAGS_COLORS[9] = { null, "#ffe16b", "#ffa154", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#ffffff", "#000000" };
             var color="";
             switch(fixocolor){
                 case 0:
-                    color=null;
+                    color= null;
                     break;
                 case 1:
-                    color= "yellow";
+                    color= "banana";
                     break;
                 case 2:
-                    color= "green";
+                    color= "orange";
                     break;
                 case 3:
-                    color= "blue";
+                    color= "lime";
                     break;
                 case 4:
-                    color= "pink";
+                    color= "blueberry";
                     break;
                 case 5:
+                    color= "grape";
+                    break;
+                case 6:
+                    color= "strawberry";
+                    break;
+                case 7:
                     color= "white";
                     break;
                 default:
-                case 6:
+                case 8:
                     color= "black";
                     break;
             }
             if(color!=null){
                 if(this.fixoPixbuf==null){
                     this.fixoPixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/fixo-"+color+".svg");
-                    this.fixoPixbuf=fixoPixbuf.scale_simple(100,100,Gdk.InterpType.BILINEAR);
+                    //this.fixoPixbuf=fixoPixbuf.scale_simple(100,100,Gdk.InterpType.BILINEAR);
                 }
                 var fixoSurface=Gdk.cairo_surface_create_from_pixbuf(this.fixoPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, 0,0);
+                cr.set_source_surface (fixoSurface, fixoMargin, fixoMargin);
                 cr.paint();
 
                 var rotatedPixbuf=this.fixoPixbuf.rotate_simple(Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface=Gdk.cairo_surface_create_from_pixbuf(rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, width-fixoWidth,0);
+                cr.set_source_surface (fixoSurface, width-fixoWidth - fixoMargin, fixoMargin);
                 cr.paint();
 
                 rotatedPixbuf=rotatedPixbuf.rotate_simple(Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface=Gdk.cairo_surface_create_from_pixbuf(rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, width-fixoWidth,height-fixoHeight);
+                cr.set_source_surface (fixoSurface, width-fixoWidth - fixoMargin, height-fixoHeight - fixoMargin);
                 cr.paint();
 
                 rotatedPixbuf=rotatedPixbuf.rotate_simple(Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface=Gdk.cairo_surface_create_from_pixbuf(rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, 0,height-fixoHeight);
+                cr.set_source_surface (fixoSurface, fixoMargin, height-fixoHeight - fixoMargin);
                 cr.paint();
             }
 
