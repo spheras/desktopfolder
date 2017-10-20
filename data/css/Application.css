@@ -24,13 +24,15 @@
 
 /* TITLE COLORS */
 @define-color colorForegroundLIGHT rgba(255,255,255,1);
-@define-color colorForegroundDARK rgba(0,0,0,1);
+@define-color colorForegroundDARK rgba(0,0,0,0.75);
 @define-color colorForegroundHEADLESS rgba(0,0,0,0);
 .df_folder.df_light .titlebar .title{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 .df_folder.df_dark .titlebar .title{
     color: @colorForegroundDARK;
+    text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 .df_folder.df_headless .titlebar .title{
     color: @colorForegroundHEADLESS;
@@ -310,21 +312,25 @@ padding-bottom:0px;
 
 .df_icon, .df_label{
     color:white;
-    font-weight:bold;
+    /*font-weight:bold;*/
 }
 
 .df_folder.df_dark .df_item.df_selected .df_icon, .df_folder.df_dark .df_item.df_selected .df_label{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .df_folder.df_light .df_icon, .df_folder.df_light .df_label{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 .df_folder.df_dark .df_icon, .df_folder.df_dark .df_label{
-    color: #333;
+    color: rgba(0,0,0,0.75);
+    text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 .df_folder.df_headless .df_icon, .df_folder.df_headless .df_label{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .df_rename{
@@ -360,9 +366,11 @@ padding-bottom:0px;
 
 .df_folder.df_note.df_light .df_note_text{
     color: @colorForegroundLIGHT;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
 .df_folder.df_note.df_dark .df_note_text{
     color: @colorForegroundDARK;
+    text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 .df_folder.df_note.df_headless .df_note_text{
     color: @colorForegroundDARK;
