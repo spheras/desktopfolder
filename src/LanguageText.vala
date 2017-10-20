@@ -68,9 +68,9 @@ namespace DesktopFolder.Lang {
     //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string NOTE_NEW=_("New Note");
     //Menu popup option to rename the note
-    public const string NOTE_MENU_RENAME_NOTE=_("Rename this Note");
+    public const string NOTE_MENU_RENAME_NOTE=_("Rename Note");
     //Menu popup option to delete the note
-    public const string NOTE_MENU_DELETE_NOTE=_("Delete This Note");
+    public const string NOTE_MENU_DELETE_NOTE=_("Move Note to Trash");
     //Note - Dialog Title Message to rename the current note
     public const string NOTE_RENAME_TITLE=_("Rename Note");
     //Note - Dialog Message to rename the current note
@@ -115,7 +115,7 @@ namespace DesktopFolder.Lang {
     //Dialog message to create a new link
     public const string DESKTOPFOLDER_LINK_MESSAGE=_("Select the destination file/folder of the link");
     //Menu popup option to remove a photo
-    public const string PHOTO_MENU_DELETE_PHOTO=_("Delete this Photo");
+    public const string PHOTO_MENU_DELETE_PHOTO=_("Remove Photo");
     //Note - Dialog Message to DELETE the current photo
     public const string PHOTO_DELETE_MESSAGE=_("This action will DELETE the Photo.\n<b>Are you sure?</b>");
     //desktopfolder menu - create a new Photo
