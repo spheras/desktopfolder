@@ -236,56 +236,70 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
-
-            //section to change the window head and body colors
-            Gtk.MenuItem item = new MenuItemColor(HEAD_TAGS_COLORS);;
-            ((MenuItemColor)item).color_changed.connect(change_head_color);
-            item.show();
-            menu.append (item);
-            item = new MenuItemColor(BODY_TAGS_COLORS);;
-            ((MenuItemColor)item).color_changed.connect(change_body_color);
-            item.show();
-            menu.append (item);
-
-            item = new MenuItemSeparator();
-            item.show();
-            menu.append (item);
+            
+            // new submenu
+            Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+            item_new.show();
+            menu.append (item_new);
+            
+            Gtk.Menu newmenu = new Gtk.Menu ();
+            item_new.set_submenu (newmenu);
 
             //menu to create a new folder
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
             item.activate.connect ((item)=>{
                     this.new_desktop_folder();
             });
             item.show();
-            menu.append (item);
+            newmenu.append (item);
 
             //menu to create a new note
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-            item.activate.connect ((item)=>{this.new_note();});
+            item.activate.connect ((item)=>{
+                    this.new_note();
+            });
             item.show();
-            menu.append (item);
+            newmenu.append (item);
 
             //menu to create a new photo
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-            item.activate.connect ((item)=>{this.new_photo();});
+            item.activate.connect ((item)=>{
+                    this.new_photo();
+            });
             item.show();
-            menu.append (item);
-
-
+            newmenu.append (item);
+            
             item = new MenuItemSeparator();
+            item.show ();
+            menu.append (item);
+            
+            //option to delete the current folder
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
+            item.activate.connect ((item)=>{this.delete_note();});
             item.show();
             menu.append (item);
-
+            
+            item = new MenuItemSeparator();
+            item.show ();
+            menu.append (item);
 
             //Option to rename the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
             item.activate.connect ((item)=>{this.rename_note();});
             item.show();
             menu.append (item);
-
-            //option to delete the current folder
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-            item.activate.connect ((item)=>{this.delete_note();});
+            
+            item = new MenuItemSeparator();
+            item.show();
+            menu.append (item);
+            
+            //section to change the window head and body colors
+            item = new MenuItemColor(HEAD_TAGS_COLORS);;
+            ((MenuItemColor)item).color_changed.connect(change_head_color);
+            item.show();
+            menu.append (item);
+            item = new MenuItemColor(BODY_TAGS_COLORS);;
+            ((MenuItemColor)item).color_changed.connect(change_body_color);
             item.show();
             menu.append (item);
 
