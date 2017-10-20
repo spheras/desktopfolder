@@ -327,36 +327,39 @@ namespace DesktopFolder.DragnDrop {
     				File f=files.nth(i).data;
     				if(f.query_exists()){
     					if(action==Gdk.DragAction.COPY){
-    						try{
-    							debug("copying "+f.get_path()+" to " + target_dir.get_path());
-    							File final_target=File.new_for_path (target_dir.get_path()+"/"+f.get_basename());
+                            debug("copying "+f.get_path()+" to " + target_dir.get_path());
+                            File final_target=File.new_for_path (target_dir.get_path()+"/"+f.get_basename());
 
-                                DesktopFolder.ProgressDialog pd=new DesktopFolder.ProgressDialog(DesktopFolder.Lang.DRAGNDROP_FILE_OPERATIONS, (Gtk.Window) parent_view);
-                                GLib.Cancellable cancellable=pd.start();
+                            DesktopFolder.ProgressDialog pd=new DesktopFolder.ProgressDialog(DesktopFolder.Lang.DRAGNDROP_FILE_OPERATIONS, (Gtk.Window) parent_view);
+                            GLib.Cancellable cancellable=pd.start();
+
+    						try{
 
                                 GLib.Thread<int> thread = new Thread<int>.try ("DesktopFolder File Operation", ()=>{
-                                    //debug("starting thread");
-
-                                    DesktopFolder.Util.copy_recursive(f,
-                                        final_target,
-                                        GLib.FileCopyFlags.NONE,
-                                        cancellable,
-                                        (file)=>{
-                                            string message=DesktopFolder.Lang.DRAGNDROP_COPYING;
-                                            message=message+" "+file.get_path();
-                                            pd.show_action(message);
-                                        });
-
-                                    //debug("finished copying");
+                                    try{
+                                        DesktopFolder.Util.copy_recursive(f,
+                                            final_target,
+                                            GLib.FileCopyFlags.NONE,
+                                            cancellable,
+                                            (file)=>{
+                                                string message=DesktopFolder.Lang.DRAGNDROP_COPYING;
+                                                message=message+" "+file.get_path();
+                                                pd.show_action(message);
+                                            });
+                                    }catch(Error e){
+                                        cancellable.cancel();
+                                        stderr.printf ("Error: %s\n", e.message);
+                                    }
                                     pd.stop();
                                     return 0;
                                 });
-    							//f.copy (final_target, FileCopyFlags.NONE, null, null);
-
 
     							if (done_callback != null)
     	                			done_callback();
+
     						}catch(Error error){
+                                cancellable.cancel();
+                                pd.stop();
                                 stderr.printf ("Error: %s\n", error.message);
                             }
     					}else if(action==Gdk.DragAction.MOVE){
