@@ -78,36 +78,31 @@ msgstr ""
 #. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
 #. Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
 #: src/LanguageText.vala:25 src/LanguageText.vala:41 src/LanguageText.vala:47
-msgid "New Panel"
+msgid "Panel"
 msgstr ""
 
 #. Desktop-Folder menu - create a new Note
 #. Desktop-Folder - Title for a Dialog Text to ask the new name for the Desktop-Folder
 #. Desktop-Folder - Dialog Title for a new Desktop Folder Panel to ask the new name
 #: src/LanguageText.vala:27 src/LanguageText.vala:65 src/LanguageText.vala:69
-msgid "New Note"
+msgid "Note"
 msgstr ""
 
 #. Desktop-Folder menu - create a new Folder
 #. Desktop-Folder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
 #: src/LanguageText.vala:29 src/LanguageText.vala:51
-msgid "New Folder"
+msgid "Folder"
 msgstr ""
 
 #. Desktop-Folder menu - create a new empty Text File
 #. Desktop-Folder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
 #: src/LanguageText.vala:31 src/LanguageText.vala:57
-msgid "New Text File"
-msgstr ""
-
-#. Desktop-Folder menu - rename a Desktop-Folder Pane
-#: src/LanguageText.vala:33
-msgid "Rename this Panel"
+msgid "Empty File"
 msgstr ""
 
 #. Desktop-Folder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:35
-msgid "Delete this Panel"
+msgid "Move Panel to Trash"
 msgstr ""
 
 #. Desktop-Folder menu - past from clipboard to the desktop-folder
@@ -160,12 +155,12 @@ msgstr ""
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:71
-msgid "Rename this Note"
+msgid "Rename"
 msgstr ""
 
 #. Menu popup option to delete the note
 #: src/LanguageText.vala:73
-msgid "Delete This Note"
+msgid "Move to Trash"
 msgstr ""
 
 #. Note - Dialog Title Message to rename the current note
@@ -258,12 +253,12 @@ msgstr ""
 
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:112
-msgid "New Link to File"
+msgid "Link to File"
 msgstr ""
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:114
-msgid "New Link to Folder"
+msgid "Link to Folder"
 msgstr ""
 
 #. Dialog message to create a new link
@@ -273,7 +268,7 @@ msgstr ""
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:118
-msgid "Delete this Photo"
+msgid "Remove"
 msgstr ""
 
 #. Note - Dialog Message to DELETE the current photo
@@ -285,10 +280,20 @@ msgstr ""
 
 #. Desktop-Folder menu - create a new Photo
 #: src/LanguageText.vala:122
-msgid "New Photo"
+msgid "Photo"
 msgstr ""
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:124
 msgid "Select the picture to show"
+msgstr ""
+
+#. dialog message to select an image file to be shown at the desktop
+#: src/LanguageText.vala:124
+msgid "Select the picture to show"
+msgstr ""
+
+#. New submenu item
+#: src/LanguageText.vala:126
+msgid "New"
 msgstr ""

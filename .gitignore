@@ -6,4 +6,4 @@ debian/com.github.spheras.desktopfolder.debhelper.log
 debian/com.github.spheras.desktopfolder.substvars
 debian/com.github.spheras.desktopfolder/
 .atom-dbg.cson
-
+*~

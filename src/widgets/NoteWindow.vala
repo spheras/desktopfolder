@@ -236,9 +236,70 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
+            
+            // new submenu
+            Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+            item_new.show();
+            menu.append (item_new);
+            
+            Gtk.Menu newmenu = new Gtk.Menu ();
+            item_new.set_submenu (newmenu);
 
+            //menu to create a new folder
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            item.activate.connect ((item)=>{
+                    this.new_desktop_folder();
+            });
+            item.show();
+            newmenu.append (item);
+
+            //menu to create a new note
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+            item.activate.connect ((item)=>{
+                    this.new_note();
+            });
+            item.show();
+            newmenu.append (item);
+
+            //menu to create a new photo
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+            item.activate.connect ((item)=>{
+                    this.new_photo();
+            });
+            item.show();
+            newmenu.append (item);
+            
+            item = new MenuItemSeparator();
+            item.show ();
+            menu.append (item);
+            
+            //option to delete the current folder
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
+            //item.activate.connect ((item)=>{this.delete_note();});
+            // No need to warn about a non-destructive move.
+            // The notes file just goes to the Trash and can be restored just like any other file. When restored it's back on the desktop as before.
+            // (this is a good design)
+            // This should probably really be "this.manager.move_to_trash"
+            item.activate.connect ((item)=>{this.manager.delete();});
+            item.show();
+            menu.append (item);
+            
+            item = new MenuItemSeparator();
+            item.show ();
+            menu.append (item);
+
+            //Option to rename the current folder
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
+            item.activate.connect ((item)=>{this.rename_note();});
+            item.show();
+            menu.append (item);
+            
+            item = new MenuItemSeparator();
+            item.show();
+            menu.append (item);
+            
             //section to change the window head and body colors
-            Gtk.MenuItem item = new MenuItemColor(HEAD_TAGS_COLORS);;
+            item = new MenuItemColor(HEAD_TAGS_COLORS);;
             ((MenuItemColor)item).color_changed.connect(change_head_color);
             item.show();
             menu.append (item);
@@ -246,67 +307,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             ((MenuItemColor)item).color_changed.connect(change_body_color);
             item.show();
             menu.append (item);
-
-            item = new MenuItemSeparator();
-            item.show();
-            menu.append (item);
-
-            //menu to create a new folder
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-            item.activate.connect ((item)=>{
-                    this.new_desktop_folder();
-            });
-            item.show();
-            menu.append (item);
-
-            //menu to create a new note
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-            item.activate.connect ((item)=>{this.new_note();});
-            item.show();
-            menu.append (item);
-
-            //menu to create a new photo
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-            item.activate.connect ((item)=>{this.new_photo();});
-            item.show();
-            menu.append (item);
-
-
-            item = new MenuItemSeparator();
-            item.show();
-            menu.append (item);
-
-
-            //Option to rename the current folder
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
-            item.activate.connect ((item)=>{this.rename_note();});
-            item.show();
-            menu.append (item);
-
-            //option to delete the current folder
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-            item.activate.connect ((item)=>{this.delete_note();});
-            item.show();
-            menu.append (item);
-
-
-            item = new MenuItemSeparator();
-            item.show();
-            menu.append (item);
-
-            //the about option to show a message dialog
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ABOUT);
-            item.activate.connect ((item)=>{
-                DesktopFolder.Util.show_about(this);
-            });
-            item.show();
-            menu.append (item);
-            menu.show_all();
-
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.HINT_SHOW_DESKTOP);
-            item.show();
-            menu.append (item);
-            menu.show_all();
 
         //}
 
