@@ -135,6 +135,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.get_style_context ().add_class (settings.bgcolor);
         this.get_style_context ().add_class (settings.fgcolor);
 
+        if(this.manager.get_settings().textshadow){
+            this.get_style_context ().add_class ("df_shadow");
+        }
+        if(this.manager.get_settings().textbold){
+            this.get_style_context ().add_class ("df_bold");
+        }
+
         this.set_title(manager.get_folder_name());
     }
 
@@ -250,6 +257,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             menu.append (item);
             item = new MenuItemColor(BODY_TAGS_COLORS);;
             ((MenuItemColor)item).color_changed.connect(change_body_color);
+            item.show();
+            menu.append (item);
+
+            item = new Gtk.CheckMenuItem.with_label(DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+            (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings().textshadow);
+            (item as Gtk.CheckMenuItem).toggled.connect ((item)=>{
+                this.on_toggle_shadow();
+            });
+            item.show();
+            menu.append (item);
+
+            item = new Gtk.CheckMenuItem.with_label(DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+            (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings().textbold);
+            (item as Gtk.CheckMenuItem).toggled.connect ((item)=>{
+                this.on_toggle_bold();
+            });
             item.show();
             menu.append (item);
 
@@ -372,6 +395,48 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             ,event.button // button
             ,event.get_time() //Gtk.get_current_event_time() //time
             );
+    }
+
+    /**
+    * @name on_toggle_bold
+    * @description the bold toggle event. the text bold property must change
+    */
+    private void on_toggle_bold(){
+        Gtk.StyleContext style=this.get_style_context();
+        string bold_class="df_bold";
+        if(this.manager.get_settings().textbold){
+            style.remove_class(bold_class);
+            this.manager.get_settings().textbold=false;
+        }else{
+            style.add_class(bold_class);
+            this.manager.get_settings().textbold=true;
+        }
+        this.manager.get_settings().save();
+        List<weak Gtk.Widget> children = this.container.get_children();
+        foreach (Gtk.Widget elem in children ) {
+            (elem as ItemView).force_adjust_label();
+        }
+    }
+
+    /**
+    * @name on_toggle_shadow
+    * @description the toggle shadow event. The shadow property must change
+    */
+    private void on_toggle_shadow() {
+        Gtk.StyleContext style=this.get_style_context();
+        string shadow_class="df_shadow";
+        if(this.manager.get_settings().textshadow){
+            style.remove_class(shadow_class);
+            this.manager.get_settings().textshadow=false;
+        }else{
+            style.add_class(shadow_class);
+            this.manager.get_settings().textshadow=true;
+        }
+        this.manager.get_settings().save();
+        List<weak Gtk.Widget> children = this.container.get_children();
+        foreach (Gtk.Widget elem in children ) {
+            (elem as ItemView).force_adjust_label();
+        }
     }
 
     /**

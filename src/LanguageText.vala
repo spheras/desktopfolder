@@ -13,6 +13,10 @@ namespace DesktopFolder.Lang {
     public const string CANT_DROP=_("Cannot drop this file");
     //Dialog Error Message while trying to drop
     public const string CANT_DROP_INVALID_FILE_NAME=_("Invalid file name provided");
+    //Title dialog for File Operations
+    public const string DRAGNDROP_FILE_OPERATIONS=_("File Operations");
+    //Copying File message for progress dialog
+    public const string DRAGNDROP_COPYING=_("Copying");
     //Drop Menu - Copy
     public const string DROP_MENU_COPY=_("Copy Here");
     //Drop Menu - Move
@@ -23,6 +27,10 @@ namespace DesktopFolder.Lang {
     public const string DROP_MENU_CANCEL=_("Cancel");
     //desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("New Panel");
+    //desktopfolder menu - enable/disable text shadows
+    public const string DESKTOPFOLDER_MENU_TEXT_SHADOW=_("Text Shadow");
+    //desktopfolder menu - enable/disable text bolds
+    public const string DESKTOPFOLDER_MENU_TEXT_BOLD=_("Text Bold");
     //desktopfolder menu - create a new Note
     public const string DESKTOPFOLDER_MENU_NEW_NOTE=_("New Note");
     //desktopfolder menu - create a new Folder

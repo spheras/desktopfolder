@@ -1,9 +1,12 @@
 com.github.spheras.desktopfolder (1.0.2) precise; urgency=low
 
+   * Drag and Drop to Move/Copy/Link depending on key pressed (none/control/alt|shift)
+   * Text Shadow and Bold configuration
    * Deleting Last Panel bugfixing
+   * Move panels from body
    * DESKTOP window types (workspace movement improvement and others)
    * Drag and Drop folders (recursive copy)
-   * Improved Notes
+   * Undo/Redo and others over Text Notes
    * Minor Bugfixing
 
 -- José Amuedo <joseamuedo@gmail.com>  Thu, 19 Oct 2017 18:32:00 -0500
