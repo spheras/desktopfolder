@@ -11,16 +11,16 @@
 @define-color noteColorBackgroundGRAY rgba(211,215,207,0.3);
 
 /* DESKTOP FOLDER COLORS */
-@define-color colorBackgroundYELLOW rgba(252,233,79,0.3);
-@define-color colorBackgroundORANGE rgba(252,175,62,0.3);
-@define-color colorBackgroundBROWN rgba(153,118,102,0.3);
-@define-color colorBackgroundGREEN rgba(138,225,52,0.3);
-@define-color colorBackgroundBLUE rgba(114,159,207,0.3);
-@define-color colorBackgroundPURPLE rgba(173,127,168,0.3);
-@define-color colorBackgroundRED rgba(239,41,41,0.3);
-@define-color colorBackgroundBLACK rgba(0,0,0,0.3);
-@define-color colorBackgroundTRANSPARENT rgba(0,0,0,0);
-@define-color colorBackgroundGRAY rgba(211,215,207,0.3);
+@define-color colorBackgroundBANANA rgba(255, 225, 107, 0.35);
+@define-color colorBackgroundORANGE rgba(255, 161, 84, 0.35);
+@define-color colorBackgroundBROWN rgba(141, 110, 99, 0.35);
+@define-color colorBackgroundLIME rgba(155, 219, 77, 0.35);
+@define-color colorBackgroundBLUEBERRY rgba(100, 186, 255, 0.35);
+@define-color colorBackgroundGRAPE rgba(173, 101, 214, 0.35);
+@define-color colorBackgroundSTRAWBERRY rgba(237, 83, 83, 0.35);
+@define-color colorBackgroundBLACK rgba(0, 0, 0, 0.35);
+@define-color colorBackgroundTRANSPARENT rgba(0, 0, 0, 0);
+@define-color colorBackgroundSLATE rgba(212, 212, 212, 0.35);
 
 /* TITLE COLORS */
 @define-color colorForegroundLIGHT rgba(255,255,255,1);
@@ -135,47 +135,47 @@
 }
 /* GRAY */
 .df_folder.window-frame.df_gray, .df_folder.window-frame.df_gray:backdrop {
-    border-color: @colorBackgroundGRAY;
+    border-color: @colorBackgroundSLATE;
 }
 .df_folder.background.df_gray, .df_folder.background.df_gray:backdrop {
-    background-color: @colorBackgroundGRAY;
+    background-color: @colorBackgroundSLATE;
 }
 .df_folder.df_gray .titlebar, .df_folder.df_gray .titlebar:backdrop{
-    background-color: @colorBackgroundGRAY;
-    border-color: @colorBackgroundGRAY;
+    background-color: @colorBackgroundSLATE;
+    border-color: @colorBackgroundSLATE;
 }
 /* PURPLE */
 .df_folder.window-frame.df_purple, .df_folder.window-frame.df_purple:backdrop {
-    border-color: @colorBackgroundPURPLE;
+    border-color: @colorBackgroundGRAPE;
 }
 .df_folder.background.df_purple, .df_folder.background.df_purple:backdrop {
-    background-color: @colorBackgroundPURPLE;
+    background-color: @colorBackgroundGRAPE;
 }
 .df_folder.df_purple .titlebar, .df_folder.df_purple .titlebar:backdrop{
-    background-color: @colorBackgroundPURPLE;
-    border-color: @colorBackgroundPURPLE;
+    background-color: @colorBackgroundGRAPE;
+    border-color: @colorBackgroundGRAPE;
 }
 /* BLUE */
 .df_folder.window-frame.df_blue, .df_folder.window-frame.df_blue:backdrop {
-    border-color: @colorBackgroundBLUE;
+    border-color: @colorBackgroundBLUEBERRY;
 }
 .df_folder.background.df_blue, .df_folder.background.df_blue:backdrop {
-    background-color: @colorBackgroundBLUE;
+    background-color: @colorBackgroundBLUEBERRY;
 }
 .df_folder.df_blue .titlebar, .df_folder.df_blue .titlebar:backdrop{
-    background-color: @colorBackgroundBLUE;
-    border-color: @colorBackgroundBLUE;
+    background-color: @colorBackgroundBLUEBERRY;
+    border-color: @colorBackgroundBLUEBERRY;
 }
 /* GREEN */
 .df_folder.window-frame.df_green, .df_folder.window-frame.df_green:backdrop {
-    border-color: @colorBackgroundGREEN;
+    border-color: @colorBackgroundLIME;
 }
 .df_folder.background.df_green, .df_folder.background.df_green:backdrop {
-    background-color: @colorBackgroundGREEN;
+    background-color: @colorBackgroundLIME;
 }
 .df_folder.df_green .titlebar, .df_folder.df_green .titlebar:backdrop{
-    background-color: @colorBackgroundGREEN;
-    border-color: @colorBackgroundGREEN;
+    background-color: @colorBackgroundLIME;
+    border-color: @colorBackgroundLIME;
 }
 /* BROWN */
 .df_folder.window-frame.df_brown, .df_folder.window-frame.df_brown:backdrop {
@@ -201,26 +201,26 @@
 }
 /* RED */
 .df_folder.window-frame.df_red, .df_folder.window-frame.df_red:backdrop {
-    border-color: @colorBackgroundRED;
+    border-color: @colorBackgroundSTRAWBERRY;
 }
 .df_folder.background.df_red, .df_folder.background.df_red:backdrop {
-    background-color: @colorBackgroundRED;
+    background-color: @colorBackgroundSTRAWBERRY;
 }
 .df_folder.df_red .titlebar, .df_folder.df_red .titlebar:backdrop{
-    background-color: @colorBackgroundRED;
-    border-color: @colorBackgroundRED;
+    background-color: @colorBackgroundSTRAWBERRY;
+    border-color: @colorBackgroundSTRAWBERRY;
 }
 /* YELLOW */
 
 .df_folder.window-frame.df_yellow, .df_folder.window-frame.df_yellow:backdrop {
-    border-color: @colorBackgroundYELLOW;
+    border-color: @colorBackgroundBANANA;
 }
 .df_folder.background.df_yellow, .df_folder.background.df_yellow:backdrop {
-    background-color: @colorBackgroundYELLOW;
+    background-color: @colorBackgroundBANANA;
 }
 .df_folder.df_yellow .titlebar, .df_folder.df_yellow .titlebar:backdrop{
-    background-color: @colorBackgroundYELLOW;
-    border-color: @colorBackgroundYELLOW;
+    background-color: @colorBackgroundBANANA;
+    border-color: @colorBackgroundBANANA;
 }
 /* ORANGE */
 .df_folder.window-frame.df_orange, .df_folder.window-frame.df_orange:backdrop {
