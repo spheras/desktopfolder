@@ -289,25 +289,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             item.show();
             menu.append (item);
 
-
-            item = new MenuItemSeparator();
-            item.show();
-            menu.append (item);
-
-            //the about option to show a message dialog
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ABOUT);
-            item.activate.connect ((item)=>{
-                DesktopFolder.Util.show_about(this);
-            });
-            item.show();
-            menu.append (item);
-            menu.show_all();
-
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.HINT_SHOW_DESKTOP);
-            item.show();
-            menu.append (item);
-            menu.show_all();
-
         //}
 
         //finally we show the popup
