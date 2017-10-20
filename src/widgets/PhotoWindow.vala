@@ -248,7 +248,11 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
 
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
-            item.activate.connect ((item)=>{this.delete_photo();});
+            //item.activate.connect ((item)=>{this.delete_photo();});
+            // No need to warn about a non-destructive move. Especially since it's just an internally used file that links to the photo.
+            // Infact, maybe the dfp file should just be erased to reduce confusion with the real image file.
+            // This should probably really be "this.manager.move_to_trash"
+            item.activate.connect ((item)=>{this.manager.delete();});
             item.show();
             menu.append (item);
             

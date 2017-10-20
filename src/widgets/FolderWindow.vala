@@ -321,7 +321,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-            item.activate.connect ((item)=>{this.delete_folder();});
+            //item.activate.connect ((item)=>{this.delete_folder();});
+            // No need to warn about a non-destructive move.
+            // The desktop folder just goes to the Trash and can be restored just like any other folder. When restored it's back on the desktop as before.
+            // (this is a good design)
+            // This should probably really be "this.manager.move_to_trash"
+            item.activate.connect ((item)=>{this.manager.delete();});
             item.show ();
             menu.append (item);
             

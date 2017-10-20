@@ -275,7 +275,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-            item.activate.connect ((item)=>{this.delete_note();});
+            //item.activate.connect ((item)=>{this.delete_note();});
+            // No need to warn about a non-destructive move.
+            // The notes file just goes to the Trash and can be restored just like any other file. When restored it's back on the desktop as before.
+            // (this is a good design)
+            // This should probably really be "this.manager.move_to_trash"
+            item.activate.connect ((item)=>{this.manager.delete();});
             item.show();
             menu.append (item);
             
