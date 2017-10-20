@@ -287,3 +287,13 @@ msgstr ""
 #: src/LanguageText.vala:124
 msgid "Select the picture to show"
 msgstr ""
+
+#. dialog message to select an image file to be shown at the desktop
+#: src/LanguageText.vala:124
+msgid "Select the picture to show"
+msgstr ""
+
+#. New submenu item
+#: src/LanguageText.vala:126
+msgid "New"
+msgstr ""
