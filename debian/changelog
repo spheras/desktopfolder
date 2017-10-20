@@ -1,3 +1,12 @@
+com.github.spheras.desktopfolder (1.0.2) precise; urgency=low
+
+   * Deleting Last Panel bugfixing
+   * DESKTOP window types (workspace movement improvement and others)
+   * Drag and Drop folders (recursive copy)
+   * Improved Notes
+   * Minor Bugfixing
+
+-- José Amuedo <joseamuedo@gmail.com>  Thu, 19 Oct 2017 18:32:00 -0500
 
 com.github.spheras.desktopfolder (1.0.1) precise; urgency=low
 

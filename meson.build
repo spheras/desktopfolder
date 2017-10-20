@@ -1,5 +1,5 @@
 project('com.github.spheras.desktopfolder', ['vala', 'c'],
-    version: '1.0.1'
+    version: '1.0.2'
 )
 
 gnome = import('gnome')
@@ -64,7 +64,6 @@ executable(
     asresources,
     c_args: c_args,
     dependencies: [
-#        dependency('granite'),
         dependency('gio-unix-2.0'),
         dependency('gee-0.8'),
         dependency('glib-2.0'),
@@ -74,6 +73,7 @@ executable(
         dependency('json-glib-1.0'),
         dependency('gdk-pixbuf-2.0'),
         dependency('libwnck-3.0'),
+        dependency('gtksourceview-3.0'),
         m_dep
     ],
     install : true

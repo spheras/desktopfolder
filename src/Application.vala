@@ -225,7 +225,7 @@ public class DesktopFolderApp : Gtk.Application {
             this.photos=updated_photo_list.copy();
 
             //by default, at least one folder is needed
-            if(totalFolders==0){
+            if(totalFolders==0 && totalPhotos==0 && totalNotes==0){
                 DirUtils.create(DesktopFolderApp.get_app_folder()+"/"+DesktopFolder.Lang.APP_FIRST_PANEL,0755);
                 this.sync_folders_and_notes();
             }
@@ -234,6 +234,15 @@ public class DesktopFolderApp : Gtk.Application {
             stderr.printf ("Error: %s\n", e.message);
             DesktopFolder.Util.show_error_dialog("Error",e.message);
         }
+    }
+
+    /**
+    * @name count_widgets
+    * @description return the amount of widgets existing
+    * @return {int} the total widgets currently shown
+    */
+    public uint count_widgets(){
+        return this.photos.length() + this.notes.length() + this.folders.length();
     }
 
     /**

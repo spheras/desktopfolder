@@ -130,7 +130,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
             //we ignore the settings file changes
         }else{
             debug("%s - Change Detected",this.get_folder_name());
-            if(dest!=null){
+            if(dest!=null && src.query_exists() && dest.query_exists()){
                 //something has been renamed
                 string new_filename=dest.get_basename ();
                 this.settings.rename(old_filename,new_filename);
@@ -316,10 +316,24 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     public void delete(){
         //lets delete
         try{
-            File file=File.new_for_path (this.get_absolute_path());
-            file.trash();
-            //DesktopFolder.Util.recursive_delete(this.get_absolute_path());
-            this.close();
+            if(this.application.count_widgets()>1){
+                File file=File.new_for_path (this.get_absolute_path());
+                file.trash();
+                //DesktopFolder.Util.recursive_delete(this.get_absolute_path());
+                this.close();
+            }else{
+                for(int i=0;i<this.items.length();i++){
+                    this.items.nth_data(i).delete();
+                }
+
+                this.clear_all();
+                this.settings.reset();
+                this.settings.save();
+                this.rename(DesktopFolder.Lang.APP_FIRST_PANEL);
+                this.view.reload_settings();
+                this.view.queue_draw();
+                this.view.show_all();
+            }
         }catch(Error error){
             stderr.printf ("Error: %s\n", error.message);
             Util.show_error_dialog("Error",error.message);

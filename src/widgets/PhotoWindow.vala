@@ -57,7 +57,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
                 resizable: true,
                 skip_taskbar_hint : true,
                 decorated:true,
-                type_hint:Gdk.WindowTypeHint.DOCK,
+                type_hint:Gdk.WindowTypeHint.DESKTOP,
                 title: (manager.get_photo_name()),
                 deletable:false,
                 width_request: 140,
@@ -87,8 +87,8 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
         //we set a class to this window to manage the css
         this.get_style_context ().add_class ("df_folder");
         this.get_style_context ().add_class ("df_photo");
-        this.get_style_context ().add_class ("transparent");
-        this.get_style_context ().add_class ("headless");
+        this.get_style_context ().add_class ("df_transparent");
+        this.get_style_context ().add_class ("df_headless");
 
         // Box:
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
@@ -103,7 +103,36 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
         this.button_press_event.connect(this.on_press);
         this.button_release_event.connect(this.on_release);
         this.draw.connect(this.draw_background);
+
+        //help: doesn't have the gtk window any active signal? or css :active state?
+        Wnck.Screen screen = Wnck.Screen.get_default();
+        screen.active_window_changed.connect(on_active_change);
     }
+
+    /**
+    * @name on_active_change
+    * @description the screen actived window has change signal
+    * @param {Wnck.Window} the previous actived window
+    */
+    private void on_active_change(Wnck.Window? previous){
+        string sclass="df_active";
+        Gtk.StyleContext style=this.get_style_context();
+        if(this.is_active){
+            if(!style.has_class(sclass)){
+                style.add_class ("df_active");
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }else{
+            if(style.has_class(sclass)){
+                style.remove_class ("df_active");
+                this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }
+    }
+
 
     /**
     * @name on_configure
@@ -113,7 +142,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
         if(event.type==Gdk.EventType.CONFIGURE){
             //we are now a dock Window, to avoid minimization when show desktop
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DOCK;
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
@@ -134,7 +163,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     private bool on_release(Gdk.EventButton event){
         //we are now a dock Window, to avoid minimization when show desktop
         //TODO exists a way to make resizable and moveable a dock window?
-        this.type_hint=Gdk.WindowTypeHint.DOCK;
+        this.type_hint=Gdk.WindowTypeHint.DESKTOP;
         return false;
     }
 
@@ -177,7 +206,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
 
             //Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DOCK;
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
 

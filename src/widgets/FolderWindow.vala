@@ -31,18 +31,25 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
-    private const string HEAD_TAGS_COLORS_CLASS[3] = { "headless", "light", "dark"};
+    private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
     /** body tags colors */
     private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
-    private const string BODY_TAGS_COLORS_CLASS[10] = { "transparent", "yellow", "orange", "brown", "green", "blue", "purple", "red", "gray", "black" };
+    private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     construct {
         set_keep_below (true);
-        stick ();
         this.hide_titlebar_when_maximized = false;
-        set_type_hint(Gdk.WindowTypeHint.MENU);
+        set_type_hint(Gdk.WindowTypeHint.DESKTOP);
+
         set_skip_taskbar_hint(true);
         this.set_property("skip-taskbar-hint", true);
+        this.set_property("skip-pager-hint", true);
+        this.set_property("skip_taskbar_hint", true);
+        this.set_property("skip_pager_hint", true);
+        this.skip_pager_hint = true;
+        this.skip_taskbar_hint = true;
+
+        stick ();
     }
 
     /**
@@ -55,9 +62,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 resizable: true,
                 accept_focus:true,
                 skip_taskbar_hint : true,
+                skip_pager_hint:true,
                 decorated:true,
                 title: (manager.get_folder_name()),
-                type_hint:Gdk.WindowTypeHint.DOCK,
+                type_hint:Gdk.WindowTypeHint.DESKTOP,
                 deletable:false,
                 default_width:300,
                 default_height:300,
@@ -72,27 +80,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.set_titlebar(headerbar);
 
         this.set_skip_taskbar_hint(true);
+        skip_pager_hint = true;
+        skip_taskbar_hint = true;
         this.set_property("skip-taskbar-hint", true);
         //setting the folder name
         this.manager=manager;
-
-        //we set a class to this window to manage the css
-        this.get_style_context ().add_class ("df_folder");
 
         //creating the container widget
         this.container=new Gtk.Fixed();
         add(this.container);
 
-        //let's load the settings of the folder (if exist or a new one)
-        FolderSettings settings=this.manager.get_settings();
-        if(settings.w>0){
-            //applying existing position and size configuration
-            this.resize(settings.w,settings.h);
-            this.move(settings.x,settings.y);
-        }
-        //applying existing colors configuration
-        this.get_style_context ().add_class (settings.bgcolor);
-        this.get_style_context ().add_class (settings.fgcolor);
+        this.reload_settings();
 
         //connecting to events
         this.configure_event.connect (this.on_configure);
@@ -101,6 +99,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.key_release_event.connect(this.on_key);
         this.key_press_event.connect(this.on_key);
 
+        //help: doesn't have the gtk window any active signal? or css :active state?
+        Wnck.Screen screen = Wnck.Screen.get_default();
+        screen.active_window_changed.connect(on_active_change);
 
         /*
         this.focus_in_event.connect((event)=>{debug("focus_in");return false;});
@@ -110,6 +111,56 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.window_state_event.connect(on_window_state_event);
         */
         //TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+    }
+
+    public void reload_settings(){
+        //let's load the settings of the folder (if exist or a new one)
+        FolderSettings settings=this.manager.get_settings();
+        if(settings.w>0){
+            //applying existing position and size configuration
+            this.resize(settings.w,settings.h);
+            this.move(settings.x,settings.y);
+        }
+        List<unowned string> classes=this.get_style_context().list_classes();
+        for(int i=0;i<classes.length();i++){
+            string class=classes.nth_data(i);
+            if(class.has_prefix("df_")){
+                this.get_style_context().remove_class(class);
+            }
+        }
+        //we set a class to this window to manage the css
+        this.get_style_context ().add_class ("df_folder");
+
+        //applying existing colors configuration
+        this.get_style_context ().add_class (settings.bgcolor);
+        this.get_style_context ().add_class (settings.fgcolor);
+
+        this.set_title(manager.get_folder_name());
+    }
+
+    /**
+    * @name on_active_change
+    * @description the screen actived window has change signal
+    * @param {Wnck.Window} the previous actived window
+    */
+    private void on_active_change(Wnck.Window? previous){
+        string sclass="df_active";
+        Gtk.StyleContext style=this.get_style_context();
+        //debug("%s is active? %s",this.manager.get_folder_name(), this.is_active ? "true" : "false");
+        if(this.is_active){
+            if(!style.has_class(sclass)){
+                style.add_class ("df_active");
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }else{
+            if(style.has_class(sclass)){
+                style.remove_class ("df_active");
+                this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+                //we need to force a queue_draw
+                this.queue_draw();
+            }
+        }
     }
 
     /**
@@ -128,7 +179,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         if(event.type==Gdk.EventType.CONFIGURE){
             //we are now a dock Window, to avoid minimization when show desktop
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DOCK;
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
@@ -144,7 +195,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private bool on_release(Gdk.EventButton event){
         //we are now a dock Window, to avoid minimization when show desktop
         //TODO exists a way to make resizable and moveable a dock window?
-        this.type_hint=Gdk.WindowTypeHint.DOCK;
+        this.type_hint=Gdk.WindowTypeHint.DESKTOP;
         return false;
     }
 
@@ -163,6 +214,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             (event.button==Gdk.BUTTON_SECONDARY)) {
             this.show_popup(event);
             return true;
+        }else if (event.type == Gdk.EventType.BUTTON_PRESS &&
+                 (event.button==Gdk.BUTTON_PRIMARY)) {
+            int width = this.get_allocated_width ();
+            int height = this.get_allocated_height ();
+            int margin=30;
+            //debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
+            if(event.x>margin && event.y>margin && event.x<width-margin && event.y<height-margin){
+                this.begin_move_drag((int)event.button,(int) event.x_root,(int) event.y_root, event.time);
+            }
+
         }
         return false;
     }
@@ -178,7 +239,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
 
             //Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DOCK;
+            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
 

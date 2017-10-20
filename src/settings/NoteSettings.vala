@@ -14,8 +14,8 @@ public class DesktopFolder.NoteSettings: Object{
     public NoteSettings(string name){
         this.x=110;
         this.y=110;
-        this.bgcolor="yellow";
-        this.fgcolor="dark";
+        this.bgcolor="df_yellow";
+        this.fgcolor="df_dark";
         this.clipcolor=Random.int_range(1,6);
         this.name=name;
         this.text="Lorem Ipsum";
@@ -84,6 +84,15 @@ public class DesktopFolder.NoteSettings: Object{
             NoteSettings existent = Json.gobject_from_data (typeof (NoteSettings), content) as NoteSettings;
             existent.file=file;
             existent.name=name;
+
+            //regression for classes, now must have a df_ prefix
+            if(existent.bgcolor.length>0 && !existent.bgcolor.has_prefix("df_")){
+                existent.bgcolor="df_"+existent.bgcolor;
+            }
+            if(existent.fgcolor.length>0 && !existent.fgcolor.has_prefix("df_")){
+                existent.fgcolor="df_"+existent.fgcolor;
+            }
+
             return existent;
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);

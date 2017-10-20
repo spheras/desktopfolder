@@ -17,7 +17,7 @@ namespace DesktopFolder {
     public const string APP_DESKTOP = APP_ID + ".desktop";
     public const string APP_TITLE = "Desktop-Folder";
     public const string APP_NAME = "desktopfolder";
-    public const string VERSION = "0.5";
+    public const string VERSION = "1.0.2";
     /** Name of the Folder Settings File */
     public const string FOLDER_SETTINGS_FILE=".desktopfolder";
     public const string NOTE_EXTENSION="dfn";

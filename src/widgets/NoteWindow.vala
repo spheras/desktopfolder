@@ -27,14 +27,14 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
     /** the text view */
-    private Gtk.TextView text=null;
+    private Gtk.SourceView text=null;
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
-    private const string HEAD_TAGS_COLORS_CLASS[3] = { "headless", "light", "dark"};
+    private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
     /** body tags colors */
     private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
-    private const string BODY_TAGS_COLORS_CLASS[10] = { "transparent", "yellow", "orange", "brown", "green", "blue", "purple", "red", "gray", "black" };
+    private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     static construct {
 
@@ -105,7 +105,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 		box.pack_start (scrolled, true, true, 0);
 
         // The TextView:
-	    this.text = new Gtk.TextView ();
+	    this.text = new Gtk.SourceView(); //Gtk.TextView ();
 		this.text.set_wrap_mode (Gtk.WrapMode.WORD);
         this.text.get_style_context ().add_class ("df_note_text");
 		this.text.buffer.text = this.manager.get_settings().text;
@@ -121,6 +121,38 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
         text.focus_out_event.connect(this.on_focus_out);
         //this.key_release_event.connect(this.on_key);
+
+        //help: doesn't have the gtk window any active signal? or css :active state?
+        Wnck.Screen screen = Wnck.Screen.get_default();
+        screen.active_window_changed.connect(on_active_change);
+    }
+
+    /**
+    * @name on_active_change
+    * @description the screen actived window has change signal
+    * @param {Wnck.Window} the previous actived window
+    */
+    private void on_active_change(Wnck.Window? previous){
+        string sclass="df_active";
+        Gtk.StyleContext style=this.get_style_context();
+        if(this.is_active){
+            if(!style.has_class(sclass)){
+                debug("active");
+                style.add_class ("df_active");
+                //we need to force a queue_draw
+                this.queue_draw();
+                this.text.queue_draw();
+            }
+        }else{
+            if(style.has_class(sclass)){
+                debug("inactive");
+                style.remove_class ("df_active");
+                this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+                //we need to force a queue_draw
+                this.queue_draw();
+                this.text.queue_draw();
+            }
+        }
     }
 
     /**

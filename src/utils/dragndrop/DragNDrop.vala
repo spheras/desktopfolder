@@ -330,7 +330,10 @@ namespace DesktopFolder.DragnDrop {
     						try{
     							debug("copying "+f.get_path()+" to " + target_dir.get_path());
     							File final_target=File.new_for_path (target_dir.get_path()+"/"+f.get_basename());
-    							f.copy (final_target, FileCopyFlags.NONE, null, null);
+
+                                DesktopFolder.Util.copy_recursive(f,final_target,GLib.FileCopyFlags.NONE,null);
+    							//f.copy (final_target, FileCopyFlags.NONE, null, null);
+
     							if (done_callback != null)
     	                			done_callback();
     						}catch(Error error){

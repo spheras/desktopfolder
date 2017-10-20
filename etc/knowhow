@@ -26,3 +26,12 @@ GTK introspector
 gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
 
 after that, press ctrl+shift+D on the window you want to debug
+
+
+
+snap creation
+·············
+sudo apt install snapcraft
+
+sudo docker pull snapcore/snapcraft
+sudo docker run -v $PWD:$PWD -w $PWD snapcore/snapcraft snapcraft
