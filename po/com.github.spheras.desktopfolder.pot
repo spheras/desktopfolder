@@ -155,12 +155,12 @@ msgstr ""
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:71
-msgid "Rename Note"
+msgid "Rename"
 msgstr ""
 
 #. Menu popup option to delete the note
 #: src/LanguageText.vala:73
-msgid "Move Note to Trash"
+msgid "Move to Trash"
 msgstr ""
 
 #. Note - Dialog Title Message to rename the current note
@@ -268,7 +268,7 @@ msgstr ""
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:118
-msgid "Remove Photo"
+msgid "Remove"
 msgstr ""
 
 #. Note - Dialog Message to DELETE the current photo
