@@ -436,7 +436,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     * @param int y the y position where it should be placed
     */
     public void add_item(ItemView item, int x, int y){
-        //debug("position:%d,%d",is.x,is.y);
+        //debug("initial position:%d,%d",x,y);
+        x = ItemView.RoundToNearestMultiple(x, item.get_sensitivity());
+        y = ItemView.RoundToNearestMultiple(y, item.get_sensitivity());
+
         this.container.put(item,x,y);
     }
 
