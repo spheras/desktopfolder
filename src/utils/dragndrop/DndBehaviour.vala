@@ -285,7 +285,24 @@ namespace DesktopFolder.DragnDrop {
                 start_drag_scroll_timer (context);
             */
 
+
+            //depending on the modifier pressed, we will copy move or link
+            Gdk.Keymap keymap=Gdk.Keymap.get_default();
+            uint modifiers=keymap.get_modifier_state();
+            if((modifiers & Gdk.ModifierType.CONTROL_MASK) > 0){
+                //lets copy
+                current_suggested_action=Gdk.DragAction.COPY;
+            }else if((modifiers & Gdk.ModifierType.SHIFT_MASK) > 0 ||
+                     (modifiers & Gdk.ModifierType.MOD1_MASK) > 0){
+                //lets link
+                current_suggested_action=Gdk.DragAction.LINK;
+            }else{
+                //lets move
+                current_suggested_action=Gdk.DragAction.MOVE;
+            }
+
             Gdk.drag_status (context, current_suggested_action, timestamp);
+
             return true;
         }
 

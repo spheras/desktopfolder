@@ -327,6 +327,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
+    * @name force_adjust_label
+    * @description util function to foce the label to readjust
+    * sometimes, the label change its appareance, but it is not adjusted automatically
+    * this function force the adjust
+    */
+    public void force_adjust_label(){
+        this.label.set_label(this.label.get_text());
+    }
+
+    /**
     * @name select
     * @description the user select the icon
     */

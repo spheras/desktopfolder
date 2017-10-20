@@ -48,6 +48,7 @@ src = [
        'src/widgets/NoteWindow.vala',
        'src/widgets/ItemView.vala',
        'src/widgets/PhotoWindow.vala',
+       'src/widgets/ProgressDialog.vala',
        'src/settings/FolderSettings.vala',
        'src/settings/ItemSettings.vala',
        'src/settings/NoteSettings.vala',

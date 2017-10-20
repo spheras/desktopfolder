@@ -319,7 +319,6 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
             if(this.application.count_widgets()>1){
                 File file=File.new_for_path (this.get_absolute_path());
                 file.trash();
-                //DesktopFolder.Util.recursive_delete(this.get_absolute_path());
                 this.close();
             }else{
                 for(int i=0;i<this.items.length();i++){

@@ -13,6 +13,10 @@ namespace DesktopFolder.Lang {
     public const string CANT_DROP=_("Cannot drop this file");
     //Dialog Error Message while trying to drop
     public const string CANT_DROP_INVALID_FILE_NAME=_("Invalid file name provided");
+    //Title dialog for File Operations
+    public const string DRAGNDROP_FILE_OPERATIONS=_("File Operations");
+    //Copying File message for progress dialog
+    public const string DRAGNDROP_COPYING=_("Copying");
     //Drop Menu - Copy
     public const string DROP_MENU_COPY=_("Copy Here");
     //Drop Menu - Move
@@ -22,21 +26,25 @@ namespace DesktopFolder.Lang {
     //Drop Menu - Cancel
     public const string DROP_MENU_CANCEL=_("Cancel");
     //desktopfolder menu - create a new Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("New Panel");
+    public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("Panel");
+    //desktopfolder menu - enable/disable text shadows
+    public const string DESKTOPFOLDER_MENU_TEXT_SHADOW=_("Text Shadow");
+    //desktopfolder menu - enable/disable text bolds
+    public const string DESKTOPFOLDER_MENU_TEXT_BOLD=_("Text Bold");
     //desktopfolder menu - create a new Note
-    public const string DESKTOPFOLDER_MENU_NEW_NOTE=_("New Note");
+    public const string DESKTOPFOLDER_MENU_NEW_NOTE=_("Note");
     //desktopfolder menu - create a new Folder
-    public const string DESKTOPFOLDER_MENU_NEW_FOLDER=_("New Folder");
+    public const string DESKTOPFOLDER_MENU_NEW_FOLDER=_("Folder");
     //desktopfolder menu - create a new empty Text File
-    public const string DESKTOPFOLDER_MENU_NEW_TEXT_FILE=_("New Text File");
+    public const string DESKTOPFOLDER_MENU_NEW_EMPTY_FILE=_("Empty File");
     //desktopfolder menu - rename a Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER=_("Rename this Panel");
+    public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER=_("Rename Panel");
     //desktopfolder menu - remove a Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER=_("Delete this Panel");
+    public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER=_("Move Panel to Trash");
     //desktopfolder menu - past from clipboard to the desktop-folder
     public const string DESKTOPFOLDER_MENU_PASTE=_("Paste");
     //desktopfolder menu - show the about dialog
-    public const string DESKTOPFOLDER_MENU_ABOUT=_("About");
+    //public const string DESKTOPFOLDER_MENU_ABOUT=_("About");
     //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string DESKTOPFOLDER_NEW=_("New Panel");
     //desktopfolder - Dialog Title Message to rename the current Desktop-Folder
@@ -68,9 +76,9 @@ namespace DesktopFolder.Lang {
     //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string NOTE_NEW=_("New Note");
     //Menu popup option to rename the note
-    public const string NOTE_MENU_RENAME_NOTE=_("Rename this Note");
+    public const string NOTE_MENU_RENAME_NOTE=_("Rename");
     //Menu popup option to delete the note
-    public const string NOTE_MENU_DELETE_NOTE=_("Delete This Note");
+    public const string NOTE_MENU_DELETE_NOTE=_("Move to Trash");
     //Note - Dialog Title Message to rename the current note
     public const string NOTE_RENAME_TITLE=_("Rename Note");
     //Note - Dialog Message to rename the current note
@@ -107,20 +115,21 @@ namespace DesktopFolder.Lang {
     //Name of the first desktop-folder panel, when no panels found
     public const string APP_FIRST_PANEL=_("My First Panel");
     //Hint to show desktop shortcut
-    public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
+    //public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
     //Menu option to create a link to a file
-    public const string DESKTOPFOLDER_MENU_NEW_FILE_LINK=_("New Link to File");
+    public const string DESKTOPFOLDER_MENU_NEW_FILE_LINK=_("Link to File");
     //Menu option to create a link to a folder
-    public const string DESKTOPFOLDER_MENU_NEW_FOLDER_LINK=_("New Link to Folder");
+    public const string DESKTOPFOLDER_MENU_NEW_FOLDER_LINK=_("Link to Folder");
     //Dialog message to create a new link
     public const string DESKTOPFOLDER_LINK_MESSAGE=_("Select the destination file/folder of the link");
     //Menu popup option to remove a photo
-    public const string PHOTO_MENU_DELETE_PHOTO=_("Delete this Photo");
+    public const string PHOTO_MENU_DELETE_PHOTO=_("Remove");
     //Note - Dialog Message to DELETE the current photo
     public const string PHOTO_DELETE_MESSAGE=_("This action will DELETE the Photo.\n<b>Are you sure?</b>");
     //desktopfolder menu - create a new Photo
-    public const string DESKTOPFOLDER_MENU_NEW_PHOTO=_("New Photo");
+    public const string DESKTOPFOLDER_MENU_NEW_PHOTO=_("Photo");
     //dialog message to select an image file to be shown at the desktop
     public const string PHOTO_SELECT_PHOTO_MESSAGE=_("Select the picture to show");
-
+    //desktopfolder menu - create a new empty Text File
+    public const string DESKTOPFOLDER_MENU_NEW_SUBMENU=_("New");
 }

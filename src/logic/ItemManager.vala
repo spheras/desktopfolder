@@ -306,9 +306,6 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             if(this.is_folder()){
                 File file=File.new_for_path (this.get_absolute_path());
                 file.trash();
-                /*
-                DesktopFolder.Util.recursive_delete(this.get_absolute_path());
-                */
             }else{
                 File file=File.new_for_path (this.get_absolute_path());
                 file.trash();
