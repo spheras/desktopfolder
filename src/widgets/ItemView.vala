@@ -99,6 +99,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             string slabel=this.get_correct_label(this.manager.get_file_name());
             this.label=new Gtk.Label (slabel);
             this.label.set_width_chars(MAX_CHARACTERS);
+            this.label.set_max_width_chars(MAX_CHARACTERS);
+            this.label.wrap_mode=Pango.WrapMode.WORD_CHAR;
             this.label.set_line_wrap(true);
             this.label.set_justify(Gtk.Justification.CENTER);
 
