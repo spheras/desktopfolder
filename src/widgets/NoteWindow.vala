@@ -33,7 +33,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
     private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
     /** body tags colors */
-    private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
+    private const string BODY_TAGS_COLORS[10] = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     static construct {
@@ -89,6 +89,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         //we set a class to this window to manage the css
         this.get_style_context ().add_class ("df_folder");
         this.get_style_context ().add_class ("df_note");
+        this.get_style_context ().add_class ("df_shadow");
         //applying existing colors configuration
         this.get_style_context ().add_class (settings.bgcolor);
         this.get_style_context ().add_class (settings.fgcolor);
@@ -443,17 +444,17 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         shape(cr,width,height);
         cr.clip ();
 
-        try{
-            var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/hip-square.png");
-            var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
-            var pat = new Cairo.Pattern.for_surface (surface);
-            pat.set_extend (Cairo.Extend.REPEAT);
-            cr.set_source (pat);
-            cr.paint_with_alpha (0.9);
-        } catch (Error e) {
-            //error! ??
-            stderr.printf ("Error: %s\n", e.message);
-        }
+        //try{
+        //    var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/hip-square.png");
+        //    var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
+        //    var pat = new Cairo.Pattern.for_surface (surface);
+        //    pat.set_extend (Cairo.Extend.REPEAT);
+        //    cr.set_source (pat);
+        //    cr.paint_with_alpha (0.9);
+        //} catch (Error e) {
+        //    //error! ??
+        //    stderr.printf ("Error: %s\n", e.message);
+        //}
 
         //drawing border
         shape(cr,width,height);

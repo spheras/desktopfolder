@@ -1,14 +1,14 @@
 /* NOTE COLORS */
-@define-color noteColorBackgroundYELLOW rgba(252,233,79,0.3);
-@define-color noteColorBackgroundORANGE rgba(252,175,62,0.3);
-@define-color noteColorBackgroundBROWN rgba(153,118,102,0.3);
-@define-color noteColorBackgroundGREEN rgba(138,225,52,0.3);
-@define-color noteColorBackgroundBLUE rgba(114,159,207,0.3);
-@define-color noteColorBackgroundPURPLE rgba(173,127,168,0.3);
-@define-color noteColorBackgroundRED rgba(239,41,41,0.3);
-@define-color noteColorBackgroundBLACK rgba(0,0,0,0.3);
-@define-color noteColorBackgroundTRANSPARENT rgba(0,0,0,0);
-@define-color noteColorBackgroundGRAY rgba(211,215,207,0.3);
+@define-color noteColorBackgroundBANANA rgba(255, 225, 107, 0.6);
+@define-color noteColorBackgroundORANGE rgba(255, 161, 84, 0.6);
+@define-color noteColorBackgroundBROWN rgba(121, 85, 72, 0.6);
+@define-color noteColorBackgroundLIME rgba(155, 219, 77, 0.6);
+@define-color noteColorBackgroundBLUEBERRY rgba(100, 186, 255, 0.6);
+@define-color noteColorBackgroundGRAPE rgba(173, 101, 214, 0.6);
+@define-color noteColorBackgroundSTRAWBERRY rgba(237, 83, 83, 0.6);
+@define-color noteColorBackgroundBLACK rgba(77, 77, 77, 0.6);
+@define-color noteColorBackgroundTRANSPARENT rgba(0, 0, 0, 0);
+@define-color noteColorBackgroundSLATE rgba(212, 212, 212, 0.6);
 
 /* DESKTOP FOLDER COLORS */
 @define-color colorBackgroundBANANA rgba(255, 225, 107, 0.35);
@@ -56,33 +56,33 @@
 .df_folder.df_note.window-frame.df_gray, .df_folder.df_note.window-frame.df_gray:backdrop,
 .df_folder.df_note.background.df_gray, .df_folder.df_note.background.df_gray:backdrop,
 .df_folder.df_note.df_gray .titlebar, .df_folder.df_note.df_gray .titlebar:backdrop {
-    border-color: @noteColorBackgroundGRAY;
-    background-color: @noteColorBackgroundGRAY;
-    border-color: @noteColorBackgroundGRAY;
+    border-color: @noteColorBackgroundSLATE;
+    background-color: @noteColorBackgroundSLATE;
+    border-color: @noteColorBackgroundSLATE;
 }
 /* PURPLE */
 .df_folder.df_note.window-frame.df_purple, .df_folder.df_note.window-frame.df_purple:backdrop,
 .df_folder.df_note.background.df_purple, .df_folder.df_note.background.df_purple:backdrop,
 .df_folder.df_note.df_purple .titlebar, .df_folder.df_note.df_purple .titlebar:backdrop {
-    border-color: @noteColorBackgroundPURPLE;
-    background-color: @noteColorBackgroundPURPLE;
-    border-color: @noteColorBackgroundPURPLE;
+    border-color: @noteColorBackgroundGRAPE;
+    background-color: @noteColorBackgroundGRAPE;
+    border-color: @noteColorBackgroundGRAPE;
 }
 /* BLUE */
 .df_folder.df_note.window-frame.df_blue, .df_folder.df_note.window-frame.df_blue:backdrop,
 .df_folder.df_note.background.df_blue, .df_folder.df_note.background.df_blue:backdrop,
 .df_folder.df_note.df_blue .titlebar, .df_folder.df_note.df_blue .titlebar:backdrop {
-    border-color: @noteColorBackgroundBLUE;
-    background-color: @noteColorBackgroundBLUE;
-    border-color: @noteColorBackgroundBLUE;
+    border-color: @noteColorBackgroundBLUEBERRY;
+    background-color: @noteColorBackgroundBLUEBERRY;
+    border-color: @noteColorBackgroundBLUEBERRY;
 }
 /* GREEN */
 .df_folder.df_note.window-frame.df_green, .df_folder.df_note.window-frame.df_green:backdrop,
 .df_folder.df_note.background.df_green, .df_folder.df_note.background.df_green:backdrop,
 .df_folder.df_note.df_green .titlebar, .df_folder.df_note.df_green .titlebar:backdrop {
-    border-color: @noteColorBackgroundGREEN;
-    background-color: @noteColorBackgroundGREEN;
-    border-color: @noteColorBackgroundGREEN;
+    border-color: @noteColorBackgroundLIME;
+    background-color: @noteColorBackgroundLIME;
+    border-color: @noteColorBackgroundLIME;
 }
 /* BROWN */
 .df_folder.df_note.window-frame.df_brown, .df_folder.df_note.window-frame.df_brown:backdrop,
@@ -104,17 +104,17 @@
 .df_folder.df_note.window-frame.df_red, .df_folder.df_note.window-frame.df_red:backdrop,
 .df_folder.df_note.background.df_red, .df_folder.df_note.background.df_red:backdrop,
 .df_folder.df_note.df_red .titlebar, .df_folder.df_note.df_red .titlebar:backdrop {
-    border-color: @noteColorBackgroundRED;
-    background-color: @noteColorBackgroundRED;
-    border-color: @noteColorBackgroundRED;
+    border-color: @noteColorBackgroundSTRAWBERRY;
+    background-color: @noteColorBackgroundSTRAWBERRY;
+    border-color: @noteColorBackgroundSTRAWBERRY;
 }
 /* YELLOW */
 .df_folder.df_note.window-frame.df_yellow, .df_folder.df_note.window-frame.df_yellow:backdrop,
 .df_folder.df_note.background.df_yellow, .df_folder.df_note.background.df_yellow:backdrop,
 .df_folder.df_note.df_yellow .titlebar, .df_folder.df_note.df_yellow .titlebar:backdrop {
-    border-color: @noteColorBackgroundYELLOW;
-    background-color: @noteColorBackgroundYELLOW;
-    border-color: @noteColorBackgroundYELLOW;
+    border-color: @noteColorBackgroundBANANA;
+    background-color: @noteColorBackgroundBANANA;
+    border-color: @noteColorBackgroundBANANA;
 }
 /* ORANGE */
 .df_folder.df_note.window-frame.df_orange, .df_folder.df_note.window-frame.df_orange:backdrop,
