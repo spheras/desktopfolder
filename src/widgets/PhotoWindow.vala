@@ -385,7 +385,6 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             int fixoHeight=56;
             int fixoMargin=4;
             int fixocolor=this.manager.get_settings().fixocolor;
-            // private const string FIXO_TAGS_COLORS[9] = { null, "#ffe16b", "#ffa154", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#ffffff", "#000000" };
             var color="";
             switch(fixocolor){
                 case 0:
