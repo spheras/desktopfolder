@@ -39,7 +39,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
     private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
     /** body tags colors */
-    private const string BODY_TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
+    private const string BODY_TAGS_COLORS[10] = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     construct {
