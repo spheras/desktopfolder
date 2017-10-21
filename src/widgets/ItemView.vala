@@ -24,8 +24,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     //DEFAULT SIZES
     private const int DEFAULT_WIDTH=48;
     private const int DEFAULT_HEIGHT=68;
-    private const int DEFAULT_MAX_WIDTH=100;
-    private const int MAX_CHARACTERS=25;
+    private const int MAX_CHARACTERS=13;
     /** flag to know that the item has been moved */
     private bool flagModified=false;
     /** the manager of this item icon */
@@ -96,7 +95,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.refresh_icon();
             string slabel=this.get_correct_label(this.manager.get_file_name());
             this.label=new Gtk.Label (slabel);
-            this.label.set_size_request(DEFAULT_WIDTH,20);
+            this.label.set_width_chars(MAX_CHARACTERS);
+            this.label.set_line_wrap(true);
+            this.label.set_justify(Gtk.Justification.CENTER);
+
             this.label.get_style_context ().add_class ("df_label");
             this.check_ellipse(slabel);
             this.container.pack_end(label,true,true);
@@ -264,11 +266,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     */
     private void check_ellipse(string name){
         if(name.length>MAX_CHARACTERS){
-            this.label.set_ellipsize(Pango.EllipsizeMode.MIDDLE);
-            this.set_size_request(DEFAULT_MAX_WIDTH,DEFAULT_WIDTH);
+            this.label.set_lines(2);
+            this.label.set_ellipsize(Pango.EllipsizeMode.END);
         }else{
+            this.label.set_lines(1);
             this.label.set_ellipsize(Pango.EllipsizeMode.NONE);
-            this.set_size_request(DEFAULT_WIDTH,DEFAULT_WIDTH);
         }
     }
 
@@ -319,6 +321,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.label.set_label(new_name);
             this.check_ellipse(new_name);
         }
+    }
+
+    /**
+    * @name force_adjust_label
+    * @description util function to foce the label to readjust
+    * sometimes, the label change its appareance, but it is not adjusted automatically
+    * this function force the adjust
+    */
+    public void force_adjust_label(){
+        this.label.set_label(this.label.get_text());
     }
 
     /**

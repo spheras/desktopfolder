@@ -148,7 +148,7 @@ public class DesktopFolderApp : Gtk.Application {
             while ((file_info = enumerator.next_file ()) != null) {
                 string name=file_info.get_name();
                 File file = File.new_for_commandline_arg (base_path+"/"+name);
-                FileType type = file.query_file_type (FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+                FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
                 if(type==FileType.DIRECTORY){
                     totalFolders++;
                     //maybe this is an existent already monitored folder

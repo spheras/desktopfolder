@@ -36,139 +36,25 @@ namespace DesktopFolder.Util
 		dialog.destroy();
 	}
 
+    /**
+    * @name FileOperationAction
+    * @description delegate function to inform about the copy being operated
+    * @param {GLib.File} file the file being operated
+    */
+    public delegate void FileOperationAction(GLib.File file);
 
-	/**
-	 * Performs a recursive iteration on a directory, with callbacks.
-	 *
-	 * The caller can provide two {@link RecursiveDirAction}s: one for files,
-	 * and another for directories. These callbacks can both be null
-	 * (although if they both were, the call would do nothing). The directory
-	 * callback is executed before the recursion continues.
-	 * recursive_directory_after does the opposite.
-	 *
-	 * The directory callback is not performed on the toplevel directory.
-	 *
-	 * @param directory The directory to iterate.
-	 * @param directory_action A {@link RecursiveDirAction} to perform on all
-	 * directories.
-	 * @param file_action A {@link RecursiveDirAction} to perform on all files.
-	 */
-	public void recursive_directory(string directory,
-	                                RecursiveDirAction? directory_action,
-	                                RecursiveDirAction? file_action)
-	                                throws Error
-	{
-		do_recursive_directory(directory,
-		                       directory_action,
-		                       file_action,
-		                       "",
-		                       true);
-	}
-
-	/**
-	 * Performs a recursive iteration on a directory, with callbacks.
-	 *
-	 * The caller can provide two {@link RecursiveDirAction}s: one for files,
-	 * and another for directories. These callbacks can both be null
-	 * (although if they both were, the call would do nothing). The directory
-	 * callback is executed after the recursion continues. recursive_directory
-	 * does the opposite.
-	 *
-	 * The directory callback is not performed on the toplevel directory.
-	 *
-	 * @param directory The directory to iterate.
-	 * @param directory_action A {@link RecursiveDirAction} to perform on all
-	 * directories.
-	 * @param file_action A {@link RecursiveDirAction} to perform on all files.
-	 */
-	public void recursive_directory_after(string directory,
-	                                      RecursiveDirAction? directory_action,
-	                                      RecursiveDirAction? file_action)
-	                                      throws Error
-	{
-		do_recursive_directory(directory,
-		                       directory_action,
-		                       file_action,
-		                       "",
-		                       false);
-	}
-
-	/**
-	 * Used for execution of recursive_directory(). Should never be called,
-	 * except by that function.
-	 */
-	private void do_recursive_directory(string directory,
-	                                    RecursiveDirAction? directory_action,
-	                                    RecursiveDirAction? file_action,
-	                                    string rel_path,
-	                                    bool dir_first)
-	                                    throws Error
-	{
-		var dir = GLib.Dir.open(directory, 0);
-		string child_path;
-
-		while ((child_path = dir.read_name()) != null)
-		{
-			var child_full_path = Path.build_filename(directory, child_path);
-			var child_rel_path = Path.build_filename(rel_path, child_path);
-			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
-			{
-				if (directory_action != null && dir_first)
-				{
-					directory_action(child_rel_path, child_full_path);
-				}
-
-				// recurse
-				do_recursive_directory(child_full_path,
-				                       directory_action, file_action,
-				                       child_rel_path,
-				                       dir_first);
-
-				if (directory_action != null && !dir_first)
-				{
-					directory_action(child_rel_path, child_full_path);
-				}
-			}
-			else // the path is a file
-			{
-				if (file_action != null)
-				{
-					file_action(child_rel_path, child_full_path);
-				}
-			}
-		}
-	}
-
-	public delegate void RecursiveDirAction(string path, string full_path)
-	                                       throws GLib.Error;
-
-	/**
-	 * Recursively removes a directory.
-	 *
-	 * @param path The directory to be recursively deleted.
-	 */
-	public void recursive_delete(string path) throws GLib.Error
-	{
-		var dir = GLib.Dir.open(path, 0);
-
-		if (dir == null)
-		{
-			throw new FileError.NOENT("Directory to remove doesn't exist: "+ path);
-		}
-
-		recursive_directory_after(path,
-			(p, full_path) => {
-				DirUtils.remove(full_path);
-			},
-			(p, full_path) => {
-				FileUtils.unlink(full_path);
-			});
-
-		DirUtils.remove(path);
-	}
-
+    /**
+    * @name copy_recursive
+    * @description this function copy recursively from a GLib.File to a GLib.File
+    * @param {GLib.File} src the origin file
+    * @param {GLib.File} src the destination file
+    * @param {GLib.FileCopyFlags} flags the set of flags for the copy operation (NONE by default)
+    * @param {GLib.Cancellable} cancellable object to allow cancel the operation
+    * @param {FileOperationAction} listener the listener to get the current operation
+    * @return bool true->if everything was OK
+    */
     public bool copy_recursive (GLib.File src, GLib.File dest, GLib.FileCopyFlags flags = GLib.FileCopyFlags.NONE,
-        GLib.Cancellable? cancellable = null) throws GLib.Error {
+        GLib.Cancellable? cancellable = null,FileOperationAction? listener=null ) throws GLib.Error {
         GLib.FileType src_type = src.query_file_type (GLib.FileQueryInfoFlags.NONE, cancellable);
         if ( src_type == GLib.FileType.DIRECTORY ) {
             dest.make_directory (cancellable);
@@ -179,43 +65,22 @@ namespace DesktopFolder.Util
             GLib.FileEnumerator enumerator = src.enumerate_children (GLib.FileAttribute.STANDARD_NAME, GLib.FileQueryInfoFlags.NONE, cancellable);
             for ( GLib.FileInfo? info = enumerator.next_file (cancellable) ; info != null ; info = enumerator.next_file (cancellable) ) {
                 copy_recursive (
-                GLib.File.new_for_path (GLib.Path.build_filename (src_path, info.get_name ())),
-                GLib.File.new_for_path (GLib.Path.build_filename (dest_path, info.get_name ())),
-                flags,
-                cancellable);
+                    GLib.File.new_for_path (GLib.Path.build_filename (src_path, info.get_name ())),
+                    GLib.File.new_for_path (GLib.Path.build_filename (dest_path, info.get_name ())),
+                    flags,
+                    cancellable, listener);
             }
         } else if ( src_type == GLib.FileType.REGULAR ) {
+            if(listener!=null){
+                listener(dest);
+            }else{
+                debug("copying %s",dest.get_basename());
+            }
             src.copy (dest, flags, cancellable);
         }
 
         return true;
     }
-
-	/**
-	 * Recursive copies a directory.
-	 *
-	 * @param from_dir The directory to copy from.
-	 * @param to_dir The directory to copy to.
-	 */
-	public void recursive_copy(string from_dir, string to_dir) throws GLib.Error
-	{
-		var top = File.new_for_path(to_dir);
-		if (!top.query_exists(null))
-		{
-			top.make_directory_with_parents(null);
-		}
-
-		recursive_directory(from_dir,
-			(path, full_path) => {
-				var dir = File.new_for_path(Path.build_filename(to_dir, path));
-				if (!dir.query_exists(null)) dir.make_directory(null);
-			},
-			(path, full_path) => {
-				var from = File.new_for_path(full_path);
-				var to = File.new_for_path(Path.build_filename(to_dir, path));
-				from.copy(to, FileCopyFlags.OVERWRITE, null, null);
-			});
-	}
 
 	/**
 	 * Returns the parent window of the specified widget.

@@ -13,6 +13,10 @@ namespace DesktopFolder.Lang {
     public const string CANT_DROP=_("Cannot drop this file");
     //Dialog Error Message while trying to drop
     public const string CANT_DROP_INVALID_FILE_NAME=_("Invalid file name provided");
+    //Title dialog for File Operations
+    public const string DRAGNDROP_FILE_OPERATIONS=_("File Operations");
+    //Copying File message for progress dialog
+    public const string DRAGNDROP_COPYING=_("Copying");
     //Drop Menu - Copy
     public const string DROP_MENU_COPY=_("Copy Here");
     //Drop Menu - Move
@@ -23,6 +27,10 @@ namespace DesktopFolder.Lang {
     public const string DROP_MENU_CANCEL=_("Cancel");
     //desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("Panel");
+    //desktopfolder menu - enable/disable text shadows
+    public const string DESKTOPFOLDER_MENU_TEXT_SHADOW=_("Text Shadow");
+    //desktopfolder menu - enable/disable text bolds
+    public const string DESKTOPFOLDER_MENU_TEXT_BOLD=_("Text Bold");
     //desktopfolder menu - create a new Note
     public const string DESKTOPFOLDER_MENU_NEW_NOTE=_("Note");
     //desktopfolder menu - create a new Folder
@@ -68,9 +76,9 @@ namespace DesktopFolder.Lang {
     //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string NOTE_NEW=_("New Note");
     //Menu popup option to rename the note
-    public const string NOTE_MENU_RENAME_NOTE=_("Rename this Note");
+    public const string NOTE_MENU_RENAME_NOTE=_("Rename");
     //Menu popup option to delete the note
-    public const string NOTE_MENU_DELETE_NOTE=_("Delete This Note");
+    public const string NOTE_MENU_DELETE_NOTE=_("Move to Trash");
     //Note - Dialog Title Message to rename the current note
     public const string NOTE_RENAME_TITLE=_("Rename Note");
     //Note - Dialog Message to rename the current note
@@ -115,7 +123,7 @@ namespace DesktopFolder.Lang {
     //Dialog message to create a new link
     public const string DESKTOPFOLDER_LINK_MESSAGE=_("Select the destination file/folder of the link");
     //Menu popup option to remove a photo
-    public const string PHOTO_MENU_DELETE_PHOTO=_("Delete this Photo");
+    public const string PHOTO_MENU_DELETE_PHOTO=_("Remove");
     //Note - Dialog Message to DELETE the current photo
     public const string PHOTO_DELETE_MESSAGE=_("This action will DELETE the Photo.\n<b>Are you sure?</b>");
     //desktopfolder menu - create a new Photo

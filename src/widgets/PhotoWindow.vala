@@ -210,23 +210,22 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
-
-            Gtk.MenuItem item = new MenuItemColor(FIXO_TAGS_COLORS);
-            ((MenuItemColor)item).color_changed.connect(change_fixo_color);
-            item.show();
-            menu.append (item);
-
-            item = new MenuItemSeparator();
-            item.show();
-            menu.append (item);
+            
+            // new submenu
+            Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+            item_new.show();
+            menu.append (item_new);
+            
+            Gtk.Menu newmenu = new Gtk.Menu ();
+            item_new.set_submenu (newmenu);
 
             //menu to create a new folder
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
             item.activate.connect ((item)=>{
                     this.new_desktop_folder();
             });
             item.show();
-            menu.append (item);
+            newmenu.append (item);
 
             //menu to create a new note
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
@@ -234,7 +233,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
                     this.new_note();
             });
             item.show();
-            menu.append (item);
+            newmenu.append (item);
 
             //menu to create a new photo
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
@@ -242,15 +241,28 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
                     this.new_photo();
             });
             item.show();
-            menu.append (item);
-
+            newmenu.append (item);
+            
             item = new MenuItemSeparator();
-            item.show();
+            item.show ();
             menu.append (item);
 
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
-            item.activate.connect ((item)=>{this.delete_photo();});
+            //item.activate.connect ((item)=>{this.delete_photo();});
+            // No need to warn about a non-destructive move. Especially since it's just an internally used file that links to the photo.
+            // Infact, maybe the dfp file should just be erased to reduce confusion with the real image file.
+            // This should probably really be "this.manager.move_to_trash"
+            item.activate.connect ((item)=>{this.manager.delete();});
+            item.show();
+            menu.append (item);
+            
+            item = new MenuItemSeparator();
+            item.show();
+            menu.append (item);
+            
+            item = new MenuItemColor(FIXO_TAGS_COLORS);
+            ((MenuItemColor)item).color_changed.connect(change_fixo_color);
             item.show();
             menu.append (item);
 

@@ -270,19 +270,19 @@ namespace DesktopFolder.DragnDrop {
 
             /* determine the preferred action based on the context */
             /* determine a working action */
-            if (actions != 0)
+            if (actions != 0){
                 suggested_action_return = suggested_action;
-            else if ((actions & Gdk.DragAction.ASK) != 0)
+            }else if ((actions & Gdk.DragAction.ASK) != 0){
                 suggested_action_return = Gdk.DragAction.ASK;
-            else if ((actions & Gdk.DragAction.COPY) != 0)
+            }else if ((actions & Gdk.DragAction.COPY) != 0){
                 suggested_action_return = Gdk.DragAction.COPY;
-            else if ((actions & Gdk.DragAction.LINK) != 0)
+            }else if ((actions & Gdk.DragAction.LINK) != 0){
                 suggested_action_return = Gdk.DragAction.LINK;
-            else if ((actions & Gdk.DragAction.MOVE) != 0)
+            }else if ((actions & Gdk.DragAction.MOVE) != 0){
                 suggested_action_return = Gdk.DragAction.MOVE;
-            else
+            }else{
                 suggested_action_return = Gdk.DragAction.PRIVATE;
-
+            }
             /* yeppa, we can drop here */
             return actions;
         }
@@ -327,16 +327,39 @@ namespace DesktopFolder.DragnDrop {
     				File f=files.nth(i).data;
     				if(f.query_exists()){
     					if(action==Gdk.DragAction.COPY){
-    						try{
-    							debug("copying "+f.get_path()+" to " + target_dir.get_path());
-    							File final_target=File.new_for_path (target_dir.get_path()+"/"+f.get_basename());
+                            debug("copying "+f.get_path()+" to " + target_dir.get_path());
+                            File final_target=File.new_for_path (target_dir.get_path()+"/"+f.get_basename());
 
-                                DesktopFolder.Util.copy_recursive(f,final_target,GLib.FileCopyFlags.NONE,null);
-    							//f.copy (final_target, FileCopyFlags.NONE, null, null);
+                            DesktopFolder.ProgressDialog pd=new DesktopFolder.ProgressDialog(DesktopFolder.Lang.DRAGNDROP_FILE_OPERATIONS, (Gtk.Window) parent_view);
+                            GLib.Cancellable cancellable=pd.start();
+
+    						try{
+
+                                GLib.Thread<int> thread = new Thread<int>.try ("DesktopFolder File Operation", ()=>{
+                                    try{
+                                        DesktopFolder.Util.copy_recursive(f,
+                                            final_target,
+                                            GLib.FileCopyFlags.NONE,
+                                            cancellable,
+                                            (file)=>{
+                                                string message=DesktopFolder.Lang.DRAGNDROP_COPYING;
+                                                message=message+" "+file.get_path();
+                                                pd.show_action(message);
+                                            });
+                                    }catch(Error e){
+                                        cancellable.cancel();
+                                        stderr.printf ("Error: %s\n", e.message);
+                                    }
+                                    pd.stop();
+                                    return 0;
+                                });
 
     							if (done_callback != null)
     	                			done_callback();
+
     						}catch(Error error){
+                                cancellable.cancel();
+                                pd.stop();
                                 stderr.printf ("Error: %s\n", error.message);
                             }
     					}else if(action==Gdk.DragAction.MOVE){
@@ -346,6 +369,17 @@ namespace DesktopFolder.DragnDrop {
     							f.move (final_target, FileCopyFlags.NONE, null, null);
     							if (done_callback != null)
                     				done_callback();
+    						}catch(Error error){
+    							stderr.printf ("Error: %s\n", error.message);
+    						}
+                        }else if(action==Gdk.DragAction.LINK){
+                            try{
+                                var name=f.get_basename();
+                                var command="ln -s \""+f.get_path()+"\" \""+ target_dir.get_path()+"/"+name+"\"";
+                                debug("linking: %s", command);
+                                //debug("command: %s"+command);
+                                var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+                                appinfo.launch_uris (null, null);
     						}catch(Error error){
     							stderr.printf ("Error: %s\n", error.message);
     						}
