@@ -178,7 +178,7 @@ public class DesktopFolder.FolderManager: Object, DragnDrop.DndView {
     * @param x int the x position where any new item found should be positioned, <=0 if this algorithm must decide
     * @param y int the y position where any new item found should be positioned, <=0 if this algorithm must decide
     */
-    private void sync_files(int x, int y){
+    public void sync_files(int x, int y){
         debug("syncingfiles for folder %s, %d, %d",this.get_folder_name(), x, y);
         try {
             this.load_folder_settings();

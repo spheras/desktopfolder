@@ -390,4 +390,13 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     //---------------------------------------------------------------------------------------
     //---------------------------**********************--------------------------------------
     //---------------------------------------------------------------------------------------
+
+    /**
+    * @name get_folder
+    * @description return the folder that contains this item
+    * @return FolderManaget that contains the item.
+    */
+    public FolderManager get_folder(){
+        return this.folder;
+    }
 }

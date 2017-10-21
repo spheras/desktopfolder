@@ -27,6 +27,8 @@ namespace DesktopFolder.Lang {
     public const string DROP_MENU_CANCEL=_("Cancel");
     //desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER=_("Panel");
+    //desktopfolder menu - enable/disable alignment to grid
+    public const string DESKTOPFOLDER_MENU_ALIGN_TO_GRID=_("Align to Grid");
     //desktopfolder menu - enable/disable text shadows
     public const string DESKTOPFOLDER_MENU_TEXT_SHADOW=_("Text Shadow");
     //desktopfolder menu - enable/disable text bolds

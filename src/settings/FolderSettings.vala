@@ -31,6 +31,7 @@ public class DesktopFolder.FolderSettings: Object{
     public string fgcolor { get; set; }
     public bool textbold { get; set; }
     public bool textshadow {get; set; }
+    public bool align_to_grid {get; set; }
     public string[] items { get; set; default = new string[0]; }
     //default json seralization implementation only support primitive types
 
@@ -57,6 +58,7 @@ public class DesktopFolder.FolderSettings: Object{
         this.fgcolor="df_light";
         this.textbold=true;
         this.textshadow=true;
+        this.align_to_grid=true;
         this.name=name;
         this.items=new string[0];
     }

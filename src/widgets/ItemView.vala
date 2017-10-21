@@ -45,10 +45,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private Gtk.Image icon=null;
 
     /** set of variables to allow move the widget */
-    private const int SENSITIVITY_WITH_GRID = 105;
-    private const int SENSITIVITY_WITHOUT_GRID = 4;
-    //TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
-    private int sensitivity = SENSITIVITY_WITHOUT_GRID;
     private int offsetx;
     private int offsety;
     private int px;
@@ -418,8 +414,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             p.get_allocation(out pAllocation);
             Gtk.Allocation thisAllocation;
             this.get_allocation(out thisAllocation);
-            this.maxx = RoundDownToMultiple(pAllocation.width - thisAllocation.width, this.get_sensitivity());
-            this.maxy = RoundDownToMultiple(pAllocation.height - thisAllocation.height, this.get_sensitivity());
+            this.maxx = RoundDownToMultiple(pAllocation.width - thisAllocation.width, this.manager.get_folder().get_view().get_sensitivity());
+            this.maxy = RoundDownToMultiple(pAllocation.height - thisAllocation.height, this.manager.get_folder().get_view().get_sensitivity());
         }else if(event.type == Gdk.EventType.@2BUTTON_PRESS){
             this.select();
             on_double_click();
@@ -646,8 +642,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // make sure the potential coordinates x,y:
     	//   1) will not push any part of the widget outside of its parent container
     	//   2) is a multiple of Sensitivity
-    	x = RoundToNearestMultiple(int.max(int.min(x, this.maxx), 0), get_sensitivity());
-    	y = RoundToNearestMultiple(int.max(int.min(y, this.maxy), 0), get_sensitivity());
+    	x = RoundToNearestMultiple(int.max(int.min(x, this.maxx), 0), this.manager.get_folder().get_view().get_sensitivity());
+    	y = RoundToNearestMultiple(int.max(int.min(y, this.maxy), 0), this.manager.get_folder().get_view().get_sensitivity());
     	if (x != this.px || y != this.py) {
     		this.px = x;
     		this.py = y;
@@ -677,21 +673,5 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     	if (i % m > (double)m / 2.0d)
     		return (i/m+1)*m;
     	return i/m*m;
-    }
-
-    /**
-    * @name get_sensitivity
-    * @description Get the value of sensitivity, used to calculate the movement of a item
-    */
-    public int get_sensitivity(){
-        return this.sensitivity;
-    }
-
-    /**
-    * @name set_sensitivity
-    * @description Set value to sensitivity, used to calculate the movement of a item
-    */
-    public void set_sensitivity(int s){
-        this.sensitivity=s;
     }
 }

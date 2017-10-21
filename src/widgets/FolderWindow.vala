@@ -29,6 +29,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
 
+    /** item alignment*/
+    private const int SENSITIVITY_WITH_GRID = 105;
+    private const int SENSITIVITY_WITHOUT_GRID = 4;
+    //TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
+    private int sensitivity = SENSITIVITY_WITH_GRID;
+
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
     private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark"};
@@ -286,6 +292,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             item.show();
             newmenu.append (item);
 
+            item = new Gtk.CheckMenuItem.with_label(DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+            (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings().align_to_grid);
+            (item as Gtk.CheckMenuItem).toggled.connect ((item)=>{
+                this.on_toggle_align_to_grid();
+            });
+            item.show();
+            menu.append (item);
+
             item = new Gtk.CheckMenuItem.with_label(DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
             (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings().textshadow);
             (item as Gtk.CheckMenuItem).toggled.connect ((item)=>{
@@ -428,6 +442,23 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     }
 
     /**
+    * @name on_toggle_align_to_grid
+    * @description the toggle align to grid event. The align to grid property must change
+    */
+    private void on_toggle_align_to_grid() {
+        if(this.get_sensitivity() == SENSITIVITY_WITH_GRID){
+            this.set_sensitivity(SENSITIVITY_WITHOUT_GRID);
+            this.manager.get_settings().align_to_grid=false;
+        }else{
+            this.set_sensitivity(SENSITIVITY_WITH_GRID);
+            this.manager.get_settings().align_to_grid=true;
+        }
+        this.manager.get_settings().save();
+        this.clear_all();
+        this.manager.sync_files(0,0);
+    }
+
+    /**
     * @name on_toggle_shadow
     * @description the toggle shadow event. The shadow property must change
     */
@@ -511,8 +542,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     */
     public void add_item(ItemView item, int x, int y){
         //debug("initial position:%d,%d",x,y);
-        x = ItemView.RoundToNearestMultiple(x, item.get_sensitivity());
-        y = ItemView.RoundToNearestMultiple(y, item.get_sensitivity());
+        x = ItemView.RoundToNearestMultiple(x, this.get_sensitivity());
+        y = ItemView.RoundToNearestMultiple(y, this.get_sensitivity());
 
         this.container.put(item,x,y);
     }
@@ -829,6 +860,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         foreach (Gtk.Widget element in children){
             ((ItemView)element).unselect();
         }
+    }
+
+    /**
+    * @name get_sensitivity
+    * @description Get the value of sensitivity, used to calculate the alignment of the items
+    */
+    public int get_sensitivity(){
+        return this.sensitivity;
+    }
+
+    /**
+    * @name set_sensitivity
+    * @description Set value to sensitivity, used to calculate the alignment of the items
+    */
+    public void set_sensitivity(int s){
+        this.sensitivity=s;
     }
 
 }
