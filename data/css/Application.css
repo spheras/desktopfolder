@@ -362,8 +362,8 @@ padding-bottom:0px;
     opacity: 0.5;
 }
 
-.df_note_text{
-    font-weight: bold;
+.df_note_text {
+    /*font-weight: bold;*/
     font-size: 12px;
     background: rgba(0,0,255,0);
 }
