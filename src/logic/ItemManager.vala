@@ -142,10 +142,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             FileUtils.rename(old_path, new_path);
             this.file=File.new_for_path (new_path);
 
-            debug("try13");
             return false;
         }catch(Error e){
-            debug("try-error1");
             //we can't rename, undoing
             this.file_name=old_name;
             ItemSettings is=this.folder.get_settings().get_item(new_name);
