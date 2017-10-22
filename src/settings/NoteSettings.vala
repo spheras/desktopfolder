@@ -7,6 +7,7 @@ public class DesktopFolder.NoteSettings: Object{
     public string bgcolor { get; set; }
     public string fgcolor { get; set; }
     public int clipcolor{ get; set; }
+    public string texture{ get; set; }
     public string text {get; set;}
 
     private File file;
@@ -16,6 +17,7 @@ public class DesktopFolder.NoteSettings: Object{
         this.y=110;
         this.bgcolor="df_yellow";
         this.fgcolor="df_dark";
+        this.texture="";
         this.clipcolor=Random.int_range(1,6);
         this.name=name;
         this.text="Lorem Ipsum";
@@ -87,10 +89,14 @@ public class DesktopFolder.NoteSettings: Object{
 
             //regression for classes, now must have a df_ prefix
             if(existent.bgcolor.length>0 && !existent.bgcolor.has_prefix("df_")){
+                //backward compability
                 existent.bgcolor="df_"+existent.bgcolor;
+                existent.texture="square_paper";
             }
             if(existent.fgcolor.length>0 && !existent.fgcolor.has_prefix("df_")){
+                //backward compability
                 existent.fgcolor="df_"+existent.fgcolor;
+                existent.texture="square_paper";
             }
 
             return existent;

@@ -75,6 +75,8 @@ namespace DesktopFolder.Lang {
     public const string NOTE_ENTER_NAME=_("Enter the name");
     //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string NOTE_NEW=_("New Note");
+    //Note - popup option to set the paper texture or not
+    public const string NOTE_MENU_PAPER_NOTE=_("Paper Texture");
     //Menu popup option to rename the note
     public const string NOTE_MENU_RENAME_NOTE=_("Rename");
     //Menu popup option to delete the note
