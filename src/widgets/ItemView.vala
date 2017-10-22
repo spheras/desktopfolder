@@ -27,6 +27,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private const int MAX_CHARACTERS=13;
     /** flag to know that the item has been moved */
     private bool flagModified=false;
+    private bool flagMoved=false;
     /** the manager of this item icon */
     private ItemManager manager;
     /** the context menu for this item */
@@ -383,6 +384,29 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
         return true;
         */
+
+        //if the icon wasnt moved, maybe we must execute it
+        //depending if the files preferences single-click was activated
+        if(!this.flagMoved){
+            bool single_click=false;
+            try{
+                GLib.File f_check_elementary=GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
+                if(f_check_elementary.query_exists()){
+                    //it seems we can't control an error reading settings!!
+                    GLib.Settings elementary_files_settings=new GLib.Settings("org.pantheon.files.preferences");
+                    single_click=elementary_files_settings.get_boolean("single-click");
+                    //debug("single_click: %s",(single_click?"true":"false"));
+                }
+            }catch(Error error){
+                //we don't have any files settngs, using default config
+                single_click=false;
+            }
+
+            if(single_click && event.type==Gdk.EventType.BUTTON_RELEASE && event.button==Gdk.BUTTON_PRIMARY){
+                on_double_click();
+            }
+        }
+
         return false;
     }
 
@@ -394,9 +418,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     */
     private bool on_press(Gdk.EventButton event){
         //debug("press:%i",(int)event.button);
+
+
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button==Gdk.BUTTON_PRIMARY) {
             //first we must select the item
             this.select();
+            this.flagMoved=false;
 
             Gtk.Widget p = this.parent;
             // offset == distance of parent widget from edge of screen ...
@@ -631,6 +658,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private bool on_motion(Gdk.EventMotion event){
         //debug("on_motion");
         this.flagModified=true;
+        this.flagMoved=true;
         // x_root,x_root relative to screen
     	// x,y relative to parent (fixed widget)
     	// px,py stores previous values of x,y

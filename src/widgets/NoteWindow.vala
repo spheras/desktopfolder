@@ -28,6 +28,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
     private Gtk.Menu menu=null;
     /** the text view */
     private Gtk.SourceView text=null;
+    /** the texture pattern for the note */
+    private Cairo.Pattern texture_pattern=null;
+    /** the clip image prepared to be rendered */
+    private Cairo.Surface clip_surface=null;
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
@@ -138,7 +142,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         Gtk.StyleContext style=this.get_style_context();
         if(this.is_active){
             if(!style.has_class(sclass)){
-                debug("active");
+                //debug("active");
                 style.add_class ("df_active");
                 //we need to force a queue_draw
                 this.queue_draw();
@@ -146,7 +150,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             }
         }else{
             if(style.has_class(sclass)){
-                debug("inactive");
+                //debug("inactive");
                 style.remove_class ("df_active");
                 this.type_hint=Gdk.WindowTypeHint.DESKTOP;
                 //we need to force a queue_draw
@@ -237,12 +241,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
-            
+
             // new submenu
             Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
             item_new.show();
             menu.append (item_new);
-            
+
             Gtk.Menu newmenu = new Gtk.Menu ();
             item_new.set_submenu (newmenu);
 
@@ -269,11 +273,20 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             });
             item.show();
             newmenu.append (item);
-            
+
+            item = new Gtk.CheckMenuItem.with_label(DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
+            (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings().texture=="square_paper");
+            (item as Gtk.CheckMenuItem).toggled.connect ((item)=>{
+                this.on_texture("square_paper");
+            });
+            item.show();
+            menu.append (item);
+
+
             item = new MenuItemSeparator();
             item.show ();
             menu.append (item);
-            
+
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
             //item.activate.connect ((item)=>{this.delete_note();});
@@ -284,7 +297,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             item.activate.connect ((item)=>{this.manager.delete();});
             item.show();
             menu.append (item);
-            
+
             item = new MenuItemSeparator();
             item.show ();
             menu.append (item);
@@ -294,11 +307,11 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             item.activate.connect ((item)=>{this.rename_note();});
             item.show();
             menu.append (item);
-            
+
             item = new MenuItemSeparator();
             item.show();
             menu.append (item);
-            
+
             //section to change the window head and body colors
             item = new MenuItemColor(HEAD_TAGS_COLORS);;
             ((MenuItemColor)item).color_changed.connect(change_head_color);
@@ -345,6 +358,22 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             }
         });
         msg.show ();
+    }
+
+    /**
+    * @name on_texture
+    * @description set the texture for the note window
+    * @param {string} texture the texture to apply
+    */
+    private void on_texture(string texture){
+        string current_texture=this.manager.get_settings().texture;
+        if(current_texture==texture){
+            this.manager.get_settings().texture="";
+        }else{
+            this.manager.get_settings().texture=texture;
+        }
+        this.manager.get_settings().save();
+        this.queue_draw();
     }
 
     /**
@@ -444,17 +473,22 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
         shape(cr,width,height);
         cr.clip ();
 
-        //try{
-        //    var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/hip-square.png");
-        //    var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
-        //    var pat = new Cairo.Pattern.for_surface (surface);
-        //    pat.set_extend (Cairo.Extend.REPEAT);
-        //    cr.set_source (pat);
-        //    cr.paint_with_alpha (0.9);
-        //} catch (Error e) {
-        //    //error! ??
-        //    stderr.printf ("Error: %s\n", e.message);
-        //}
+        if(this.manager.get_settings().texture=="square_paper"){
+            try{
+                if(this.texture_pattern==null){
+                    var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/hip-square.png");
+                    var surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf,1,null);
+                    this.texture_pattern = new Cairo.Pattern.for_surface (surface);
+                    this.texture_pattern.set_extend (Cairo.Extend.REPEAT);
+                }
+
+                cr.set_source (this.texture_pattern);
+                cr.paint_with_alpha (0.9);
+            } catch (Error e) {
+                //error! ??
+                stderr.printf ("Error: %s\n", e.message);
+            }
+        }
 
         //drawing border
         shape(cr,width,height);
@@ -472,32 +506,34 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
         //drawing clip
         try{
-            int clipcolor=this.manager.get_settings().clipcolor;
-            var color="";
-            switch(clipcolor){
-                case 1:
-                    color= "blue";
-                    break;
-                case 2:
-                    color= "green";
-                    break;
-                case 3:
-                    color= "orange";
-                    break;
-                case 4:
-                    color= "pink";
-                    break;
-                case 5:
-                    color= "red";
-                    break;
-                default:
-                case 6:
-                    color= "yellow";
-                    break;
+            if(this.clip_surface==null){
+                int clipcolor=this.manager.get_settings().clipcolor;
+                var color="";
+                switch(clipcolor){
+                    case 1:
+                        color= "blue";
+                        break;
+                    case 2:
+                        color= "green";
+                        break;
+                    case 3:
+                        color= "orange";
+                        break;
+                    case 4:
+                        color= "pink";
+                        break;
+                    case 5:
+                        color= "red";
+                        break;
+                    default:
+                    case 6:
+                        color= "yellow";
+                        break;
+                }
+                var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/clip-"+color+".png");
+                this.clip_surface=Gdk.cairo_surface_create_from_pixbuf(pixbuf, 1, null);
             }
-            var pixbuf=new Gdk.Pixbuf.from_resource("/com/github/spheras/desktopfolder/clip-"+color+".png");
-            var clip=Gdk.cairo_surface_create_from_pixbuf(pixbuf, 1, null);
-            cr.set_source_surface (clip, 5, 5);
+            cr.set_source_surface (this.clip_surface, 5, 5);
             cr.paint();
         } catch (Error e) {
             //error! ??
