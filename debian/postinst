@@ -6,6 +6,10 @@
 #fi
 #su $USER -c "/usr/bin/com.github.spheras.desktopfolder &"
 #
+
+#removing old instances
+killall com.github.spheras.desktopfolder
+
 echo "Remember: You'll need to logout/reboot to launch the application."
 
 exit 0
