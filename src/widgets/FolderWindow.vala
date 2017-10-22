@@ -923,9 +923,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             int header=35;
             int margin=10;
             int sensitivity=SENSITIVITY_WITH_GRID-10;
+            cr.set_source_rgba (1, 1, 1, 0.3);
             for(int i=padding;i<width-paddingx2;i=i+sensitivity+margin){
                 for(int j=padding+header;j<height-paddingx2;j=j+sensitivity+margin){
-                    cr.set_source_rgba (1, 1, 1, 0.4);
                     cr.rectangle (i, j, sensitivity, sensitivity);
     	            cr.fill ();
                 }
