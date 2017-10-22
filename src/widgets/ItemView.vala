@@ -429,9 +429,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.select();
             this.flagMoved=false;
 
-            //we notify that we are starting to move
-            this.manager.get_folder().get_view().on_item_moving(true);
-
             Gtk.Widget p = this.parent;
             // offset == distance of parent widget from edge of screen ...
             p.get_window().get_position(out this.offsetx, out this.offsety);
@@ -665,7 +662,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private bool on_motion(Gdk.EventMotion event){
         //debug("on_motion");
         this.flagModified=true;
-        this.flagMoved=true;
+
+        if(!this.flagMoved){
+            //we notify that we are starting to move
+            this.manager.get_folder().get_view().on_item_moving(true);
+            this.flagMoved=true;
+        }
+
         // x_root,x_root relative to screen
     	// x,y relative to parent (fixed widget)
     	// px,py stores previous values of x,y
