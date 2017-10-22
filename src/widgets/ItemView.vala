@@ -387,6 +387,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
         //if the icon wasnt moved, maybe we must execute it
         //depending if the files preferences single-click was activated
+
+        //we notify that we are stopping to move
+        this.manager.get_folder().get_view().on_item_moving(false);
+
         if(!this.flagMoved){
             bool single_click=false;
             try{
@@ -424,6 +428,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             //first we must select the item
             this.select();
             this.flagMoved=false;
+
+            //we notify that we are starting to move
+            this.manager.get_folder().get_view().on_item_moving(true);
 
             Gtk.Widget p = this.parent;
             // offset == distance of parent widget from edge of screen ...

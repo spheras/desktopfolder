@@ -210,12 +210,12 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             this.type_hint=Gdk.WindowTypeHint.DESKTOP;
 
             this.menu = new Gtk.Menu ();
-            
+
             // new submenu
             Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
             item_new.show();
             menu.append (item_new);
-            
+
             Gtk.Menu newmenu = new Gtk.Menu ();
             item_new.set_submenu (newmenu);
 
@@ -242,25 +242,21 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
             });
             item.show();
             newmenu.append (item);
-            
+
             item = new MenuItemSeparator();
             item.show ();
             menu.append (item);
 
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
-            //item.activate.connect ((item)=>{this.delete_photo();});
-            // No need to warn about a non-destructive move. Especially since it's just an internally used file that links to the photo.
-            // Infact, maybe the dfp file should just be erased to reduce confusion with the real image file.
-            // This should probably really be "this.manager.move_to_trash"
             item.activate.connect ((item)=>{this.manager.delete();});
             item.show();
             menu.append (item);
-            
+
             item = new MenuItemSeparator();
             item.show();
             menu.append (item);
-            
+
             item = new MenuItemColor(FIXO_TAGS_COLORS);
             ((MenuItemColor)item).color_changed.connect(change_fixo_color);
             item.show();
@@ -312,31 +308,6 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow{
     */
     private void new_photo(){
         DesktopFolder.Util.create_new_photo(this);
-    }
-
-    /**
-    * @name delete_photo
-    * @description try to delete the current photo
-    */
-    private void delete_photo(){
-        //we need to ask and be sure
-        string message=DesktopFolder.Lang.PHOTO_DELETE_MESSAGE;
-        Gtk.MessageDialog msg = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING,
-                                                       Gtk.ButtonsType.OK_CANCEL, message);
-        msg.use_markup=true;
-        msg.response.connect ((response_id) => {
-            switch (response_id) {
-				case Gtk.ResponseType.OK:
-                    msg.destroy();
-                    this.manager.delete();
-					break;
-                default:
-                    msg.destroy();
-                    break;
-                    //uff
-            }
-        });
-        msg.show ();
     }
 
     /**

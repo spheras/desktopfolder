@@ -326,6 +326,16 @@ namespace DesktopFolder.DragnDrop {
     			for(int i=0;files!=null && i<files.length();i++){
     				File f=files.nth(i).data;
     				if(f.query_exists()){
+
+                        string path=f.get_path();
+                        debug(f.get_path());
+                        if((path.has_prefix("/usr/local/share/applications/") || path.has_prefix("/usr/share/applications/")) && path.has_suffix(".desktop")){
+                            //we don't move user desktop launchers
+                            if(action==Gdk.DragAction.MOVE){
+                                action=Gdk.DragAction.COPY;
+                            }
+                        }
+
     					if(action==Gdk.DragAction.COPY){
                             debug("copying "+f.get_path()+" to " + target_dir.get_path());
                             File final_target=File.new_for_path (target_dir.get_path()+"/"+f.get_basename());

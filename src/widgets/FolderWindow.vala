@@ -29,11 +29,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
 
+    /** flag to know if an icon is moving*/
+    private bool flag_moving=false;
+
     /** item alignment*/
-    private const int SENSITIVITY_WITH_GRID = 105;
+    private const int SENSITIVITY_WITH_GRID = 101;
     private const int SENSITIVITY_WITHOUT_GRID = 4;
     //TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
-    private int sensitivity = SENSITIVITY_WITH_GRID;
+    private int sensitivity = SENSITIVITY_WITHOUT_GRID;
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000"};
@@ -104,6 +107,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.button_release_event.connect(this.on_release);
         this.key_release_event.connect(this.on_key);
         this.key_press_event.connect(this.on_key);
+        this.draw.connect(this.draw_background);
 
         //help: doesn't have the gtk window any active signal? or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default();
@@ -149,6 +153,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         }
 
         this.set_title(manager.get_folder_name());
+
+        if(this.manager.get_settings().align_to_grid){
+            this.sensitivity = SENSITIVITY_WITH_GRID;
+        }else{
+            this.sensitivity = SENSITIVITY_WITHOUT_GRID;
+        }
     }
 
     /**
@@ -878,4 +888,54 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.sensitivity=s;
     }
 
+    /**
+    * @name on_item_moving
+    * @description event capture of an item moving or stop moving
+    * @param {bool} moving if the item started moving or stopped moving
+    */
+    public void on_item_moving(bool moving){
+        this.flag_moving=moving;
+        this.queue_draw();
+    }
+
+    /**
+    * @name draw_backgorund
+    * @description draw the note window background intercepting the draw signal
+    * @param {Cairo.Context} cr the cairo context
+    * @bool @see draw signal
+    */
+    private bool draw_background (Cairo.Context cr) {
+
+        //we must show the grid if it is enabled and an item being moved
+        if(flag_moving==true && this.manager.get_settings().align_to_grid){
+            int width = this.get_allocated_width ();
+            int height = this.get_allocated_height ();
+
+            cr.set_operator (Cairo.Operator.CLEAR);
+            cr.paint ();
+            cr.set_operator (Cairo.Operator.OVER);
+
+            cr.rectangle (0, 40, width-14, height-54);
+            cr.clip ();
+
+            int padding=13;
+            int paddingx2=padding*2;
+            int header=35;
+            int margin=10;
+            int sensitivity=SENSITIVITY_WITH_GRID-10;
+            for(int i=padding;i<width-paddingx2;i=i+sensitivity+margin){
+                for(int j=padding+header;j<height-paddingx2;j=j+sensitivity+margin){
+                    cr.set_source_rgba (1, 1, 1, 0.4);
+                    cr.rectangle (i, j, sensitivity, sensitivity);
+    	            cr.fill ();
+                }
+            }
+
+            cr.reset_clip();
+        }
+
+        base.draw (cr);
+
+        return true;
+    }
 }

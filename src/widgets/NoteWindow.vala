@@ -289,11 +289,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-            //item.activate.connect ((item)=>{this.delete_note();});
-            // No need to warn about a non-destructive move.
-            // The notes file just goes to the Trash and can be restored just like any other file. When restored it's back on the desktop as before.
-            // (this is a good design)
-            // This should probably really be "this.manager.move_to_trash"
             item.activate.connect ((item)=>{this.manager.delete();});
             item.show();
             menu.append (item);
@@ -334,31 +329,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
             );
     }
 
-
-    /**
-    * @name delete_note
-    * @description try to delete the current note
-    */
-    private void delete_note(){
-        //we need to ask and be sure
-        string message=DesktopFolder.Lang.NOTE_DELETE_MESSAGE;
-        Gtk.MessageDialog msg = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING,
-                                                       Gtk.ButtonsType.OK_CANCEL, message);
-        msg.use_markup=true;
-        msg.response.connect ((response_id) => {
-            switch (response_id) {
-				case Gtk.ResponseType.OK:
-                    msg.destroy();
-                    this.manager.delete();
-					break;
-                default:
-                    msg.destroy();
-                    break;
-                    //uff
-            }
-        });
-        msg.show ();
-    }
 
     /**
     * @name on_texture
