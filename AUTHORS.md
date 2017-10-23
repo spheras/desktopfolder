@@ -9,3 +9,5 @@
   * Lithuanian translation
   
 * **[aljelly](https://github.com/aljelly)**
+
+Icon was derived from [Plank's](https://launchpad.net/plank) icon.
