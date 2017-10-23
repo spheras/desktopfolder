@@ -45,12 +45,8 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER=_("Move Panel to Trash");
     //desktopfolder menu - past from clipboard to the desktop-folder
     public const string DESKTOPFOLDER_MENU_PASTE=_("Paste");
-    //desktopfolder menu - show the about dialog
-    //public const string DESKTOPFOLDER_MENU_ABOUT=_("About");
     //desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string DESKTOPFOLDER_NEW=_("New Panel");
-    //desktopfolder - Dialog Title Message to rename the current Desktop-Folder
-    public const string DESKTOPFOLDER_RENAME_TITLE=_("Rename Panel");
     //desktopfolder - Dialog Message to rename the current Desktop-Folder
     public const string DESKTOPFOLDER_RENAME_MESSAGE=_("Enter the new name");
     //desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
@@ -80,7 +76,7 @@ namespace DesktopFolder.Lang {
     //Note - popup option to set the paper texture or not
     public const string NOTE_MENU_PAPER_NOTE=_("Paper Texture");
     //Menu popup option to rename the note
-    public const string NOTE_MENU_RENAME_NOTE=_("Rename");
+    public const string NOTE_MENU_RENAME_NOTE=_("Rename Note");
     //Menu popup option to delete the note
     public const string NOTE_MENU_DELETE_NOTE=_("Move to Trash");
     //Note - Dialog Title Message to rename the current note

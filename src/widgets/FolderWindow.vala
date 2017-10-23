@@ -368,11 +368,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
 
             //option to delete the current folder
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-            //item.activate.connect ((item)=>{this.delete_folder();});
-            // No need to warn about a non-destructive move.
-            // The desktop folder just goes to the Trash and can be restored just like any other folder. When restored it's back on the desktop as before.
-            // (this is a good design)
-            // This should probably really be "this.manager.move_to_trash"
             item.activate.connect ((item)=>{this.manager.delete();});
             item.show ();
             menu.append (item);
@@ -558,6 +553,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.container.put(item,x,y);
     }
 
+    /**
+    * @name raise
+    * @description bring to front the item
+    * @param {ItemView}
+    */
     public void raise(ItemView item,int x,int y){
         this.container.remove(item);
         add_item(item,x,y);
@@ -592,7 +592,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 selected.delete_dialog();
                 return true;
             }else{
-                this.delete_folder();
+                this.manager.delete();
             }
             return false;
         }else if(event.type==Gdk.EventType.KEY_RELEASE && key==F2_KEY){
@@ -820,37 +820,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     }
 
     /**
-    * @name delete_folder
-    * @description try to delete the current desktop folder
-    */
-    private void delete_folder(){
-        //we need to ask and be sure
-        string message=DesktopFolder.Lang.DESKTOPFOLDER_DELETE_MESSAGE;
-        Gtk.MessageDialog msg = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING,
-                                                       Gtk.ButtonsType.OK_CANCEL, message);
-       msg.use_markup=true;
-        msg.response.connect ((response_id) => {
-            switch (response_id) {
-				case Gtk.ResponseType.OK:
-                    msg.destroy();
-                    this.manager.delete();
-					break;
-                default:
-                    msg.destroy();
-                    break;
-                    //uff
-            }
-        });
-        msg.show ();
-    }
-
-    /**
     * @name rename_folder
     * @description try to rename the current desktop folder
     */
     private void rename_folder(){
         RenameDialog dialog = new RenameDialog (this,
-                                                DesktopFolder.Lang.DESKTOPFOLDER_RENAME_TITLE,
+                                                DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER,
                                                 DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE,
                                                 this.manager.get_folder_name());
         dialog.on_rename.connect((new_name)=>{
