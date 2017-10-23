@@ -214,7 +214,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         if(event.type==Gdk.EventType.CONFIGURE){
             //we are now a dock Window, to avoid minimization when show desktop
             //TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint=Gdk.WindowTypeHint.DESKTOP;
+            this.type_hint=Gdk.WindowTypeHint.DIALOG;
 
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
@@ -269,16 +269,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             (event.button==Gdk.BUTTON_SECONDARY)) {
             this.show_popup(event);
             return true;
-        }else if (event.type == Gdk.EventType.BUTTON_PRESS &&
-                 (event.button==Gdk.BUTTON_PRIMARY)) {
-            int width = this.get_allocated_width ();
-            int height = this.get_allocated_height ();
-            int margin=30;
-            //debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
-            if(event.x>margin && event.y>margin && event.x<width-margin && event.y<height-margin){
-                this.begin_move_drag((int)event.button,(int) event.x_root,(int) event.y_root, event.time);
-            }
-
         }
         return false;
     }
