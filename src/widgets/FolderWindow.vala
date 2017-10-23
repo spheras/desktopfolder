@@ -28,6 +28,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
     private Gtk.Fixed container=null;
     /** Context menu of the Folder Window */
     private Gtk.Menu menu=null;
+    
+    private Gtk.Button delete_panel_button = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
 
     /** flag to know if an icon is moving*/
     private bool flag_moving=false;
@@ -81,11 +83,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
                 height_request: 50,
                 width_request: 50);
 
+        //delete_panel_button = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+        delete_panel_button.has_tooltip = true;
+        delete_panel_button.tooltip_text = _("Move to Trash");
+
 
         var headerbar = new Gtk.HeaderBar();
         headerbar.set_title(manager.get_folder_name());
-        //headerbar.set_subtitle("HeaderBar Subtitle");
-        //headerbar.set_show_close_button(true);
+        headerbar.pack_start (delete_panel_button);
+        headerbar.set_decoration_layout ("");
         this.set_titlebar(headerbar);
 
         this.set_skip_taskbar_hint(true);
@@ -108,10 +114,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
         this.key_release_event.connect(this.on_key);
         this.key_press_event.connect(this.on_key);
         this.draw.connect(this.draw_background);
+        
+        this.enter_notify_event.connect (this.on_enter_notify);
+        this.leave_notify_event.connect (this.on_leave_notify);
 
         //help: doesn't have the gtk window any active signal? or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default();
         screen.active_window_changed.connect(on_active_change);
+        
+        delete_panel_button.enter_notify_event.connect (this.on_enter_notify);
+        delete_panel_button.leave_notify_event.connect (this.on_leave_notify);
 
         /*
         this.focus_in_event.connect((event)=>{debug("focus_in");return false;});
@@ -207,6 +219,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             //debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape(event.x, event.y, event.width, event.height);
         }
+        return false;
+    }
+    
+    /**
+    * @name on_enter_notify
+    * @description On mouse entering the window
+    */
+    private bool on_enter_notify (Gdk.EventCrossing event) {
+        debug ("Entered panel");
+        delete_panel_button.get_style_context ().remove_class ("df_button_fade");
+        return false;
+    }
+
+    /**
+    * @name on_enter_leave
+    * @description On mouse leaving the window
+    */
+    private bool on_leave_notify (Gdk.EventCrossing event) {
+        debug ("Left panel");
+        delete_panel_button.get_style_context ().add_class ("df_button_fade");
         return false;
     }
 
