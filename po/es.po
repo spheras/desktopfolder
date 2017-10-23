@@ -125,8 +125,8 @@ msgstr "Pegar"
 
 #. Desktop-Folder - Dialog Title Message to rename the current Desktop-Folder
 #: src/LanguageText.vala:43
-msgid "Rename Panel"
-msgstr "Renombrar el Panel"
+#msgid "Rename Panel"
+#msgstr "Renombrar el Panel"
 
 #. Desktop-Folder - Dialog Message to rename the current Desktop-Folder
 #. Note - Dialog Message to rename the current note
@@ -209,8 +209,8 @@ msgstr "Copiar"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:90
-msgid "Rename"
-msgstr "Renombrar"
+#msgid "Rename"
+#msgstr "Renombrar"
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:92
