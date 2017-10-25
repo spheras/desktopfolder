@@ -352,7 +352,7 @@ public class DesktopFolderApp : Gtk.Application {
         }
 
         //new content inside
-        var file_type= src.query_file_type (FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+        var file_type= src.query_file_type (FileQueryInfoFlags.NONE);
         if (flagNote || flagPhoto || file_type==FileType.DIRECTORY || !src.query_exists()){
             //debug("Desktop - Change Detected");
             //new directory or removed, we need to synchronize
