@@ -468,6 +468,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow{
 
         //drawing corner
         draw_corner(cr,width,height);
+        cr.set_source_rgba (0, 0, 0, 0.4);
         cr.stroke();
 
         base.draw (cr);
