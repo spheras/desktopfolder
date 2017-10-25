@@ -11,6 +11,10 @@
 * **[Welaq](https://github.com/welaq)**
   * Lithuanian translation
 
+* **[nvivant](https://github.com/nvivant)**
+  * French translation
+
 # Resources
 
-* Icon was derived from [Plank's](https://launchpad.net/plank) icon.
+* App Icon was derived from [Plank's](https://launchpad.net/plank) icon.
+* Paper texture made by [Tomislava Babić](https://www.behance.net/antitomi)

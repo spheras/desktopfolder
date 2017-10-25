@@ -7,6 +7,8 @@ com.github.spheras.desktopfolder (1.0.2) precise; urgency=low
   * DESKTOP window types (workspace movement improvement and others)
   * Drag and Drop folders (recursive copy)
   * Undo/Redo and others over Text Notes
+  * Menu Redesign
+  * Lithuanian and French translations
   * Minor Bugfixing
 
  -- José Amuedo <joseamuedo@gmail.com>  Thu, 19 Oct 2017 18:32:00 +0200

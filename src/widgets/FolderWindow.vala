@@ -239,6 +239,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow{
             return true;
         }else if (event.type == Gdk.EventType.BUTTON_PRESS &&
                  (event.button==Gdk.BUTTON_PRIMARY)) {
+            this.unselect_all();
             int width = this.get_allocated_width ();
             int height = this.get_allocated_height ();
             int margin=30;

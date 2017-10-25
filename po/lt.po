@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-23 18:35+0200\n"
-"PO-Revision-Date: 2017-10-18 23:10+0300\n"
+"POT-Creation-Date: 2017-10-25 23:38+0200\n"
+"PO-Revision-Date: 2017-10-25 06:32+0200\n"
 "Last-Translator: Moo\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -61,13 +61,12 @@ msgstr "Pateiktas neteisingas failo pavadinimas"
 #. Title dialog for File Operations
 #: src/LanguageText.vala:17
 msgid "File Operations"
-msgstr ""
+msgstr "Failų operacijos"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:19
-#, fuzzy
 msgid "Copying"
-msgstr "Kopijuoti"
+msgstr "Kopijavimas"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:21
@@ -91,41 +90,38 @@ msgstr "Atsisakyti"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:29
-#, fuzzy
 msgid "Panel"
-msgstr "Naujas skydelis"
+msgstr "skydelis"
 
 #. desktopfolder menu - enable/disable alignment to grid
 #: src/LanguageText.vala:31
 msgid "Align to Grid"
-msgstr ""
+msgstr "Suderinti su tinkleliu"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:33
 msgid "Text Shadow"
-msgstr ""
+msgstr "Teksto šešėlis"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:35
 msgid "Text Bold"
-msgstr ""
+msgstr "Tekstas drąsus"
 
 #. desktopfolder menu - create a new Note
 #: src/LanguageText.vala:37
-#, fuzzy
 msgid "Note"
-msgstr "Naujos pastabos"
+msgstr "pastabos"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:39
-#, fuzzy
 msgid "Folder"
-msgstr "Naujas aplankas"
+msgstr "aplankas"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:41
 msgid "Empty File"
-msgstr ""
+msgstr "Tuščias failas"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:43
@@ -135,7 +131,7 @@ msgstr "Pervadinti skydelį"
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:45
 msgid "Move Panel to Trash"
-msgstr ""
+msgstr "Perkelti skydelį į šiukšliadėžę"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:47
@@ -202,7 +198,7 @@ msgstr "Naujos pastabos"
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:77
 msgid "Paper Texture"
-msgstr ""
+msgstr "Popieriaus tekstūra"
 
 #. Menu popup option to rename the note
 #. Note - Dialog Title Message to rename the current note
@@ -213,7 +209,7 @@ msgstr "Pervadinti pastabas"
 #. Menu popup option to delete the note
 #: src/LanguageText.vala:81
 msgid "Move to Trash"
-msgstr ""
+msgstr "Išmesti"
 
 #. Note - Dialog Message to DELETE the current note
 #: src/LanguageText.vala:87
@@ -305,15 +301,13 @@ msgstr "Mano pirmasis skydelis"
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
-#, fuzzy
 msgid "Link to File"
-msgstr "Nauja nuoroda į failą"
+msgstr "nuoroda į failą"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
-#, fuzzy
 msgid "Link to Folder"
-msgstr "Nauja nuorodą į aplanką"
+msgstr "nuorodą į aplanką"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
@@ -323,7 +317,7 @@ msgstr "Pasirinkite nuorodos paskirties failą/aplanką"
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:126
 msgid "Remove"
-msgstr ""
+msgstr "Pašalinti"
 
 #. Note - Dialog Message to DELETE the current photo
 #: src/LanguageText.vala:128
@@ -336,9 +330,8 @@ msgstr ""
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
-#, fuzzy
 msgid "Photo"
-msgstr "Nauja nuotrauka"
+msgstr "nuotrauka"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
@@ -348,7 +341,7 @@ msgstr "Pasirinkite nuotrauką, kurią rodyti"
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
 msgid "New"
-msgstr ""
+msgstr "Naujas"
 
 #~ msgid "Rename this Panel"
 #~ msgstr "Pervadinti šį skydelį"

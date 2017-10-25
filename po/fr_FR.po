@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-25 10:58+0200\n"
+"POT-Creation-Date: 2017-10-25 23:38+0200\n"
 "PO-Revision-Date: 2017-10-25 11:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -298,18 +298,15 @@ msgstr "Mon premier panneau"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
-msgid "Press ⌘-D to Show Desktop"
-msgstr "⌘-D pour afficher le Desktop"
-
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "lien vers un fichier"
+msgstr "Lien vers un fichier"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "lien vers un dossier"
+msgstr "Lien vers un dossier"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
@@ -344,3 +341,6 @@ msgstr "Choisir la photo"
 #: src/LanguageText.vala:134
 msgid "New"
 msgstr "Nouveau"
+
+#~ msgid "Press ⌘-D to Show Desktop"
+#~ msgstr "⌘-D pour afficher le Desktop"
