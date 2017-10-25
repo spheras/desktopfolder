@@ -26,24 +26,12 @@
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-1.png</image>
         </screenshot>
         <screenshot>
-            <caption>Green note example</caption>
+            <caption>Overall desktop view</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-2.png</image>
         </screenshot>
         <screenshot>
-            <caption>Yellow note example</caption>
+            <caption>Overall desktop view</caption>
             <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-3.png</image>
-        </screenshot>
-        <screenshot>
-            <caption>Yellow panel example with launcher icons</caption>
-            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-4.png</image>
-        </screenshot>
-        <screenshot>
-            <caption>Purple panel example with launcher icons</caption>
-            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-5.png</image>
-        </screenshot>
-        <screenshot>
-            <caption>Green panel example with files and folders</caption>
-            <image>https://raw.githubusercontent.com/spheras/desktopfolder/master/data/screenshot-6.png</image>
         </screenshot>
     </screenshots>
     <developer_name>José Amuedo</developer_name>

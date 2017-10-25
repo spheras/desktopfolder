@@ -3,7 +3,6 @@
   <gresource prefix="/com/github/spheras/desktopfolder">
     <file alias="Application.css" compressed="true">css/Application.css</file>
 
-    <file alias="icon.png" compressed="true">img/icon.png</file>
     <file alias="hip-square.png" compressed="true">img/hip-square.png</file>
     <file alias="clip-blue.png" compressed="true">img/clip-blue.png</file>
     <file alias="clip-green.png" compressed="true">img/clip-green.png</file>
