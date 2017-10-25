@@ -304,12 +304,12 @@ msgstr "⌘-D pour afficher le Desktop"
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "lien vers un fichier"
+msgstr "Lien vers un fichier"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "lien vers un dossier"
+msgstr "Lien vers un dossier"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
