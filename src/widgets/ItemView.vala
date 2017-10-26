@@ -561,6 +561,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     public void copy () {
         this.manager.copy ();
     }
+    
+    /**
+     * @name copy
+     * @description copy the file to the clipboard
+     */
+    public void trash () {
+        this.manager.trash ();
+    }
 
     /**
      * @name delete_dialog

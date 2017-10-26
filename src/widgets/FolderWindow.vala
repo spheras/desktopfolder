@@ -612,11 +612,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                         if (shift_pressed) {
                             selected.delete_dialog ();
                         } else {
-                            selected.move_to_trash ();
+                            selected.trash ();
                         }
                         return true;
                     } else {
-                        this.manager.move_to_trash ();
+                        this.manager.trash ();
                     }
                 } else if (key == F2_KEY) {
                     if (selected != null) {
