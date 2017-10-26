@@ -149,13 +149,13 @@ public class DesktopFolderApp : Gtk.Application {
                 string   name = file_info.get_name ();
                 File     file = File.new_for_commandline_arg (base_path + "/" + name);
                 FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
-                
+
                 if (type == FileType.DIRECTORY) {
                     totalFolders++;
-                    
+
                     // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
-                    
+
                     if (fm == null) {
                         // No, it's a new folder
                         fm = new DesktopFolder.FolderManager (this, name);
@@ -171,10 +171,10 @@ public class DesktopFolderApp : Gtk.Application {
                         string file_name = basename.substring (0, index);
                         if (ext == DesktopFolder.NOTE_EXTENSION) {
                             totalNotes++;
-                            
+
                             // Is this note already known about?
                             DesktopFolder.NoteManager nm = this.find_note_by_name (file_name);
-                            
+
                             if (nm == null) {
                                 // No, it's a new note
                                 nm = new DesktopFolder.NoteManager (this, basename.substring (0, index), file);
@@ -184,10 +184,10 @@ public class DesktopFolderApp : Gtk.Application {
                             updated_note_list.append (nm);
                         } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
                             totalPhotos++;
-                            
-                            // Is this folder already known about?
+
+                            // Is this photo already known about?
                             DesktopFolder.PhotoManager pm = this.find_photo_by_name (file_name);
-                            
+
                             if (pm == null) {
                                 // No, it's a new photo
                                 pm = new DesktopFolder.PhotoManager (this, basename.substring (0, index), file);

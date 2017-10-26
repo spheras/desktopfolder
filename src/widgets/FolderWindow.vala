@@ -588,7 +588,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // check if the control key is pressed
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        bool shift_pressed = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
+        bool shift_pressed   = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
 
         ItemView selected    = this.get_selected_item ();
 

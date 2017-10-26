@@ -561,7 +561,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     public void copy () {
         this.manager.copy ();
     }
-    
+
     /**
      * @name copy
      * @description trash the file
@@ -569,7 +569,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     public void move_to_trash () {
         this.manager.move_to_trash ();
     }
-    
+
     /**
      * @name copy
      * @description trash the file
@@ -584,36 +584,36 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     public void delete_dialog () {
         // TODO: Only show dialog if permanently deleting more than one file like Files does
-        
+
         string message = "<big><b>" +
-        DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE_TITLE.printf (this.manager.get_file_name ()) +
-        "</b></big>\n\n\t\t" + DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
-        
+                         DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE_TITLE.printf (this.manager.get_file_name ()) +
+                         "</b></big>\n\n\t\t" + DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
+
         /* For more than one:
             string message = "<big><b>" +
             DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE_TITLE_MULTIPLE.printf (100) +
             "</b></big>\n\n\t\t" + DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
-        */
-        
-        Gtk.Window window  = (Gtk.Window) this.get_toplevel ();
+         */
+
+        Gtk.Window window     = (Gtk.Window) this.get_toplevel ();
 
         Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
                                                        Gtk.MessageType.WARNING, Gtk.ButtonsType.NONE, message);
-                                                       
-        msg.add_buttons (_("Cancel"), 0, _("Delete"), 1);
-        
+
+        msg.add_buttons (_ ("Cancel"), 0, _ ("Delete"), 1);
+
         msg.set_deletable (false);
-        
+
         msg.use_markup = true;
         msg.response.connect ((response_id) => {
             switch (response_id) {
-                case 0:
-                    msg.destroy ();
-                    break;
-                case 1:
-                    msg.destroy ();
-                    //this.manager.delete ();
-                    break;
+            case 0:
+                msg.destroy ();
+                break;
+            case 1:
+                msg.destroy ();
+                // this.manager.delete ();
+                break;
             }
         });
         msg.show ();

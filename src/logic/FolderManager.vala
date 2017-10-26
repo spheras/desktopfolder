@@ -310,7 +310,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
     /**
      * @name move_to_trash
-     * @description Send folder to trash
+     * @description Send panel to trash
      */
     public void move_to_trash () {
         try {
