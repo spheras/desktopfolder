@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace DesktopFolder.Util{
+namespace DesktopFolder.Util {
 
     /**
      * Display a simple error message.
@@ -40,7 +40,7 @@ namespace DesktopFolder.Util{
      * @description delegate function to inform about the copy being operated
      * @param {GLib.File} file the file being operated
      */
-    public delegate void FileOperationAction(GLib.File file);
+    public delegate void FileOperationAction (GLib.File file);
 
     /**
      * @name copy_recursive

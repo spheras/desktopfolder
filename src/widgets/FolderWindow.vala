@@ -426,7 +426,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             , null // func
             , event.button // button
             , event.get_time () // Gtk.get_current_event_time() //time
-            );
+        );
     }
 
     /**
@@ -668,7 +668,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description Comparator of GtkAllocation objects to order the selection with the keyboard
      * @return {bool} if the a element is greater than the b element
      */
-    private delegate bool CompareAllocations(Gtk.Allocation a, Gtk.Allocation b);
+    private delegate bool CompareAllocations (Gtk.Allocation a, Gtk.Allocation b);
 
     /**
      * @name move_selected_to

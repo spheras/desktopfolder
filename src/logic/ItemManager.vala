@@ -202,7 +202,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             if (this.is_desktop_file ()) {
                 GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.get_absolute_path ());
                 desktopApp.launch_uris (null, null);
-            } else if (this.is_executable ())    {
+            } else if (this.is_executable ()) {
                 var command = "\"" + this.get_absolute_path () + "\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.NONE);
                 appinfo.launch_uris (null, null);

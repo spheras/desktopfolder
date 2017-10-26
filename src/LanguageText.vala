@@ -1,4 +1,4 @@
-namespace DesktopFolder.Lang{
+namespace DesktopFolder.Lang {
     // Application Description
     public const string APP_DESCRIPTION                          = _("Come back to life your minimalist Desktop \n Organize files at your Desktop using Panes.");
     // Generic Dialog OK Button
