@@ -377,7 +377,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     private void change_head_color (int ncolor) {
         string color = HEAD_TAGS_COLORS_CLASS[ncolor];
-        for (int i = 0 ; i < HEAD_TAGS_COLORS_CLASS.length ; i++) {
+        for (int i = 0; i < HEAD_TAGS_COLORS_CLASS.length; i++) {
             string scolor = HEAD_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }
@@ -409,7 +409,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     private void change_body_color (int ncolor) {
         string color = BODY_TAGS_COLORS_CLASS[ncolor];
-        for (int i = 0 ; i < BODY_TAGS_COLORS_CLASS.length ; i++) {
+        for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }

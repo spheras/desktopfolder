@@ -134,7 +134,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.move (settings.x, settings.y);
         }
         List<unowned string> classes = this.get_style_context ().list_classes ();
-        for (int i = 0 ; i < classes.length () ; i++) {
+        for (int i = 0; i < classes.length (); i++) {
             string class = classes.nth_data (i);
             if (class.has_prefix ("df_")) {
                 this.get_style_context ().remove_class (class);
@@ -420,7 +420,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         // finally we show the popup
         menu.popup (
-            null  // parent menu shell
+            null // parent menu shell
             , null // parent menu item
             , null // func
             , event.button // button
@@ -494,7 +494,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private void change_head_color (int ncolor) {
         string color = HEAD_TAGS_COLORS_CLASS[ncolor];
-        for (int i = 0 ; i < HEAD_TAGS_COLORS_CLASS.length ; i++) {
+        for (int i = 0; i < HEAD_TAGS_COLORS_CLASS.length; i++) {
             string scolor = HEAD_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }
@@ -520,7 +520,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private void change_body_color (int ncolor) {
         string color = BODY_TAGS_COLORS_CLASS[ncolor];
-        for (int i = 0 ; i < BODY_TAGS_COLORS_CLASS.length ; i++) {
+        for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }
@@ -703,7 +703,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     // If this is the first element is selectable found
                     next_allocation = elem_allocation;
                     next_item       = (ItemView) elem;
-                } else if (!is_selectable (elem_allocation, next_allocation))    {
+                } else if (!is_selectable (elem_allocation, next_allocation)) {
                     // If it is nearer from the last found
                     next_allocation = elem_allocation;
                     next_item       = (ItemView) elem;
@@ -724,7 +724,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private ItemView get_selected_item () {
         var children = this.container.get_children ();
-        for (int i = 0 ; i < children.length () ; i++) {
+        for (int i = 0; i < children.length (); i++) {
             ItemView element = (ItemView) children.nth_data (i);
             if (element.is_selected ()) {
                 return element;
@@ -903,8 +903,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int margin      = 10;
             int sensitivity = SENSITIVITY_WITH_GRID - 10;
             cr.set_source_rgba (1, 1, 1, 0.3);
-            for (int i = padding ; i < width - paddingx2 ; i = i + sensitivity + margin) {
-                for (int j = padding + header ; j < height - paddingx2 ; j = j + sensitivity + margin) {
+            for (int i = padding; i < width - paddingx2; i = i + sensitivity + margin) {
+                for (int j = padding + header; j < height - paddingx2; j = j + sensitivity + margin) {
                     cr.rectangle (i, j, sensitivity, sensitivity);
                     cr.fill ();
                 }

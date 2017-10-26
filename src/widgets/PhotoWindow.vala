@@ -262,7 +262,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
 
         // finally we show the popup
         menu.popup (
-            null  // parent menu shell
+            null // parent menu shell
             , null // parent menu item
             , null // func
             , event.button // button

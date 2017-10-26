@@ -254,7 +254,7 @@ public class DesktopFolderApp : Gtk.Application {
      * @return FolderManager the Folder found or null if none
      */
     private DesktopFolder.FolderManager ? find_folder_by_name (string folder_name) {
-        for (int i = 0 ; i < this.folders.length () ; i++) {
+        for (int i = 0; i < this.folders.length (); i++) {
             DesktopFolder.FolderManager fm = this.folders.nth (i).data;
             if (fm.get_folder_name () == folder_name) {
                 return fm;
@@ -270,7 +270,7 @@ public class DesktopFolderApp : Gtk.Application {
      * @return NoteManager the Note found or null if none
      */
     private DesktopFolder.NoteManager ? find_note_by_name (string note_name) {
-        for (int i = 0 ; i < this.notes.length () ; i++) {
+        for (int i = 0; i < this.notes.length (); i++) {
             DesktopFolder.NoteManager nm = this.notes.nth (i).data;
             if (nm.get_note_name () == note_name) {
                 return nm;
@@ -286,7 +286,7 @@ public class DesktopFolderApp : Gtk.Application {
      * @return PhotoManager the Photo found or null if none
      */
     private DesktopFolder.PhotoManager ? find_photo_by_name (string photo_name) {
-        for (int i = 0 ; i < this.photos.length () ; i++) {
+        for (int i = 0; i < this.photos.length (); i++) {
             DesktopFolder.PhotoManager nm = this.photos.nth (i).data;
             if (nm.get_photo_name () == photo_name) {
                 return nm;
@@ -301,7 +301,7 @@ public class DesktopFolderApp : Gtk.Application {
      * @return bool true->yes, it is being monitored
      */
     public bool exist_manager (string folder_name) {
-        for (int i = 0 ; i < this.folders.length () ; i++) {
+        for (int i = 0; i < this.folders.length (); i++) {
             DesktopFolder.FolderManager fm = this.folders.nth (i).data;
             if (fm.get_folder_name () == folder_name) {
                 return true;
@@ -348,7 +348,7 @@ public class DesktopFolderApp : Gtk.Application {
             string ext = basename.substring (index + 1);
             if (ext == DesktopFolder.NOTE_EXTENSION) {
                 flagNote = true;
-            } else if (ext == DesktopFolder.PHOTO_EXTENSION)     {
+            } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
                 flagPhoto = true;
             }
         }
@@ -368,7 +368,7 @@ public class DesktopFolderApp : Gtk.Application {
      * @description close all the folders launched
      */
     protected void clear_all () {
-        for (int i = 0 ; i < this.folders.length () ; i++) {
+        for (int i = 0; i < this.folders.length (); i++) {
             DesktopFolder.FolderManager fm = this.folders.nth (i).data;
             fm.close ();
         }

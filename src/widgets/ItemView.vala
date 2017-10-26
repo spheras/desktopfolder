@@ -447,10 +447,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.get_allocation (out thisAllocation);
             this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_view ().get_sensitivity ());
             this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_view ().get_sensitivity ());
-        } else if (event.type == Gdk.EventType.@2BUTTON_PRESS)   {
+        } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             this.select ();
             on_double_click ();
-        } else if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_SECONDARY)       {
+        } else if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_SECONDARY) {
             this.select ();
             this.show_popup (event);
         }
@@ -538,7 +538,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
         // showing the menu
         menu.popup (
-            null  // parent menu shell
+            null // parent menu shell
             , null // parent menu item
             , null // func
             , event.button // button
@@ -561,7 +561,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     public void copy () {
         this.manager.copy ();
     }
-    
+
     /**
      * @name copy
      * @description copy the file to the clipboard

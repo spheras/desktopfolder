@@ -62,7 +62,7 @@ namespace DesktopFolder.Util {
             string src_path                = src.get_path ();
             string dest_path               = dest.get_path ();
             GLib.FileEnumerator enumerator = src.enumerate_children (GLib.FileAttribute.STANDARD_NAME, GLib.FileQueryInfoFlags.NONE, cancellable);
-            for (GLib.FileInfo ? info = enumerator.next_file (cancellable) ; info != null ; info = enumerator.next_file (cancellable)) {
+            for (GLib.FileInfo ? info = enumerator.next_file (cancellable); info != null; info = enumerator.next_file (cancellable)) {
                 copy_recursive (
                     GLib.File.new_for_path (GLib.Path.build_filename (src_path, info.get_name ())),
                     GLib.File.new_for_path (GLib.Path.build_filename (dest_path, info.get_name ())),
@@ -263,24 +263,24 @@ namespace DesktopFolder.Util {
         debug ("start blur3");
 
         a = 0;
-        for (i = 0 ; i < size ; i++) {
+        for (i = 0; i < size; i++) {
             double f = i - half;
             kernel[i] = (uint8) (Math.exp (-f * f / 30.0) * 80);
             a         = a + kernel[i];
         }
 
         /* Horizontally blur from surface -> tmp */
-        for (i = 0 ; i < height ; i++) {
+        for (i = 0; i < height; i++) {
             s = i * src_stride;
             d = i * dst_stride;
-            for (j = 0 ; j < width ; j++) {
+            for (j = 0; j < width; j++) {
                 if (radius < j && j < width - radius) {
                     dst[d + j] = src[s + j];
                     continue;
                 }
 
                 x = y = z = w = 0;
-                for (k = 0 ; k < size ; k++) {
+                for (k = 0; k < size; k++) {
                     if (j - half + k < 0 || j - half + k >= width) {
                         continue;
                     }
@@ -299,17 +299,17 @@ namespace DesktopFolder.Util {
         debug ("start blur4");
 
         /* Then vertically blur from tmp -> surface */
-        for (i = 0 ; i < height ; i++) {
+        for (i = 0; i < height; i++) {
             s = i * dst_stride;
             d = i * src_stride;
-            for (j = 0 ; j < width ; j++) {
+            for (j = 0; j < width; j++) {
                 if (radius <= i && i < height - radius) {
                     src[j] = dst[j];
                     continue;
                 }
 
                 x = y = z = w = 0;
-                for (k = 0 ; k < size ; k++) {
+                for (k = 0; k < size; k++) {
                     if (i - half + k < 0 || i - half + k >= height) {
                         continue;
                     }

@@ -30,7 +30,7 @@ public class DesktopFolder.PhotoSettings : Object {
                 int diff = this.w - MAX;
                 this.w = MAX;
                 this.h = this.h - diff;
-            } else if (this.h > MAX)    {
+            } else if (this.h > MAX) {
                 int diff = this.h - MAX;
                 this.h = MAX;
                 this.w = this.w - diff;

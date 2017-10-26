@@ -137,7 +137,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 this.settings.save ();
 
                 // we need to rename the affected file/folder
-                for (int i = 0 ; i < this.items.length () ; i++) {
+                for (int i = 0; i < this.items.length (); i++) {
                     ItemManager element = (ItemManager) this.items.nth_data (i);
                     if (element.get_file_name () == old_filename) {
                         element.rename (new_filename);
@@ -319,7 +319,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 file.trash ();
                 this.close ();
             } else {
-                for (int i = 0 ; i < this.items.length () ; i++) {
+                for (int i = 0; i < this.items.length (); i++) {
                     this.items.nth_data (i).trash ();
                 }
 

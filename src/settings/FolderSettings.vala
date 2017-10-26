@@ -71,7 +71,7 @@ public class DesktopFolder.FolderSettings : Object {
     public void set_item (ItemSettings item) {
         // first, we create the list of itemsettings, and replace the old with the new one content
         List<ItemSettings> all = new List<ItemSettings>();
-        for (int i = 0 ; i < this.items.length ; i++) {
+        for (int i = 0; i < this.items.length; i++) {
             ItemSettings is = ItemSettings.parse (this.items[i]);
             if (is.name == item.name) {
                 is = item;
@@ -81,7 +81,7 @@ public class DesktopFolder.FolderSettings : Object {
 
         // finally, we recreate the string[]
         string[] str_result = new string[all.length ()];
-        for (int i = 0 ; i < all.length () ; i++) {
+        for (int i = 0; i < all.length (); i++) {
             ItemSettings element = all.nth_data (i);
             var          str     = element.to_string ();
             str_result[i] = str;
@@ -98,7 +98,7 @@ public class DesktopFolder.FolderSettings : Object {
     public void rename (string oldName, string newName) {
         // first, we create the list of itemsettings, and replace the old with the new one content
         List<ItemSettings> all = new List<ItemSettings>();
-        for (int i = 0 ; i < this.items.length ; i++) {
+        for (int i = 0; i < this.items.length; i++) {
             ItemSettings is = ItemSettings.parse (this.items[i]);
             if (is.name == oldName) {
                 is.name = newName;
@@ -108,7 +108,7 @@ public class DesktopFolder.FolderSettings : Object {
 
         // finally, we recreate the string[]
         string[] str_result = new string[all.length ()];
-        for (int i = 0 ; i < all.length () ; i++) {
+        for (int i = 0; i < all.length (); i++) {
             ItemSettings element = all.nth_data (i);
             var          str     = element.to_string ();
             str_result[i] = str;
@@ -129,7 +129,7 @@ public class DesktopFolder.FolderSettings : Object {
 
         // alternative, copying it manually?!! :(
         string[] citems = new string[length + 1];
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             citems[i] = this.items[i];
         }
         citems[length] = item.to_string ();
@@ -143,7 +143,7 @@ public class DesktopFolder.FolderSettings : Object {
      * @return ItemSettings the ItemSettings found
      */
     public ItemSettings get_item (string name) {
-        for (int i = 0 ; i < this.items.length ; i++) {
+        for (int i = 0; i < this.items.length; i++) {
             ItemSettings is = ItemSettings.parse (this.items[i]);
             if (is.name == name) {
                 return is;
@@ -236,7 +236,7 @@ public class DesktopFolder.FolderSettings : Object {
      */
     public void check_all () {
         List<ItemSettings> all = new List<ItemSettings>();
-        for (int i = 0 ; i < this.items.length ; i++) {
+        for (int i = 0; i < this.items.length; i++) {
             ItemSettings is = ItemSettings.parse (this.items[i]);
             var basePath = Environment.get_home_dir () + "/Desktop/" + this.name;
             var filepath = basePath + "/" + is.name;
@@ -252,7 +252,7 @@ public class DesktopFolder.FolderSettings : Object {
 
         // finally, we recreate the string[]
         string[] str_result = new string[all.length ()];
-        for (int i = 0 ; i < all.length () ; i++) {
+        for (int i = 0; i < all.length (); i++) {
             ItemSettings element = all.nth_data (i);
             var          str     = element.to_string ();
             str_result[i] = str;
