@@ -147,7 +147,7 @@ public class DesktopFolder.PhotoManager : Object {
     public void delete () {
         try {
             File file = File.new_for_path (this.get_absolute_path ());
-            file.trash ();
+            file.delete ();
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
