@@ -85,7 +85,7 @@ public class DesktopFolderApp : Gtk.Application {
             return;
         }
 
-        create_shortchut ();
+        create_shortcut ();
 
         // we need the app folder (desktop folder)
         var desktopFolder = File.new_for_path (DesktopFolderApp.get_app_folder ());
@@ -411,10 +411,10 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name create_shortchut
+     * @name create_shortcut
      * @description create a short cut SUPER-D at the system shortcuts to minimize all windows
      */
-    private static void create_shortchut () {
+    private static void create_shortcut () {
         string path                        = "/usr/bin/"; // we expect to have the command at the path
         Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.init ();
         var    shortcut                    = new Pantheon.Keyboard.Shortcuts.Shortcut (100, Gdk.ModifierType.SUPER_MASK);
