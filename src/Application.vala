@@ -149,45 +149,47 @@ public class DesktopFolderApp : Gtk.Application {
                 string   name = file_info.get_name ();
                 File     file = File.new_for_commandline_arg (base_path + "/" + name);
                 FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
+
                 if (type == FileType.DIRECTORY) {
                     totalFolders++;
-                    // maybe this is an existent already monitored folder
+
+                    // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
+
                     if (fm == null) {
-                        // we've found a directory, let's create a desktop-folder window
+                        // No, it's a new folder
                         fm = new DesktopFolder.FolderManager (this, name);
                     } else {
                         this.folders.remove (fm);
                     }
                     updated_folder_list.append (fm);
                 } else {
-                    // maybe a desktop-folder note?
                     string basename = file.get_basename ();
                     int    index    = basename.last_index_of (".", 0);
                     if (index > 0) {
                         string ext       = basename.substring (index + 1);
                         string file_name = basename.substring (0, index);
                         if (ext == DesktopFolder.NOTE_EXTENSION) {
-                            // a note!
                             totalNotes++;
-                            // maybe this is an existent already monitored folder
+
+                            // Is this note already known about?
                             DesktopFolder.NoteManager nm = this.find_note_by_name (file_name);
+
                             if (nm == null) {
-                                // debug("new note found!");
-                                // we've found a note file, let's create a note window
+                                // No, it's a new note
                                 nm = new DesktopFolder.NoteManager (this, basename.substring (0, index), file);
                             } else {
                                 this.notes.remove (nm);
                             }
                             updated_note_list.append (nm);
-                        } else if (ext == DesktopFolder.PHOTO_EXTENSION)     {
-                            // a photo
+                        } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
                             totalPhotos++;
-                            // maybe this is an existent already monitored photo
+
+                            // Is this photo already known about?
                             DesktopFolder.PhotoManager pm = this.find_photo_by_name (file_name);
+
                             if (pm == null) {
-                                // debug("new note found!");
-                                // we've found a note file, let's create a note window
+                                // No, it's a new photo
                                 pm = new DesktopFolder.PhotoManager (this, basename.substring (0, index), file);
                             } else {
                                 this.photos.remove (pm);
