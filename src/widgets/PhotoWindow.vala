@@ -117,8 +117,8 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @param {Wnck.Window} the previous actived window
      */
     private void on_active_change (Wnck.Window ? previous) {
-        string sclass          = "df_active";
-        Gtk.StyleContext style = this.get_style_context ();
+        string           sclass = "df_active";
+        Gtk.StyleContext style  = this.get_style_context ();
         if (this.is_active) {
             if (!style.has_class (sclass)) {
                 style.add_class ("df_active");
@@ -282,7 +282,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     private void change_fixo_color (int ncolor) {
         this.manager.get_settings ().fixocolor = ncolor;
         // reseting fixo images
-        this.fixoPixbuf                        = null;
+        this.fixoPixbuf = null;
         this.queue_draw ();
     }
 

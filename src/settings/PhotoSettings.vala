@@ -23,7 +23,7 @@ public class DesktopFolder.PhotoSettings : Object {
             this.w = pixbuf.get_width ();
             // max a 30% of the screen
             Gdk.Screen screen = Gdk.Screen.get_default ();
-            int MAX           = (screen.get_width () * 30) / 100;
+            int        MAX    = (screen.get_width () * 30) / 100;
 
             this.h = pixbuf.get_height ();
             if (this.w > MAX) {
@@ -94,7 +94,7 @@ public class DesktopFolder.PhotoSettings : Object {
     public static PhotoSettings read_settings (File file, string name) {
         try {
             string content = "";
-            var dis        = new DataInputStream (file.read ());
+            var    dis     = new DataInputStream (file.read ());
             string line;
             // Read lines until end of file (null) is reached
             while ((line = dis.read_line (null)) != null) {

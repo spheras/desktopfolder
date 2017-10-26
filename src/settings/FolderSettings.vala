@@ -83,7 +83,7 @@ public class DesktopFolder.FolderSettings : Object {
         string[] str_result = new string[all.length ()];
         for (int i = 0 ; i < all.length () ; i++) {
             ItemSettings element = all.nth_data (i);
-            var str              = element.to_string ();
+            var          str     = element.to_string ();
             str_result[i] = str;
         }
         this.items = str_result;
@@ -110,7 +110,7 @@ public class DesktopFolder.FolderSettings : Object {
         string[] str_result = new string[all.length ()];
         for (int i = 0 ; i < all.length () ; i++) {
             ItemSettings element = all.nth_data (i);
-            var str              = element.to_string ();
+            var          str     = element.to_string ();
             str_result[i] = str;
         }
         this.items = str_result;
@@ -205,7 +205,7 @@ public class DesktopFolder.FolderSettings : Object {
     public static FolderSettings read_settings (File file, string name) {
         try {
             string content = "";
-            var dis        = new DataInputStream (file.read ());
+            var    dis     = new DataInputStream (file.read ());
             string line;
             // Read lines until end of file (null) is reached
             while ((line = dis.read_line (null)) != null) {
@@ -254,7 +254,7 @@ public class DesktopFolder.FolderSettings : Object {
         string[] str_result = new string[all.length ()];
         for (int i = 0 ; i < all.length () ; i++) {
             ItemSettings element = all.nth_data (i);
-            var str              = element.to_string ();
+            var          str     = element.to_string ();
             str_result[i] = str;
         }
         this.items = str_result;

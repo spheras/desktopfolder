@@ -15,12 +15,14 @@ public class DesktopFolder.NoteSettings : Object {
     public NoteSettings (string name) {
         this.x         = 110;
         this.y         = 110;
+        this.w         = 350;
+        this.h         = 400;
         this.bgcolor   = "df_yellow";
         this.fgcolor   = "df_dark";
         this.texture   = "";
         this.clipcolor = Random.int_range (1, 6);
         this.name      = name;
-        this.text      = "Lorem Ipsum";
+        this.text      = "";
     }
 
 
@@ -77,7 +79,7 @@ public class DesktopFolder.NoteSettings : Object {
     public static NoteSettings read_settings (File file, string name) {
         try {
             string content = "";
-            var dis        = new DataInputStream (file.read ());
+            var    dis     = new DataInputStream (file.read ());
             string line;
             // Read lines until end of file (null) is reached
             while ((line = dis.read_line (null)) != null) {

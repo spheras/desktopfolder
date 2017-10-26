@@ -277,7 +277,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description cut the file to the clipboard
      */
     public void cut () {
-        Clipboard.ClipboardManager cm       = Clipboard.ClipboardManager.get_for_display ();
+        Clipboard.ClipboardManager    cm    = Clipboard.ClipboardManager.get_for_display ();
         List<Clipboard.ClipboardFile> items = new List<Clipboard.ClipboardFile>();
         items.append (this);
         cm.cut_files (items);
@@ -288,17 +288,17 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description copy the file to the clipboard
      */
     public void copy () {
-        Clipboard.ClipboardManager cm       = Clipboard.ClipboardManager.get_for_display ();
+        Clipboard.ClipboardManager    cm    = Clipboard.ClipboardManager.get_for_display ();
         List<Clipboard.ClipboardFile> items = new List<Clipboard.ClipboardFile>();
         items.append (this);
         cm.copy_files (items);
     }
 
     /**
-     * @name delete
+     * @name move_to_trash
      * @description delete the file or folder associated
      */
-    public void delete () {
+    public void move_to_trash () {
         try {
             if (this.is_folder ()) {
                 File file = File.new_for_path (this.get_absolute_path ());

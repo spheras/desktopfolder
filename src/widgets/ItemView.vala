@@ -136,10 +136,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private Gtk.Image calculate_icon () {
         try {
             Gtk.Image icon;
-            var fileInfo = this.manager.get_file ().query_info ("standard::icon", FileQueryInfoFlags.NONE);
+            var       fileInfo = this.manager.get_file ().query_info ("standard::icon", FileQueryInfoFlags.NONE);
             if (manager.get_settings ().icon != null && manager.get_settings ().icon.length > 0) {
                 // we have a custom icon
-                int scale         = DesktopFolder.ICON_SIZE;
+                int        scale  = DesktopFolder.ICON_SIZE;
                 Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file (manager.get_settings ().icon);
                 custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
                 if (this.manager.is_link ()) {
@@ -150,7 +150,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             } else {
                 if (this.manager.is_desktop_file ()) {
                     GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.manager.get_absolute_path ());
-                    GLib.Icon gicon                = desktopApp.get_icon ();
+                    GLib.Icon           gicon      = desktopApp.get_icon ();
                     if (this.manager.is_link ()) {
                         icon = this.draw_link_mark_gicon (gicon);
                     } else {
@@ -158,13 +158,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     }
                 } else {
 
-                    var ctypeInfo      = this.manager.get_file ().query_info ("standard::content-type", FileQueryInfoFlags.NONE);
+                    var    ctypeInfo   = this.manager.get_file ().query_info ("standard::content-type", FileQueryInfoFlags.NONE);
                     string contentType = ctypeInfo.get_content_type ();
                     string mimeType    = GLib.ContentType.get_mime_type (contentType);
-                    var isImage        = GLib.ContentType.is_a (mimeType, "image/*");
+                    var    isImage     = GLib.ContentType.is_a (mimeType, "image/*");
                     if (mimeType != null && isImage) {
                         // reading the image to show it
-                        int scale         = DesktopFolder.ICON_SIZE;
+                        int        scale  = DesktopFolder.ICON_SIZE;
                         Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file (this.manager.get_file ().get_path ());
                         custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
                         if (this.manager.is_link ()) {
@@ -199,9 +199,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     private Gtk.Image draw_link_mark_gicon (GLib.Icon gicon) {
         try {
-            Gtk.IconTheme theme   = Gtk.IconTheme.get_default ();
-            Gtk.IconInfo iconInfo = theme.lookup_by_gicon (gicon, ICON_SIZE, 0);
-            Gdk.Pixbuf pixbuf     = iconInfo.load_icon ();
+            Gtk.IconTheme theme    = Gtk.IconTheme.get_default ();
+            Gtk.IconInfo  iconInfo = theme.lookup_by_gicon (gicon, ICON_SIZE, 0);
+            Gdk.Pixbuf    pixbuf   = iconInfo.load_icon ();
             return this.draw_link_mark_pixbuf (pixbuf);
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
@@ -226,8 +226,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             context.set_source_surface (links, ICON_SIZE - scale, ICON_SIZE - scale);
             context.paint ();
 
-            var pixbuf2    = Gdk.pixbuf_get_from_surface (surface, 0, 0, ICON_SIZE, ICON_SIZE);
-            Gtk.Image icon = new Gtk.Image.from_pixbuf (pixbuf2);
+            var       pixbuf2 = Gdk.pixbuf_get_from_surface (surface, 0, 0, ICON_SIZE, ICON_SIZE);
+            Gtk.Image icon    = new Gtk.Image.from_pixbuf (pixbuf2);
             return icon;
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
@@ -522,7 +522,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
-        item.activate.connect ((item) => { this.delete_dialog (); });
+        item.activate.connect ((item) => { this.manager.move_to_trash (); });
         item.show ();
         menu.append (item);
 
@@ -561,40 +561,59 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     public void copy () {
         this.manager.copy ();
     }
+    
+    /**
+     * @name copy
+     * @description trash the file
+     */
+    public void move_to_trash () {
+        this.manager.move_to_trash ();
+    }
+    
+    /**
+     * @name copy
+     * @description trash the file
+     */
+    public void delete () {
+        this.delete_dialog ();
+    }
 
     /**
      * @name delete_dialog
-     * @description the user wants to delete the item. It should be confirmed before the deletion occurs
+     * @description the user wants to delete the item (permanently). It should be confirmed before the deletion occurs
      */
     public void delete_dialog () {
-        string message    = _ (DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE);
-        Gtk.Window window = (Gtk.Window) this.get_toplevel ();
-        bool isdir        = this.manager.is_folder ();
-        if (!isdir) {
-            message = DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
-        }
-        if (this.manager.is_link ()) {
-            message = DesktopFolder.Lang.ITEM_DELETE_LINK_MESSAGE;
-        }
+        // TODO: Only show dialog if permanently deleting more than one file like Files does
+        
+        string message = "<big><b>" +
+        DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE_TITLE.printf (this.manager.get_file_name ()) +
+        "</b></big>\n\n\t\t" + DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
+        
+        /* For more than one:
+            string message = "<big><b>" +
+            DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE_TITLE_MULTIPLE.printf (100) +
+            "</b></big>\n\n\t\t" + DesktopFolder.Lang.ITEM_DELETE_FILE_MESSAGE;
+        */
+        
+        Gtk.Window window  = (Gtk.Window) this.get_toplevel ();
 
         Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-                                                       Gtk.MessageType.WARNING, Gtk.ButtonsType.OK_CANCEL, message);
+                                                       Gtk.MessageType.WARNING, Gtk.ButtonsType.NONE, message);
+                                                       
+        msg.add_buttons (_("Cancel"), 0, _("Delete"), 1);
+        
+        msg.set_deletable (false);
+        
         msg.use_markup = true;
         msg.response.connect ((response_id) => {
             switch (response_id) {
-            case Gtk.ResponseType.OK:
-                msg.destroy ();
-                if (isdir) {
-                    this.manager.delete ();
+                case 0:
+                    msg.destroy ();
                     break;
-                } else {
-                    this.manager.delete ();
-                }
-                break;
-            default:
-                msg.destroy ();
-                break;
-                // uff
+                case 1:
+                    msg.destroy ();
+                    //this.manager.delete ();
+                    break;
             }
         });
         msg.show ();

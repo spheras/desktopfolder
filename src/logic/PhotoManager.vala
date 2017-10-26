@@ -141,13 +141,13 @@ public class DesktopFolder.PhotoManager : Object {
     }
 
     /**
-     * @name delete
+     * @name Delete
      * @description delete the file associated
      */
     public void delete () {
         try {
             File file = File.new_for_path (this.get_absolute_path ());
-            file.trash ();
+            file.delete (); // Delete the photo file because it can be restored
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);

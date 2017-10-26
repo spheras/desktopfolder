@@ -184,10 +184,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             this.load_folder_settings ();
             this.clear_all ();
             string base_path = this.get_absolute_path ();
-            File directory   = this.get_file ();
+            File   directory = this.get_file ();
 
             // listing all the files inside this folder
-            var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
+            var      enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
             FileInfo file_info;
             while ((file_info = enumerator.next_file ()) != null) {
                 string file_name = file_info.get_name ();
@@ -309,11 +309,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
-     * @name delete
-     * @description deleting myself!!
+     * @name move_to_trash
+     * @description Send folder to trash
      */
-    public void delete () {
-        // lets delete
+    public void move_to_trash () {
         try {
             if (this.application.count_widgets () > 1) {
                 File file = File.new_for_path (this.get_absolute_path ());
@@ -321,7 +320,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 this.close ();
             } else {
                 for (int i = 0 ; i < this.items.length () ; i++) {
-                    this.items.nth_data (i).delete ();
+                    this.items.nth_data (i).move_to_trash ();
                 }
 
                 this.clear_all ();
@@ -449,7 +448,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @return File the File object
      */
     private File get_file () {
-        var basePath   = this.get_absolute_path ();
+        var  basePath  = this.get_absolute_path ();
         File directory = File.new_for_path (basePath);
         return directory;
     }

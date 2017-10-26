@@ -85,7 +85,7 @@ public class DesktopFolderApp : Gtk.Application {
             return;
         }
 
-        create_shortchut ();
+        create_shortcut ();
 
         // we need the app folder (desktop folder)
         var desktopFolder = File.new_for_path (DesktopFolderApp.get_app_folder ());
@@ -140,54 +140,56 @@ public class DesktopFolderApp : Gtk.Application {
 
             FileInfo file_info;
             List<DesktopFolder.FolderManager> updated_folder_list = new List<DesktopFolder.FolderManager>();
-            List<DesktopFolder.NoteManager> updated_note_list     = new List<DesktopFolder.NoteManager>();
-            List<DesktopFolder.PhotoManager> updated_photo_list   = new List<DesktopFolder.PhotoManager>();
-            int totalFolders                                      = 0;
-            int totalNotes                                        = 0;
-            int totalPhotos                                       = 0;
+            List<DesktopFolder.NoteManager>   updated_note_list   = new List<DesktopFolder.NoteManager>();
+            List<DesktopFolder.PhotoManager>  updated_photo_list  = new List<DesktopFolder.PhotoManager>();
+            int totalFolders = 0;
+            int totalNotes   = 0;
+            int totalPhotos  = 0;
             while ((file_info = enumerator.next_file ()) != null) {
-                string name   = file_info.get_name ();
-                File file     = File.new_for_commandline_arg (base_path + "/" + name);
+                string   name = file_info.get_name ();
+                File     file = File.new_for_commandline_arg (base_path + "/" + name);
                 FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
+                
                 if (type == FileType.DIRECTORY) {
                     totalFolders++;
-                    // maybe this is an existent already monitored folder
+                    
+                    // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
+                    
                     if (fm == null) {
-                        // we've found a directory, let's create a desktop-folder window
+                        // No, it's a new folder
                         fm = new DesktopFolder.FolderManager (this, name);
                     } else {
                         this.folders.remove (fm);
                     }
                     updated_folder_list.append (fm);
                 } else {
-                    // maybe a desktop-folder note?
                     string basename = file.get_basename ();
-                    int index       = basename.last_index_of (".", 0);
+                    int    index    = basename.last_index_of (".", 0);
                     if (index > 0) {
                         string ext       = basename.substring (index + 1);
                         string file_name = basename.substring (0, index);
                         if (ext == DesktopFolder.NOTE_EXTENSION) {
-                            // a note!
                             totalNotes++;
-                            // maybe this is an existent already monitored folder
+                            
+                            // Is this note already known about?
                             DesktopFolder.NoteManager nm = this.find_note_by_name (file_name);
+                            
                             if (nm == null) {
-                                // debug("new note found!");
-                                // we've found a note file, let's create a note window
+                                // No, it's a new note
                                 nm = new DesktopFolder.NoteManager (this, basename.substring (0, index), file);
                             } else {
                                 this.notes.remove (nm);
                             }
                             updated_note_list.append (nm);
                         } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
-                            // a photo
                             totalPhotos++;
-                            // maybe this is an existent already monitored photo
+                            
+                            // Is this folder already known about?
                             DesktopFolder.PhotoManager pm = this.find_photo_by_name (file_name);
+                            
                             if (pm == null) {
-                                // debug("new note found!");
-                                // we've found a note file, let's create a note window
+                                // No, it's a new photo
                                 pm = new DesktopFolder.PhotoManager (this, basename.substring (0, index), file);
                             } else {
                                 this.photos.remove (pm);
@@ -295,7 +297,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /**
      * @name exist_manager
-     * @description check if the folder_name is being monitored or not
+     * @description Check if the folder_name is being monitored or not
      * @return bool true->yes, it is being monitored
      */
     public bool exist_manager (string folder_name) {
@@ -310,7 +312,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /**
      * @name monitor_desktop
-     * @description monitor the desktop folder
+     * @description Monitor the desktop folder
      */
     private void monitor_desktop () {
         try {
@@ -318,7 +320,7 @@ public class DesktopFolderApp : Gtk.Application {
                 // if we have an existing monitor, we cancel it before to monitor again
                 this.monitor.cancel ();
             }
-            var basePath   = DesktopFolderApp.get_app_folder ();
+            var  basePath  = DesktopFolderApp.get_app_folder ();
             File directory = File.new_for_path (basePath);
             this.monitor            = directory.monitor_directory (FileMonitorFlags.SEND_MOVED, null);
             this.monitor.rate_limit = 100;
@@ -332,7 +334,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /**
      * @name desktop_changed
-     * @description we received an event of the monitor that indicates a change
+     * @description We received an event of the monitor that indicates a change
      * @see changed signal of FileMonitor (https://valadoc.org/gio-2.0/GLib.FileMonitor.changed.html)
      */
     private void desktop_changed (GLib.File src, GLib.File ? dest, FileMonitorEvent event) {
@@ -341,7 +343,7 @@ public class DesktopFolderApp : Gtk.Application {
         bool flagPhoto  = false;
 
         string basename = src.get_basename ();
-        int index       = basename.last_index_of (".", 0);
+        int    index    = basename.last_index_of (".", 0);
         if (index > 0) {
             string ext = basename.substring (index + 1);
             if (ext == DesktopFolder.NOTE_EXTENSION) {
@@ -363,7 +365,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /**
      * @name clear_all
-     * @description close all the folders launched
+     * @description Close all the folders launched
      */
     protected void clear_all () {
         for (int i = 0 ; i < this.folders.length () ; i++) {
@@ -388,7 +390,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /**
      * @name minimize_all
-     * @description minimize all windows
+     * @description Minimize all windows
      * @param args string[] the list of args to initialize Gdk
      */
     private static void minimize_all (string[] args) {
@@ -402,7 +404,7 @@ public class DesktopFolderApp : Gtk.Application {
 
         foreach (Wnck.Window w in windows) {
             Wnck.Application window_app = w.get_application ();
-            string name                 = window_app.get_name ();
+            string           name       = window_app.get_name ();
             // debug("app name:%s",name);
             if (name != DesktopFolder.APP_ID) {
                 w.minimize ();
@@ -411,13 +413,13 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name create_shortchut
-     * @description create a short cut SUPER-D at the system shortcuts to minimize all windows
+     * @name create_shortcut
+     * @description Create shortcut SUPER + D in the system shortcuts to minimize all windows
      */
-    private static void create_shortchut () {
+    private static void create_shortcut () {
         string path                        = "/usr/bin/"; // we expect to have the command at the path
         Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.init ();
-        var shortcut                       = new Pantheon.Keyboard.Shortcuts.Shortcut (100, Gdk.ModifierType.SUPER_MASK);
+        var    shortcut                    = new Pantheon.Keyboard.Shortcuts.Shortcut (100, Gdk.ModifierType.SUPER_MASK);
         string command_conflict            = "";
         string relocatable_schema_conflict = "";
         if (!Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.shortcut_conflicts (shortcut, out command_conflict,

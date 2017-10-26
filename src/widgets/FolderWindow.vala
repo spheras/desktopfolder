@@ -168,8 +168,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param {Wnck.Window} the previous actived window
      */
     private void on_active_change (Wnck.Window ? previous) {
-        string sclass          = "df_active";
-        Gtk.StyleContext style = this.get_style_context ();
+        string           sclass = "df_active";
+        Gtk.StyleContext style  = this.get_style_context ();
         // debug("%s is active? %s",this.manager.get_folder_name(), this.is_active ? "true" : "false");
         if (this.is_active) {
             if (!style.has_class (sclass)) {
@@ -372,7 +372,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-        item.activate.connect ((item) => { this.manager.delete (); });
+        item.activate.connect ((item) => { this.manager.move_to_trash (); });
         item.show ();
         menu.append (item);
 
@@ -434,8 +434,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description the bold toggle event. the text bold property must change
      */
     private void on_toggle_bold () {
-        Gtk.StyleContext style = this.get_style_context ();
-        string bold_class      = "df_bold";
+        Gtk.StyleContext style      = this.get_style_context ();
+        string           bold_class = "df_bold";
         if (this.manager.get_settings ().textbold) {
             style.remove_class (bold_class);
             this.manager.get_settings ().textbold = false;
@@ -472,8 +472,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description the toggle shadow event. The shadow property must change
      */
     private void on_toggle_shadow () {
-        Gtk.StyleContext style = this.get_style_context ();
-        string shadow_class    = "df_shadow";
+        Gtk.StyleContext style        = this.get_style_context ();
+        string           shadow_class = "df_shadow";
         if (this.manager.get_settings ().textshadow) {
             style.remove_class (shadow_class);
             this.manager.get_settings ().textshadow = false;
@@ -586,8 +586,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         const int ARROW_DOWN_KEY  = 65364;
 
         // check if the control key is pressed
-        var mods             = event.state & Gtk.accelerator_get_default_mod_mask ();
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
 
         ItemView selected    = this.get_selected_item ();
 
@@ -609,10 +610,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             } else {
                 if (key == DELETE_KEY) {
                     if (selected != null) {
-                        selected.delete_dialog ();
+                        if (shift_pressed) {
+                            selected.delete_dialog ();
+                        } else {
+                            selected.move_to_trash ();
+                        }
                         return true;
                     } else {
-                        this.manager.delete ();
+                        this.manager.move_to_trash ();
                     }
                 } else if (key == F2_KEY) {
                     if (selected != null) {
@@ -687,7 +692,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
         Gtk.Allocation actual_allocation;
         actual_item.get_allocation (out actual_allocation);
-        ItemView next_item             = null;
+        ItemView       next_item       = null;
         Gtk.Allocation next_allocation = actual_allocation;
 
         List<weak Gtk.Widget> children = this.container.get_children ();

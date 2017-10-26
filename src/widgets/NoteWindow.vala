@@ -139,8 +139,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param {Wnck.Window} the previous actived window
      */
     private void on_active_change (Wnck.Window ? previous) {
-        string sclass          = "df_active";
-        Gtk.StyleContext style = this.get_style_context ();
+        string           sclass = "df_active";
+        Gtk.StyleContext style  = this.get_style_context ();
         if (this.is_active) {
             if (!style.has_class (sclass)) {
                 // debug("active");
@@ -288,9 +288,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         item.show ();
         menu.append (item);
 
-        // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-        item.activate.connect ((item) => { this.manager.delete (); });
+        item.activate.connect ((item) => { this.manager.move_to_trash (); });
         item.show ();
         menu.append (item);
 
