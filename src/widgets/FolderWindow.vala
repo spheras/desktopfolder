@@ -25,24 +25,23 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** parent manager of this window */
     private FolderManager manager = null;
     /** container of widgets */
-    private Gtk.Fixed container = null;
+    private Gtk.Fixed container   = null;
     /** Context menu of the Folder Window */
-    private Gtk.Menu menu = null;
-
+    private Gtk.Menu menu         = null;
     /** flag to know if an icon is moving*/
-    private bool flag_moving = false;
+    private bool flag_moving      = false;
 
     /** item alignment*/
-    private const int SENSITIVITY_WITH_GRID = 101;
+    private const int SENSITIVITY_WITH_GRID    = 101;
     private const int SENSITIVITY_WITHOUT_GRID = 4;
     // TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
-    private int sensitivity = SENSITIVITY_WITHOUT_GRID;
+    private int sensitivity                    = SENSITIVITY_WITHOUT_GRID;
 
     /** head tags colors */
-    private const string HEAD_TAGS_COLORS[3] = { null, "#ffffff", "#000000" };
-    private const string HEAD_TAGS_COLORS_CLASS[3] = { "df_headless", "df_light", "df_dark" };
+    private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
+    private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
     /** body tags colors */
-    private const string BODY_TAGS_COLORS[10] = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
+    private const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
     construct {
@@ -55,7 +54,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.set_property ("skip-pager-hint", true);
         this.set_property ("skip_taskbar_hint", true);
         this.set_property ("skip_pager_hint", true);
-        this.skip_pager_hint = true;
+        this.skip_pager_hint   = true;
         this.skip_taskbar_hint = true;
 
         stick ();
@@ -66,20 +65,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param FolderManager manager the manager of this window
      */
     public FolderWindow (FolderManager manager) {
-        Object (application: manager.get_application (),
-                icon_name: "com.github.spheras.desktopfolder",
-                resizable: true,
-                accept_focus: true,
-                skip_taskbar_hint: true,
-                skip_pager_hint: true,
-                decorated: true,
-                title: (manager.get_folder_name ()),
-                type_hint: Gdk.WindowTypeHint.DESKTOP,
-                deletable: false,
-                default_width: 300,
-                default_height: 300,
-                height_request: 50,
-                width_request: 50);
+        Object (
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            accept_focus:       true,
+            skip_taskbar_hint:  true,
+            skip_pager_hint:    true,
+            decorated:          true,
+            title:              (manager.get_folder_name ()),
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            deletable:          false,
+            default_width:      300,
+            default_height:     300,
+            height_request:     50,
+            width_request:      50
+        );
 
 
         var headerbar = new Gtk.HeaderBar ();
@@ -89,7 +90,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.set_titlebar (headerbar);
 
         this.set_skip_taskbar_hint (true);
-        skip_pager_hint = true;
+        skip_pager_hint   = true;
         skip_taskbar_hint = true;
         this.set_property ("skip-taskbar-hint", true);
         // setting the folder name
@@ -167,7 +168,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param {Wnck.Window} the previous actived window
      */
     private void on_active_change (Wnck.Window ? previous) {
-        string sclass = "df_active";
+        string sclass          = "df_active";
         Gtk.StyleContext style = this.get_style_context ();
         // debug("%s is active? %s",this.manager.get_folder_name(), this.is_active ? "true" : "false");
         if (this.is_active) {
@@ -238,7 +239,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             return true;
         } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
             this.unselect_all ();
-            int width = this.get_allocated_width ();
+            int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
             int margin = 30;
             // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
@@ -263,7 +264,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // TODO exists a way to make resizable and moveable a dock window?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
 
-        this.menu = new Gtk.Menu ();
+        this.menu      = new Gtk.Menu ();
 
         // new submenu
         Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
@@ -301,30 +302,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         item.show ();
         newmenu.append (item);
 
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().align_to_grid);
-        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_toggle_align_to_grid ();
-        });
-        item.show ();
-        menu.append (item);
-
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textshadow);
-        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_toggle_shadow ();
-        });
-        item.show ();
-        menu.append (item);
-
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
-        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textbold);
-        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_toggle_bold ();
-        });
-        item.show ();
-        menu.append (item);
-
         // menu to create a new link folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
         item.activate.connect ((item) => {
@@ -360,6 +337,34 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         });
         item.show ();
         newmenu.append (item);
+
+        item = new MenuItemSeparator ();
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().align_to_grid);
+        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
+            this.on_toggle_align_to_grid ();
+        });
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textshadow);
+        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
+            this.on_toggle_shadow ();
+        });
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textbold);
+        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
+            this.on_toggle_bold ();
+        });
+        item.show ();
+        menu.append (item);
 
         item = new MenuItemSeparator ();
         item.show ();
@@ -430,7 +435,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private void on_toggle_bold () {
         Gtk.StyleContext style = this.get_style_context ();
-        string bold_class = "df_bold";
+        string bold_class      = "df_bold";
         if (this.manager.get_settings ().textbold) {
             style.remove_class (bold_class);
             this.manager.get_settings ().textbold = false;
@@ -468,7 +473,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private void on_toggle_shadow () {
         Gtk.StyleContext style = this.get_style_context ();
-        string shadow_class = "df_shadow";
+        string shadow_class    = "df_shadow";
         if (this.manager.get_settings ().textshadow) {
             style.remove_class (shadow_class);
             this.manager.get_settings ().textshadow = false;
@@ -572,19 +577,19 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         int key = (int) event.keyval;
         // debug("event key %d",key);
         // this is the delete key code
-        const int DELETE_KEY = 65535;
-        const int F2_KEY = 65471;
-        const int ENTER_KEY = 65293;
-        const int ARROW_LEFT_KEY = 65361;
-        const int ARROW_UP_KEY = 65362;
+        const int DELETE_KEY      = 65535;
+        const int F2_KEY          = 65471;
+        const int ENTER_KEY       = 65293;
+        const int ARROW_LEFT_KEY  = 65361;
+        const int ARROW_UP_KEY    = 65362;
         const int ARROW_RIGHT_KEY = 65363;
-        const int ARROW_DOWN_KEY = 65364;
+        const int ARROW_DOWN_KEY  = 65364;
 
         // check if the control key is pressed
-        var mods = event.state & Gtk.accelerator_get_default_mod_mask ();
+        var mods             = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
 
-        ItemView selected = this.get_selected_item ();
+        ItemView selected    = this.get_selected_item ();
 
         if (event.type == Gdk.EventType.KEY_RELEASE) {
             if (control_pressed) {
@@ -682,7 +687,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
         Gtk.Allocation actual_allocation;
         actual_item.get_allocation (out actual_allocation);
-        ItemView next_item = null;
+        ItemView next_item             = null;
         Gtk.Allocation next_allocation = actual_allocation;
 
         List<weak Gtk.Widget> children = this.container.get_children ();
@@ -693,11 +698,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 if (next_item == null) {
                     // If this is the first element is selectable found
                     next_allocation = elem_allocation;
-                    next_item = (ItemView) elem;
+                    next_item       = (ItemView) elem;
                 } else if (!is_selectable (elem_allocation, next_allocation)) {
                     // If it is nearer from the last found
                     next_allocation = elem_allocation;
-                    next_item = (ItemView) elem;
+                    next_item       = (ItemView) elem;
                 }
             }
         }
@@ -878,7 +883,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         // we must show the grid if it is enabled and an item being moved
         if (flag_moving == true && this.manager.get_settings ().align_to_grid) {
-            int width = this.get_allocated_width ();
+            int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
 
             cr.set_operator (Cairo.Operator.CLEAR);
@@ -888,10 +893,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             cr.rectangle (0, 40, width - 14, height - 54);
             cr.clip ();
 
-            int padding = 13;
-            int paddingx2 = padding * 2;
-            int header = 35;
-            int margin = 10;
+            int padding     = 13;
+            int paddingx2   = padding * 2;
+            int header      = 35;
+            int margin      = 10;
             int sensitivity = SENSITIVITY_WITH_GRID - 10;
             cr.set_source_rgba (1, 1, 1, 0.3);
             for (int i = padding ; i < width - paddingx2 ; i = i + sensitivity + margin) {

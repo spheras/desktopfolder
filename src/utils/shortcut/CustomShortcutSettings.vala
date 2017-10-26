@@ -1,11 +1,11 @@
 class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
 
-    const string SCHEMA = "org.gnome.settings-daemon.plugins.media-keys";
-    const string KEY = "custom-keybinding";
+    const string SCHEMA                           = "org.gnome.settings-daemon.plugins.media-keys";
+    const string KEY                              = "custom-keybinding";
 
     const string RELOCATABLE_SCHEMA_PATH_TEMLPATE = "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom%d/";
 
-    const int MAX_SHORTCUTS = 100;
+    const int MAX_SHORTCUTS                       = 100;
 
     static GLib.Settings settings;
 
@@ -20,14 +20,14 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
     public static void init () {
         var schema_source = GLib.SettingsSchemaSource.get_default ();
 
-        var schema = schema_source.lookup (SCHEMA, true);
+        var schema        = schema_source.lookup (SCHEMA, true);
 
         if (schema == null) {
             warning ("Schema \"%s\" is not installed on your system.", SCHEMA);
             return;
         }
 
-        settings = new GLib.Settings.full (schema, null, null);
+        settings  = new GLib.Settings.full (schema, null, null);
         available = true;
     }
 
@@ -39,12 +39,12 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
         return RELOCATABLE_SCHEMA_PATH_TEMLPATE.printf (i);
     }
 
-    static GLib.Settings? get_relocatable_schema_settings (string relocatable_schema) {
+    static GLib.Settings ? get_relocatable_schema_settings (string relocatable_schema) {
         return new GLib.Settings.with_path (SCHEMA + "." + KEY, relocatable_schema);
     }
 
-    public static string? create_shortcut () requires (available) {
-        for (int i = 0; i < MAX_SHORTCUTS; i++) {
+    public static string ? create_shortcut () requires (available) {
+        for (int i = 0 ; i < MAX_SHORTCUTS ; i++) {
             var new_relocatable_schema = get_relocatable_schema_path (i);
 
             if (relocatable_schema_is_used (new_relocatable_schema) == false) {
@@ -83,7 +83,7 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
     }
 
     /* NEVER USED
-    public static void remove_shortcut (string relocatable_schema)
+       public static void remove_shortcut (string relocatable_schema)
         requires (available) {
 
         string []relocatable_schemas = {};
@@ -95,11 +95,11 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
         reset_relocatable_schema (relocatable_schema);
         settings.set_strv (KEY + "s", relocatable_schemas);
         apply_settings (settings);
-    }
-    */
+       }
+     */
 
     public static bool edit_shortcut (string relocatable_schema, string shortcut)
-        requires (available) {
+    requires (available) {
 
         var relocatable_settings = get_relocatable_schema_settings (relocatable_schema);
         relocatable_settings.set_string ("binding", shortcut);
@@ -108,7 +108,7 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
     }
 
     public static bool edit_command (string relocatable_schema, string command)
-        requires (available) {
+    requires (available) {
 
         var relocatable_settings = get_relocatable_schema_settings (relocatable_schema);
         relocatable_settings.set_string ("command", command);
@@ -117,36 +117,36 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
         return true;
     }
 
-    public static GLib.List <CustomShortcut?> list_custom_shortcuts ()
-        requires (available) {
+    public static GLib.List<CustomShortcut ? > list_custom_shortcuts ()
+    requires (available) {
 
-        var list = new GLib.List <CustomShortcut?> ();
+        var list = new GLib.List<CustomShortcut ? > ();
         foreach (var relocatable_schema in get_relocatable_schemas ())
             list.append (create_custom_shortcut_object (relocatable_schema));
         return list;
     }
 
-    static CustomShortcut? create_custom_shortcut_object (string relocatable_schema) {
+    static CustomShortcut ? create_custom_shortcut_object (string relocatable_schema) {
         var relocatable_settings = get_relocatable_schema_settings (relocatable_schema);
 
         return {
-            relocatable_settings.get_string ("binding"),
-            relocatable_settings.get_string ("command"),
-            relocatable_schema
+                   relocatable_settings.get_string ("binding"),
+                   relocatable_settings.get_string ("command"),
+                   relocatable_schema
         };
     }
 
     public static bool shortcut_conflicts (Shortcut new_shortcut, out string command,
                                            out string relocatable_schema) {
         var custom_shortcuts = list_custom_shortcuts ();
-        command = "";
+        command            = "";
         relocatable_schema = "";
 
         foreach (var custom_shortcut in custom_shortcuts) {
-            //debug("checking:%s",custom_shortcut.shortcut);
+            // debug("checking:%s",custom_shortcut.shortcut);
             var shortcut = new Shortcut.parse (custom_shortcut.shortcut);
             if (shortcut.is_equal (new_shortcut)) {
-                command = custom_shortcut.command;
+                command            = custom_shortcut.command;
                 relocatable_schema = custom_shortcut.relocatable_schema;
                 return true;
             }
@@ -159,4 +159,5 @@ class Pantheon.Keyboard.Shortcuts.CustomShortcutSettings : Object {
         asettings.apply ();
         GLib.Settings.sync ();
     }
+
 }
