@@ -115,7 +115,7 @@ msgstr "Note"
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:39
 msgid "Folder"
-msgstr "Nouveau dossier"
+msgstr "Dossier"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:41
