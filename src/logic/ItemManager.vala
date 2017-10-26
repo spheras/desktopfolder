@@ -295,10 +295,10 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
-     * @name delete
-     * @description delete the file or folder associated
+     * @name trash
+     * @description trash the file or folder associated
      */
-    public void delete () {
+    public void trash () {
         try {
             if (this.is_folder ()) {
                 File file = File.new_for_path (this.get_absolute_path ());

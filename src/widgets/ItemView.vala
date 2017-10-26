@@ -522,7 +522,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
-        item.activate.connect ((item) => { this.delete_dialog (); });
+        item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
 
@@ -585,10 +585,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             case Gtk.ResponseType.OK:
                 msg.destroy ();
                 if (isdir) {
-                    this.manager.delete ();
+                    this.manager.trash ();
                     break;
                 } else {
-                    this.manager.delete ();
+                    this.manager.trash ();
                 }
                 break;
             default:

@@ -151,10 +151,10 @@ public class DesktopFolder.NoteManager : Object {
     }
 
     /**
-     * @name delete
-     * @description delete the file or folder associated
+     * @name trash
+     * @description trash the file or folder associated
      */
-    public void delete () {
+    public void trash () {
         try {
             File file = File.new_for_path (this.get_absolute_path ());
             file.trash ();

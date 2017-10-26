@@ -290,7 +290,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-        item.activate.connect ((item) => { this.manager.delete (); });
+        item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
 

@@ -371,7 +371,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-        item.activate.connect ((item) => { this.manager.delete (); });
+        item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
 
@@ -595,7 +595,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 selected.delete_dialog ();
                 return true;
             } else {
-                this.manager.delete ();
+                this.manager.trash ();
             }
             return false;
         } else if (event.type == Gdk.EventType.KEY_RELEASE && key == F2_KEY)       {

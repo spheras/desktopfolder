@@ -309,11 +309,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
-     * @name delete
+     * @name trash
      * @description deleting myself!!
      */
-    public void delete () {
-        // lets delete
+    public void trash () {
         try {
             if (this.application.count_widgets () > 1) {
                 File file = File.new_for_path (this.get_absolute_path ());
@@ -321,7 +320,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 this.close ();
             } else {
                 for (int i = 0 ; i < this.items.length () ; i++) {
-                    this.items.nth_data (i).delete ();
+                    this.items.nth_data (i).trash ();
                 }
 
                 this.clear_all ();
