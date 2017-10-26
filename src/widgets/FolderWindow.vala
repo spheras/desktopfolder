@@ -578,7 +578,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // this is the delete key code
         const int DELETE_KEY      = 65535;
         const int F2_KEY          = 65471;
-        const int INTRO_KEY       = 65293;
+        const int ENTER_KEY       = 65293;
         const int ARROW_LEFT_KEY  = 65361;
         const int ARROW_UP_KEY    = 65362;
         const int ARROW_RIGHT_KEY = 65363;
@@ -587,82 +587,83 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // check if the control key is pressed
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed   = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
 
-        if (event.type == Gdk.EventType.KEY_RELEASE && key == DELETE_KEY) {
-            // delete key pressed!
-            ItemView selected = this.get_selected_item ();
-            if (selected != null) {
-                selected.delete_dialog ();
-                return true;
+        ItemView selected    = this.get_selected_item ();
+
+        if (event.type == Gdk.EventType.KEY_RELEASE) {
+            if (control_pressed) {
+                if (key == 'c' || key == 'C') {
+                    if (selected != null) {
+                        selected.copy ();
+                        return true;
+                    }
+                } else if (key == 'x' || key == 'X') {
+                    if (selected != null) {
+                        selected.cut ();
+                        return true;
+                    }
+                } else if (key == 'v' || key == 'V') {
+                    this.manager.paste ();
+                }
             } else {
-                this.manager.trash ();
+                if (key == DELETE_KEY) {
+                    if (selected != null) {
+                        if (shift_pressed) {
+                            selected.delete_dialog ();
+                        } else {
+                            selected.move_to_trash ();
+                        }
+                        return true;
+                    } else {
+                        this.manager.move_to_trash ();
+                    }
+                } else if (key == F2_KEY) {
+                    if (selected != null) {
+                        selected.rename_dialog ();
+                        return true;
+                    } else {
+                        this.rename_folder ();
+                    }
+                } else if (key == ENTER_KEY) {
+                    if (selected != null) {
+                        selected.execute ();
+                        return true;
+                    }
+                }
             }
-            return false;
-        } else if (event.type == Gdk.EventType.KEY_RELEASE && key == F2_KEY)       {
-            // ctrl+c key pressed
-            ItemView selected = this.get_selected_item ();
-            if (selected != null) {
-                selected.rename_dialog ();
-                return true;
-            } else {
-                this.rename_folder ();
+        } else if (event.type == Gdk.EventType.KEY_PRESS) {
+            if (key == ARROW_LEFT_KEY) {
+                // left arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                }, (a, b) => {
+                    return a.x < b.x;
+                });
+            } else if (key == ARROW_UP_KEY) {
+                // up arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                }, (a, b) => {
+                    return a.y < b.y;
+                });
+            } else if (key == ARROW_RIGHT_KEY) {
+                // right arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                }, (a, b) => {
+                    return a.x > b.x;
+                });
+            } else if (key == ARROW_DOWN_KEY) {
+                // down arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                }, (a, b) => {
+                    return a.y > b.y;
+                });
             }
-            return false;
-        } else if (control_pressed && event.type == Gdk.EventType.KEY_RELEASE && (key == 'c' || key == 'C'))         {
-            // ctrl+c key pressed
-            ItemView selected = this.get_selected_item ();
-            if (selected != null) {
-                selected.copy ();
-                return true;
-            }
-            return false;
-        } else if (control_pressed && event.type == Gdk.EventType.KEY_RELEASE && (key == 'x' || key == 'X'))         {
-            // ctrl+x key pressed
-            ItemView selected = this.get_selected_item ();
-            if (selected != null) {
-                selected.cut ();
-                return true;
-            }
-            return false;
-        } else if (control_pressed && event.type == Gdk.EventType.KEY_RELEASE && (key == 'v' || key == 'V'))         {
-            // ctrl+v key pressed
-            this.manager.paste ();
-        } else if (event.type == Gdk.EventType.KEY_RELEASE && key == INTRO_KEY)       {
-            // INTRO key pressed
-            ItemView selected = this.get_selected_item ();
-            if (selected != null) {
-                selected.execute ();
-                return true;
-            }
-        } else if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_LEFT_KEY)       {
-            // left arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-            }, (a, b) => {
-                return a.x < b.x;
-            });
-        } else if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_UP_KEY)       {
-            // up arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-            }, (a, b) => {
-                return a.y < b.y;
-            });
-        } else if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_RIGHT_KEY)       {
-            // right arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-            }, (a, b) => {
-                return a.x > b.x;
-            });
-        } else if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_DOWN_KEY)       {
-            // down arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-            }, (a, b) => {
-                return a.y > b.y;
-            });
         }
+
         return false;
     }
 
