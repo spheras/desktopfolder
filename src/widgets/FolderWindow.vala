@@ -426,7 +426,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             , null // func
             , event.button // button
             , event.get_time () // Gtk.get_current_event_time() //time
-            );
+        );
     }
 
     /**

@@ -12,7 +12,7 @@
     Authors :
  ***/
 
-namespace DesktopFolder{
+namespace DesktopFolder {
     public const string APP_ID               = "com.github.spheras.desktopfolder";
     public const string APP_DESKTOP          = APP_ID + ".desktop";
     public const string APP_TITLE            = "Desktop-Folder";

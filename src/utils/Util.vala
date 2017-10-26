@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace DesktopFolder.Util{
+namespace DesktopFolder.Util {
 
     /**
      * Display a simple error message.

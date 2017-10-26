@@ -69,7 +69,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             deletable:          false,
             width_request:      140,
             height_request:     160
-            );
+        );
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_note_name ());
@@ -327,7 +327,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             null, // func
             event.button, // button
             event.get_time () // Gtk.get_current_event_time() //time
-            );
+        );
     }
 
     /**
