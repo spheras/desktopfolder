@@ -59,14 +59,14 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     public NoteWindow (NoteManager manager) {
         Object (
-            application:        manager.get_application (),
-            icon_name:          "com.github.spheras.desktopfolder",
-            resizable:          true,
-            skip_taskbar_hint:  true,
-            type_hint:          Gdk.WindowTypeHint.DESKTOP,
-            decorated:          true,
-            title:              (manager.get_note_name ()),
-            deletable:          false,
+application:        manager.get_application (),
+icon_name:          "com.github.spheras.desktopfolder",
+resizable:          true,
+skip_taskbar_hint:  true,
+type_hint:          Gdk.WindowTypeHint.DESKTOP,
+decorated:          true,
+title:              (manager.get_note_name ()),
+deletable:          false,
             width_request:      140,
             height_request:     160
         );
@@ -254,32 +254,32 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         // menu to create a new folder
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
         item.activate.connect ((item) => {
-            this.new_desktop_folder ();
-        });
+                                   this.new_desktop_folder ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
-            this.new_note ();
-        });
+                                   this.new_note ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new photo
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         item.activate.connect ((item) => {
-            this.new_photo ();
-        });
+                                   this.new_photo ();
+                               });
         item.show ();
         newmenu.append (item);
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().texture == "square_paper");
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_texture ("square_paper");
-        });
+                                                         this.on_texture ("square_paper");
+                                                     });
         item.show ();
         menu.append (item);
 
@@ -290,7 +290,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
-        item.activate.connect ((item) => { this.manager.trash (); });
+        item.activate.connect ((item) => { this.manager.trash ();});
         item.show ();
         menu.append (item);
 
@@ -300,7 +300,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // Option to rename the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
-        item.activate.connect ((item) => { this.rename_note (); });
+        item.activate.connect ((item) => { this.rename_note ();});
         item.show ();
         menu.append (item);
 
@@ -395,10 +395,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
                                                 DesktopFolder.Lang.NOTE_RENAME_MESSAGE,
                                                 this.manager.get_note_name ());
         dialog.on_rename.connect ((new_name) => {
-            if (this.manager.rename (new_name)) {
-                this.set_title (new_name);
-            }
-        });
+                                      if (this.manager.rename (new_name)) {
+                                          this.set_title (new_name);
+                                      }
+                                  });
         dialog.show_all ();
     }
 
@@ -481,7 +481,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
                 int clipcolor = this.manager.get_settings ().clipcolor;
                 var color     = "";
                 switch (clipcolor) {
-                case 1:
+                case 1 :
                     color = "blue";
                     break;
                 case 2:
@@ -536,7 +536,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         cr.move_to (margin, margin + radius);
 
-        ///
+        // /
         cr.line_to (margin + radius, margin);
         // -
         cr.line_to (width - margin - rightRadius, margin);
@@ -544,7 +544,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         cr.line_to (width - margin, margin + rightRadius);
         // |
         cr.line_to (width - margin, height - margin - radius);
-        ///
+        // /
         cr.line_to (width - margin - radius, height - margin);
         // -
         cr.line_to (margin + radius, height - margin);

@@ -81,16 +81,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     public FolderWindow (FolderManager manager) {
         Object (
-            application:        manager.get_application (),
-            icon_name:          "com.github.spheras.desktopfolder",
-            resizable:          true,
-            accept_focus:       true,
-            skip_taskbar_hint:  true,
-            skip_pager_hint:    true,
-            decorated:          true,
-            title:              (manager.get_folder_name ()),
-            type_hint:          Gdk.WindowTypeHint.DESKTOP,
-            deletable:          false,
+application:        manager.get_application (),
+icon_name:          "com.github.spheras.desktopfolder",
+resizable:          true,
+accept_focus:       true,
+skip_taskbar_hint:  true,
+skip_pager_hint:    true,
+decorated:          true,
+title:              (manager.get_folder_name ()),
+type_hint:          Gdk.WindowTypeHint.DESKTOP,
+deletable:          false,
             default_width:      300,
             default_height:     300,
             height_request:     50,
@@ -151,7 +151,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         for (int i = 0; i < classes.length (); i++) {
             string class = classes.nth_data (i);
             if (class.has_prefix ("df_")) {
-                this.get_style_context ().remove_class (class);
+                this.get_style_context ().remove_class (class );
             }
         }
         // we set a class to this window to manage the css
@@ -294,16 +294,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // menu to create a new folder
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
         item.activate.connect ((item) => {
-            this.new_folder ((int) event.x, (int) event.y);
-        });
+                                   this.new_folder ((int) event.x, (int) event.y);
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new empty file
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
         item.activate.connect ((item) => {
-            this.new_text_file ((int) event.x, (int) event.y);
-        });
+                                   this.new_text_file ((int) event.x, (int) event.y);
+                               });
         item.show ();
         newmenu.append (item);
 
@@ -314,40 +314,40 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // menu to create a new link file
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
         item.activate.connect ((item) => {
-            this.new_link ((int) event.x, (int) event.y, false);
-        });
+                                   this.new_link ((int) event.x, (int) event.y, false);
+                               });
         item.show ();
         newmenu.append (item);
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().align_to_grid);
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_toggle_align_to_grid ();
-        });
+                                                         this.on_toggle_align_to_grid ();
+                                                     });
         item.show ();
         menu.append (item);
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textshadow);
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_toggle_shadow ();
-        });
+                                                         this.on_toggle_shadow ();
+                                                     });
         item.show ();
         menu.append (item);
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textbold);
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-            this.on_toggle_bold ();
-        });
+                                                         this.on_toggle_bold ();
+                                                     });
         item.show ();
         menu.append (item);
 
         // menu to create a new link folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
         item.activate.connect ((item) => {
-            this.new_link ((int) event.x, (int) event.y, true);
-        });
+                                   this.new_link ((int) event.x, (int) event.y, true);
+                               });
         item.show ();
         newmenu.append (item);
 
@@ -358,32 +358,32 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // menu to create a new panel
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
         item.activate.connect ((item) => {
-            this.new_desktop_folder ();
-        });
+                                   this.new_desktop_folder ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new link panel
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         item.activate.connect ((item) => {
-            this.new_link_panel ();
-        });
+                                   this.new_link_panel ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
-            this.new_note ();
-        });
+                                   this.new_note ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new photo
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         item.activate.connect ((item) => {
-            this.new_photo ();
-        });
+                                   this.new_photo ();
+                               });
         item.show ();
         newmenu.append (item);
 
@@ -393,7 +393,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-        item.activate.connect ((item) => { this.manager.trash (); });
+        item.activate.connect ((item) => { this.manager.trash ();});
         item.show ();
         menu.append (item);
 
@@ -403,7 +403,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         // Option to rename the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
-        item.activate.connect ((item) => { this.rename_folder (); });
+        item.activate.connect ((item) => { this.rename_folder ();});
         item.show ();
         menu.append (item);
 
@@ -416,7 +416,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         if (cm.can_paste) {
 
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
-            item.activate.connect ((item) => { this.manager.paste (); });
+            item.activate.connect ((item) => { this.manager.paste ();});
             item.show ();
             menu.append (item);
 
@@ -658,31 +658,31 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             if (key == ARROW_LEFT_KEY) {
                 // left arrow pressed
                 move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x < b.x;
-                });
+                                      return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                                  }, (a, b) => {
+                                      return a.x < b.x;
+                                  });
             } else if (key == ARROW_UP_KEY) {
                 // up arrow pressed
                 move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y < b.y;
-                });
+                                      return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                                  }, (a, b) => {
+                                      return a.y < b.y;
+                                  });
             } else if (key == ARROW_RIGHT_KEY) {
                 // right arrow pressed
                 move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x > b.x;
-                });
+                                      return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                                  }, (a, b) => {
+                                      return a.x > b.x;
+                                  });
             } else if (key == ARROW_DOWN_KEY) {
                 // down arrow pressed
                 move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y > b.y;
-                });
+                                      return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                                  }, (a, b) => {
+                                      return a.y > b.y;
+                                  });
             }
         }
 
@@ -764,19 +764,19 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name new_link_panel
-    * @description show a dialog to create a new link panel
-    */
-    private void new_link_panel(){
-        DesktopFolder.Util.create_new_link_panel(this);
+     * @name new_link_panel
+     * @description show a dialog to create a new link panel
+     */
+    private void new_link_panel () {
+        DesktopFolder.Util.create_new_link_panel (this);
     }
 
     /*
-    * @name new_note
-    * @description show a dialog to create a new note
-    */
+     * @name new_note
+     * @description show a dialog to create a new note
+     */
     private void new_note () {
-       DesktopFolder.Util.create_new_note (this);
+        DesktopFolder.Util.create_new_note (this);
     }
 
     /**
@@ -799,11 +799,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                                                 DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
                                                 DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
         dialog.on_rename.connect ((new_name) => {
-            // creating the folder
-            if (new_name != "") {
-                this.manager.create_new_folder (new_name, x, y);
-            }
-        });
+                                      // creating the folder
+                                      if (new_name != "") {
+                                          this.manager.create_new_folder (new_name, x, y);
+                                      }
+                                  });
         dialog.show_all ();
     }
 
@@ -819,10 +819,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                                                 DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
                                                 DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
         dialog.on_rename.connect ((new_name) => {
-            if (new_name != "") {
-                this.manager.create_new_text_file (new_name, x, y);
-            }
-        });
+                                      if (new_name != "") {
+                                          this.manager.create_new_text_file (new_name, x, y);
+                                      }
+                                  });
         dialog.show_all ();
     }
 
@@ -863,10 +863,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                                                 DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE,
                                                 this.manager.get_folder_name ());
         dialog.on_rename.connect ((new_name) => {
-            if (this.manager.rename (new_name)) {
-                this.set_title (new_name);
-            }
-        });
+                                      if (this.manager.rename (new_name)) {
+                                          this.set_title (new_name);
+                                      }
+                                  });
         dialog.show_all ();
     }
 
@@ -945,14 +945,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         base.draw (cr);
 
-        //we must show the link icon for link panels
-        if(this.manager.is_link()){
+        // we must show the link icon for link panels
+        if (this.manager.is_link ()) {
             try {
                 int width  = this.get_allocated_width ();
                 int height = this.get_allocated_height ();
 
-                int scale   = DesktopFolder.ICON_SIZE / 3;
-                var links   = Gdk.cairo_surface_create_from_pixbuf (FolderWindow.LINK_PIXBUF, 1, null);
+                int scale  = DesktopFolder.ICON_SIZE / 3;
+                var links  = Gdk.cairo_surface_create_from_pixbuf (FolderWindow.LINK_PIXBUF, 1, null);
                 cr.set_source_surface (links, width - scale - 20, height - scale - 20);
                 cr.paint_with_alpha (0.8);
             } catch (Error e) {

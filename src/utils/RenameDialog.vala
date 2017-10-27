@@ -24,8 +24,8 @@ public class RenameDialog : Gtk.Dialog {
         description.halign = Gtk.Align.START;
         this.entry         = new Gtk.Entry ();
         this.entry.activate.connect (() => {
-            this.response (Gtk.ResponseType.OK);
-        });
+                                         this.response (Gtk.ResponseType.OK);
+                                     });
         this.entry.set_text (entry_text);
 
         // Layout widgets

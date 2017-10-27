@@ -33,7 +33,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     // cached shadow photo and fixos
     private Cairo.Surface shadowSurface = null;
     private Cairo.Surface photoSurface  = null;
-    private Gdk.Pixbuf fixoPixbuf       = null;
+    private Gdk.Pixbuf    fixoPixbuf    = null;
 
     construct {
         set_keep_below (true);
@@ -50,14 +50,14 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      */
     public PhotoWindow (PhotoManager manager) {
         Object (
-            application:        manager.get_application (),
-            icon_name:          "com.github.spheras.desktopfolder",
-            resizable:          true,
-            skip_taskbar_hint:  true,
-            decorated:          true,
-            type_hint:          Gdk.WindowTypeHint.DESKTOP,
-            title:              (manager.get_photo_name ()),
-            deletable:          false,
+application:        manager.get_application (),
+icon_name:          "com.github.spheras.desktopfolder",
+resizable:          true,
+skip_taskbar_hint:  true,
+decorated:          true,
+type_hint:          Gdk.WindowTypeHint.DESKTOP,
+title:              (manager.get_photo_name ()),
+deletable:          false,
             width_request:      140,
             height_request:     160
         );
@@ -218,24 +218,24 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // menu to create a new folder
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
         item.activate.connect ((item) => {
-            this.new_desktop_folder ();
-        });
+                                   this.new_desktop_folder ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
-            this.new_note ();
-        });
+                                   this.new_note ();
+                               });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new photo
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         item.activate.connect ((item) => {
-            this.new_photo ();
-        });
+                                   this.new_photo ();
+                               });
         item.show ();
         newmenu.append (item);
 
@@ -245,7 +245,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
-        item.activate.connect ((item) => { this.manager.delete (); });
+        item.activate.connect ((item) => { this.manager.delete ();});
         item.show ();
         menu.append (item);
 
@@ -354,7 +354,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             int fixocolor  = this.manager.get_settings ().fixocolor;
             var color      = "";
             switch (fixocolor) {
-            case 0:
+            case 0 :
                 color = null;
                 break;
             case 1:

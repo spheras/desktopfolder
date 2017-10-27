@@ -1,8 +1,8 @@
 public class DesktopFolder.ProgressDialog : Gtk.Dialog {
-    private Gtk.Widget status;
-    private Gtk.Widget progress_bar;
-    private Gtk.Box window_vbox;
-    private uint timeout_id = 0;
+    private Gtk.Widget       status;
+    private Gtk.Widget       progress_bar;
+    private Gtk.Box          window_vbox;
+    private uint             timeout_id = 0;
     private GLib.Cancellable cancellable;
 
     /**
@@ -35,10 +35,10 @@ public class DesktopFolder.ProgressDialog : Gtk.Dialog {
         var button = new Gtk.Button.from_icon_name ("process-stop-symbolic", Gtk.IconSize.BUTTON);
         button.get_style_context ().add_class ("flat");
         button.clicked.connect (() => {
-            button.sensitive = false;
-            this.cancellable.cancel ();
-            this.stop ();
-        });
+                                    button.sensitive = false;
+                                    this.cancellable.cancel ();
+                                    this.stop ();
+                                });
         window_hbox.pack_start (button, false, false, 0);
         this.window_vbox.pack_start (window_hbox);
 
@@ -53,16 +53,16 @@ public class DesktopFolder.ProgressDialog : Gtk.Dialog {
     public GLib.Cancellable start () {
         this.cancellable = new GLib.Cancellable ();
         this.cancellable.cancelled.connect (() => {
-            this.stop ();
-        });
+                                                this.stop ();
+                                            });
 
         this.show ();
         this.timeout_id = GLib.Timeout.add (100, () => {
-            // this.prueba.set_text("prueba %d".printf(this.index));
-            (this.progress_bar as Gtk.ProgressBar).pulse ();
-            (this.status as Gtk.Label).set_text (this.text);
-            return true;
-        });
+                                                // this.prueba.set_text("prueba %d".printf(this.index));
+                                                (this.progress_bar as Gtk.ProgressBar).pulse ();
+                                                (this.status as Gtk.Label).set_text (this.text);
+                                                return true;
+                                            });
 
         return this.cancellable;
     }

@@ -28,8 +28,8 @@ public class DesktopFolderApp : Gtk.Application {
 
     /** List of folder owned by the application */
     private List<DesktopFolder.FolderManager> folders = new List<DesktopFolder.FolderManager>();
-    private List<DesktopFolder.NoteManager> notes     = new List<DesktopFolder.NoteManager>();
-    private List<DesktopFolder.PhotoManager> photos   = new List<DesktopFolder.PhotoManager>();
+    private List<DesktopFolder.NoteManager>   notes   = new List<DesktopFolder.NoteManager>();
+    private List<DesktopFolder.PhotoManager>  photos  = new List<DesktopFolder.PhotoManager>();
 
     construct {
         /* Needed by Glib.Application */
