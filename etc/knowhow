@@ -54,7 +54,7 @@ $ export G_MESSAGES_DEBUG=all
 
 Generate pot file
 ·················
-ninja com.github.spheras.desktopfolder-pot
+$ ninja com.github.spheras.desktopfolder-pot
 
 
 Debian build
