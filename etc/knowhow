@@ -4,6 +4,21 @@ meson build
 cd build
 ninja
 
+Automatic elementary code style guidelines
+··········································
+Build and install uncrustify, then go to src/ and run uncrustify like this:
+$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala *.vala --replace
+
+There are one or two little quirks with the program though, one of them is it
+adds a space to the underscore before translatable strings, as in _("string")
+to _ ("string"). I expect that's because it regards the underscore as the name
+of a function. The code still works with the space though, and if you don't
+mind it looking like that then we can just let it do that. I included
+LanguageText.vala once and then replaced _ ( with _(.
+
+This is what you'd run to not include LanguageText.vala:
+$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala Application.vala Resources.vala --replace
+
 
 show debug messages
 ···················

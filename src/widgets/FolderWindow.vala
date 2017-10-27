@@ -45,6 +45,20 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     private const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
+
+    // this is the link image loaded
+    static Gdk.Pixbuf LINK_PIXBUF = null;
+    static construct {
+        try {
+            int scale = DesktopFolder.ICON_SIZE / 3;
+            FolderWindow.LINK_PIXBUF = new Gdk.Pixbuf.from_resource ("/com/github/spheras/desktopfolder/link.svg");
+            FolderWindow.LINK_PIXBUF = FolderWindow.LINK_PIXBUF.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
+    }
+
     construct {
         set_keep_below (true);
         this.hide_titlebar_when_maximized = false;
@@ -930,6 +944,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
 
         base.draw (cr);
+
+        //we must show the link icon for link panels
+        if(this.manager.is_link()){
+            try {
+                int width  = this.get_allocated_width ();
+                int height = this.get_allocated_height ();
+
+                int scale   = DesktopFolder.ICON_SIZE / 3;
+                var links   = Gdk.cairo_surface_create_from_pixbuf (FolderWindow.LINK_PIXBUF, 1, null);
+                cr.set_source_surface (links, width - scale - 20, height - scale - 20);
+                cr.paint_with_alpha (0.8);
+            } catch (Error e) {
+                stderr.printf ("Error: %s\n", e.message);
+                Util.show_error_dialog ("Error", e.message);
+            }
+        }
 
         return true;
     }

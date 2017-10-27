@@ -503,6 +503,17 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name is_link
+     * @description check whether the item is a link to other folder or not
+     * @return {bool} true-> yes it is a link
+     */
+    public bool is_link () {
+        var file = this.get_file ();
+        var path = file.get_path ();
+        return FileUtils.test (path, FileTest.IS_SYMLINK);
+    }
+
+    /**
      * @name is_writable
      * @description indicates if the file linked by this view is writable or not
      * @return bool
