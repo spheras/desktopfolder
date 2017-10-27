@@ -159,7 +159,6 @@ namespace DesktopFolder.Util
 		chooser.close();
 	}
 
-
 	/**
     * @name create_new_desktop_folder
     * @description create a new folder inside the desktop
@@ -178,6 +177,32 @@ namespace DesktopFolder.Util
             }
         });
         dialog.show_all ();
+    }
+
+	/**
+    * @name create_new_link_panel
+    * @description create a new link panel to a folder (this means a link panel)
+	* @param {Gtk.Window} window the parent window to show the dialog
+    */
+    public static void create_new_link_panel(Gtk.Window window){
+		Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+            DesktopFolder.Lang.DESKTOPFOLDER_PANELLINK_MESSAGE, window, Gtk.FileChooserAction.OPEN,
+            DesktopFolder.Lang.DIALOG_CANCEL,
+            Gtk.ResponseType.CANCEL,
+            DesktopFolder.Lang.DIALOG_SELECT,
+            Gtk.ResponseType.ACCEPT);
+
+        chooser.set_action (Gtk.FileChooserAction.SELECT_FOLDER);
+
+        // Process response:
+        if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+            var filename = chooser.get_filename ();
+            debug ("file:%s", filename);
+			var command = "ln -s \"" + filename + "\" \"" + DesktopFolderApp.get_app_folder () + "\"";
+			var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+            appinfo.launch_uris (null, null);
+        }
+        chooser.close ();
     }
 
     /**

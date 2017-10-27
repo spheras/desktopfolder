@@ -115,7 +115,7 @@ msgstr "Note"
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:39
 msgid "Folder"
-msgstr "Nouveau dossier"
+msgstr "Dossier"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:41
@@ -130,7 +130,7 @@ msgstr "Renommer le panneau"
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:45
 msgid "Move Panel to Trash"
-msgstr "Supprimer le panneau"
+msgstr "Déplacer le panneau dans la corbeille"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:47
@@ -208,7 +208,7 @@ msgstr "Renommer la note"
 #. Menu popup option to delete the note
 #: src/LanguageText.vala:81
 msgid "Move to Trash"
-msgstr "Mettre à la corbeille"
+msgstr "Déplacer dans la corbeille"
 
 #. Note - Dialog Message to DELETE the current note
 #: src/LanguageText.vala:87
@@ -316,7 +316,7 @@ msgstr "Choisir le fichier/dossier de destination du lien"
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:126
 msgid "Remove"
-msgstr "Supprimer"
+msgstr "Retirer"
 
 #. Note - Dialog Message to DELETE the current photo
 #: src/LanguageText.vala:128
