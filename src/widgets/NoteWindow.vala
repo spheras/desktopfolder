@@ -259,6 +259,14 @@ deletable:          false,
         item.show ();
         newmenu.append (item);
 
+        // menu to create a new link panel
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        item.activate.connect ((item) => {
+                                   this.new_link_panel ();
+                               });
+        item.show ();
+        newmenu.append (item);
+
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
@@ -368,6 +376,14 @@ deletable:          false,
      */
     private void new_desktop_folder () {
         DesktopFolder.Util.create_new_desktop_folder (this);
+    }
+
+    /**
+     * @name new_link_panel
+     * @description show a dialog to create a new link panel
+     */
+    private void new_link_panel () {
+        DesktopFolder.Util.create_new_link_panel (this);
     }
 
     /**
