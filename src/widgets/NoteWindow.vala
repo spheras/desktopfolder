@@ -32,6 +32,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private Cairo.Pattern texture_pattern = null;
     /** the clip image prepared to be rendered */
     private Cairo.Surface clip_surface    = null;
+    
+    private Gtk.Button delete_button     = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
 
     /** head tags colors */
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
@@ -59,22 +61,27 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     public NoteWindow (NoteManager manager) {
         Object (
-application:        manager.get_application (),
-icon_name:          "com.github.spheras.desktopfolder",
-resizable:          true,
-skip_taskbar_hint:  true,
-type_hint:          Gdk.WindowTypeHint.DESKTOP,
-decorated:          true,
-title:              (manager.get_note_name ()),
-deletable:          false,
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            skip_taskbar_hint:  true,
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            decorated:          true,
+            title:              (manager.get_note_name ()),
+            deletable:          false,
             width_request:      140,
             height_request:     160
         );
+        
+        delete_button.has_tooltip  = true;
+        delete_button.tooltip_text = _("Move to Trash");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_note_name ());
-        // headerbar.set_subtitle("HeaderBar Subtitle");
-        // headerbar.set_show_close_button(true);
+        headerbar.pack_start (delete_button);
+        headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
 
         this.set_skip_taskbar_hint (true);
@@ -124,6 +131,13 @@ deletable:          false,
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
         this.draw.connect (this.draw_background);
+        
+        this.enter_notify_event.connect (this.on_enter_notify);
+        this.leave_notify_event.connect (this.on_leave_notify);
+        
+        delete_button.enter_notify_event.connect (this.on_enter_notify);
+        delete_button.leave_notify_event.connect (this.on_leave_notify);
+        delete_button.clicked.connect (this.manager.trash);
 
         text.focus_out_event.connect (this.on_focus_out);
         // this.key_release_event.connect(this.on_key);
@@ -194,6 +208,26 @@ deletable:          false,
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape (event.x, event.y, event.width, event.height);
         }
+        return false;
+    }
+    
+    /**
+    * @name on_enter_notify
+    * @description On mouse entering the window
+    */
+    private bool on_enter_notify (Gdk.EventCrossing event) {
+        debug ("Entered panel");
+        delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        return false;
+    }
+
+    /**
+    * @name on_enter_leave
+    * @description On mouse leaving the window
+    */
+    private bool on_leave_notify (Gdk.EventCrossing event) {
+        debug ("Left panel");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }
 
