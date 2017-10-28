@@ -102,6 +102,9 @@ deletable:          false,
             width_request:      50
         );
 
+        DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
+        this.set_transient_for (desktop_manager.get_view ());
+
         // a delete button to remove the panel
         this.delete_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         this.delete_button.has_tooltip  = true;
@@ -319,12 +322,15 @@ deletable:          false,
             // remove below later
         } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
             this.unselect_all ();
-            int width  = this.get_allocated_width ();
-            int height = this.get_allocated_height ();
-            int margin = 30;
-            // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
-            if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
-                this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+
+            if (this.manager.can_move ()) {
+                int width  = this.get_allocated_width ();
+                int height = this.get_allocated_height ();
+                int margin = 30;
+                // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
+                if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
+                    this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+                }
             }
         }
         return false;
@@ -602,7 +608,7 @@ deletable:          false,
      * @description change event captured from the popup for a new color to the body window
      * @param ncolor int the new color for the body window
      */
-    private void change_body_color (int ncolor) {
+    public void change_body_color (int ncolor) {
         string color = BODY_TAGS_COLORS_CLASS[ncolor];
         for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];

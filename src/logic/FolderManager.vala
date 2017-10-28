@@ -24,6 +24,8 @@
 public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     /** parent application */
     private DesktopFolderApp application;
+    /** to know if the panel is moveable or not */
+    protected bool is_moveable                   = true;
     /** the view of this logic */
     private FolderWindow view                    = null;
     /** Folder Settings of this folder */
@@ -91,6 +93,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             FolderSettings existent = FolderSettings.read_settings (file, this.get_folder_name ());
             this.settings = existent;
         }
+    }
+
+    /**
+     * @name can_move
+     * @description say if the panel can move or not
+     * @return {bool} true->yes, the panel can be moved
+     */
+    public bool can_move () {
+        return this.is_moveable;
     }
 
     /**

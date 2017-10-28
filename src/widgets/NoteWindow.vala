@@ -73,6 +73,9 @@ deletable:          false,
             height_request:     160
         );
 
+        DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
+        this.set_transient_for (desktop_manager.get_view ());
+
         delete_button.has_tooltip  = true;
         delete_button.tooltip_text = _("Move to Trash");
         delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");

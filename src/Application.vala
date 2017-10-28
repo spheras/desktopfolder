@@ -27,6 +27,7 @@ public class DesktopFolderApp : Gtk.Application {
     private FileMonitor monitor = null;
 
     /** List of folder owned by the application */
+    private DesktopFolder.DesktopManager       desktop = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
     private List <DesktopFolder.NoteManager>   notes   = new List <DesktopFolder.NoteManager> ();
     private List <DesktopFolder.PhotoManager>  photos  = new List <DesktopFolder.PhotoManager> ();
@@ -50,6 +51,15 @@ public class DesktopFolderApp : Gtk.Application {
     public DesktopFolderApp () {
         Object (application_id: "com.github.spheras.desktopfolder",
             flags : ApplicationFlags.FLAGS_NONE);
+    }
+
+    /**
+     * @name get_fake_desktop
+     * @description return the fake desktop manager
+     * @return {DesktopFolder.DesktopManager} the fake desktop manager
+     */
+    public DesktopFolder.DesktopManager get_fake_desktop () {
+        return this.desktop;
     }
 
     /**
@@ -128,12 +138,20 @@ public class DesktopFolderApp : Gtk.Application {
         return Environment.get_home_dir () + "/Desktop";
     }
 
+    private void check_fake_desktop () {
+        if (this.desktop == null) {
+            this.desktop = new DesktopFolder.DesktopManager (this);
+        }
+    }
+
     /**
      * @name sync_folders_and_notes
      * @description create as many folder and note windows as the desktop folder and note founds
      */
     private void sync_folders_and_notes () {
         try {
+            check_fake_desktop ();
+
             var base_path  = DesktopFolderApp.get_app_folder ();
             var directory  = File.new_for_path (base_path);
             var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
@@ -151,6 +169,12 @@ public class DesktopFolderApp : Gtk.Application {
                 FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
 
                 if (type == FileType.DIRECTORY) {
+
+                    if (name == DesktopFolder.DesktopWindow.DESKTOP_FAKE_FOLDER_NAME) {
+                        // this is the fake desktop folder, let's skip it
+                        continue;
+                    }
+
                     totalFolders++;
 
                     // Is this folder already known about?
