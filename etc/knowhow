@@ -1,52 +1,81 @@
-compile first time
-··················
-meson build
-cd build
-ninja
+First time build
+·················
+$ meson build
+$ cd build
+$ ninja
+
+Build, install and run the app with debug messages in one line
+..............................................................
+$ sudo ninja install && env G_MESSAGES_DEBUG=all com.github.spheras.desktopfolder
+
 
 Automatic elementary code style guidelines
 ··········································
 Build and install uncrustify, then go to src/ and run uncrustify like this:
-$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala *.vala --replace
+$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala *.vala --replace --no-backup
 
-There are one or two little quirks with the program though, one of them is it
-adds a space to the underscore before translatable strings, as in _("string")
-to _ ("string"). I expect that's because it regards the underscore as the name
-of a function. The code still works with the space though, and if you don't
-mind it looking like that then we can just let it do that. I included
+There are one or two little quirks with the program though.
+
+1. It adds a space to the underscore before translatable strings, as in:
+
+    _("string")
+    _ ("string")
+    
+I expect that's because it regards the underscore as the name of a function
+(I believe it technically is). The code still works though. I included
 LanguageText.vala once and then replaced _ ( with _(.
 
 This is what you'd run to not include LanguageText.vala:
-$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala Application.vala Resources.vala --replace
+
+$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala Application.vala Resources.vala --replace --no-backup
+
+2. Make sure you don't end comment lines with a \ (backslash), otherwise
+uncrustify turns the next line into a comment as well:
+
+    // This prints a \
+    my_function ();
+
+Gets turned into:
+
+    // This prints a
+    // my_function ();
+
+It's okay if you put any character after it though:
+
+    // This prints a \ character.
+    // (or) This prints a \.
+    my_function ();
 
 
-show debug messages
+Show debug messages
 ···················
-export G_MESSAGES_DEBUG=all
+$ export G_MESSAGES_DEBUG=all
 
-generate pot file
+
+Generate pot file
 ·················
-ninja com.github.spheras.desktopfolder-pot
+$ ninja com.github.spheras.desktopfolder-pot
 
 
-debian build
+Debian build
 ············
-from root directory -> $ debuild -uc -us
+From root directory:
+$ debuild -uc -us
 
-hint: to execute rules -> ./debian/rules install
+(Hint) To execute rules:
+$ ./debian/rules install
 
 
-GTK introspector
+GTK Introspector
 ················
-gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
+$ gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
 
-after that, press ctrl+shift+D on the window you want to debug
+After that, press Ctrl+Shift+D or Ctrl+Shift+I on the window you want to debug.
 
 
-
-snap creation
+Snap creation
 ·············
-sudo apt install snapcraft
+$ sudo apt install snapcraft
 
-sudo docker pull snapcore/snapcraft
-sudo docker run -v $PWD:$PWD -w $PWD snapcore/snapcraft snapcraft
+$ sudo docker pull snapcore/snapcraft
+$ sudo docker run -v $PWD:$PWD -w $PWD snapcore/snapcraft snapcraft
