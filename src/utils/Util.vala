@@ -195,10 +195,17 @@ namespace DesktopFolder.Util {
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
             var filename = chooser.get_filename ();
             debug ("file:%s", filename);
-            var command  = "ln -s \"" + filename + "\" \"" + DesktopFolderApp.get_app_folder () + "\"";
-            var appinfo  = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-            appinfo.launch_uris (null, null);
+
+            try{
+                var command  = "ln -s \"" + filename + "\" \"" + DesktopFolderApp.get_app_folder () + "\"";
+                var appinfo  = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+                appinfo.launch_uris (null, null);
+            } catch (Error e) {
+                stderr.printf ("Error: %s\n", e.message);
+                Util.show_error_dialog ("Error", e.message);
+            }
         }
+
         chooser.close ();
     }
 

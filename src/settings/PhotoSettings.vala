@@ -3,6 +3,8 @@ public class DesktopFolder.PhotoSettings : Object {
     public int    y  { get;set;default = 0;}
     public int    w  { get;set;default = 0;}
     public int    h  { get;set;default = 0;}
+    public int    original_width;
+    public int    original_height;
     public int    fixocolor { get;set;default = 0;}
     public string name { get;set;}
     public string photo_path { get;set;}
@@ -21,19 +23,24 @@ public class DesktopFolder.PhotoSettings : Object {
             // we calculate an aproximated image size
             var pixbuf = new Gdk.Pixbuf.from_file (photo_path);
             this.w = pixbuf.get_width ();
+            this.h = pixbuf.get_height ();
+            this.original_width=w;
+            this.original_height=h;
+
             // max a 30% of the screen
             Gdk.Screen screen = Gdk.Screen.get_default ();
-            int        MAX    = (screen.get_width () * 30) / 100;
+            int MAX           = (screen.get_width () * 30) / 100;
 
-            this.h = pixbuf.get_height ();
             if (this.w > MAX) {
-                int diff = this.w - MAX;
-                this.w = MAX;
-                this.h = this.h - diff;
+                int newWidth=MAX;
+                int newHeight= (this.h * newWidth) / this.w;
+                this.w = newWidth;
+                this.h = newHeight;
             } else if (this.h > MAX) {
-                int diff = this.h - MAX;
-                this.h = MAX;
-                this.w = this.w - diff;
+                int newHeight=MAX;
+                int newWidth= (this.w * newHeight) / this.h;
+                this.w = newWidth;
+                this.h = newHeight;
             }
         } catch (Error e) {
             // error! ??
@@ -103,6 +110,15 @@ public class DesktopFolder.PhotoSettings : Object {
             PhotoSettings existent = Json.gobject_from_data (typeof (PhotoSettings), content) as PhotoSettings;
             existent.file = file;
             existent.name = name;
+
+            //old versions don't calculate the original width/height
+            if(existent.original_width<=0 || existent.original_height<=0){
+                // we calculate an aproximated image size
+                var pixbuf = new Gdk.Pixbuf.from_file (existent.photo_path);
+                existent.original_width=pixbuf.get_width ();
+                existent.original_height=pixbuf.get_height ();
+            }
+
             return existent;
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
