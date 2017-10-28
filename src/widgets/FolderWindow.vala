@@ -113,7 +113,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
         headerbar.pack_start (delete_button);
-        headerbar.pack_end (properties_button);
+        // headerbar.pack_end (properties_button);
         headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
 
