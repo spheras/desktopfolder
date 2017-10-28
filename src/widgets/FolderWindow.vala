@@ -32,6 +32,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** flag to know if an icon is moving*/
     private bool flag_moving = false;
 
+    private Gtk.Button delete_button     = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+    private Gtk.Button properties_button = new Gtk.Button.from_icon_name ("open-menu-symbolic");
+    
     /** item alignment*/
     private const int SENSITIVITY_WITH_GRID    = 101;
     private const int SENSITIVITY_WITHOUT_GRID = 4;
@@ -81,27 +84,37 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     public FolderWindow (FolderManager manager) {
         Object (
-application:        manager.get_application (),
-icon_name:          "com.github.spheras.desktopfolder",
-resizable:          true,
-accept_focus:       true,
-skip_taskbar_hint:  true,
-skip_pager_hint:    true,
-decorated:          true,
-title:              (manager.get_folder_name ()),
-type_hint:          Gdk.WindowTypeHint.DESKTOP,
-deletable:          false,
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            accept_focus:       true,
+            skip_taskbar_hint:  true,
+            skip_pager_hint:    true,
+            decorated:          true,
+            title:              (manager.get_folder_name ()),
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            deletable:          false,
             default_width:      300,
             default_height:     300,
             height_request:     50,
             width_request:      50
         );
-
+        
+        delete_button.has_tooltip  = true;
+        delete_button.tooltip_text = _("Move to Trash");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        
+        properties_button.has_tooltip  = true;
+        properties_button.tooltip_text = _("Properties");
+        properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
-        // headerbar.set_subtitle("HeaderBar Subtitle");
-        // headerbar.set_show_close_button(true);
+        headerbar.pack_start (delete_button);
+        // headerbar.pack_end (properties_button);
+        headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
 
         this.set_skip_taskbar_hint (true);
@@ -124,6 +137,17 @@ deletable:          false,
         this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
         this.draw.connect (this.draw_background);
+        
+        this.enter_notify_event.connect (this.on_enter_notify);
+        this.leave_notify_event.connect (this.on_leave_notify);
+        
+        delete_button.enter_notify_event.connect (this.on_enter_notify);
+        delete_button.leave_notify_event.connect (this.on_leave_notify);
+        delete_button.clicked.connect (this.manager.trash);
+        
+        properties_button.enter_notify_event.connect (this.on_enter_notify);
+        properties_button.leave_notify_event.connect (this.on_leave_notify);
+        properties_button.clicked.connect (this.show_properties_dialog);
 
         // help: doesn't have the gtk window any active signal? or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
@@ -137,6 +161,12 @@ deletable:          false,
            this.window_state_event.connect(on_window_state_event);
          */
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+    }
+    
+    private void show_properties_dialog (Gtk.Button properties_button) {
+        var dialog = new DesktopFolder.Dialogs.PanelProperties (this);
+        dialog.set_transient_for (this);
+        dialog.show_all ();
     }
 
     public void reload_settings () {
@@ -218,11 +248,33 @@ deletable:          false,
         if (event.type == Gdk.EventType.CONFIGURE) {
             // we are now a dock Window, to avoid minimization when show desktop
             // TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            this.type_hint = Gdk.WindowTypeHint.DESKTOP; //DIALOG
 
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape (event.x, event.y, event.width, event.height);
         }
+        return false;
+    }
+    
+    /**
+    * @name on_enter_notify
+    * @description On mouse entering the window
+    */
+    private bool on_enter_notify (Gdk.EventCrossing event) {
+        debug ("Entered panel");
+        delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        return false;
+    }
+
+    /**
+    * @name on_enter_leave
+    * @description On mouse leaving the window
+    */
+    private bool on_leave_notify (Gdk.EventCrossing event) {
+        debug ("Left panel");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }
 
@@ -253,8 +305,8 @@ deletable:          false,
             (event.button == Gdk.BUTTON_SECONDARY)) {
             this.show_popup (event);
             return true;
-        } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
-                   (event.button == Gdk.BUTTON_PRIMARY)) {
+        // remove below later
+        } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
             this.unselect_all ();
             int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
@@ -263,7 +315,6 @@ deletable:          false,
             if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
                 this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
             }
-
         }
         return false;
     }

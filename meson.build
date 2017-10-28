@@ -56,7 +56,8 @@ src = [
        'src/logic/FolderManager.vala',
        'src/logic/ItemManager.vala',
        'src/logic/NoteManager.vala',
-       'src/logic/PhotoManager.vala'
+       'src/logic/PhotoManager.vala',
+       'src/Dialogs/PanelPropertiesWindow.vala'
       ]
 
 executable(
