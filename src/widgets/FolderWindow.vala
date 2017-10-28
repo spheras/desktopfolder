@@ -140,10 +140,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
-
-        // help: doesn't have the gtk window any active signal? or css :active state?
-        Wnck.Screen screen = Wnck.Screen.get_default ();
-        screen.active_window_changed.connect (on_active_change);
         
         delete_button.enter_notify_event.connect (this.on_enter_notify);
         delete_button.leave_notify_event.connect (this.on_leave_notify);
@@ -152,6 +148,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         properties_button.enter_notify_event.connect (this.on_enter_notify);
         properties_button.leave_notify_event.connect (this.on_leave_notify);
         properties_button.clicked.connect (()=>{debug("Clicked properties button");});
+
+        // help: doesn't have the gtk window any active signal? or css :active state?
+        Wnck.Screen screen = Wnck.Screen.get_default ();
+        screen.active_window_changed.connect (on_active_change);
 
         /*
            this.focus_in_event.connect((event)=>{debug("focus_in");return false;});
