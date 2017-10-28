@@ -147,7 +147,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         
         properties_button.enter_notify_event.connect (this.on_enter_notify);
         properties_button.leave_notify_event.connect (this.on_leave_notify);
-        properties_button.clicked.connect (()=>{debug("Clicked properties button");});
+        properties_button.clicked.connect (this.show_properties_dialog);
 
         // help: doesn't have the gtk window any active signal? or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
@@ -161,6 +161,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
            this.window_state_event.connect(on_window_state_event);
          */
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+    }
+    
+    private void show_properties_dialog (Gtk.Button properties_button) {
+        var dialog = new DesktopFolder.Dialogs.PanelProperties (this);
+        dialog.set_transient_for (this);
+        dialog.show_all ();
     }
 
     public void reload_settings () {
