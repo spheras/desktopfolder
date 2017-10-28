@@ -42,14 +42,34 @@
     color: @colorForegroundHEADLESS;
 }
 
-.df_folder .df_titlebar_button {
-	color: rgba(255,255,255,255);
+.df_folder.df_light .df_titlebar_button {
+    icon-shadow: none;
+	color: @colorForegroundLIGHT;
+}
+.df_folder.df_light .df_titlebar_button_hidden {
+    icon-shadow: none;
+	color: rgba(255,255,255,0);
+}
+.df_folder.df_light.df_shadow .df_titlebar_button {
 	icon-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
-
-.df_folder .df_titlebar_button_hidden {
-	color: rgba(255,255,255,0);
+.df_folder.df_light.df_shadow .df_titlebar_button_hidden {
 	icon-shadow: 0 0 2px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+}
+
+.df_folder.df_dark .df_titlebar_button {
+    icon-shadow: none;
+	color: @colorForegroundDARK;
+}
+.df_folder.df_dark .df_titlebar_button_hidden {
+    icon-shadow: none;
+	color: rgba(0,0,0,0);
+}
+.df_folder.df_dark.df_shadow .df_titlebar_button {
+	icon-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
+}
+.df_folder.df_dark.df_shadow .df_titlebar_button_hidden {
+	icon-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
 
 /* BODY COLORS */
