@@ -12,24 +12,9 @@ $ sudo ninja install && env G_MESSAGES_DEBUG=all com.github.spheras.desktopfolde
 Automatic elementary code style guidelines
 ··········································
 Build and install uncrustify, then go to src/ and run uncrustify like this:
-$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala *.vala --replace --no-backup
+$ uncrustify --replace --no-backup -c ../etc/uncrustify-elementary-vala.cfg */*.vala *.vala
 
-There are one or two little quirks with the program though.
-
-1. It adds a space to the underscore before translatable strings, as in:
-
-    _("string")
-    _ ("string")
-    
-I expect that's because it regards the underscore as the name of a function
-(I believe it technically is). The code still works though. I included
-LanguageText.vala once and then replaced _ ( with _(.
-
-This is what you'd run to not include LanguageText.vala:
-
-$ uncrustify -c ../etc/uncrustify-elementary-vala.cfg */*.vala Application.vala Resources.vala --replace --no-backup
-
-2. Make sure you don't end comment lines with a \ (backslash), otherwise
+Make sure you don't end comment lines with a \ (backslash), otherwise
 uncrustify turns the next line into a comment as well:
 
     // This prints a \
