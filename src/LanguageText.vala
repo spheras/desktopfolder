@@ -27,7 +27,7 @@ namespace DesktopFolder.Lang {
     public const string DROP_MENU_CANCEL                         = _("Cancel");
     // desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER    = _("Panel");
-    //desktopfolder menu - create a new Desktop-Folder Pane
+    // desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_LINK_PANEL            = _("Link Panel");
     // desktopfolder menu - enable/disable alignment to grid
     public const string DESKTOPFOLDER_MENU_ALIGN_TO_GRID         = _("Align to Grid");
@@ -68,7 +68,9 @@ namespace DesktopFolder.Lang {
     // desktopfolder - The default name for the new text file to be created
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_NAME         = _("new.txt");
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
-    public const string DESKTOPFOLDER_DELETE_MESSAGE             = _("This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n<b>Are you sure?</b>");
+    public const string DESKTOPFOLDER_DELETE_TOOLTIP             = _("Move to Trash");
+    // desktopfolder - The message to confirm the deletion of a Desktop Folder
+    public const string DESKTOPFOLDER_SETTINGS_TOOLTIP           = _("Settings");
     // desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
     public const string NOTE_ENTER_TITLE                         = _("New Note");
     // desktopfolder - Dialog Text to ask the new name for the Desktop-Folder

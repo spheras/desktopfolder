@@ -54,14 +54,14 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      */
     public PhotoWindow (PhotoManager manager) {
         Object (
-            application:        manager.get_application (),
-            icon_name:          "com.github.spheras.desktopfolder",
-            resizable:          true,
-            skip_taskbar_hint:  true,
-            decorated:          true,
-            type_hint:          Gdk.WindowTypeHint.DESKTOP,
-            title:              (manager.get_photo_name ()),
-            deletable:          false,
+application:        manager.get_application (),
+icon_name:          "com.github.spheras.desktopfolder",
+resizable:          true,
+skip_taskbar_hint:  true,
+decorated:          true,
+type_hint:          Gdk.WindowTypeHint.DESKTOP,
+title:              (manager.get_photo_name ()),
+deletable:          false,
             width_request:      140,
             height_request:     160
         );
@@ -184,7 +184,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             this.show_popup (event);
             return true;
         } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
-                   (event.button == Gdk.BUTTON_PRIMARY)) {
+            (event.button == Gdk.BUTTON_PRIMARY)) {
             this.flag_resizing = true;
             int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
@@ -223,32 +223,32 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // menu to create a new folder
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
         item.activate.connect ((item) => {
-                                   this.new_desktop_folder ();
-                               });
+                this.new_desktop_folder ();
+            });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new link panel
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         item.activate.connect ((item) => {
-                                   this.new_link_panel ();
-                               });
+                this.new_link_panel ();
+            });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
-                                   this.new_note ();
-                               });
+                this.new_note ();
+            });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new photo
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         item.activate.connect ((item) => {
-                                   this.new_photo ();
-                               });
+                this.new_photo ();
+            });
         item.show ();
         newmenu.append (item);
 
@@ -258,7 +258,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
 
         // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
-        item.activate.connect ((item) => { this.manager.delete ();});
+        item.activate.connect ((item) => { this.manager.delete (); });
         item.show ();
         menu.append (item);
 
@@ -364,14 +364,14 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     this.timeout_id = 0;
                 }
                 this.timeout_id = GLib.Timeout.add (2000, () => {
-                                                        // we force to resize to adapt to the image size, (to maintain aspect ratio)
-                                                        this.resize (pixwidth + margin, pixheight + margin);
+                        // we force to resize to adapt to the image size, (to maintain aspect ratio)
+                        this.resize (pixwidth + margin, pixheight + margin);
 
-                                                        this.flag_resizing = false;
-                                                        this.queue_draw ();
-                                                        this.timeout_id = 0;
-                                                        return false;
-                                                    });
+                        this.flag_resizing = false;
+                        this.queue_draw ();
+                        this.timeout_id = 0;
+                        return false;
+                    });
             }
 
             // drawing the shadow

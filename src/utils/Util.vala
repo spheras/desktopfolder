@@ -29,7 +29,7 @@ namespace DesktopFolder.Util {
             Gtk.MessageType.ERROR,
             Gtk.ButtonsType.CLOSE,
             "%s", message
-        );
+            );
         dialog.title        = title;
         dialog.border_width = 5;
         dialog.run ();
@@ -54,8 +54,7 @@ namespace DesktopFolder.Util {
      * @return bool true->if everything was OK
      */
     public bool copy_recursive (GLib.File src, GLib.File dest, GLib.FileCopyFlags flags = GLib.FileCopyFlags.NONE,
-        GLib.Cancellable ? cancellable = null, FileOperationAction ? listener = null
-    ) throws GLib.Error {
+        GLib.Cancellable ? cancellable = null, FileOperationAction ? listener = null) throws GLib.Error {
         GLib.FileType src_type = src.query_file_type (GLib.FileQueryInfoFlags.NONE, cancellable);
         if (src_type == GLib.FileType.DIRECTORY) {
             dest.make_directory (cancellable);
@@ -153,21 +152,21 @@ namespace DesktopFolder.Util {
             var           photo_path = chooser.get_filename ();
             PhotoSettings ps         = new PhotoSettings (photo_path);
             string        path       = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.PHOTO_EXTENSION;
-            File          file          = File.new_for_path (path);
+            File          file       = File.new_for_path (path);
             if (file.query_exists ()) {
-                //string message = "Can't create photo, photo already exists.";
-                //Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-                //                                       Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                // string message = "Can't create photo, photo already exists.";
+                // Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
+                // Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
                 debug ("Photo already exists, not creating.");
-                //msg.response.connect ((response_id) => {
-                //    msg.destroy ();
-                //});
-                //msg.set_deletable (false);
-                //msg.show ();
+                // msg.response.connect ((response_id) => {
+                // msg.destroy ();
+                // });
+                // msg.set_deletable (false);
+                // msg.show ();
             } else {
                 ps.save_to_file (file);
             }
-          }
+        }
         chooser.close ();
     }
 
@@ -182,28 +181,28 @@ namespace DesktopFolder.Util {
             DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW);
         dialog.on_rename.connect ((new_name) => {
-            string path = DesktopFolderApp.get_app_folder () + "/" + new_name;
-            File folder = File.new_for_path (path);
-            
-            if (folder.query_exists ()) {
-                string message = "<big><b>"+
-                    _("Could not create \"%'s\"").printf (new_name) +
-                    "</b></big>\n\n" +
-                    _("Panel already exists.");
-                Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-                                                       Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
-                debug ("Folder already exists, not creating.");
-                msg.response.connect ((response_id) => {
-                    msg.destroy ();
-                });
-                msg.set_deletable (false);
-                msg.use_markup = true;
-                msg.show ();
-            } else if (new_name != "") {
-                // cancelling the current monitor
-                DirUtils.create (DesktopFolderApp.get_app_folder () + "/" + new_name, 0755);
-            }
-        });
+                string path = DesktopFolderApp.get_app_folder () + "/" + new_name;
+                File folder = File.new_for_path (path);
+
+                if (folder.query_exists ()) {
+                    string message = "<big><b>" +
+                        _("Could not create \"%'s\"").printf (new_name) +
+                        "</b></big>\n\n" +
+                        _("Panel already exists.");
+                    Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
+                        Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                    debug ("Folder already exists, not creating.");
+                    msg.response.connect ((response_id) => {
+                            msg.destroy ();
+                        });
+                    msg.set_deletable (false);
+                    msg.use_markup = true;
+                    msg.show ();
+                } else if (new_name != "") {
+                    // cancelling the current monitor
+                    DirUtils.create (DesktopFolderApp.get_app_folder () + "/" + new_name, 0755);
+                }
+            });
         dialog.show_all ();
     }
 
@@ -224,21 +223,21 @@ namespace DesktopFolder.Util {
 
         // Process response:
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
-            var    folderpath = chooser.get_filename ();
-            var    foldername = Path.get_basename(folderpath);
-            File   linkdest   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
+            var  folderpath = chooser.get_filename ();
+            var  foldername = Path.get_basename (folderpath);
+            File linkdest   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
             debug ("file:%s", folderpath);
             debug ("file name:%s", foldername);
             debug ("link path:%s", DesktopFolderApp.get_app_folder () + "/" + foldername);
             if (linkdest.query_exists ()) {
                 // The below causes the file chooser to get stuck at the moment
-                
+
                 // string message = "Can't create link panel, link panel already exists.";
                 // Gtk.MessageDialog msg = new Gtk.MessageDialog (chooser, Gtk.DialogFlags.MODAL,
-                //                                       Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                // Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
                 debug ("Link already exists, not creating.");
                 // msg.response.connect ((response_id) => {
-                //     msg.destroy ();
+                // msg.destroy ();
                 // });
                 // msg.set_deletable (false);
                 // msg.show ();
@@ -264,31 +263,31 @@ namespace DesktopFolder.Util {
      */
     public static void create_new_note (Gtk.Window window) {
         RenameDialog dialog = new RenameDialog (window,
-                                                DesktopFolder.Lang.NOTE_ENTER_TITLE,
-                                                DesktopFolder.Lang.NOTE_ENTER_NAME,
-                                                DesktopFolder.Lang.NOTE_NEW);
+            DesktopFolder.Lang.NOTE_ENTER_TITLE,
+            DesktopFolder.Lang.NOTE_ENTER_NAME,
+            DesktopFolder.Lang.NOTE_NEW);
         dialog.on_rename.connect ((new_name) => {
-            string path = DesktopFolderApp.get_app_folder () + "/" + new_name + "." + DesktopFolder.NOTE_EXTENSION;
-            File file   = File.new_for_path (path);
-            if (file.query_exists ()) {
-                string message = "<big><b>"+
-                    _("Could not create \"%'s\"").printf (new_name) +
-                    "</b></big>\n\n" +
-                    _("Note already exists.");
-                Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-                                                       Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
-                debug ("Note file already exists, not creating.");
-                msg.response.connect ((response_id) => {
-                    msg.destroy ();
-                });
-                msg.set_deletable (false);
-                msg.use_markup = true;
-                msg.show ();
-            } else if (new_name != "") {
-                NoteSettings ns = new NoteSettings (new_name);
-                ns.save_to_file (file);
-            }
-        });
+                string path = DesktopFolderApp.get_app_folder () + "/" + new_name + "." + DesktopFolder.NOTE_EXTENSION;
+                File file = File.new_for_path (path);
+                if (file.query_exists ()) {
+                    string message = "<big><b>" +
+                        _("Could not create \"%'s\"").printf (new_name) +
+                        "</b></big>\n\n" +
+                        _("Note already exists.");
+                    Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
+                        Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                    debug ("Note file already exists, not creating.");
+                    msg.response.connect ((response_id) => {
+                            msg.destroy ();
+                        });
+                    msg.set_deletable (false);
+                    msg.use_markup = true;
+                    msg.show ();
+                } else if (new_name != "") {
+                    NoteSettings ns = new NoteSettings (new_name);
+                    ns.save_to_file (file);
+                }
+            });
         dialog.show_all ();
     }
 

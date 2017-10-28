@@ -27,9 +27,9 @@ public class DesktopFolderApp : Gtk.Application {
     private FileMonitor monitor = null;
 
     /** List of folder owned by the application */
-    private List<DesktopFolder.FolderManager> folders = new List<DesktopFolder.FolderManager>();
-    private List<DesktopFolder.NoteManager>   notes   = new List<DesktopFolder.NoteManager>();
-    private List<DesktopFolder.PhotoManager>  photos  = new List<DesktopFolder.PhotoManager>();
+    private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
+    private List <DesktopFolder.NoteManager>   notes   = new List <DesktopFolder.NoteManager> ();
+    private List <DesktopFolder.PhotoManager>  photos  = new List <DesktopFolder.PhotoManager> ();
 
     construct {
         /* Needed by Glib.Application */
@@ -49,7 +49,7 @@ public class DesktopFolderApp : Gtk.Application {
      */
     public DesktopFolderApp () {
         Object (application_id: "com.github.spheras.desktopfolder",
-                flags : ApplicationFlags.FLAGS_NONE);
+            flags : ApplicationFlags.FLAGS_NONE);
     }
 
     /**
@@ -100,7 +100,7 @@ public class DesktopFolderApp : Gtk.Application {
         var provider = new Gtk.CssProvider ();
         provider.load_from_resource ("com/github/spheras/desktopfolder/Application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider,
-                                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
         // quit action
         /*
@@ -139,9 +139,9 @@ public class DesktopFolderApp : Gtk.Application {
             var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
 
             FileInfo file_info;
-            List<DesktopFolder.FolderManager> updated_folder_list = new List<DesktopFolder.FolderManager>();
-            List<DesktopFolder.NoteManager>   updated_note_list   = new List<DesktopFolder.NoteManager>();
-            List<DesktopFolder.PhotoManager>  updated_photo_list  = new List<DesktopFolder.PhotoManager>();
+            List <DesktopFolder.FolderManager> updated_folder_list = new List <DesktopFolder.FolderManager> ();
+            List <DesktopFolder.NoteManager>   updated_note_list   = new List <DesktopFolder.NoteManager> ();
+            List <DesktopFolder.PhotoManager>  updated_photo_list  = new List <DesktopFolder.PhotoManager> ();
             int totalFolders = 0;
             int totalNotes   = 0;
             int totalPhotos  = 0;
@@ -372,7 +372,7 @@ public class DesktopFolderApp : Gtk.Application {
             DesktopFolder.FolderManager fm = this.folders.nth (i).data;
             fm.close ();
         }
-        this.folders = new List<DesktopFolder.FolderManager>();
+        this.folders = new List <DesktopFolder.FolderManager> ();
     }
 
     /**
@@ -400,7 +400,7 @@ public class DesktopFolderApp : Gtk.Application {
             Gtk.main_iteration ();
         }
 
-        unowned List<Wnck.Window> windows = screen.get_windows ();
+        unowned List <Wnck.Window> windows = screen.get_windows ();
 
         foreach (Wnck.Window w in windows) {
             Wnck.Application window_app = w.get_application ();
@@ -423,14 +423,14 @@ public class DesktopFolderApp : Gtk.Application {
         string command_conflict            = "";
         string relocatable_schema_conflict = "";
         if (!Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.shortcut_conflicts (shortcut, out command_conflict,
-                                                                                    out relocatable_schema_conflict)) {
+                out relocatable_schema_conflict)) {
 
             debug ("registering hotkey!");
             var relocatable_schema = Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.create_shortcut ();
             Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.edit_command ((string) relocatable_schema,
-                                                                             path + "com.github.spheras.desktopfolder " + DesktopFolder.PARAM_SHOW_DESKTOP);
+                path + "com.github.spheras.desktopfolder " + DesktopFolder.PARAM_SHOW_DESKTOP);
             Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.edit_shortcut ((string) relocatable_schema,
-                                                                              shortcut.to_gsettings ());
+                shortcut.to_gsettings ());
         }
     }
 

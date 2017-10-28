@@ -493,8 +493,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         }
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (label);
         item.activate.connect ((item) => {
-                                   this.manager.execute ();
-                               });
+                this.manager.execute ();
+            });
         item.show ();
         menu.append (item);
 
@@ -503,12 +503,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CUT);
-        item.activate.connect ((item) => { this.manager.cut ();});
+        item.activate.connect ((item) => { this.manager.cut (); });
         item.show ();
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_COPY);
-        item.activate.connect ((item) => { this.manager.copy ();});
+        item.activate.connect ((item) => { this.manager.copy (); });
         item.show ();
         menu.append (item);
 
@@ -517,18 +517,18 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_RENAME);
-        item.activate.connect ((item) => { this.rename_dialog ();});
+        item.activate.connect ((item) => { this.rename_dialog (); });
         item.show ();
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
-        item.activate.connect ((item) => { this.manager.trash ();});
+        item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
 
         if (this.manager.is_executable ()) {
             item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CHANGEICON);
-            item.activate.connect ((item) => { this.change_icon ();});
+            item.activate.connect ((item) => { this.change_icon (); });
             item.show ();
             menu.append (item);
         }
@@ -575,7 +575,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description the user wants to delete the item. It should be confirmed before the deletion occurs
      */
     public void delete_dialog () {
-        string     message = _ (DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE);
+        string     message = _(DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE);
         Gtk.Window window  = (Gtk.Window) this.get_toplevel ();
         bool       isdir   = this.manager.is_folder ();
         if (!isdir) {
@@ -586,25 +586,25 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         }
 
         Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-                                                       Gtk.MessageType.WARNING, Gtk.ButtonsType.OK_CANCEL, message);
+            Gtk.MessageType.WARNING, Gtk.ButtonsType.OK_CANCEL, message);
         msg.use_markup = true;
         msg.response.connect ((response_id) => {
-                                  switch (response_id) {
-                                  case Gtk.ResponseType.OK:
-                                      msg.destroy ();
-                                      if (isdir) {
-                                          this.manager.trash ();
-                                          break;
-                                      } else {
-                                          this.manager.trash ();
-                                      }
-                                      break;
-                                  default:
-                                      msg.destroy ();
-                                      break;
-                                      // uff
-                                  }
-                              });
+                switch (response_id) {
+                case Gtk.ResponseType.OK:
+                    msg.destroy ();
+                    if (isdir) {
+                        this.manager.trash ();
+                        break;
+                    } else {
+                        this.manager.trash ();
+                    }
+                    break;
+                default:
+                    msg.destroy ();
+                    break;
+                    // uff
+                }
+            });
         msg.show ();
     }
 
@@ -614,15 +614,15 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     public void rename_dialog () {
         RenameDialog dialog = new RenameDialog (this.manager.get_application_window (),
-                                                DesktopFolder.Lang.ITEM_RENAME_TITLE,
-                                                DesktopFolder.Lang.ITEM_RENAME_MESSAGE,
-                                                this.label.get_label ());
+            DesktopFolder.Lang.ITEM_RENAME_TITLE,
+            DesktopFolder.Lang.ITEM_RENAME_MESSAGE,
+            this.label.get_label ());
         dialog.on_rename.connect ((new_name) => {
-                                      // renaming
-                                      if (new_name != this.label.get_label ()) {
-                                          this.rename (new_name);
-                                      }
-                                  });
+                // renaming
+                if (new_name != this.label.get_label ()) {
+                    this.rename (new_name);
+                }
+            });
         dialog.show_all ();
     }
 

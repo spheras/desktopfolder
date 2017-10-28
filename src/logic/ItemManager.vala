@@ -277,8 +277,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description cut the file to the clipboard
      */
     public void cut () {
-        Clipboard.ClipboardManager    cm    = Clipboard.ClipboardManager.get_for_display ();
-        List<Clipboard.ClipboardFile> items = new List<Clipboard.ClipboardFile>();
+        Clipboard.ClipboardManager     cm    = Clipboard.ClipboardManager.get_for_display ();
+        List <Clipboard.ClipboardFile> items = new List <Clipboard.ClipboardFile> ();
         items.append (this);
         cm.cut_files (items);
     }
@@ -288,8 +288,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description copy the file to the clipboard
      */
     public void copy () {
-        Clipboard.ClipboardManager    cm    = Clipboard.ClipboardManager.get_for_display ();
-        List<Clipboard.ClipboardFile> items = new List<Clipboard.ClipboardFile>();
+        Clipboard.ClipboardManager     cm    = Clipboard.ClipboardManager.get_for_display ();
+        List <Clipboard.ClipboardFile> items = new List <Clipboard.ClipboardFile> ();
         items.append (this);
         cm.copy_files (items);
     }

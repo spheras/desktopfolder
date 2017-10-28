@@ -1,13 +1,13 @@
 public class DesktopFolder.PhotoSettings : Object {
-    public int    x  { get;set;default = 0;}
-    public int    y  { get;set;default = 0;}
-    public int    w  { get;set;default = 0;}
-    public int    h  { get;set;default = 0;}
+    public int    x  { get; set; default = 0; }
+    public int    y  { get; set; default = 0; }
+    public int    w  { get; set; default = 0; }
+    public int    h  { get; set; default = 0; }
     public int    original_width;
     public int    original_height;
-    public int    fixocolor { get;set;default = 0;}
-    public string name { get;set;}
-    public string photo_path { get;set;}
+    public int    fixocolor { get; set; default = 0; }
+    public string name { get; set; }
+    public string photo_path { get; set; }
 
     private File file;
 

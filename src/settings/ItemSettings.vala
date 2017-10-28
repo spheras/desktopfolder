@@ -23,13 +23,13 @@
  */
 public class DesktopFolder.ItemSettings : Object {
     /** the name of the item*/
-    public string name { get;set;}
+    public string name { get; set; }
     /** x position */
-    public int x { get;set;}
+    public int x { get; set; }
     /** y position */
-    public int y { get;set;}
+    public int y { get; set; }
     /** the icon for this file */
-    public string icon { get;set;}
+    public string icon { get; set; }
 
     /**
      * @constructor
