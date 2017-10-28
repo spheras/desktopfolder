@@ -13,10 +13,12 @@ Organize your desktop with panels that hold your things.
 - Display photos and keep notes on your desktop
 - Reveal the desktop with ⌘-D
 
-![Example1](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif01.gif)
-![Example2](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif02.gif)
-![Example3](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif03.gif)
-![Example4](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/gif04.gif)
+![Example1](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-color.gif)
+![Example2](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-grid.gif)
+![Example3](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-item.gif)
+![Example4](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-link.gif)
+![Example5](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-note.gif)
+![Example6](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-photo.gif)
 
 ## How to install
 If you use elementary OS, you can get it directly from the AppCenter.

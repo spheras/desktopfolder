@@ -1,24 +1,26 @@
 com.github.spheras.desktopfolder (1.0.2) precise; urgency=low
 
-   * Drag and Drop to Move/Copy/Link depending on key pressed (none/control/alt|shift)
-   * Text Shadow and Bold configuration
-   * Deleting Last Panel bugfixing
-   * Move panels from body
-   * DESKTOP window types (workspace movement improvement and others)
-   * Drag and Drop folders (recursive copy)
-   * Undo/Redo and others over Text Notes
-   * Minor Bugfixing
+  * Drag and Drop to Move/Copy/Link depending on key pressed (none/control/alt|shift)
+  * Text Shadow and Bold configuration
+  * Deleting Last Panel bugfixing
+  * Move panels from body
+  * DESKTOP window types (workspace movement improvement and others)
+  * Drag and Drop folders (recursive copy)
+  * Undo/Redo and others over Text Notes
+  * Menu Redesign
+  * Lithuanian and French translations
+  * Minor Bugfixing
 
--- José Amuedo <joseamuedo@gmail.com>  Thu, 19 Oct 2017 18:32:00 -0500
+ -- José Amuedo <joseamuedo@gmail.com>  Thu, 19 Oct 2017 18:32:00 +0200
 
 com.github.spheras.desktopfolder (1.0.1) precise; urgency=low
 
    * Show Desktop shortcut bugfix.
 
--- José Amuedo <joseamuedo@gmail.com>  Fri, 13 Oct 2017 16:48:00 -0500
+ -- José Amuedo <joseamuedo@gmail.com>  Fri, 13 Oct 2017 16:48:00 +0200
 
 com.github.spheras.desktopfolder (1.0.0) precise; urgency=low
 
   * Initial Release.
 
- -- José Amuedo <joseamuedo@gmail.com>  Sat, 8 Jul 2017 01:12:10 -0500
+ -- José Amuedo <joseamuedo@gmail.com>  Sat, 8 Jul 2017 01:12:10 +0200
