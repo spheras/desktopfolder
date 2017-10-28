@@ -42,6 +42,15 @@
     color: @colorForegroundHEADLESS;
 }
 
+.df_folder .df_titlebar_button {
+	color: rgba(255,255,255,255);
+	icon-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.df_folder .df_titlebar_button_hidden {
+	color: rgba(255,255,255,0);
+	icon-shadow: 0 0 2px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+}
 
 /* BODY COLORS */
 /* TRANSPARENT */

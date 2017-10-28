@@ -32,7 +32,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** flag to know if an icon is moving*/
     private bool flag_moving = false;
 
-    private Gtk.Button delete_panel_button = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+    private Gtk.Button delete_button     = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+    private Gtk.Button properties_button = new Gtk.Button.from_icon_name ("open-menu-symbolic");
     
     /** item alignment*/
     private const int SENSITIVITY_WITH_GRID    = 101;
@@ -99,13 +100,20 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             width_request:      50
         );
         
-        //delete_panel_button = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
-        delete_panel_button.has_tooltip  = true;
-        delete_panel_button.tooltip_text = _("Move to Trash");
+        delete_button.has_tooltip  = true;
+        delete_button.tooltip_text = _("Move to Trash");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        
+        properties_button.has_tooltip  = true;
+        properties_button.tooltip_text = _("Properties");
+        properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
-        headerbar.pack_start (delete_panel_button);
+        headerbar.pack_start (delete_button);
+        headerbar.pack_end (properties_button);
         headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
 
@@ -137,8 +145,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
         
-        delete_panel_button.enter_notify_event.connect (this.on_enter_notify);
-        delete_panel_button.leave_notify_event.connect (this.on_leave_notify);
+        delete_button.enter_notify_event.connect (this.on_enter_notify);
+        delete_button.leave_notify_event.connect (this.on_leave_notify);
+        delete_button.clicked.connect (this.manager.trash);
+        
+        properties_button.enter_notify_event.connect (this.on_enter_notify);
+        properties_button.leave_notify_event.connect (this.on_leave_notify);
+        properties_button.clicked.connect (()=>{debug("Clicked properties button");});
 
         /*
            this.focus_in_event.connect((event)=>{debug("focus_in");return false;});
@@ -243,7 +256,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     */
     private bool on_enter_notify (Gdk.EventCrossing event) {
         debug ("Entered panel");
-        delete_panel_button.get_style_context ().remove_class ("df_button_fade");
+        delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return false;
     }
 
@@ -253,7 +267,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     */
     private bool on_leave_notify (Gdk.EventCrossing event) {
         debug ("Left panel");
-        delete_panel_button.get_style_context ().add_class ("df_button_fade");
+        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }
 
