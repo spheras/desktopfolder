@@ -35,9 +35,9 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     private Cairo.Surface photoSurface  = null;
     private Gdk.Pixbuf    fixoPixbuf    = null;
 
-    //flag to know if the window is being resized
-    private bool flag_resizing          = false;
-    private uint             timeout_id = 0;
+    // flag to know if the window is being resized
+    private bool flag_resizing = false;
+    private uint timeout_id    = 0;
 
     construct {
         set_keep_below (true);
@@ -185,7 +185,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             return true;
         } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
                    (event.button == Gdk.BUTTON_PRIMARY)) {
-           this.flag_resizing = true;
+            this.flag_resizing = true;
             int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
             int margin = 30;
@@ -343,35 +343,35 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
 
         try {
             // the image dimenssions
-            int margin=50;
+            int margin    = 50;
             int pixwidth  = width - margin;
             int pixheight = height - margin;
-            if(this.manager.get_settings().original_width > 0){
-                pixheight=(pixwidth * this.manager.get_settings().original_height) / this.manager.get_settings().original_width;
-                if(pixheight>(height-margin)){
-                    pixheight  = height - margin;
-                    pixwidth = (pixheight * this.manager.get_settings().original_width) / this.manager.get_settings().original_height;
+            if (this.manager.get_settings ().original_width > 0) {
+                pixheight = (pixwidth * this.manager.get_settings ().original_height) / this.manager.get_settings ().original_width;
+                if (pixheight > (height - margin)) {
+                    pixheight = height - margin;
+                    pixwidth  = (pixheight * this.manager.get_settings ().original_width) / this.manager.get_settings ().original_height;
                 }
             }
 
-            if(this.flag_resizing){
-                cr.set_source_rgba (0, 0, 0,0.2);
-                cr.rectangle (0,0,width,height);
+            if (this.flag_resizing) {
+                cr.set_source_rgba (0, 0, 0, 0.2);
+                cr.rectangle (0, 0, width, height);
                 cr.fill ();
 
-                if(this.timeout_id>0){
+                if (this.timeout_id > 0) {
                     GLib.Source.remove (this.timeout_id);
                     this.timeout_id = 0;
                 }
                 this.timeout_id = GLib.Timeout.add (2000, () => {
-                    //we force to resize to adapt to the image size, (to maintain aspect ratio)
-                    this.resize(pixwidth+margin,pixheight+margin);
+                                                        // we force to resize to adapt to the image size, (to maintain aspect ratio)
+                                                        this.resize (pixwidth + margin, pixheight + margin);
 
-                    this.flag_resizing=false;
-                    this.queue_draw();
-                    this.timeout_id = 0;
-                    return false;
-                });
+                                                        this.flag_resizing = false;
+                                                        this.queue_draw ();
+                                                        this.timeout_id = 0;
+                                                        return false;
+                                                    });
             }
 
             // drawing the shadow
@@ -381,7 +381,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     shadowPixbuf       = shadowPixbuf.scale_simple (pixwidth, 40, Gdk.InterpType.BILINEAR);
                     this.shadowSurface = Gdk.cairo_surface_create_from_pixbuf (shadowPixbuf, 0, null);
                 }
-                cr.set_source_surface (this.shadowSurface,  margin, pixheight+20);
+                cr.set_source_surface (this.shadowSurface, margin, pixheight + 20);
                 cr.paint ();
             }
 
@@ -394,7 +394,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 this.photoSurface = Gdk.cairo_surface_create_from_pixbuf (photoPixbuf, 0, null);
                 // DesktopFolder.Util.blur_image_surface((Cairo.ImageSurface)this.photoSurface,4);
             }
-            cr.set_source_surface (this.photoSurface, 25,25);
+            cr.set_source_surface (this.photoSurface, 25, 25);
             cr.paint ();
 
             // lets draw the fixo

@@ -22,23 +22,23 @@ public class DesktopFolder.PhotoSettings : Object {
         try {
             // we calculate an aproximated image size
             var pixbuf = new Gdk.Pixbuf.from_file (photo_path);
-            this.w = pixbuf.get_width ();
-            this.h = pixbuf.get_height ();
-            this.original_width=w;
-            this.original_height=h;
+            this.w               = pixbuf.get_width ();
+            this.h               = pixbuf.get_height ();
+            this.original_width  = w;
+            this.original_height = h;
 
             // max a 30% of the screen
             Gdk.Screen screen = Gdk.Screen.get_default ();
-            int MAX           = (screen.get_width () * 30) / 100;
+            int        MAX    = (screen.get_width () * 30) / 100;
 
             if (this.w > MAX) {
-                int newWidth=MAX;
-                int newHeight= (this.h * newWidth) / this.w;
+                int newWidth  = MAX;
+                int newHeight = (this.h * newWidth) / this.w;
                 this.w = newWidth;
                 this.h = newHeight;
             } else if (this.h > MAX) {
-                int newHeight=MAX;
-                int newWidth= (this.w * newHeight) / this.h;
+                int newHeight = MAX;
+                int newWidth  = (this.w * newHeight) / this.h;
                 this.w = newWidth;
                 this.h = newHeight;
             }
@@ -111,12 +111,12 @@ public class DesktopFolder.PhotoSettings : Object {
             existent.file = file;
             existent.name = name;
 
-            //old versions don't calculate the original width/height
-            if(existent.original_width<=0 || existent.original_height<=0){
+            // old versions don't calculate the original width/height
+            if (existent.original_width <= 0 || existent.original_height <= 0) {
                 // we calculate an aproximated image size
                 var pixbuf = new Gdk.Pixbuf.from_file (existent.photo_path);
-                existent.original_width=pixbuf.get_width ();
-                existent.original_height=pixbuf.get_height ();
+                existent.original_width  = pixbuf.get_width ();
+                existent.original_height = pixbuf.get_height ();
             }
 
             return existent;

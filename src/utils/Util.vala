@@ -196,9 +196,9 @@ namespace DesktopFolder.Util {
             var filename = chooser.get_filename ();
             debug ("file:%s", filename);
 
-            try{
-                var command  = "ln -s \"" + filename + "\" \"" + DesktopFolderApp.get_app_folder () + "\"";
-                var appinfo  = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+            try {
+                var command = "ln -s \"" + filename + "\" \"" + DesktopFolderApp.get_app_folder () + "\"";
+                var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
                 appinfo.launch_uris (null, null);
             } catch (Error e) {
                 stderr.printf ("Error: %s\n", e.message);
