@@ -171,21 +171,25 @@ public class DesktopFolderApp : Gtk.Application {
                 File     nopanel = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.PANEL_BLACKLIST_FILE);
 
                 if (type == FileType.DIRECTORY) {
-
-                    if (nopanel.query_exists ()) {
-                        // This folder doesn't want to be a panel, let's skip it
-                        continue;
-                    }
-
                     if (name == DesktopFolder.DesktopWindow.DESKTOP_FAKE_FOLDER_NAME) {
                         // this is the fake desktop folder, let's skip it
                         continue;
                     }
-
-                    totalFolders++;
-
+                    
                     // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
+
+                    if (nopanel.query_exists ()) {
+                        if (fm != null) {
+                            // This folder doesn't want to be a panel anymore
+                            // (this check might be pointless however because it's already done in FolderManager's sync)
+                            fm.close ();
+                        }
+                        // This folder doesn't want to be a panel, let's skip it
+                        continue;
+                    }
+
+                    totalFolders++;
 
                     if (fm == null) {
                         // No, it's a new folder
