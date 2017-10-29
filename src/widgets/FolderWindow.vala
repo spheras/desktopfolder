@@ -243,7 +243,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     private bool on_configure (Gdk.EventConfigure event) {
         if (event.type == Gdk.EventType.CONFIGURE) {
             // This is to avoid minimization when Show Desktop shortcut is used
-            // TODO: Is there a way to make a desktop window resizable and moveable?
+            // TODO: Is there a way to make a desktop window resizable and movable?
             this.type_hint = Gdk.WindowTypeHint.DESKTOP; // Going to try DIALOG at some point
 
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
@@ -279,7 +279,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private bool on_release (Gdk.EventButton event) {
         // This is to avoid minimization when Show Desktop shortcut is used
-        // TODO: Is there a way to make a desktop window resizable and moveable?
+        // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
         return false;
     }
@@ -291,7 +291,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private bool on_press (Gdk.EventButton event) {
         // This is to allow moving and resizing the panel
-        // TODO: Is there a way to make a desktop window resizable and moveable?
+        // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.NORMAL; // Going to try DIALOG at some point to make below obsolete
 
         // debug("press:%i,%i",(int)event.button,(int)event.y);
@@ -323,7 +323,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // if(this.menu==null) { // we need the event coordinates for the menu, we need to recreate?!
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
-        // TODO: Is there a way to make a desktop window resizable and moveable?
+        // TODO: Is there a way to make a desktop window resizable and movable?
         
         this.type_hint                = Gdk.WindowTypeHint.DESKTOP;
         this.context_menu             = new Gtk.Menu ();
