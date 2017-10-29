@@ -149,22 +149,31 @@ namespace DesktopFolder.Util {
 
         // Process response:
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
-            var           photo_path = chooser.get_filename ();
-            PhotoSettings ps         = new PhotoSettings (photo_path);
-            string        path       = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.PHOTO_EXTENSION;
-            File          file       = File.new_for_path (path);
-            if (file.query_exists ()) {
-                // string message = "Can't create photo, photo already exists.";
-                // Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-                // Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
-                debug ("Photo already exists, not creating.");
-                // msg.response.connect ((response_id) => {
-                // msg.destroy ();
-                // });
-                // msg.set_deletable (false);
-                // msg.show ();
-            } else {
-                ps.save_to_file (file);
+            var photo_path = chooser.get_filename ();
+            debug ("Photo path: " + photo_path);
+            
+            try {
+                // Check if the image is valid
+                Gdk.Pixbuf check_photo   = new Gdk.Pixbuf.from_file (photo_path);
+                
+                PhotoSettings ps         = new PhotoSettings (photo_path);
+                string        path       = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.PHOTO_EXTENSION;
+                File          file       = File.new_for_path (path);
+                if (file.query_exists ()) {
+                    // string message = "Can't create photo, photo already exists.";
+                    // Gtk.MessageDialog msg = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
+                    // Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                    debug ("Photo already exists, not creating.");
+                    // msg.response.connect ((response_id) => {
+                    // msg.destroy ();
+                    // });
+                    // msg.set_deletable (false);
+                    // msg.show ();
+                } else {
+                    ps.save_to_file (file);
+                }
+            } catch {
+                debug ("Invalid photo: " + photo_path);
             }
         }
         chooser.close ();
