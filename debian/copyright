@@ -1,12 +1,9 @@
 Format: http://dep.debian.net/deps/dep5
-Name: Desktop Folder
 Upstream-Name: Desktop Folder
-Source:  https://github.com/spheras/desktopfolder
+Source: https://github.com/spheras/desktopfolder
 
 Files: *
 Copyright: 2017 José Amuedo <joseamuedo@gmail.com>
-License: GPL-3.0+
-
 License: GPL-3.0+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
