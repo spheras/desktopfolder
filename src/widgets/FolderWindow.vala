@@ -34,7 +34,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
     /** delete button to remove the panel */
     private Gtk.Button delete_button     = null;
-    /** setting button */
+    /** properties button */
     private Gtk.Button properties_button = null;
 
     /** item alignment*/
@@ -102,7 +102,6 @@ deletable:          false,
             width_request:      50
         );
 
-        // a delete button to remove the panel
         this.delete_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         this.delete_button.has_tooltip  = true;
         this.delete_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
@@ -117,10 +116,9 @@ deletable:          false,
                 return true;
             });
 
-        // a setting button
         this.properties_button              = new Gtk.Button.from_icon_name ("open-menu-symbolic");
         this.properties_button.has_tooltip  = true;
-        this.properties_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_SETTINGS_TOOLTIP;
+        this.properties_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP;
         this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
         this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         this.properties_button.enter_notify_event.connect (() => {
@@ -132,14 +130,13 @@ deletable:          false,
                 return true;
             });
 
-        // The header bar
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
         headerbar.pack_start (delete_button);
+        // Properties button is disabled for the moment because the properties panel is not ready.
         // headerbar.pack_end (properties_button);
         headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
-
 
         // to avoid showing in the taskbar
         this.set_skip_taskbar_hint (true);
@@ -147,16 +144,13 @@ deletable:          false,
         skip_taskbar_hint = true;
         this.set_property ("skip-taskbar-hint", true);
 
-        // setting the folder name
         this.manager = manager;
 
-        // creating the container widget
         this.container = new Gtk.Fixed ();
         add (this.container);
 
         this.reload_settings ();
 
-        // connecting to events
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
@@ -261,7 +255,7 @@ deletable:          false,
         if (event.type == Gdk.EventType.CONFIGURE) {
             // we are now a dock Window, to avoid minimization when show desktop
             // TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP; // DIALOG
+            this.type_hint = Gdk.WindowTypeHint.DESKTOP; // going to try DIALOG at some point
 
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape (event.x, event.y, event.width, event.height);
