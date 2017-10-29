@@ -27,7 +27,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private Gtk.SourceView text           = null;
     private Cairo.Pattern texture_pattern = null;
     private Cairo.Surface clip_surface    = null; // The clip image
-    private Gtk.Button delete_button      = null;
+    private Gtk.Button trash_button       = null;
 
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
@@ -60,23 +60,23 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             height_request:     160
         );
         
-        this.delete_button         = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
-        delete_button.has_tooltip  = true;
-        delete_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
-        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
-        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
-        this.delete_button.enter_notify_event.connect (() => {
-                this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
+        this.trash_button         = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+        trash_button.has_tooltip  = true;
+        trash_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
+        trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        this.trash_button.enter_notify_event.connect (() => {
+                this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
                 return true;
             });
-        this.delete_button.leave_notify_event.connect (() => {
-                this.delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
+        this.trash_button.leave_notify_event.connect (() => {
+                this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
                 return true;
             });
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_note_name ());
-        headerbar.pack_start (delete_button);
+        headerbar.pack_start (trash_button);
         headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
         
@@ -123,7 +123,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
         
-        delete_button.clicked.connect (this.manager.trash);
+        trash_button.clicked.connect (this.manager.trash);
 
         text.focus_out_event.connect (this.on_focus_out);
         // this.key_release_event.connect(this.on_key);
@@ -203,7 +203,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     private bool on_enter_notify (Gdk.EventCrossing event) {
         debug ("Entered panel");
-        delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return false;
     }
 
@@ -213,7 +213,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     private bool on_leave_notify (Gdk.EventCrossing event) {
         debug ("Left panel");
-        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }
 

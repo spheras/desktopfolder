@@ -26,7 +26,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     private Gtk.Fixed container          = null;
     private Gtk.Menu context_menu        = null;
     private bool flag_moving             = false;
-    private Gtk.Button delete_button     = null;
+    private Gtk.Button trash_button     = null;
     private Gtk.Button properties_button = null;
 
     // Item alignment
@@ -92,17 +92,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             width_request:      50
         );
 
-        this.delete_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
-        this.delete_button.has_tooltip  = true;
-        this.delete_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
-        this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
-        this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
-        this.delete_button.enter_notify_event.connect (() => {
-                this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
+        this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+        this.trash_button.has_tooltip  = true;
+        this.trash_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
+        this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        this.trash_button.enter_notify_event.connect (() => {
+                this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
                 return true;
             });
-        this.delete_button.leave_notify_event.connect (() => {
-                this.delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
+        this.trash_button.leave_notify_event.connect (() => {
+                this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
                 return true;
             });
 
@@ -122,7 +122,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
-        headerbar.pack_start (delete_button);
+        headerbar.pack_start (trash_button);
         // Properties button is disabled for the moment because the properties panel is not ready.
         // headerbar.pack_end (properties_button);
         headerbar.set_decoration_layout ("");
@@ -150,7 +150,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
 
-        delete_button.clicked.connect (this.manager.trash);
+        trash_button.clicked.connect (this.manager.trash);
         properties_button.clicked.connect (this.show_properties_dialog);
 
         // TODO: Does the GTK window have any active signal or css :active state?
@@ -257,7 +257,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description On mouse entering the window
      */
     private bool on_enter_notify (Gdk.EventCrossing event) {
-        delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return false;
     }
@@ -267,7 +267,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description On mouse leaving the window
      */
     private bool on_leave_notify (Gdk.EventCrossing event) {
-        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }
