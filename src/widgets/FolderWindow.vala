@@ -329,7 +329,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.context_menu             = new Gtk.Menu ();
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
-        // Creating items
+        // Creating items (please try and keep these in the same order as appended to the menu)
         var new_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
         
         var new_submenu = new Gtk.Menu ();
@@ -343,14 +343,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var newphoto_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         
         var aligntogrid_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        var textshadow_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        var textbold_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var trash_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var rename_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
+        var textshadow_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        var textbold_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS);;
         var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS);;
 
-        // Events
+        // Events (please try and keep these in the same order as appended to the menu)
         newfolder_item.activate.connect (()=>{this.new_folder ((int) event.x, (int) event.y);});
         emptyfile_item.activate.connect (()=>{this.new_text_file ((int) event.x, (int) event.y);});
         newlink_item.activate.connect (()=>{this.new_link ((int) event.x, (int) event.y, false);});
@@ -359,18 +359,25 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
+        
         ((Gtk.CheckMenuItem) aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);        
         ((Gtk.CheckMenuItem) aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
+        trash_item.activate.connect (this.manager.trash);
+        rename_item.activate.connect (this.rename_folder);
         ((Gtk.CheckMenuItem) textshadow_item).set_active (this.manager.get_settings ().textshadow);
         ((Gtk.CheckMenuItem) textshadow_item).toggled.connect (this.on_toggle_shadow);
         ((Gtk.CheckMenuItem) textbold_item).set_active (this.manager.get_settings ().textbold);
         ((Gtk.CheckMenuItem) textbold_item).toggled.connect (this.on_toggle_bold);
-        trash_item.activate.connect (this.manager.trash);
-        rename_item.activate.connect (this.rename_folder);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
         
         // Appending (in order)
+        if (cm.can_paste) {
+            var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
+            paste_item.activate.connect (this.manager.paste);
+            context_menu.append (paste_item);
+            context_menu.append (new MenuItemSeparator ());
+        }
         context_menu.append (new_item);
         new_item.set_submenu (new_submenu);
         
@@ -388,21 +395,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (aligntogrid_item);
         context_menu.append (new MenuItemSeparator ());
-        context_menu.append (textshadow_item);
-        context_menu.append (textbold_item);
-        context_menu.append (new MenuItemSeparator ());
         context_menu.append (trash_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (rename_item);
         context_menu.append (new MenuItemSeparator ());
-        
-        if (cm.can_paste) {
-            var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
-            paste_item.activate.connect (this.manager.paste);
-            context_menu.append (paste_item);
-            context_menu.append (new MenuItemSeparator ());
-        }
-        
+        context_menu.append (textshadow_item);
+        context_menu.append (textbold_item);
+        context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
         context_menu.append (backgroundcolor_item);
         
