@@ -5,8 +5,17 @@ $ cd build
 $ ninja
 
 Build, install and run the app with debug messages in one line
-..............................................................
+.........................................................................................
 $ sudo ninja install && env G_MESSAGES_DEBUG=all com.github.spheras.desktopfolder
+
+
+Use debugger suite
+..................
+Nemiver is GNOME's GUI debugger. It can be really useful for locating the source of crashes and bugs.
+$ sudo apt install nemiver
+
+After installing use this instead of the one liner above:
+$ sudo ninja install && env G_MESSAGES_DEBUG=all nemiver com.github.spheras.desktopfolder
 
 
 Automatic elementary code style guidelines
