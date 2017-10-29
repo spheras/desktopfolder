@@ -47,7 +47,7 @@
     opacity: 0.8;
     icon-shadow: none;
     
-    /* These don't work */
+    /* These don't work (at the moment anyway) */
     transition-property: opacity;
     transition-duration: 0.5s;
 }
