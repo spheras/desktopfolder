@@ -70,7 +70,7 @@ namespace DesktopFolder.Lang {
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
     public const string DESKTOPFOLDER_DELETE_TOOLTIP             = _("Move to Trash");
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
-    public const string DESKTOPFOLDER_SETTINGS_TOOLTIP           = _("Settings");
+    public const string DESKTOPFOLDER_PROPERTIES_TOOLTIP         = _("Properties");
     // desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
     public const string NOTE_ENTER_TITLE                         = _("New Note");
     // desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
