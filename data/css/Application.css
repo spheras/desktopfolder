@@ -44,12 +44,10 @@
 
 /* Panel buttons (trash and properties) */
 .df_folder .df_titlebar_button {
-    opacity: 0.8;
+    opacity: 0.75;
     icon-shadow: none;
     
-    /* These don't work (at the moment anyway) */
-    transition-property: opacity;
-    transition-duration: 0.5s;
+    transition: opacity 100ms cubic-bezier(0.455, 0.030, 0.515, 0.955);
 }
 .df_folder .df_titlebar_button_hidden {
     opacity: 0;
@@ -320,17 +318,20 @@ padding-bottom:0px;
 }
 
 .df_item{
-    border-radius:5px;
-    transition-property: background;
-    transition-duration: 0.5s;
+    border-radius:7px;
+    transition: background 100ms cubic-bezier(0.455, 0.030, 0.515, 0.955);
 }
 
 .df_folder .df_item.df_selected .df_label{
-    background:#999999;
+    background: rgba(150,150,150,0.7);
+    /*padding: 1px;*/
+    border-radius: 7px;
 }
 
 .df_folder.df_active .df_item.df_selected .df_label{
     background:#6699ff;
+    /*padding: 1px;*/
+    border-radius: 7px;
 }
 
 .df_item.df_item_over{
