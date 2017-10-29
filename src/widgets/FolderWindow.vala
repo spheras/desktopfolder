@@ -22,31 +22,22 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    /** parent manager of this window */
-    private FolderManager manager = null;
-    /** container of widgets */
-    private Gtk.Fixed container   = null;
-    /** Context menu of the Folder Window */
-    private Gtk.Menu menu         = null;
-
-    /** flag to know if an icon is moving*/
-    private bool flag_moving = false;
-
-    /** delete button to remove the panel */
-    private Gtk.Button delete_button     = null;
-    /** setting button */
+    private FolderManager manager        = null;
+    private Gtk.Fixed container          = null;
+    private Gtk.Menu context_menu        = null;
+    private bool flag_moving             = false;
+    private Gtk.Button trash_button     = null;
     private Gtk.Button properties_button = null;
 
-    /** item alignment*/
-    private const int SENSITIVITY_WITH_GRID    = 101;
+    // Item alignment
+    private const int SENSITIVITY_WITH_GRID    = 100;
     private const int SENSITIVITY_WITHOUT_GRID = 4;
     // TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
     private int sensitivity                    = SENSITIVITY_WITHOUT_GRID;
 
-    /** head tags colors */
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
-    /** body tags colors */
+    
     private const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
@@ -84,43 +75,40 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @constructor
      * @param FolderManager manager the manager of this window
      */
-    public FolderWindow (FolderManager manager) {
-        Object (
-application:        manager.get_application (),
-icon_name:          "com.github.spheras.desktopfolder",
-resizable:          true,
-accept_focus:       true,
-skip_taskbar_hint:  true,
-skip_pager_hint:    true,
-decorated:          true,
-title:              (manager.get_folder_name ()),
-type_hint:          Gdk.WindowTypeHint.DESKTOP,
-deletable:          false,
+    public FolderWindow (FolderManager manager) { Object ( // Maybe putting this here will make uncrustify stop doing the weird behavior
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            accept_focus:       true,
+            skip_taskbar_hint:  true,
+            skip_pager_hint:    true,
+            decorated:          true,
+            title:              (manager.get_folder_name ()),
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            deletable:          false,
             default_width:      300,
             default_height:     300,
             height_request:     50,
             width_request:      50
         );
 
-        // a delete button to remove the panel
-        this.delete_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
-        this.delete_button.has_tooltip  = true;
-        this.delete_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
-        this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
-        this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
-        this.delete_button.enter_notify_event.connect (() => {
-                this.delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
+        this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
+        this.trash_button.has_tooltip  = true;
+        this.trash_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
+        this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
+        this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        this.trash_button.enter_notify_event.connect (() => {
+                this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
                 return true;
             });
-        this.delete_button.leave_notify_event.connect (() => {
-                this.delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
+        this.trash_button.leave_notify_event.connect (() => {
+                this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
                 return true;
             });
 
-        // a setting button
         this.properties_button              = new Gtk.Button.from_icon_name ("open-menu-symbolic");
         this.properties_button.has_tooltip  = true;
-        this.properties_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_SETTINGS_TOOLTIP;
+        this.properties_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP;
         this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
         this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         this.properties_button.enter_notify_event.connect (() => {
@@ -132,31 +120,27 @@ deletable:          false,
                 return true;
             });
 
-        // The header bar
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
-        headerbar.pack_start (delete_button);
+        headerbar.pack_start (trash_button);
+        // Properties button is disabled for the moment because the properties panel is not ready.
         // headerbar.pack_end (properties_button);
         headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
 
-
-        // to avoid showing in the taskbar
+        // To avoid showing in the taskbar
         this.set_skip_taskbar_hint (true);
         skip_pager_hint   = true;
         skip_taskbar_hint = true;
         this.set_property ("skip-taskbar-hint", true);
 
-        // setting the folder name
         this.manager = manager;
 
-        // creating the container widget
         this.container = new Gtk.Fixed ();
         add (this.container);
 
         this.reload_settings ();
 
-        // connecting to events
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
@@ -166,10 +150,10 @@ deletable:          false,
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
 
-        delete_button.clicked.connect (this.manager.trash);
+        trash_button.clicked.connect (this.manager.trash);
         properties_button.clicked.connect (this.show_properties_dialog);
 
-        // help: doesn't have the gtk window any active signal? or css :active state?
+        // TODO: Does the GTK window have any active signal or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
 
@@ -183,7 +167,6 @@ deletable:          false,
     }
 
     public void reload_settings () {
-        // let's load the settings of the folder (if exist or a new one)
         FolderSettings settings = this.manager.get_settings ();
         if (settings.w > 0) {
             // applying existing position and size configuration
@@ -259,9 +242,9 @@ deletable:          false,
      */
     private bool on_configure (Gdk.EventConfigure event) {
         if (event.type == Gdk.EventType.CONFIGURE) {
-            // we are now a dock Window, to avoid minimization when show desktop
-            // TODO exists a way to make resizable and moveable a dock window?
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP; // DIALOG
+            // This is to avoid minimization when Show Desktop shortcut is used
+            // TODO: Is there a way to make a desktop window resizable and movable?
+            this.type_hint = Gdk.WindowTypeHint.DESKTOP; // Going to try DIALOG at some point
 
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape (event.x, event.y, event.width, event.height);
@@ -274,7 +257,7 @@ deletable:          false,
      * @description On mouse entering the window
      */
     private bool on_enter_notify (Gdk.EventCrossing event) {
-        delete_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
+        trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return false;
     }
@@ -284,7 +267,7 @@ deletable:          false,
      * @description On mouse leaving the window
      */
     private bool on_leave_notify (Gdk.EventCrossing event) {
-        delete_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
+        trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }
@@ -295,8 +278,8 @@ deletable:          false,
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
-        // we are now a dock Window, to avoid minimization when show desktop
-        // TODO exists a way to make resizable and moveable a dock window?
+        // This is to avoid minimization when Show Desktop shortcut is used
+        // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
         return false;
     }
@@ -307,16 +290,16 @@ deletable:          false,
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
-        // we are now a normal Window, to allow resizing and movement
-        // TODO exists a way to make resizable and moveable a dock window?
-        this.type_hint = Gdk.WindowTypeHint.NORMAL;
+        // This is to allow moving and resizing the panel
+        // TODO: Is there a way to make a desktop window resizable and movable?
+        this.type_hint = Gdk.WindowTypeHint.NORMAL; // Going to try DIALOG at some point to make below obsolete
 
         // debug("press:%i,%i",(int)event.button,(int)event.y);
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button == Gdk.BUTTON_SECONDARY)) {
             this.show_popup (event);
             return true;
-            // remove below later
+            // Remove below later if hiding behind Wingpanel is properly fixed (required for drag boxes)
         } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
             this.unselect_all ();
             int width  = this.get_allocated_width ();
@@ -337,178 +320,99 @@ deletable:          false,
      */
     private void show_popup (Gdk.EventButton event) {
         // debug("evento:%f,%f",event.x,event.y);
-        // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
+        // if(this.menu==null) { // we need the event coordinates for the menu, we need to recreate?!
 
-        // Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
-        // TODO exists a way to make resizable and moveable a dock window?
-        this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-
-        this.menu      = new Gtk.Menu ();
-
-        // new submenu
-        Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
-        item_new.show ();
-        menu.append (item_new);
-
-        Gtk.Menu newmenu = new Gtk.Menu ();
-        item_new.set_submenu (newmenu);
-
-        // menu to create a new folder
-        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
-        item.activate.connect ((item) => {
-                this.new_folder ((int) event.x, (int) event.y);
-            });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new empty file
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
-        item.activate.connect ((item) => {
-                this.new_text_file ((int) event.x, (int) event.y);
-            });
-        item.show ();
-        newmenu.append (item);
-
-        item = new MenuItemSeparator ();
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new link file
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
-        item.activate.connect ((item) => {
-                this.new_link ((int) event.x, (int) event.y, false);
-            });
-        item.show ();
-        newmenu.append (item);
-
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().align_to_grid);
-        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-                this.on_toggle_align_to_grid ();
-            });
-        item.show ();
-        menu.append (item);
-
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textshadow);
-        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-                this.on_toggle_shadow ();
-            });
-        item.show ();
-        menu.append (item);
-
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
-        (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().textbold);
-        (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-                this.on_toggle_bold ();
-            });
-        item.show ();
-        menu.append (item);
-
-        // menu to create a new link folder
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
-        item.activate.connect ((item) => {
-                this.new_link ((int) event.x, (int) event.y, true);
-            });
-        item.show ();
-        newmenu.append (item);
-
-        item = new MenuItemSeparator ();
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new panel
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        item.activate.connect ((item) => {
-                this.new_desktop_folder ();
-            });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new link panel
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        item.activate.connect ((item) => {
-                this.new_link_panel ();
-            });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new note
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        item.activate.connect ((item) => {
-                this.new_note ();
-            });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new photo
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        item.activate.connect ((item) => {
-                this.new_photo ();
-            });
-        item.show ();
-        newmenu.append (item);
-
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
-
-        // option to delete the current folder
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-        item.activate.connect ((item) => { this.manager.trash (); });
-        item.show ();
-        menu.append (item);
-
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
-
-        // Option to rename the current folder
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
-        item.activate.connect ((item) => { this.rename_folder (); });
-        item.show ();
-        menu.append (item);
-
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
-
-        // If the paste is available, a paste option
+        // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
+        // TODO: Is there a way to make a desktop window resizable and movable?
+        
+        this.type_hint                = Gdk.WindowTypeHint.DESKTOP;
+        this.context_menu             = new Gtk.Menu ();
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
+
+        // Creating items (please try and keep these in the same order as appended to the menu)
+        var new_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+        
+        var new_submenu = new Gtk.Menu ();
+        var newfolder_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
+        var emptyfile_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
+        var newlink_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+        var newlinkdir_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var newpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var newnote_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var newphoto_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        
+        var aligntogrid_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        var trash_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
+        var rename_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
+        var textshadow_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        var textbold_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS);;
+        var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS);;
+
+        // Events (please try and keep these in the same order as appended to the menu)
+        newfolder_item.activate.connect (()=>{this.new_folder ((int) event.x, (int) event.y);});
+        emptyfile_item.activate.connect (()=>{this.new_text_file ((int) event.x, (int) event.y);});
+        newlink_item.activate.connect (()=>{this.new_link ((int) event.x, (int) event.y, false);});
+        newlinkdir_item.activate.connect (()=>{this.new_link ((int) event.x, (int) event.y, true);});
+        newpanel_item.activate.connect (this.new_desktop_folder);
+        newlinkpanel_item.activate.connect (this.new_link_panel);
+        newnote_item.activate.connect (this.new_note);
+        newphoto_item.activate.connect (this.new_photo);
+        
+        ((Gtk.CheckMenuItem) aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);        
+        ((Gtk.CheckMenuItem) aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
+        trash_item.activate.connect (this.manager.trash);
+        rename_item.activate.connect (this.rename_folder);
+        ((Gtk.CheckMenuItem) textshadow_item).set_active (this.manager.get_settings ().textshadow);
+        ((Gtk.CheckMenuItem) textshadow_item).toggled.connect (this.on_toggle_shadow);
+        ((Gtk.CheckMenuItem) textbold_item).set_active (this.manager.get_settings ().textbold);
+        ((Gtk.CheckMenuItem) textbold_item).toggled.connect (this.on_toggle_bold);
+        ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
+        ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
+        
+        // Appending (in order)
         if (cm.can_paste) {
-
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
-            item.activate.connect ((item) => { this.manager.paste (); });
-            item.show ();
-            menu.append (item);
-
-            item = new MenuItemSeparator ();
-            item.show ();
-            menu.append (item);
+            var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
+            paste_item.activate.connect (this.manager.paste);
+            context_menu.append (paste_item);
+            context_menu.append (new MenuItemSeparator ());
         }
-
-        // section to change the window head and body colors
-        item = new MenuItemColor (HEAD_TAGS_COLORS);;
-        ((MenuItemColor) item).color_changed.connect (change_head_color);
-        item.show ();
-        menu.append (item);
-
-        item = new MenuItemColor (BODY_TAGS_COLORS);;
-        ((MenuItemColor) item).color_changed.connect (change_body_color);
-        item.show ();
-        menu.append (item);
-
-        menu.show_all ();
-
-        // }
-
-        // finally we show the popup
-        menu.popup (
-            null // parent menu shell
-            , null // parent menu item
-            , null // func
-            , event.button // button
-            , event.get_time () // Gtk.get_current_event_time() //time
+        context_menu.append (new_item);
+        new_item.set_submenu (new_submenu);
+        
+        new_submenu.append (newfolder_item);
+        new_submenu.append (emptyfile_item);
+        new_submenu.append (new MenuItemSeparator ());
+        new_submenu.append (newlink_item);
+        new_submenu.append (newlinkdir_item);
+        new_submenu.append (new MenuItemSeparator ());
+        new_submenu.append (newpanel_item);
+        new_submenu.append (newlinkpanel_item);
+        new_submenu.append (newnote_item);
+        new_submenu.append (newphoto_item);
+        
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (aligntogrid_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (trash_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (rename_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (textshadow_item);
+        context_menu.append (textbold_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (textcolor_item);
+        context_menu.append (backgroundcolor_item);
+        
+        context_menu.show_all ();
+        
+        context_menu.popup (
+            null, // parent menu shell
+            null, // parent menu item
+            null, // func
+            event.button, // button
+            event.get_time () // Gtk.get_current_event_time() // time
         );
     }
 
@@ -659,7 +563,6 @@ deletable:          false,
     private bool on_key (Gdk.EventKey event) {
         int key = (int) event.keyval;
         // debug("event key %d",key);
-        // this is the delete key code
         const int DELETE_KEY      = 65535;
         const int F2_KEY          = 65471;
         const int ENTER_KEY       = 65293;
@@ -668,7 +571,6 @@ deletable:          false,
         const int ARROW_RIGHT_KEY = 65363;
         const int ARROW_DOWN_KEY  = 65364;
 
-        // check if the control key is pressed
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool shift_pressed   = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);

@@ -26,40 +26,44 @@
 @define-color colorForegroundLIGHT rgba(255,255,255,1);
 @define-color colorForegroundDARK rgba(0,0,0,0.75);
 @define-color colorForegroundHEADLESS rgba(0,0,0,0);
-.df_folder.df_light .titlebar .title, .df_folder.df_light .df_titlebar_button{
+.df_folder.df_light .titlebar .title, .df_folder.df_light .df_titlebar_button {
     color: @colorForegroundLIGHT;
 }
-.df_folder.df_light.df_shadow .titlebar .title{
+.df_folder.df_light.df_shadow .titlebar .title {
     text-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
 }
-.df_folder.df_dark .titlebar .title, .df_folder.df_dark .df_titlebar_button{
+.df_folder.df_dark .titlebar .title, .df_folder.df_dark .df_titlebar_button {
     color: @colorForegroundDARK;
 }
-.df_folder.df_dark.df_shadow .titlebar .title{
+.df_folder.df_dark.df_shadow .titlebar .title {
     text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
 }
-.df_folder.df_headless .titlebar .title{
+.df_folder.df_headless .titlebar .title {
     color: @colorForegroundHEADLESS;
 }
 
-/* Panel delete button */
-.df_folder .df_titlebar_button.df_titlebar_button_hover {
-    opacity: 1;
-}
-.df_folder.df_dark.df_shadow .df_titlebar_button{
-    icon-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
-}
-.df_folder.df_light.df_shadow .df_titlebar_button{
-    icon-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
-}
+/* Panel buttons (trash and properties) */
 .df_folder .df_titlebar_button {
-    opacity: 0.5;
+    opacity: 0.8;
+    icon-shadow: none;
+    
+    /* These don't work (at the moment anyway) */
     transition-property: opacity;
     transition-duration: 0.5s;
 }
 .df_folder .df_titlebar_button_hidden {
     opacity: 0;
 }
+.df_folder .df_titlebar_button.df_titlebar_button_hover {
+    opacity: 1;
+}
+.df_folder.df_dark.df_shadow .df_titlebar_button {
+    icon-shadow: 0 0 2px rgba(255,255,255,0.3), 0 1px rgba(255,255,255,0.25);
+}
+.df_folder.df_light.df_shadow .df_titlebar_button {
+    icon-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
+}
+
 /* ----------------------- */
 
 /* BODY COLORS */
