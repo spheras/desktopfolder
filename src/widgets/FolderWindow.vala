@@ -22,10 +22,10 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    private FolderManager manager = null;
-    private Gtk.Fixed container   = null;
-    private Gtk.Menu context_menu = null;
-    private bool flag_moving      = false;
+    private FolderManager manager        = null;
+    private Gtk.Fixed container          = null;
+    private Gtk.Menu context_menu        = null;
+    private bool flag_moving             = false;
     private Gtk.Button delete_button     = null;
     private Gtk.Button properties_button = null;
 
