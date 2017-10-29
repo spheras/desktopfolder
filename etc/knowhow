@@ -5,7 +5,7 @@ $ cd build
 $ ninja
 
 Build, install and run the app with debug messages in one line
-.........................................................................................
+..............................................................
 $ sudo ninja install && env G_MESSAGES_DEBUG=all com.github.spheras.desktopfolder
 
 
