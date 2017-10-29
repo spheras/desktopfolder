@@ -15,10 +15,12 @@ Build-Depends: cmake (>= 2.8),
                libwnck-3-dev,
                libglib2.0-dev,
                libgtksourceview-3.0-dev
+Homepage: https://github.com/spheras/desktopfolder
                
 Standards-Version: 3.9.3
 Package: com.github.spheras.desktopfolder
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: Come back to life your minimalist Desktop!
- You can add files to Desktop-Folder Panels and organize there everything.
+Description: Organize your desktop with panels, notes and photos
+ Bring your desktop back to life
+ Organize your desktop with panels that hold your things.
