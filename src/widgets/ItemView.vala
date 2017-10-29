@@ -185,8 +185,15 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             }
             return icon;
         } catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog ("Error", e.message);
+            try {
+                stderr.printf ("Error: %s\n", e.message);
+                Gtk.Image icon;
+                icon = new Gtk.Image.from_icon_name ("image-x-generic", Gtk.IconSize.DIALOG);
+                return icon;
+            } catch (Error ee) {
+                stderr.printf ("Error: %s\n", ee.message);
+                Util.show_error_dialog ("Error", ee.message);
+            }
         }
         return null as Gtk.Image;
     }
