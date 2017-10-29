@@ -42,7 +42,7 @@
     color: @colorForegroundHEADLESS;
 }
 
-/* Panel buttons (delete and properties) */
+/* Panel buttons (trash and properties) */
 .df_folder .df_titlebar_button {
     opacity: 0.8;
     icon-shadow: none;
