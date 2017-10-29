@@ -205,6 +205,13 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 // debug("found:%s", file_name);
                 File file        = File.new_for_commandline_arg (base_path + "/" + file_name);
 
+                if (file_name == ".nopanel") {
+                    // This folder doesn't want to be a panel anymore, destroy the panel
+                    debug (".nopanel found, destroying panel");
+                    this.close();
+                    return;
+                }
+
                 if (file_name.index_of (".", 0) != 0) {
                     // debug("creating an item...");
 
