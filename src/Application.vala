@@ -140,7 +140,23 @@ public class DesktopFolderApp : Gtk.Application {
 
     private void check_fake_desktop () {
         if (this.desktop == null) {
-            this.desktop = new DesktopFolder.DesktopManager (this);
+            GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+            string[]      keys     = settings.list_keys ();
+            bool          found    = false;
+            for (int i = 0; i < keys.length; i++) {
+                string key = keys[i];
+                if (key == "desktop-panel") {
+                    found = true;
+                    break;
+                }
+            }
+            bool desktop_panel = false;
+            if (found) {
+                desktop_panel = settings.get_boolean ("desktop-panel");
+            }
+            if (desktop_panel) {
+                this.desktop = new DesktopFolder.DesktopManager (this);
+            }
         }
     }
 
@@ -164,18 +180,14 @@ public class DesktopFolderApp : Gtk.Application {
             int totalNotes   = 0;
             int totalPhotos  = 0;
             while ((file_info = enumerator.next_file ()) != null) {
-                string   name    = file_info.get_name ();
-                File     file    = File.new_for_commandline_arg (base_path + "/" + name);
-                FileType type    = file.query_file_type (FileQueryInfoFlags.NONE);
+                string   name = file_info.get_name ();
+                File     file = File.new_for_commandline_arg (base_path + "/" + name);
+                FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
 
-                File     nopanel = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.PANEL_BLACKLIST_FILE);
+                File nopanel  = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.PANEL_BLACKLIST_FILE);
 
                 if (type == FileType.DIRECTORY) {
-                    if (name == DesktopFolder.DesktopWindow.DESKTOP_FAKE_FOLDER_NAME) {
-                        // this is the fake desktop folder, let's skip it
-                        continue;
-                    }
-                    
+
                     // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
 

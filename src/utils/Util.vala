@@ -200,7 +200,11 @@ namespace DesktopFolder.Util {
                     msg.show ();
                 } else if (new_name != "") {
                     // cancelling the current monitor
-                    DirUtils.create (DesktopFolderApp.get_app_folder () + "/" + new_name, 0755);
+                    string folder_name = DesktopFolderApp.get_app_folder () + "/" + new_name;
+                    DirUtils.create (folder_name, 0755);
+                    File file = File.new_for_path (folder_name + "/.desktopfolder");
+                    DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (new_name);
+                    fs.save_to_file (file);
                 }
             });
         dialog.show_all ();

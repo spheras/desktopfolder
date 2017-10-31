@@ -22,6 +22,7 @@
  * Desktop Manager
  */
 public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
+
     /**
      * @constructor
      * @param DesktopFolderApp application the application owner of this window
@@ -29,12 +30,12 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      */
     public DesktopManager (DesktopFolderApp application) {
         // first, let's check the folder
-        var directory = File.new_for_path (application.get_app_folder () + "/" + DesktopFolder.DesktopWindow.DESKTOP_FAKE_FOLDER_NAME);
+        var directory = File.new_for_path (DesktopFolderApp.get_app_folder ()); // + "/" + DesktopFolder.DesktopWindow.DESKTOP_FAKE_FOLDER_NAME);
         if (!directory.query_exists ()) {
             DirUtils.create (directory.get_path (), 0755);
         }
 
-        base (application, DesktopFolder.DesktopWindow.DESKTOP_FAKE_FOLDER_NAME);
+        base (application, "");
 
         // we cannot be moved
         this.is_moveable = false;
@@ -46,6 +47,39 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
 
         this.get_view ().set_titlebar (new Gtk.Label (""));
         this.get_view ().change_body_color (0);
+    }
+
+    /**
+     * @name skip_file
+     * @description we must skip the widget setting files
+     * @override
+     */
+    protected override bool skip_file (File file) {
+        string basename = file.get_basename ();
+
+        if (FileUtils.test (file.get_path (), FileTest.IS_DIR)) {
+            // is a panel?
+            string flagfilepath = file.get_path () + "/.desktopfolder";
+            // debug("is a panel? %s",flagfilepath);
+            File flagfile       = File.new_for_commandline_arg (flagfilepath);
+            return flagfile.query_exists ();
+        } else {
+            if (basename.has_suffix (".dfn") || basename.has_suffix (".dfp")) {
+                return true;
+            }
+        }
+
+        return base.skip_file (file);
+    }
+
+    /**
+     * @overrided
+     * we must create a .nopanel inside to avoid creating a panel from this folder
+     */
+    protected override void create_new_folder_inside (string folder_path) {
+        debug ("esta si que si");
+        File nopanel = File.new_for_path (folder_path + "/.nopanel");
+        nopanel.create (FileCreateFlags.NONE);
     }
 
 }

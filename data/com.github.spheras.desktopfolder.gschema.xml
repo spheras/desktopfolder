@@ -3,5 +3,10 @@
   <schema path="/com/github/spheras/desktopfolder/"
   id="com.github.spheras.desktopfolder"
   gettext-domain="com.github.spheras.desktopfolder">
+    <key name="desktop-panel" type="b">
+      <default>true</default>
+      <summary>Desktop Panel over Desktop</summary>
+      <description>Desktop Transparent Panel to allow desktop interaction</description>
+    </key>
   </schema>
 </schemalist>

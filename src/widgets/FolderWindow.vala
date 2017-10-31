@@ -23,32 +23,32 @@
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** parent manager of this window */
-    private FolderManager manager = null;
+    protected FolderManager manager = null;
     /** container of widgets */
-    private Gtk.Fixed container   = null;
+    protected Gtk.Fixed container   = null;
     /** Context menu of the Folder Window */
-    private Gtk.Menu menu         = null;
+    protected Gtk.Menu menu         = null;
 
     /** flag to know if an icon is moving*/
-    private bool flag_moving = false;
+    protected bool flag_moving = false;
 
     /** delete button to remove the panel */
-    private Gtk.Button delete_button     = null;
+    protected Gtk.Button delete_button     = null;
     /** setting button */
-    private Gtk.Button properties_button = null;
+    protected Gtk.Button properties_button = null;
 
     /** item alignment*/
-    private const int SENSITIVITY_WITH_GRID    = 101;
-    private const int SENSITIVITY_WITHOUT_GRID = 4;
+    protected const int SENSITIVITY_WITH_GRID    = 101;
+    protected const int SENSITIVITY_WITHOUT_GRID = 4;
     // TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
-    private int sensitivity                    = SENSITIVITY_WITHOUT_GRID;
+    protected int sensitivity                    = SENSITIVITY_WITHOUT_GRID;
 
     /** head tags colors */
-    private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
-    private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
+    public const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
+    public const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
     /** body tags colors */
-    private const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
-    private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
+    public const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
+    public const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
 
     // this is the link image loaded
@@ -341,7 +341,7 @@ deletable:          false,
      * @description build and show the popup menu
      * @param event EventButton the origin event, needed to position the menu
      */
-    private void show_popup (Gdk.EventButton event) {
+    protected virtual void show_popup (Gdk.EventButton event) {
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
 
@@ -522,7 +522,7 @@ deletable:          false,
      * @name on_toggle_bold
      * @description the bold toggle event. the text bold property must change
      */
-    private void on_toggle_bold () {
+    protected void on_toggle_bold () {
         Gtk.StyleContext style      = this.get_style_context ();
         string           bold_class = "df_bold";
         if (this.manager.get_settings ().textbold) {
@@ -543,7 +543,7 @@ deletable:          false,
      * @name on_toggle_align_to_grid
      * @description the toggle align to grid event. The align to grid property must change
      */
-    private void on_toggle_align_to_grid () {
+    protected void on_toggle_align_to_grid () {
         if (this.get_sensitivity () == SENSITIVITY_WITH_GRID) {
             this.set_sensitivity (SENSITIVITY_WITHOUT_GRID);
             this.manager.get_settings ().align_to_grid = false;
@@ -560,7 +560,7 @@ deletable:          false,
      * @name on_toggle_shadow
      * @description the toggle shadow event. The shadow property must change
      */
-    private void on_toggle_shadow () {
+    protected void on_toggle_shadow () {
         Gtk.StyleContext style        = this.get_style_context ();
         string           shadow_class = "df_shadow";
         if (this.manager.get_settings ().textshadow) {
@@ -827,7 +827,7 @@ deletable:          false,
      * @name new_desktop_folder
      * @description show a dialog to create a new desktop folder
      */
-    private void new_desktop_folder () {
+    protected void new_desktop_folder () {
         DesktopFolder.Util.create_new_desktop_folder (this);
     }
 
@@ -835,7 +835,7 @@ deletable:          false,
      * @name new_link_panel
      * @description show a dialog to create a new link panel
      */
-    private void new_link_panel () {
+    protected void new_link_panel () {
         DesktopFolder.Util.create_new_link_panel (this);
     }
 
@@ -843,7 +843,7 @@ deletable:          false,
      * @name new_note
      * @description show a dialog to create a new note
      */
-    private void new_note () {
+    protected void new_note () {
         DesktopFolder.Util.create_new_note (this);
     }
 
@@ -851,7 +851,7 @@ deletable:          false,
      * @name new_photo
      * @description show a dialog to create a new photo
      */
-    private void new_photo () {
+    protected void new_photo () {
         DesktopFolder.Util.create_new_photo (this);
     }
 
@@ -861,7 +861,7 @@ deletable:          false,
      * @param int x the x position where the new folder icon should be generated
      * @param int y the y position where the new folder icon should be generated
      */
-    private void new_folder (int x, int y) {
+    protected void new_folder (int x, int y) {
         RenameDialog dialog = new RenameDialog (this,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
@@ -881,7 +881,7 @@ deletable:          false,
      * @param int x the x position where the new item should be placed
      * @param int y the y position where the new item should be placed
      */
-    private void new_text_file (int x, int y) {
+    protected void new_text_file (int x, int y) {
         RenameDialog dialog = new RenameDialog (this,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
@@ -901,7 +901,7 @@ deletable:          false,
      * @param int y the y position where the new item should be placed
      * @param bool folder to indicate if we want to select a folder or a file
      */
-    private void new_link (int x, int y, bool folder) {
+    protected void new_link (int x, int y, bool folder) {
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             DesktopFolder.Lang.DESKTOPFOLDER_LINK_MESSAGE, this, Gtk.FileChooserAction.OPEN,
             DesktopFolder.Lang.DIALOG_CANCEL,
