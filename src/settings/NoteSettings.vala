@@ -1,12 +1,12 @@
 public class DesktopFolder.NoteSettings : Object {
-    public int    x  { get; set; default = 0; }
-    public int    y  { get; set; default = 0; }
-    public int    w  { get; set; default = 0; }
-    public int    h  { get; set; default = 0; }
+    public int x  { get; set; default = 0; }
+    public int y  { get; set; default = 0; }
+    public int w  { get; set; default = 0; }
+    public int h  { get; set; default = 0; }
     public string name { get; set; }
     public string bgcolor { get; set; }
     public string fgcolor { get; set; }
-    public int    clipcolor { get; set; }
+    public int clipcolor { get; set; }
     public string texture { get; set; }
     public string text { get; set; }
 

@@ -27,10 +27,10 @@ public class DesktopFolderApp : Gtk.Application {
     private FileMonitor monitor = null;
 
     /** List of folder owned by the application */
-    private DesktopFolder.DesktopManager       desktop = null;
+    private DesktopFolder.DesktopManager desktop       = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
-    private List <DesktopFolder.NoteManager>   notes   = new List <DesktopFolder.NoteManager> ();
-    private List <DesktopFolder.PhotoManager>  photos  = new List <DesktopFolder.PhotoManager> ();
+    private List <DesktopFolder.NoteManager> notes     = new List <DesktopFolder.NoteManager> ();
+    private List <DesktopFolder.PhotoManager> photos   = new List <DesktopFolder.PhotoManager> ();
 
     construct {
         /* Needed by Glib.Application */
@@ -474,7 +474,7 @@ public class DesktopFolderApp : Gtk.Application {
         string command_conflict            = "";
         string relocatable_schema_conflict = "";
         if (!Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.shortcut_conflicts (shortcut, out command_conflict,
-                out relocatable_schema_conflict)) {
+            out relocatable_schema_conflict)) {
 
             debug ("registering hotkey!");
             var relocatable_schema = Pantheon.Keyboard.Shortcuts.CustomShortcutSettings.create_shortcut ();

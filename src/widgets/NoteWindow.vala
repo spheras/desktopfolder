@@ -22,12 +22,12 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
-    private NoteManager    manager                  = null;
-    private Gtk.Menu       menu                     = null; // Context menu
+    private NoteManager manager                     = null;
+    private Gtk.Menu menu                           = null; // Context menu
     private Gtk.SourceView text                     = null;
-    private Cairo.Pattern  texture_pattern          = null;
-    private Cairo.Surface  clip_surface             = null; // The clip image
-    private Gtk.Button     trash_button             = null;
+    private Cairo.Pattern texture_pattern           = null;
+    private Cairo.Surface clip_surface              = null; // The clip image
+    private Gtk.Button trash_button                 = null;
 
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
@@ -49,14 +49,14 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     public NoteWindow (NoteManager manager) {
         Object (
-application:        manager.get_application (),
-icon_name:          "com.github.spheras.desktopfolder",
-resizable:          true,
-skip_taskbar_hint:  true,
-type_hint:          Gdk.WindowTypeHint.DESKTOP,
-decorated:          true,
-title:              (manager.get_note_name ()),
-deletable:          false,
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            skip_taskbar_hint:  true,
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            decorated:          true,
+            title:              (manager.get_note_name ()),
+            deletable:          false,
             width_request:      140,
             height_request:     160
         );
@@ -70,13 +70,13 @@ deletable:          false,
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         this.trash_button.enter_notify_event.connect (() => {
-                this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
-                return true;
-            });
+            this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
+            return true;
+        });
         this.trash_button.leave_notify_event.connect (() => {
-                this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
-                return true;
-            });
+            this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
+            return true;
+        });
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_note_name ());
@@ -278,40 +278,40 @@ deletable:          false,
         // menu to create a new folder
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
         item.activate.connect ((item) => {
-                this.new_desktop_folder ();
-            });
+            this.new_desktop_folder ();
+        });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new link panel
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         item.activate.connect ((item) => {
-                this.new_link_panel ();
-            });
+            this.new_link_panel ();
+        });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
-                this.new_note ();
-            });
+            this.new_note ();
+        });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new photo
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         item.activate.connect ((item) => {
-                this.new_photo ();
-            });
+            this.new_photo ();
+        });
         item.show ();
         newmenu.append (item);
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().texture == "square_paper");
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
-                this.on_texture ("square_paper");
-            });
+            this.on_texture ("square_paper");
+        });
         item.show ();
         menu.append (item);
 
@@ -429,14 +429,14 @@ deletable:          false,
      */
     private void rename_note () {
         RenameDialog dialog = new RenameDialog (this,
-            DesktopFolder.Lang.NOTE_RENAME_TITLE,
-            DesktopFolder.Lang.NOTE_RENAME_MESSAGE,
-            this.manager.get_note_name ());
+                DesktopFolder.Lang.NOTE_RENAME_TITLE,
+                DesktopFolder.Lang.NOTE_RENAME_MESSAGE,
+                this.manager.get_note_name ());
         dialog.on_rename.connect ((new_name) => {
-                if (this.manager.rename (new_name)) {
-                    this.set_title (new_name);
-                }
-            });
+            if (this.manager.rename (new_name)) {
+                this.set_title (new_name);
+            }
+        });
         dialog.show_all ();
     }
 
@@ -519,7 +519,7 @@ deletable:          false,
                 int clipcolor = this.manager.get_settings ().clipcolor;
                 var color     = "";
                 switch (clipcolor) {
-                case 1 :
+                case 1:
                     color = "blue";
                     break;
                 case 2:
@@ -574,7 +574,7 @@ deletable:          false,
 
         cr.move_to (margin, margin + radius);
 
-        // /
+        ///
         cr.line_to (margin + radius, margin);
         // -
         cr.line_to (width - margin - rightRadius, margin);
@@ -582,7 +582,7 @@ deletable:          false,
         cr.line_to (width - margin, margin + rightRadius);
         // |
         cr.line_to (width - margin, height - margin - radius);
-        // /
+        ///
         cr.line_to (width - margin - radius, height - margin);
         // -
         cr.line_to (margin + radius, height - margin);

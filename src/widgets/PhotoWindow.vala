@@ -33,7 +33,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     // cached shadow photo and fixos
     private Cairo.Surface shadowSurface = null;
     private Cairo.Surface photoSurface  = null;
-    private Gdk.Pixbuf    fixoPixbuf    = null;
+    private Gdk.Pixbuf fixoPixbuf       = null;
 
     // flag to know if the window is being resized
     private bool flag_resizing = false;
@@ -54,14 +54,14 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      */
     public PhotoWindow (PhotoManager manager) {
         Object (
-application:        manager.get_application (),
-icon_name:          "com.github.spheras.desktopfolder",
-resizable:          true,
-skip_taskbar_hint:  true,
-decorated:          true,
-type_hint:          Gdk.WindowTypeHint.DESKTOP,
-title:              (manager.get_photo_name ()),
-deletable:          false,
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            skip_taskbar_hint:  true,
+            decorated:          true,
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            title:              (manager.get_photo_name ()),
+            deletable:          false,
             width_request:      140,
             height_request:     160
         );
@@ -226,32 +226,32 @@ deletable:          false,
         // menu to create a new folder
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
         item.activate.connect ((item) => {
-                this.new_desktop_folder ();
-            });
+            this.new_desktop_folder ();
+        });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new link panel
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         item.activate.connect ((item) => {
-                this.new_link_panel ();
-            });
+            this.new_link_panel ();
+        });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new note
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         item.activate.connect ((item) => {
-                this.new_note ();
-            });
+            this.new_note ();
+        });
         item.show ();
         newmenu.append (item);
 
         // menu to create a new photo
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         item.activate.connect ((item) => {
-                this.new_photo ();
-            });
+            this.new_photo ();
+        });
         item.show ();
         newmenu.append (item);
 
@@ -367,14 +367,14 @@ deletable:          false,
                     this.timeout_id = 0;
                 }
                 this.timeout_id = GLib.Timeout.add (2000, () => {
-                        // we force to resize to adapt to the image size, (to maintain aspect ratio)
-                        this.resize (pixwidth + margin, pixheight + margin);
+                    // we force to resize to adapt to the image size, (to maintain aspect ratio)
+                    this.resize (pixwidth + margin, pixheight + margin);
 
-                        this.flag_resizing = false;
-                        this.queue_draw ();
-                        this.timeout_id = 0;
-                        return false;
-                    });
+                    this.flag_resizing = false;
+                    this.queue_draw ();
+                    this.timeout_id = 0;
+                    return false;
+                });
             }
 
             // drawing the shadow
@@ -407,7 +407,7 @@ deletable:          false,
             int fixocolor  = this.manager.get_settings ().fixocolor;
             var color      = "";
             switch (fixocolor) {
-            case 0 :
+            case 0:
                 color = null;
                 break;
             case 1:

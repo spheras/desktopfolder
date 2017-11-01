@@ -24,19 +24,19 @@
 
 namespace DesktopFolder.Dialogs {
     public class PanelProperties : Gtk.Dialog {
-        private Gtk.Stack        main_stack;
-        private Gtk.Switch       highlight_current_line;
-        private Gtk.Switch       highlight_matching_brackets;
+        private Gtk.Stack main_stack;
+        private Gtk.Switch highlight_current_line;
+        private Gtk.Switch highlight_matching_brackets;
         private Gtk.ComboBoxText style_scheme;
-        private Gtk.Switch       use_custom_font;
-        private Gtk.FontButton   select_font;
+        private Gtk.Switch use_custom_font;
+        private Gtk.FontButton select_font;
 
         public PanelProperties (FolderWindow window) {
             Object (
                 border_width: 5,
-deletable:    false,
-resizable:    false,
-title:        _("Properties")
+                deletable:    false,
+                resizable:    false,
+                title:        _("Properties")
             );
         }
 
@@ -65,8 +65,8 @@ title:        _("Properties")
 
             var close_button = new Gtk.Button.with_label (_("Close"));
             close_button.clicked.connect (() => {
-                    destroy ();
-                });
+                destroy ();
+            });
 
             add_action_widget (close_button, 0);
         }

@@ -22,12 +22,12 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    protected FolderManager manager           = null;
-    protected Gtk.Fixed     container         = null;
-    protected Gtk.Menu      context_menu      = null;
-    protected bool          flag_moving       = false;
-    private Gtk.Button      trash_button      = null;
-    protected Gtk.Button    properties_button = null;
+    protected FolderManager manager        = null;
+    protected Gtk.Fixed container          = null;
+    protected Gtk.Menu context_menu        = null;
+    protected bool flag_moving             = false;
+    private Gtk.Button trash_button        = null;
+    protected Gtk.Button properties_button = null;
 
     /** item alignment*/
     protected const int SENSITIVITY_WITH_GRID      = 100;
@@ -76,17 +76,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param FolderManager manager the manager of this window
      */
     public FolderWindow (FolderManager manager) {
-        Object (                                           // Maybe putting this here will make uncrustify stop doing the weird behavior
-application:        manager.get_application (),
-icon_name:          "com.github.spheras.desktopfolder",
-resizable:          true,
-accept_focus:       true,
-skip_taskbar_hint:  true,
-skip_pager_hint:    true,
-decorated:          true,
-title:              (manager.get_folder_name ()),
-type_hint:          Gdk.WindowTypeHint.DESKTOP,
-deletable:          false,
+        Object ( // Maybe putting this here will make uncrustify stop doing the weird behavior
+            application:        manager.get_application (),
+            icon_name:          "com.github.spheras.desktopfolder",
+            resizable:          true,
+            accept_focus:       true,
+            skip_taskbar_hint:  true,
+            skip_pager_hint:    true,
+            decorated:          true,
+            title:              (manager.get_folder_name ()),
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            deletable:          false,
             default_width:      300,
             default_height:     300,
             height_request:     50,
@@ -102,13 +102,13 @@ deletable:          false,
         this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
         this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         this.trash_button.enter_notify_event.connect (() => {
-                this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
-                return true;
-            });
+            this.trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
+            return true;
+        });
         this.trash_button.leave_notify_event.connect (() => {
-                this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
-                return true;
-            });
+            this.trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
+            return true;
+        });
 
         this.properties_button              = new Gtk.Button.from_icon_name ("open-menu-symbolic");
         this.properties_button.has_tooltip  = true;
@@ -116,13 +116,13 @@ deletable:          false,
         this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button");
         this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         this.properties_button.enter_notify_event.connect (() => {
-                this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
-                return true;
-            });
+            this.properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hover");
+            return true;
+        });
         this.properties_button.leave_notify_event.connect (() => {
-                this.properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
-                return true;
-            });
+            this.properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hover");
+            return true;
+        });
 
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_folder_name ());
@@ -181,7 +181,7 @@ deletable:          false,
         for (int i = 0; i < classes.length (); i++) {
             string class = classes.nth_data (i);
             if (class.has_prefix ("df_")) {
-                this.get_style_context ().remove_class (class );
+                this.get_style_context ().remove_class (class);
             }
         }
         // we set a class to this window to manage the css
@@ -629,31 +629,31 @@ deletable:          false,
             if (key == ARROW_LEFT_KEY) {
                 // left arrow pressed
                 move_selected_to ((a, b) => {
-                        return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                    }, (a, b) => {
-                        return a.x < b.x;
-                    });
+                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                }, (a, b) => {
+                    return a.x < b.x;
+                });
             } else if (key == ARROW_UP_KEY) {
                 // up arrow pressed
                 move_selected_to ((a, b) => {
-                        return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                    }, (a, b) => {
-                        return a.y < b.y;
-                    });
+                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                }, (a, b) => {
+                    return a.y < b.y;
+                });
             } else if (key == ARROW_RIGHT_KEY) {
                 // right arrow pressed
                 move_selected_to ((a, b) => {
-                        return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                    }, (a, b) => {
-                        return a.x > b.x;
-                    });
+                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                }, (a, b) => {
+                    return a.x > b.x;
+                });
             } else if (key == ARROW_DOWN_KEY) {
                 // down arrow pressed
                 move_selected_to ((a, b) => {
-                        return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                    }, (a, b) => {
-                        return a.y > b.y;
-                    });
+                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                }, (a, b) => {
+                    return a.y > b.y;
+                });
             }
         }
 
@@ -766,15 +766,15 @@ deletable:          false,
      */
     protected void new_folder (int x, int y) {
         RenameDialog dialog = new RenameDialog (this,
-            DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
-            DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
-            DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
+                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
+                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
+                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
         dialog.on_rename.connect ((new_name) => {
-                // creating the folder
-                if (new_name != "") {
-                    this.manager.create_new_folder (new_name, x, y);
-                }
-            });
+            // creating the folder
+            if (new_name != "") {
+                this.manager.create_new_folder (new_name, x, y);
+            }
+        });
         dialog.show_all ();
     }
 
@@ -786,14 +786,14 @@ deletable:          false,
      */
     protected void new_text_file (int x, int y) {
         RenameDialog dialog = new RenameDialog (this,
-            DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
-            DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
-            DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
+                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
+                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
+                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
         dialog.on_rename.connect ((new_name) => {
-                if (new_name != "") {
-                    this.manager.create_new_text_file (new_name, x, y);
-                }
-            });
+            if (new_name != "") {
+                this.manager.create_new_text_file (new_name, x, y);
+            }
+        });
         dialog.show_all ();
     }
 
@@ -830,14 +830,14 @@ deletable:          false,
      */
     private void rename_folder () {
         RenameDialog dialog = new RenameDialog (this,
-            DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER,
-            DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE,
-            this.manager.get_folder_name ());
+                DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER,
+                DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE,
+                this.manager.get_folder_name ());
         dialog.on_rename.connect ((new_name) => {
-                if (this.manager.rename (new_name)) {
-                    this.set_title (new_name);
-                }
-            });
+            if (this.manager.rename (new_name)) {
+                this.set_title (new_name);
+            }
+        });
         dialog.show_all ();
     }
 

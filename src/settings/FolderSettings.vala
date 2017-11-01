@@ -22,16 +22,16 @@
  * Desktop Folder Settings
  */
 public class DesktopFolder.FolderSettings : Object {
-    public int      x  { get; set; default = 0; }
-    public int      y  { get; set; default = 0; }
-    public int      w  { get; set; default = 0; }
-    public int      h  { get; set; default = 0; }
-    public string   name { get; set; }
-    public string   bgcolor { get; set; }
-    public string   fgcolor { get; set; }
-    public bool     textbold { get; set; }
-    public bool     textshadow { get; set; }
-    public bool     align_to_grid { get; set; default = false; }
+    public int x  { get; set; default = 0; }
+    public int y  { get; set; default = 0; }
+    public int w  { get; set; default = 0; }
+    public int h  { get; set; default = 0; }
+    public string name { get; set; }
+    public string bgcolor { get; set; }
+    public string fgcolor { get; set; }
+    public bool textbold { get; set; }
+    public bool textshadow { get; set; }
+    public bool align_to_grid { get; set; default = false; }
     public string[] items { get; set; default = new string[0]; }
     // default json seralization implementation only support primitive types
 
