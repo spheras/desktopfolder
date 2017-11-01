@@ -22,24 +22,24 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    private FolderManager manager        = null;
-    private Gtk.Fixed container          = null;
-    private Gtk.Menu context_menu        = null;
-    private bool flag_moving             = false;
+    protected FolderManager manager = null;
+    protected Gtk.Fixed container   = null;
+    protected Gtk.Menu context_menu         = null;
+    protected bool flag_moving = false;
     private Gtk.Button trash_button     = null;
-    private Gtk.Button properties_button = null;
+    protected Gtk.Button properties_button = null;
 
-    // Item alignment
-    private const int SENSITIVITY_WITH_GRID    = 100;
-    private const int SENSITIVITY_WITHOUT_GRID = 4;
+    /** item alignment*/
+    protected const int SENSITIVITY_WITH_GRID    = 100;
+    protected const int SENSITIVITY_WITHOUT_GRID = 4;
     // TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
-    private int sensitivity                    = SENSITIVITY_WITHOUT_GRID;
+    protected int sensitivity                    = SENSITIVITY_WITHOUT_GRID;
 
-    private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
-    private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
-    
-    private const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
-    private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
+    public const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
+    public const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
+
+    public const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
+    public const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
 
 
     // this is the link image loaded
@@ -91,6 +91,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             height_request:     50,
             width_request:      50
         );
+
+        DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
+        this.set_transient_for (desktop_manager.get_view ());
 
         this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         this.trash_button.has_tooltip  = true;
@@ -302,12 +305,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // Remove below later if hiding behind Wingpanel is properly fixed (required for drag boxes)
         } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
             this.unselect_all ();
-            int width  = this.get_allocated_width ();
-            int height = this.get_allocated_height ();
-            int margin = 30;
-            // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
-            if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
-                this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+
+            if (this.manager.can_move ()) {
+                int width  = this.get_allocated_width ();
+                int height = this.get_allocated_height ();
+                int margin = 30;
+                // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
+                if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
+                    this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+                }
             }
         }
         return false;
@@ -318,20 +324,20 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description build and show the popup menu
      * @param event EventButton the origin event, needed to position the menu
      */
-    private void show_popup (Gdk.EventButton event) {
+    protected virtual void show_popup (Gdk.EventButton event) {
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { // we need the event coordinates for the menu, we need to recreate?!
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
         // TODO: Is there a way to make a desktop window resizable and movable?
-        
+
         this.type_hint                = Gdk.WindowTypeHint.DESKTOP;
         this.context_menu             = new Gtk.Menu ();
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
         // Creating items (please try and keep these in the same order as appended to the menu)
         var new_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
-        
+
         var new_submenu = new Gtk.Menu ();
         var newfolder_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
         var emptyfile_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
@@ -341,7 +347,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         var newnote_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         var newphoto_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        
+
         var aligntogrid_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         var trash_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var rename_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
@@ -359,8 +365,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
-        
-        ((Gtk.CheckMenuItem) aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);        
+
+        ((Gtk.CheckMenuItem) aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         ((Gtk.CheckMenuItem) aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
         trash_item.activate.connect (this.manager.trash);
         rename_item.activate.connect (this.rename_folder);
@@ -370,7 +376,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         ((Gtk.CheckMenuItem) textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
-        
+
         // Appending (in order)
         if (cm.can_paste) {
             var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
@@ -380,7 +386,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
         context_menu.append (new_item);
         new_item.set_submenu (new_submenu);
-        
+
         new_submenu.append (newfolder_item);
         new_submenu.append (emptyfile_item);
         new_submenu.append (new MenuItemSeparator ());
@@ -391,7 +397,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         new_submenu.append (newlinkpanel_item);
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
-        
+
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (aligntogrid_item);
         context_menu.append (new MenuItemSeparator ());
@@ -404,9 +410,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
         context_menu.append (backgroundcolor_item);
-        
+
         context_menu.show_all ();
-        
+
         context_menu.popup (
             null, // parent menu shell
             null, // parent menu item
@@ -420,7 +426,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_bold
      * @description the bold toggle event. the text bold property must change
      */
-    private void on_toggle_bold () {
+    protected void on_toggle_bold () {
         Gtk.StyleContext style      = this.get_style_context ();
         string           bold_class = "df_bold";
         if (this.manager.get_settings ().textbold) {
@@ -441,7 +447,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_align_to_grid
      * @description the toggle align to grid event. The align to grid property must change
      */
-    private void on_toggle_align_to_grid () {
+    protected void on_toggle_align_to_grid () {
         if (this.get_sensitivity () == SENSITIVITY_WITH_GRID) {
             this.set_sensitivity (SENSITIVITY_WITHOUT_GRID);
             this.manager.get_settings ().align_to_grid = false;
@@ -458,7 +464,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_shadow
      * @description the toggle shadow event. The shadow property must change
      */
-    private void on_toggle_shadow () {
+    protected void on_toggle_shadow () {
         Gtk.StyleContext style        = this.get_style_context ();
         string           shadow_class = "df_shadow";
         if (this.manager.get_settings ().textshadow) {
@@ -480,7 +486,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description change event captured from the popup for a new color to the head window
      * @param ncolor int the new color for the head window
      */
-    private void change_head_color (int ncolor) {
+    protected void change_head_color (int ncolor) {
         string color = HEAD_TAGS_COLORS_CLASS[ncolor];
         for (int i = 0; i < HEAD_TAGS_COLORS_CLASS.length; i++) {
             string scolor = HEAD_TAGS_COLORS_CLASS[i];
@@ -506,7 +512,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description change event captured from the popup for a new color to the body window
      * @param ncolor int the new color for the body window
      */
-    private void change_body_color (int ncolor) {
+    public void change_body_color (int ncolor) {
         string color = BODY_TAGS_COLORS_CLASS[ncolor];
         for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
@@ -723,7 +729,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name new_desktop_folder
      * @description show a dialog to create a new desktop folder
      */
-    private void new_desktop_folder () {
+    protected void new_desktop_folder () {
         DesktopFolder.Util.create_new_desktop_folder (this);
     }
 
@@ -731,7 +737,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name new_link_panel
      * @description show a dialog to create a new link panel
      */
-    private void new_link_panel () {
+    protected void new_link_panel () {
         DesktopFolder.Util.create_new_link_panel (this);
     }
 
@@ -739,7 +745,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name new_note
      * @description show a dialog to create a new note
      */
-    private void new_note () {
+    protected void new_note () {
         DesktopFolder.Util.create_new_note (this);
     }
 
@@ -747,7 +753,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name new_photo
      * @description show a dialog to create a new photo
      */
-    private void new_photo () {
+    protected void new_photo () {
         DesktopFolder.Util.create_new_photo (this);
     }
 
@@ -757,7 +763,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int x the x position where the new folder icon should be generated
      * @param int y the y position where the new folder icon should be generated
      */
-    private void new_folder (int x, int y) {
+    protected void new_folder (int x, int y) {
         RenameDialog dialog = new RenameDialog (this,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
@@ -777,7 +783,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int x the x position where the new item should be placed
      * @param int y the y position where the new item should be placed
      */
-    private void new_text_file (int x, int y) {
+    protected void new_text_file (int x, int y) {
         RenameDialog dialog = new RenameDialog (this,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
             DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
@@ -797,7 +803,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new item should be placed
      * @param bool folder to indicate if we want to select a folder or a file
      */
-    private void new_link (int x, int y, bool folder) {
+    protected void new_link (int x, int y, bool folder) {
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             DesktopFolder.Lang.DESKTOPFOLDER_LINK_MESSAGE, this, Gtk.FileChooserAction.OPEN,
             DesktopFolder.Lang.DIALOG_CANCEL,

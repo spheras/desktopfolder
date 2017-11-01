@@ -27,6 +27,7 @@ public class DesktopFolderApp : Gtk.Application {
     private FileMonitor monitor = null;
 
     /** List of folder owned by the application */
+    private DesktopFolder.DesktopManager       desktop = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
     private List <DesktopFolder.NoteManager>   notes   = new List <DesktopFolder.NoteManager> ();
     private List <DesktopFolder.PhotoManager>  photos  = new List <DesktopFolder.PhotoManager> ();
@@ -50,6 +51,15 @@ public class DesktopFolderApp : Gtk.Application {
     public DesktopFolderApp () {
         Object (application_id: "com.github.spheras.desktopfolder",
             flags : ApplicationFlags.FLAGS_NONE);
+    }
+
+    /**
+     * @name get_fake_desktop
+     * @description return the fake desktop manager
+     * @return {DesktopFolder.DesktopManager} the fake desktop manager
+     */
+    public DesktopFolder.DesktopManager get_fake_desktop () {
+        return this.desktop;
     }
 
     /**
@@ -128,12 +138,36 @@ public class DesktopFolderApp : Gtk.Application {
         return Environment.get_home_dir () + "/Desktop";
     }
 
+    private void check_fake_desktop () {
+        if (this.desktop == null) {
+            GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+            string[]      keys     = settings.list_keys ();
+            bool          found    = false;
+            for (int i = 0; i < keys.length; i++) {
+                string key = keys[i];
+                if (key == "desktop-panel") {
+                    found = true;
+                    break;
+                }
+            }
+            bool desktop_panel = false;
+            if (found) {
+                desktop_panel = settings.get_boolean ("desktop-panel");
+            }
+            if (desktop_panel) {
+                this.desktop = new DesktopFolder.DesktopManager (this);
+            }
+        }
+    }
+
     /**
      * @name sync_folders_and_notes
      * @description create as many folder and note windows as the desktop folder and note founds
      */
     private void sync_folders_and_notes () {
         try {
+            check_fake_desktop ();
+
             var base_path  = DesktopFolderApp.get_app_folder ();
             var directory  = File.new_for_path (base_path);
             var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
@@ -150,11 +184,24 @@ public class DesktopFolderApp : Gtk.Application {
                 File     file = File.new_for_commandline_arg (base_path + "/" + name);
                 FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
 
+                File nopanel  = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.PANEL_BLACKLIST_FILE);
+
                 if (type == FileType.DIRECTORY) {
-                    totalFolders++;
 
                     // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
+
+                    if (nopanel.query_exists ()) {
+                        if (fm != null) {
+                            // This folder doesn't want to be a panel anymore
+                            // (this check might be pointless however because it's already done in FolderManager's sync)
+                            fm.close ();
+                        }
+                        // This folder doesn't want to be a panel, let's skip it
+                        continue;
+                    }
+
+                    totalFolders++;
 
                     if (fm == null) {
                         // No, it's a new folder

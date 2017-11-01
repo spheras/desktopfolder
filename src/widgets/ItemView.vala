@@ -195,7 +195,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 Util.show_error_dialog ("Error", ee.message);
             }
         }
-        return null as Gtk.Image;
     }
 
     /**

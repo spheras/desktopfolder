@@ -24,6 +24,8 @@
 public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     /** parent application */
     private DesktopFolderApp application;
+    /** to know if the panel is moveable or not */
+    protected bool is_moveable                   = true;
     /** the view of this logic */
     private FolderWindow view                    = null;
     /** Folder Settings of this folder */
@@ -79,7 +81,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     private void load_folder_settings () {
         // let's search the folder settings file
         var abs_path      = this.get_absolute_path ();
-        debug ("loading folder settings...%s", abs_path);
+        // debug ("loading folder settings...%s", abs_path);
         var settings_file = abs_path + "/.desktopfolder";
         var file          = File.new_for_path (settings_file);
         if (!file.query_exists ()) {
@@ -91,6 +93,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             FolderSettings existent = FolderSettings.read_settings (file, this.get_folder_name ());
             this.settings = existent;
         }
+    }
+
+    /**
+     * @name can_move
+     * @description say if the panel can move or not
+     * @return {bool} true->yes, the panel can be moved
+     */
+    public bool can_move () {
+        return this.is_moveable;
     }
 
     /**
@@ -129,7 +140,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         if (old_filename == DesktopFolder.FOLDER_SETTINGS_FILE) {
             // we ignore the settings file changes
         } else {
-            debug ("%s - Change Detected", this.get_folder_name ());
+            // debug ("%s - Change Detected", this.get_folder_name ());
             if (dest != null && src.query_exists () && dest.query_exists ()) {
                 // something has been renamed
                 string new_filename = dest.get_basename ();
@@ -173,13 +184,25 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name skip_file
+     * @description to check if the folder manager should skip the file and not take into account
+     */
+    protected virtual bool skip_file (File file) {
+        string basename = file.get_basename ();
+        if (basename.has_prefix (".")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @name sync_files
      * @description sync all the files contained at the folder this manager refers to
      * @param x int the x position where any new item found should be positioned, <=0 if this algorithm must decide
      * @param y int the y position where any new item found should be positioned, <=0 if this algorithm must decide
      */
     public void sync_files (int x, int y) {
-        debug ("syncingfiles for folder %s, %d, %d", this.get_folder_name (), x, y);
+        // debug ("syncingfiles for folder %s, %d, %d", this.get_folder_name (), x, y);
         try {
             this.load_folder_settings ();
             this.clear_all ();
@@ -194,28 +217,35 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 // debug("found:%s", file_name);
                 File file        = File.new_for_commandline_arg (base_path + "/" + file_name);
 
-                if (file_name.index_of (".", 0) != 0) {
-                    // debug("creating an item...");
-
-                    // we try to get the settings for this item
-                    ItemSettings is = this.settings.get_item (file_name);
-                    if (is == null) {
-                        // we need to create one empty
-                        is      = new ItemSettings ();
-                        is.x    = x;
-                        is.y    = y;
-                        is.name = file_name;
-                        this.settings.add_item (is);
-                    }
-
-                    ItemManager item = new ItemManager (file_name, file, this);
-                    this.items.append (item);
-
-                    this.view.add_item (item.get_view (), is.x, is.y);
-                } else {
-                    // debug("missing hidden files: %s",fileName);
-                    // we don't consider hidden files
+                if (file_name == ".nopanel") {
+                    // This folder doesn't want to be a panel anymore, destroy the panel
+                    debug (".nopanel found, destroying panel");
+                    this.close ();
+                    return;
                 }
+
+                // checking if we must skip the file
+                if (this.skip_file (file)) {
+                    continue;
+                }
+
+
+                // debug("creating an item...");
+                // we try to get the settings for this item
+                ItemSettings is = this.settings.get_item (file_name);
+                if (is == null) {
+                    // we need to create one empty
+                    is      = new ItemSettings ();
+                    is.x    = x;
+                    is.y    = y;
+                    is.name = file_name;
+                    this.settings.add_item (is);
+                }
+
+                ItemManager item = new ItemManager (file_name, file, this);
+                this.items.append (item);
+
+                this.view.add_item (item.get_view (), is.x, is.y);
             }
             this.settings.save ();
             this.view.refresh ();
@@ -235,6 +265,14 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name create_new_folder_inside
+     * @description function to create inside the recent created folder whatever is needed
+     * @param {string} folder_path the folder which is being created
+     */
+    protected virtual void create_new_folder_inside (string folder_path) {
+    }
+
+    /**
      * @name create_new_folder
      * @description create a new folder inside this folder
      * @param string name the name of the new folder
@@ -244,7 +282,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     public void create_new_folder (string name, int x, int y) {
         // cancelling the current monitor
         this.monitor.cancel ();
-        DirUtils.create (this.get_absolute_path () + "/" + name, 0755);
+        string folder_path = this.get_absolute_path () + "/" + name;
+        DirUtils.create (folder_path, 0755);
+
+        this.create_new_folder_inside (folder_path);
         // forcing the sync of the files as a new folder has been created
         this.sync_files (x, y);
         // monitoring again

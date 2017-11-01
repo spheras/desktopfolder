@@ -66,6 +66,9 @@ deletable:          false,
             height_request:     160
         );
 
+        DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
+        this.set_transient_for (desktop_manager.get_view ());
+
         var headerbar = new Gtk.HeaderBar ();
         headerbar.set_title (manager.get_photo_name ());
         // headerbar.set_subtitle("HeaderBar Subtitle");

@@ -151,11 +151,11 @@ namespace DesktopFolder.Util {
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
             var photo_path = chooser.get_filename ();
             debug ("Photo path: " + photo_path);
-            
+
             try {
                 // Check if the image is valid
-                Gdk.Pixbuf check_photo   = new Gdk.Pixbuf.from_file (photo_path);
-                
+                new Gdk.Pixbuf.from_file (photo_path);
+
                 PhotoSettings ps         = new PhotoSettings (photo_path);
                 string        path       = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.PHOTO_EXTENSION;
                 File          file       = File.new_for_path (path);
@@ -209,7 +209,11 @@ namespace DesktopFolder.Util {
                     msg.show ();
                 } else if (new_name != "") {
                     // cancelling the current monitor
-                    DirUtils.create (DesktopFolderApp.get_app_folder () + "/" + new_name, 0755);
+                    string folder_name = DesktopFolderApp.get_app_folder () + "/" + new_name;
+                    DirUtils.create (folder_name, 0755);
+                    File file = File.new_for_path (folder_name + "/.desktopfolder");
+                    DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (new_name);
+                    fs.save_to_file (file);
                 }
             });
         dialog.show_all ();

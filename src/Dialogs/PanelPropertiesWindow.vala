@@ -34,9 +34,9 @@ namespace DesktopFolder.Dialogs {
         public PanelProperties (FolderWindow window) {
             Object (
                 border_width: 5,
-deletable:    false,
-resizable:    false,
-title:        _("Properties")
+                deletable:    false,
+                resizable:    false,
+                title:        _("Properties")
             );
         }
 

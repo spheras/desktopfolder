@@ -59,7 +59,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             width_request:      140,
             height_request:     160
         );
-        
+
+        DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
+        this.set_transient_for (desktop_manager.get_view ());
+
         this.trash_button         = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         trash_button.has_tooltip  = true;
         trash_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
@@ -79,7 +82,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         headerbar.pack_start (trash_button);
         headerbar.set_decoration_layout ("");
         this.set_titlebar (headerbar);
-        
+
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
 
@@ -122,7 +125,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
-        
+
         trash_button.clicked.connect (this.manager.trash);
 
         text.focus_out_event.connect (this.on_focus_out);
@@ -341,12 +344,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         ((MenuItemColor) item).color_changed.connect (change_head_color);
         item.show ();
         menu.append (item);
-        
+
         item = new MenuItemColor (BODY_TAGS_COLORS);;
         ((MenuItemColor) item).color_changed.connect (change_body_color);
         item.show ();
         menu.append (item);
-        
+
         menu.popup (
             null // parent menu shell
             , null // parent menu item
