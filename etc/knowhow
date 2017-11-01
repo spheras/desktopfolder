@@ -18,9 +18,27 @@ After installing use this instead of the one liner above:
 $ sudo ninja install && env G_MESSAGES_DEBUG=all nemiver com.github.spheras.desktopfolder
 
 
-Automatic elementary code style guidelines
-··········································
-Build and install uncrustify, then go to src/ and run uncrustify like this:
+Install uncrustify
+··················
+Don't use sudo apt install uncrustify!
+
+Run this one-liner to install the latest release of uncrustify:
+$ cd ~/Downloads && wget https://github.com/uncrustify/uncrustify/archive/uncrustify-0.65.tar.gz && tar -xf uncrustify-0.65.tar.gz && cd uncrustify-uncrustify-0.65/cmake/ && cmake .. && sudo make install
+
+If you want to run it step by step instead:
+$ cd ~/Downloads
+$ wget https://github.com/uncrustify/uncrustify/archive/uncrustify-0.65.tar.gz
+$ tar -xf uncrustify-0.65.tar.gz
+$ cd uncrustify-uncrustify-0.65/cmake/
+$ cmake ..
+$ sudo make install
+
+This means everyone is using the same version, so the output is consistent.
+
+
+Use uncrustify
+··············
+Go to src/ and run uncrustify like this:
 $ uncrustify --replace --no-backup -c ../etc/uncrustify-elementary-vala.cfg */*.vala *.vala
 
 Make sure you don't end comment lines with a \ (backslash), otherwise
