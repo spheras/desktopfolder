@@ -99,6 +99,33 @@ public class DesktopFolder.PhotoSettings : Object {
      * @return PhotoSettings the PhotoSettings created
      */
     public static PhotoSettings read_settings (File file, string name) {
+        PhotoSettings result = _read_settings (file, name);
+        if (result == null) {
+            // some error occurred, lets delete the settings and create again
+            try {
+                file.trash ();
+            } catch (Error e) {
+            }
+            PhotoSettings new_settings = new PhotoSettings (name);
+            new_settings.save_to_file (file);
+            return _read_settings (file, name);
+        }
+
+        // now lets check the existence of the photo linked and if it is valid
+        var photo_file = File.new_for_path (result.photo_path);
+        if (photo_file.query_exists ()) {
+            try {
+                new Gdk.Pixbuf.from_file (result.photo_path);
+            } catch (Error error) {
+                return null as PhotoSettings;
+            }
+        } else {
+            return null as PhotoSettings;
+        }
+        return result;
+    }
+
+    public static PhotoSettings _read_settings (File file, string name) {
         try {
             string content = "";
             var    dis     = new DataInputStream (file.read ());

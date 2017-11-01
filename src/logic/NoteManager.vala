@@ -32,7 +32,8 @@ public class DesktopFolder.NoteManager : Object {
     private string note_name      = null;
     /** Note Settings of this note */
     private NoteSettings settings = null;
-
+    /** flag to get the validity of the note */
+    private bool flag_valid       = true;
     /**
      * @constructor
      * @param DesktopFolderApp application the application of this note
@@ -44,21 +45,36 @@ public class DesktopFolder.NoteManager : Object {
         this.file      = file;
 
         // Let's load the settings of the folder (if exist or a new one)
-        this.load_note_settings ();
+        if (!this.load_note_settings ()) {
+            // removing the settings file
+            if (this.file.query_exists ()) {
+                this.file.trash ();
+            }
+            this.flag_valid = false;
+        } else {
+            // First we create a Note Window above the desktop
+            this.application = application;
+            this.view        = new NoteWindow (this);
+            this.application.add_window (this.view);
+            this.view.show ();
 
-        // First we create a Note Window above the desktop
-        this.application = application;
-        this.view        = new NoteWindow (this);
-        this.application.add_window (this.view);
-        this.view.show ();
+            // trying to put it in front of the rest
+            this.view.set_keep_below (false);
+            this.view.set_keep_above (true);
+            this.view.present ();
+            this.view.set_keep_above (false);
+            this.view.set_keep_below (true);
+            // ---------------------------------------
+        }
+    }
 
-        // trying to put it in front of the rest
-        this.view.set_keep_below (false);
-        this.view.set_keep_above (true);
-        this.view.present ();
-        this.view.set_keep_above (false);
-        this.view.set_keep_below (true);
-        // ---------------------------------------
+    /**
+     * @name is_valid
+     * @description return the validity of the note widget
+     * @return {bool} true->yes, it is valid
+     */
+    public bool is_valid () {
+        return this.flag_valid;
     }
 
     /**
@@ -66,16 +82,23 @@ public class DesktopFolder.NoteManager : Object {
      * @description load the settings of this note.
      * The note/settings file contains all the info needed to create the note position, size, etc.. and the text itself
      */
-    private void load_note_settings () {
+    private bool load_note_settings () {
         // let's search the folder settings file
         var abs_path = this.get_absolute_path ();
         debug ("loading note settings...%s", abs_path);
         if (!this.file.query_exists ()) {
             warning ("note file doesnt exist!");
+            return false;
         } else {
             NoteSettings existent = NoteSettings.read_settings (this.file, this.get_note_name ());
-            this.settings = existent;
+            if (existent == null) {
+                // something bad occurred, we must delete this note widget
+                return false;
+            } else {
+                this.settings = existent;
+            }
         }
+        return true;
     }
 
     /**

@@ -79,9 +79,9 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     protected override void create_new_folder_inside (string folder_path) {
         debug ("esta si que si");
         File nopanel = File.new_for_path (folder_path + "/.nopanel");
-        try{
+        try {
             nopanel.create (FileCreateFlags.NONE);
-        }catch(Error e){
+        } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }

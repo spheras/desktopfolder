@@ -228,7 +228,9 @@ public class DesktopFolderApp : Gtk.Application {
                             } else {
                                 this.notes.remove (nm);
                             }
-                            updated_note_list.append (nm);
+                            if (nm.is_valid ()) {
+                                updated_note_list.append (nm);
+                            }
                         } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
                             totalPhotos++;
 
@@ -241,7 +243,9 @@ public class DesktopFolderApp : Gtk.Application {
                             } else {
                                 this.photos.remove (pm);
                             }
-                            updated_photo_list.append (pm);
+                            if (pm.is_valid ()) {
+                                updated_photo_list.append (pm);
+                            }
                         }
                     }
                     // nothing

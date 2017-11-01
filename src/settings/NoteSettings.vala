@@ -75,6 +75,21 @@ public class DesktopFolder.NoteSettings : Object {
      * @return NoteSettings the NoteSettings created
      */
     public static NoteSettings read_settings (File file, string name) {
+        NoteSettings result = _read_settings (file, name);
+        if (result == null) {
+            // some error occurred, lets delete the settings and create again
+            try {
+                file.trash ();
+            } catch (Error e) {
+            }
+            NoteSettings new_settings = new NoteSettings (name);
+            new_settings.save_to_file (file);
+            return _read_settings (file, name);
+        }
+        return result;
+    }
+
+    public static NoteSettings _read_settings (File file, string name) {
         try {
             string content = "";
             var    dis     = new DataInputStream (file.read ());

@@ -22,12 +22,12 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
-    private NoteManager manager           = null;
-    private Gtk.Menu menu                 = null; // Context menu
-    private Gtk.SourceView text           = null;
-    private Cairo.Pattern texture_pattern = null;
-    private Cairo.Surface clip_surface    = null; // The clip image
-    private Gtk.Button trash_button       = null;
+    private NoteManager    manager                  = null;
+    private Gtk.Menu       menu                     = null; // Context menu
+    private Gtk.SourceView text                     = null;
+    private Cairo.Pattern  texture_pattern          = null;
+    private Cairo.Surface  clip_surface             = null; // The clip image
+    private Gtk.Button     trash_button             = null;
 
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
@@ -47,15 +47,16 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @constructor
      * @param NoteManager manager The manager of this window
      */
-    public NoteWindow (NoteManager manager) { Object (
-            application:        manager.get_application (),
-            icon_name:          "com.github.spheras.desktopfolder",
-            resizable:          true,
-            skip_taskbar_hint:  true,
-            type_hint:          Gdk.WindowTypeHint.DESKTOP,
-            decorated:          true,
-            title:              (manager.get_note_name ()),
-            deletable:          false,
+    public NoteWindow (NoteManager manager) {
+        Object (
+application:        manager.get_application (),
+icon_name:          "com.github.spheras.desktopfolder",
+resizable:          true,
+skip_taskbar_hint:  true,
+type_hint:          Gdk.WindowTypeHint.DESKTOP,
+decorated:          true,
+title:              (manager.get_note_name ()),
+deletable:          false,
             width_request:      140,
             height_request:     160
         );

@@ -203,6 +203,21 @@ public class DesktopFolder.FolderSettings : Object {
      * @return FolderSettings the FolderSettings created
      */
     public static FolderSettings read_settings (File file, string name) {
+        FolderSettings result = _read_settings (file, name);
+        if (result == null) {
+            // some error occurred, lets delete the settings and create again
+            try {
+                file.trash ();
+            } catch (Error e) {
+            }
+            FolderSettings new_folder_settings = new FolderSettings (name);
+            new_folder_settings.save_to_file (file);
+            return _read_settings (file, name);
+        }
+        return result;
+    }
+
+    private static FolderSettings _read_settings (File file, string name) {
         try {
             string content = "";
             var    dis     = new DataInputStream (file.read ());

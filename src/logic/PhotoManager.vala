@@ -32,6 +32,8 @@ public class DesktopFolder.PhotoManager : Object {
     private string photo_name      = null;
     /** photo Settings of this photo */
     private PhotoSettings settings = null;
+    /** flag to get the validity of the photo */
+    private bool flag_valid        = true;
 
     /**
      * @constructor
@@ -44,38 +46,64 @@ public class DesktopFolder.PhotoManager : Object {
         this.file       = file;
 
         // Let's load the settings of the folder (if exist or a new one)
-        this.load_photo_settings ();
+        if (!this.load_photo_settings ()) {
+            // removing the settings file
+            if (this.file.query_exists ()) {
+                try {
+                    this.file.trash ();
+                } catch (Error e) {
+                }
+            }
+            this.flag_valid = false;
+        } else {
+            // First we create a photo Window above the desktop
+            this.application = application;
+            this.view        = new PhotoWindow (this);
+            this.application.add_window (this.view);
+            this.view.show ();
 
-        // First we create a photo Window above the desktop
-        this.application = application;
-        this.view        = new PhotoWindow (this);
-        this.application.add_window (this.view);
-        this.view.show ();
+            // trying to put it in front of the rest
+            this.view.set_keep_below (false);
+            this.view.set_keep_above (true);
+            this.view.present ();
+            this.view.set_keep_above (false);
+            this.view.set_keep_below (true);
+            // ---------------------------------------
+        }
+    }
 
-        // trying to put it in front of the rest
-        this.view.set_keep_below (false);
-        this.view.set_keep_above (true);
-        this.view.present ();
-        this.view.set_keep_above (false);
-        this.view.set_keep_below (true);
-        // ---------------------------------------
+    /**
+     * @name is_valid
+     * @description return the validity of the photo widget
+     * @return {bool} true->yes, it is valid
+     */
+    public bool is_valid () {
+        return this.flag_valid;
     }
 
     /**
      * @name load_photo_settings
      * @description load the settings of this photo.
      * The photo/settings file contains all the info needed to create the photo position, size, etc.. and the text itself
+     * @return {bool} true->everything was ok, false->something was bad
      */
-    private void load_photo_settings () {
+    private bool load_photo_settings () {
         // let's search the folder settings file
         var abs_path = this.get_absolute_path ();
         debug ("loading photo settings...%s", abs_path);
         if (!this.file.query_exists ()) {
             warning ("photo file doesnt exist!");
+            return false;
         } else {
             PhotoSettings existent = PhotoSettings.read_settings (this.file, this.get_photo_name ());
-            this.settings = existent;
+            if (existent == null) {
+                // something bad occurred, we must delete this photo widget
+                return false;
+            } else {
+                this.settings = existent;
+            }
         }
+        return true;
     }
 
     /**
