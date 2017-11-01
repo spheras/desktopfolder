@@ -206,7 +206,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description On mouse entering the window
      */
     private bool on_enter_notify (Gdk.EventCrossing event) {
-        debug ("Entered panel");
         trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return false;
     }
@@ -216,7 +215,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description On mouse leaving the window
      */
     private bool on_leave_notify (Gdk.EventCrossing event) {
-        debug ("Left panel");
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;
     }

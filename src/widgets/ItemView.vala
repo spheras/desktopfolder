@@ -118,9 +118,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     public void refresh_icon () {
         Gtk.Image newImage = this.calculate_icon ();
+
         if (this.icon != null) {
             this.container.remove (this.icon);
         }
+
         this.icon = newImage;
         this.icon.set_size_request (DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.icon.get_style_context ().add_class ("df_icon");
@@ -154,7 +156,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     if (this.manager.is_link ()) {
                         icon = this.draw_link_mark_gicon (gicon);
                     } else {
-                        icon = new Gtk.Image.from_gicon (gicon, Gtk.IconSize.DIALOG);
+                        GLib.ThemedIcon themed = new GLib.ThemedIcon.with_default_fallbacks (gicon.to_string ());
+                        var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, DEFAULT_WIDTH, 0);
+                        var pixbuf             = info.load_icon ();
+                        if (pixbuf.height != DEFAULT_WIDTH) {
+                            // some icons doesn't return the asked size, so we need to scale them
+                            pixbuf = pixbuf.scale_simple (DEFAULT_WIDTH, DEFAULT_WIDTH, Gdk.InterpType.BILINEAR);
+                            icon   = new Gtk.Image.from_pixbuf (pixbuf);
+                        } else {
+                            icon = new Gtk.Image.from_gicon (gicon, Gtk.IconSize.DIALOG);
+                        }
                     }
                 } else {
 
@@ -208,6 +219,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.IconTheme theme    = Gtk.IconTheme.get_default ();
             Gtk.IconInfo  iconInfo = theme.lookup_by_gicon (gicon, ICON_SIZE, 0);
             Gdk.Pixbuf    pixbuf   = iconInfo.load_icon ();
+
+            if (pixbuf.height != DEFAULT_WIDTH) {
+                // some icons doesn't return the asked size, so we need to scale them
+                pixbuf = pixbuf.scale_simple (DEFAULT_WIDTH, DEFAULT_WIDTH, Gdk.InterpType.BILINEAR);
+            }
+
             return this.draw_link_mark_pixbuf (pixbuf);
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
