@@ -15,7 +15,7 @@
             <li>Display photos and keep notes on your desktop</li>
             <li>Reveal the desktop with ⌘-D</li>
         </ul>
-        <p>Re-login after installing to start using Desktop Folder.</p>
+        <p>Open it like any other app after installing. Desktop Folder will launch automatically when you next log in.</p>
     </description>
     <provides>
         <binary>com.github.spheras.desktopfolder</binary>
