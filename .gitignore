@@ -1,4 +1,5 @@
 /build
+/debug
 debian/build/
 debian/debhelper-build-stamp
 debian/files
