@@ -140,7 +140,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.Image icon;
             var       fileInfo = this.manager.get_file ().query_info ("standard::icon", FileQueryInfoFlags.NONE);
             if (manager.get_settings ().icon != null && manager.get_settings ().icon.length > 0) {
-                // we have a custom icon
+                // We have a custom icon
                 int        scale  = DesktopFolder.ICON_SIZE;
                 Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file (manager.get_settings ().icon);
                 custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
@@ -160,7 +160,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                         var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, DEFAULT_WIDTH, 0);
                         var pixbuf             = info.load_icon ();
                         if (pixbuf.height != DEFAULT_WIDTH) {
-                            // some icons doesn't return the asked size, so we need to scale them
+                            // Some icons don't return the requested size, so we need to scale them
                             pixbuf = pixbuf.scale_simple (DEFAULT_WIDTH, DEFAULT_WIDTH, Gdk.InterpType.BILINEAR);
                             icon   = new Gtk.Image.from_pixbuf (pixbuf);
                         } else {
