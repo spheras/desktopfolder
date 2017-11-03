@@ -47,7 +47,7 @@ Run `meson build` to configure the build environment and then change to the buil
 
     meson build
     cd build
-    mesonconf -Dprefix=/usr
+    meson configure -Dprefix=/usr
     ninja
 
 To install, use `ninja install`, then execute with `com.github.spheras.desktopfolder`
