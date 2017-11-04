@@ -1,5 +1,4 @@
 public class DesktopFolder.ResolutionSettings : Object {
-    // note: i'm inverting the [] to allow the default serialization of a gobject ([] ar not gobjects)
     public int resx  { get; set; }
     public int resy  { get; set; }
     public int x  { get; set; }
