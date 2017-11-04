@@ -170,6 +170,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         dialog.show_all ();
     }
 
+    /**
+     * @name reload_settings
+     * @description reload the window style in general
+     */
     public void reload_settings () {
         FolderSettings settings = this.manager.get_settings ();
         if (settings.w > 0) {

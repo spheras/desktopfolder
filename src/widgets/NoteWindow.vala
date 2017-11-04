@@ -89,19 +89,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.manager = manager;
 
-        NoteSettings settings = this.manager.get_settings ();
-        if (settings.w > 0) {
-            this.resize (settings.w, settings.h);
-        }
-        if (settings.x > 0 || settings.y > 0) {
-            this.move (settings.x, settings.y);
-        }
-        this.get_style_context ().add_class ("df_folder");
-        this.get_style_context ().add_class ("df_note");
-        this.get_style_context ().add_class ("df_shadow");
-        this.get_style_context ().add_class (settings.bgcolor);
-        this.get_style_context ().add_class (settings.fgcolor);
-
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
         box.get_style_context ().add_class ("df_note_container");
         box.set_border_width (20);
@@ -116,6 +103,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         this.text.get_style_context ().add_class ("df_note_text");
         this.text.buffer.text = this.manager.get_settings ().text;
         scrolled.add (this.text);
+
+        this.reload_settings ();
 
         this.show_all ();
 
@@ -135,6 +124,34 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         // TODO: Does the GTK window have any active signal or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
+    }
+
+    /**
+     * @name reload_settings
+     * @description reload the window style in general
+     */
+    public void reload_settings () {
+        NoteSettings settings = this.manager.get_settings ();
+        if (settings.w > 0) {
+            this.resize (settings.w, settings.h);
+        }
+        if (settings.x > 0 || settings.y > 0) {
+            this.move (settings.x, settings.y);
+        }
+
+        List <unowned string> classes = this.get_style_context ().list_classes ();
+        for (int i = 0; i < classes.length (); i++) {
+            string class = classes.nth_data (i);
+            if (class.has_prefix ("df_")) {
+                this.get_style_context ().remove_class (class);
+            }
+        }
+
+        this.get_style_context ().add_class ("df_folder");
+        this.get_style_context ().add_class ("df_note");
+        this.get_style_context ().add_class ("df_shadow");
+        this.get_style_context ().add_class (settings.bgcolor);
+        this.get_style_context ().add_class (settings.fgcolor);
     }
 
     /**

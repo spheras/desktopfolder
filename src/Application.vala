@@ -127,6 +127,28 @@ public class DesktopFolderApp : Gtk.Application {
         // we start creating the folders found at the desktop folder
         this.sync_folders_and_notes ();
         this.monitor_desktop ();
+
+        // Listening to size change events
+        Gdk.Screen.get_default ().size_changed.connect (this.on_screen_size_changed);
+    }
+
+    /**
+     * @name on_screen_size_changed
+     * @description detecting screen size changes
+     */
+    public void on_screen_size_changed () {
+        debug ("SCREEN SIZE CHANGED!");
+        Gdk.Screen screen = Gdk.Screen.get_default ();
+        this.desktop.on_screen_size_changed (screen);
+        for (int i = 0; i < this.folders.length (); i++) {
+            this.folders.nth_data (i).on_screen_size_changed (screen);
+        }
+        for (int i = 0; i < this.notes.length (); i++) {
+            this.notes.nth_data (i).on_screen_size_changed (screen);
+        }
+        for (int i = 0; i < this.photos.length (); i++) {
+            this.photos.nth_data (i).on_screen_size_changed (screen);
+        }
     }
 
     /**

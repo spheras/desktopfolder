@@ -73,6 +73,15 @@ public class DesktopFolder.PhotoManager : Object {
     }
 
     /**
+     * @name on_screen_size_changed
+     * @description detecting screen size changes
+     */
+    public virtual void on_screen_size_changed (Gdk.Screen screen) {
+        this.settings.calculate_current_position ();
+        this.view.reload_settings ();
+    }
+
+    /**
      * @name is_valid
      * @description return the validity of the photo widget
      * @return {bool} true->yes, it is valid

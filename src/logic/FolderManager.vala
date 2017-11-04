@@ -74,6 +74,16 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name on_screen_size_changed
+     * @description detecting screen size changes
+     */
+    public virtual void on_screen_size_changed (Gdk.Screen screen) {
+        // debug ("size changed for %s", this.folder_name);
+        this.settings.calculate_current_position ();
+        this.view.reload_settings ();
+    }
+
+    /**
      * @name load_folder_settings
      * @description load the settings file inside the folder (if exist), if not, it will create a new one.
      * The settings file contains the basic info saved to create window and items componentes.. position, size, etc..
@@ -93,6 +103,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             FolderSettings existent = FolderSettings.read_settings (file, this.get_folder_name ());
             this.settings = existent;
         }
+
+        this.settings.calculate_current_position ();
     }
 
     /**

@@ -8,5 +8,10 @@
       <summary>Desktop Panel over Desktop</summary>
       <description>Desktop Transparent Panel to allow desktop interaction</description>
     </key>
+    <key name="resolution-strategy" type="i">
+      <default>2</default>
+      <summary>Resolution Change Strategy</summary>
+      <description>How the widgets should be adapted to different screen resolutions</description>
+    </key>
   </schema>
 </schemalist>

@@ -1,8 +1,6 @@
-public class DesktopFolder.NoteSettings : Object {
-    public int x  { get; set; default = 0; }
-    public int y  { get; set; default = 0; }
-    public int w  { get; set; default = 0; }
-    public int h  { get; set; default = 0; }
+
+
+public class DesktopFolder.NoteSettings : PositionSettings {
     public string name { get; set; }
     public string bgcolor { get; set; }
     public string fgcolor { get; set; }
@@ -23,7 +21,6 @@ public class DesktopFolder.NoteSettings : Object {
         this.text      = "Lorem Ipsum";
     }
 
-
     /**
      * @name save
      * @description persist the changes to the filesystem. The File is the same as the saved initially.
@@ -39,6 +36,9 @@ public class DesktopFolder.NoteSettings : Object {
      */
     public void save_to_file (File file) {
         this.file = file;
+
+        store_resolution_position ();
+
         // string data = Json.gobject_to_data (this, null);
         Json.Node root = Json.gobject_serialize (this);
 

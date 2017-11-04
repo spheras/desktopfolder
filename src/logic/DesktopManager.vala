@@ -42,11 +42,19 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         this.get_view ().set_type_hint (Gdk.WindowTypeHint.DOCK);
 
         Gdk.Screen screen = Gdk.Screen.get_default ();
-        this.get_view ().move (-12, -10);
-        this.get_view ().resize (screen.get_width () + 25, screen.get_height () + 25);
+        this.on_screen_size_changed (screen);
 
         this.get_view ().set_titlebar (new Gtk.Label (""));
         this.get_view ().change_body_color (0);
+    }
+
+    /**
+     * @name on_screen_size_changed
+     * @description detecting screen size changes
+     */
+    public override void on_screen_size_changed (Gdk.Screen screen) {
+        this.get_view ().move (-12, -10);
+        this.get_view ().resize (screen.get_width () + 25, screen.get_height () + 25);
     }
 
     /**

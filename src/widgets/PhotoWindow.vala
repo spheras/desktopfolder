@@ -80,26 +80,13 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // setting the folder name
         this.manager = manager;
 
-        // let's load the settings of the folder (if exist or a new one)
-        PhotoSettings settings = this.manager.get_settings ();
-        if (settings.w > 0) {
-            // applying existing position and size configuration
-            this.resize (settings.w, settings.h);
-        }
-        if (settings.x > 0 || settings.y > 0) {
-            this.move (settings.x, settings.y);
-        }
-        // we set a class to this window to manage the css
-        this.get_style_context ().add_class ("df_folder");
-        this.get_style_context ().add_class ("df_photo");
-        this.get_style_context ().add_class ("df_transparent");
-        this.get_style_context ().add_class ("df_headless");
-
         // Box:
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
         box.get_style_context ().add_class ("df_photo_container");
         box.set_border_width (20);
         this.add (box);
+
+        this.reload_settings ();
 
         this.show_all ();
 
@@ -112,6 +99,37 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // help: doesn't have the gtk window any active signal? or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
+    }
+
+    /**
+     * @name reload_settings
+     * @description reload the window style in general
+     */
+    public void reload_settings () {
+        // let's load the settings of the folder (if exist or a new one)
+        PhotoSettings settings = this.manager.get_settings ();
+        if (settings.w > 0) {
+            // applying existing position and size configuration
+            this.resize (settings.w, settings.h);
+        }
+        if (settings.x > 0 || settings.y > 0) {
+            this.move (settings.x, settings.y);
+        }
+
+        List <unowned string> classes = this.get_style_context ().list_classes ();
+        for (int i = 0; i < classes.length (); i++) {
+            string class = classes.nth_data (i);
+            if (class.has_prefix ("df_")) {
+                this.get_style_context ().remove_class (class);
+            }
+        }
+
+
+        // we set a class to this window to manage the css
+        this.get_style_context ().add_class ("df_folder");
+        this.get_style_context ().add_class ("df_photo");
+        this.get_style_context ().add_class ("df_transparent");
+        this.get_style_context ().add_class ("df_headless");
     }
 
     /**

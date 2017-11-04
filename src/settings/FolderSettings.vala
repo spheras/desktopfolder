@@ -21,11 +21,7 @@
  * @class
  * Desktop Folder Settings
  */
-public class DesktopFolder.FolderSettings : Object {
-    public int x  { get; set; default = 0; }
-    public int y  { get; set; default = 0; }
-    public int w  { get; set; default = 0; }
-    public int h  { get; set; default = 0; }
+public class DesktopFolder.FolderSettings : PositionSettings {
     public string name { get; set; }
     public string bgcolor { get; set; }
     public string fgcolor { get; set; }
@@ -167,6 +163,9 @@ public class DesktopFolder.FolderSettings : Object {
      */
     public void save_to_file (File file) {
         this.file = file;
+
+        store_resolution_position ();
+
         // string data = Json.gobject_to_data (this, null);
         Json.Node root = Json.gobject_serialize (this);
 
@@ -174,7 +173,7 @@ public class DesktopFolder.FolderSettings : Object {
         Json.Generator generator = new Json.Generator ();
         generator.set_root (root);
         string data              = generator.to_data (null);
-
+        // debug ("the json generated is:\n%s\n", data);
         try {
             // an output file in the current working directory
             if (file.query_exists ()) {

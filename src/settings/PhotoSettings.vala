@@ -1,8 +1,4 @@
-public class DesktopFolder.PhotoSettings : Object {
-    public int x  { get; set; default = 0; }
-    public int y  { get; set; default = 0; }
-    public int w  { get; set; default = 0; }
-    public int h  { get; set; default = 0; }
+public class DesktopFolder.PhotoSettings : PositionSettings {
     public int original_width { get; set; default = 0; }
     public int original_height { get; set; default = 0; }
     public int fixocolor { get; set; default = 0; }
@@ -63,6 +59,9 @@ public class DesktopFolder.PhotoSettings : Object {
      */
     public void save_to_file (File file) {
         this.file = file;
+
+        store_resolution_position ();
+
         // string data = Json.gobject_to_data (this, null);
         Json.Node root = Json.gobject_serialize (this);
 
