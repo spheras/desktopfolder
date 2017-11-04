@@ -1,4 +1,4 @@
-# Desktop-Folder
+# Desktop Folder
 Bring your desktop back to life.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
@@ -20,7 +20,7 @@ Organize your desktop with panels that hold your things.
 ![Example5](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-note.gif)
 ![Example6](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/test-photo.gif)
 
-## How to install
+## How to Install
 If you use elementary OS, you can get it directly from the AppCenter.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
@@ -29,28 +29,32 @@ If you use GNOME 3, you should use the latest [.deb release](https://github.com/
 
 `sudo apt install ./com.github.spheras.desktopfolder_[version]_amd64.deb`
 
-After installing, re-login to start using Desktop Folder.
+Open it like any other app after installing. Desktop Folder will launch automatically when you next log in.
 
-## Building, Testing, and Installation
+## Contributing
+
+See the [Contributing page](https://github.com/spheras/desktopfolder/wiki/Contributing) on the wiki.
+
+## Building and Installing
 You'll need the following dependencies to build:
 
-* libgee-0.8-dev,
-* libcairo2-dev,
-* libjson-glib-dev,
-* libgdk-pixbuf2.0-dev,
+* libgee-0.8-dev
+* libcairo2-dev
+* libjson-glib-dev
+* libgdk-pixbuf2.0-dev
 * libwnck-3-dev
 * libgtksourceview-3.0-dev
 * meson
 * valac
 
-Run `meson build` to configure the build environment and then change to the build directory and run `ninja` to build
+Run `meson build` to configure the build environment and then change to the build directory and run `ninja` to build:
 
     meson build
     cd build
-    mesonconf -Dprefix=/usr
+    meson configure -D prefix=/usr
     ninja
 
-To install, use `ninja install`, then execute with `com.github.spheras.desktopfolder`
+To install, use `ninja install`, then execute with `com.github.spheras.desktopfolder`:
 
     sudo ninja install
     com.github.spheras.desktopfolder
