@@ -424,7 +424,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         try {
             if (directory.query_exists ()) {
                 DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Panel"));
-                throw new FolderManagerIOError.FILE_EXISTS("Folder already exists.");
+                throw new FolderManagerIOError.FILE_EXISTS("Folder already exists");
             }
             this.settings.name = this.folder_name;
             this.settings.save ();

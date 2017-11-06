@@ -254,7 +254,7 @@ public class DesktopFolder.NoteManager : Object {
         try {
             if (new_file.query_exists ()) {
                 DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"));
-                throw new NoteManagerIOError.FILE_EXISTS("File already exists.");
+                throw new NoteManagerIOError.FILE_EXISTS("File already exists");
             }
             NoteSettings note_settings = this.get_settings ();
             note_settings.name = sanitized_name;
@@ -265,7 +265,7 @@ public class DesktopFolder.NoteManager : Object {
                 note_settings.save_to_file (this.file);
                 return true;
             } else {
-                throw new NoteManagerIOError.MOVE_ERROR("Failed to rename folder");
+                throw new NoteManagerIOError.MOVE_ERROR("Failed to rename note");
             }
 
         } catch (Error error) {
