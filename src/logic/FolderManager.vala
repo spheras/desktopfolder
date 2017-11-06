@@ -17,6 +17,11 @@
  * Boston, MA 02110-1301 USA
  */
 
+public errordomain FolderManagerIOError {
+    FILE_EXISTS,
+    MOVE_ERROR
+}
+
 /**
  * @class
  * Desktop Folder Manager
@@ -401,40 +406,42 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
     /**
      * @name rename
-     * @description renaming myself
+     * @description Renaming the folder
      * @param string name the new name
      * @return bool true->everything is ok, false->something failed, rollback
      */
     public bool rename (string new_name) {
-        if (new_name.length <= 0) {
+        string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
+        if (!DesktopFolder.Util.check_name (sanitized_name)) {
+            DesktopFolder.Util.show_invalid_name_error_dialog (this.view, new_name);
             return false;
         }
-
         var old_name = this.folder_name;
         var old_path = this.get_absolute_path ();
-        this.folder_name = new_name;
+        this.folder_name = sanitized_name;
         var new_path = this.get_absolute_path ();
+        var directory = File.new_for_path (new_path);
         try {
+            if (directory.query_exists ()) {
+                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Panel"));
+                throw new FolderManagerIOError.FILE_EXISTS("Folder already exists.");
+            }
             this.settings.name = this.folder_name;
             this.settings.save ();
             FileUtils.rename (old_path, new_path);
-            var directory = File.new_for_path (new_path);
-            if (directory.query_exists ()) {
+            var new_directory = File.new_for_path (new_path);
+            if (new_directory.query_exists ()) {
                 // forcing to reload settings
                 this.load_folder_settings ();
                 this.sync_files (0, 0);
                 this.monitor_folder ();
                 return true;
             } else {
-                // we can't rename
-                this.folder_name = old_name;
-                return false;
+                throw new FolderManagerIOError.MOVE_ERROR("Failed to rename folder");
             }
         } catch (Error error) {
-            stderr.printf ("Error: %s\n", error.message);
-            Util.show_error_dialog ("Error", error.message);
-
-            // we can't rename
+            warning (error.message);
+            // Revert changes
             this.folder_name   = old_name;
             this.settings.name = this.folder_name;
             this.settings.save ();

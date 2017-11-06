@@ -17,6 +17,11 @@
  * Boston, MA 02110-1301 USA
  */
 
+public errordomain NoteManagerIOError {
+    FILE_EXISTS,
+    MOVE_ERROR
+}
+
 /**
  * @class
  * Item Manager that represents an Icon of a File or Folder
@@ -235,34 +240,42 @@ public class DesktopFolder.NoteManager : Object {
      * @return bool true->everything is ok, false->something failed, rollback
      */
     public bool rename (string new_name) {
-        if (new_name.length <= 0) {
+        string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
+        if (!DesktopFolder.Util.check_name (sanitized_name)) {
+            DesktopFolder.Util.show_invalid_name_error_dialog (this.view, new_name);
             return false;
         }
         string old_name = this.note_name;
         string old_path = this.get_absolute_path ();
-        this.note_name = new_name;
-        string new_path = DesktopFolderApp.get_app_folder () + "/" + new_name + "." + DesktopFolder.NOTE_EXTENSION;
-
+        var old_file = this.file;
+        this.note_name = sanitized_name;
+        string new_path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NOTE_EXTENSION;
+        var new_file = File.new_for_path (new_path);
         try {
-            NoteSettings is = this.get_settings ();
-            is.name         = new_name;
+            if (new_file.query_exists ()) {
+                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"));
+                throw new NoteManagerIOError.FILE_EXISTS("File already exists.");
+            }
+            NoteSettings note_settings = this.get_settings ();
+            note_settings.name = sanitized_name;
 
             FileUtils.rename (old_path, new_path);
             this.file = File.new_for_path (new_path);
-            is.save_to_file (this.file);
+            if (this.file.query_exists ()) {
+                note_settings.save_to_file (this.file);
+                return true;
+            } else {
+                throw new NoteManagerIOError.MOVE_ERROR("Failed to rename folder");
+            }
 
-            return true;
-        } catch (Error e) {
-            // we can't rename, undoing
-            this.note_name  = old_name;
-            NoteSettings is = this.get_settings ();
-            is.name         = old_name;
-            is.save ();
-
-            // showing the error
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog ("Error", e.message);
-
+        } catch (Error error) {
+            warning (error.message);
+            // Revert changes
+            this.note_name = old_name;
+            NoteSettings note_settings = this.get_settings ();
+            note_settings.name = old_name;
+            this.file = old_file;
+            note_settings.save ();
             return false;
         }
     }
