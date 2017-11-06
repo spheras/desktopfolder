@@ -30,8 +30,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     protected Gtk.Button properties_button = null;
 
     /** item alignment*/
-    protected const int SENSITIVITY_WITH_GRID      = 100;
-    protected const int SENSITIVITY_WITHOUT_GRID   = 4;
+    protected const int SENSITIVITY_WITH_GRID    = 100;
+    protected const int SENSITIVITY_WITHOUT_GRID = 4;
     // TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
     protected int sensitivity                      = SENSITIVITY_WITHOUT_GRID;
 
