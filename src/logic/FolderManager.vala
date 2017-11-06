@@ -416,15 +416,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             DesktopFolder.Util.show_invalid_name_error_dialog (this.view, new_name);
             return false;
         }
-        var old_name = this.folder_name;
-        var old_path = this.get_absolute_path ();
+        var old_name  = this.folder_name;
+        var old_path  = this.get_absolute_path ();
         this.folder_name = sanitized_name;
-        var new_path = this.get_absolute_path ();
+        var new_path  = this.get_absolute_path ();
         var directory = File.new_for_path (new_path);
         try {
             if (directory.query_exists ()) {
                 DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Panel"));
-                throw new FolderManagerIOError.FILE_EXISTS("Folder already exists");
+                throw new FolderManagerIOError.FILE_EXISTS ("Folder already exists");
             }
             this.settings.name = this.folder_name;
             this.settings.save ();
@@ -437,7 +437,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 this.monitor_folder ();
                 return true;
             } else {
-                throw new FolderManagerIOError.MOVE_ERROR("Failed to rename folder");
+                throw new FolderManagerIOError.MOVE_ERROR ("Failed to rename folder");
             }
         } catch (Error error) {
             warning (error.message);

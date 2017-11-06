@@ -247,14 +247,14 @@ public class DesktopFolder.NoteManager : Object {
         }
         string old_name = this.note_name;
         string old_path = this.get_absolute_path ();
-        var old_file = this.file;
+        var    old_file = this.file;
         this.note_name = sanitized_name;
         string new_path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NOTE_EXTENSION;
-        var new_file = File.new_for_path (new_path);
+        var    new_file = File.new_for_path (new_path);
         try {
             if (new_file.query_exists ()) {
                 DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"));
-                throw new NoteManagerIOError.FILE_EXISTS("File already exists");
+                throw new NoteManagerIOError.FILE_EXISTS ("File already exists");
             }
             NoteSettings note_settings = this.get_settings ();
             note_settings.name = sanitized_name;
@@ -265,16 +265,16 @@ public class DesktopFolder.NoteManager : Object {
                 note_settings.save_to_file (this.file);
                 return true;
             } else {
-                throw new NoteManagerIOError.MOVE_ERROR("Failed to rename note");
+                throw new NoteManagerIOError.MOVE_ERROR ("Failed to rename note");
             }
 
         } catch (Error error) {
             warning (error.message);
             // Revert changes
-            this.note_name = old_name;
+            this.note_name     = old_name;
             NoteSettings note_settings = this.get_settings ();
             note_settings.name = old_name;
-            this.file = old_file;
+            this.file          = old_file;
             note_settings.save ();
             return false;
         }

@@ -286,11 +286,11 @@ namespace DesktopFolder.Util {
      */
     private static void show_file_exists_error_dialog (Gtk.Window window, string new_name, string widget_name) {
         string message = "<big><b>" +
-        _("Could not create \"%'s\"").printf (new_name) +
-        "</b></big>\n\n" +
-        _(widget_name + " already exists.");
+            _("Could not create \"%'s\"").printf (new_name) +
+            "</b></big>\n\n" +
+            _(widget_name + " already exists.");
         Gtk.MessageDialog dialog = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-        Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
         debug (widget_name + " already exists, not creating.");
         dialog.response.connect ((response_id) => {
             dialog.destroy ();
@@ -306,11 +306,11 @@ namespace DesktopFolder.Util {
      */
     private static void show_invalid_name_error_dialog (Gtk.Window window, string new_name) {
         string message = "<big><b>" +
-        _("Could not create \"%'s\"").printf (new_name) +
-        "</b></big>\n\n" +
-        _("Name is invalid.");
+            _("Could not create \"%'s\"").printf (new_name) +
+            "</b></big>\n\n" +
+            _("Name is invalid.");
         Gtk.MessageDialog dialog = new Gtk.MessageDialog (window, Gtk.DialogFlags.MODAL,
-        Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
+                Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message);
         debug ("Invalid name, not creating");
         dialog.response.connect ((response_id) => {
             dialog.destroy ();
