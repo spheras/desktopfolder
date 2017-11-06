@@ -268,18 +268,14 @@ namespace DesktopFolder.Util {
     }
 
     private static string sanitize_name (string new_name) {
-        debug ("name before sanitization:\n" + new_name);
         string sanitized_name = new_name.strip ();
-        debug ("name after sanitization:\n" + sanitized_name);
         return sanitized_name;
     }
 
     private static bool check_name (string new_name) {
         if (new_name != "" && !("/" in new_name) && !new_name.has_prefix (".")) {
-            debug ("name is valid");
             return true;
         } else {
-            debug ("name is invalid");
             return false;
         }
     }
