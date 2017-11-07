@@ -76,7 +76,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param FolderManager manager the manager of this window
      */
     public FolderWindow (FolderManager manager) {
-        Object ( // Maybe putting this here will make uncrustify stop doing the weird behavior
+        Object (
             application:        manager.get_application (),
             icon_name:          "com.github.spheras.desktopfolder",
             resizable:          true,
@@ -124,13 +124,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             return true;
         });
 
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.set_title (manager.get_folder_name ());
-        headerbar.pack_start (trash_button);
-        // Properties button is disabled for the moment because the properties panel is not ready.
-        // headerbar.pack_end (properties_button);
-        headerbar.set_decoration_layout ("");
-        this.set_titlebar (headerbar);
+        create_headerbar ();
 
         // To avoid showing in the taskbar
         this.set_skip_taskbar_hint (true);
@@ -171,6 +165,36 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name create_headerbar
+     * @description create the header bar
+     */
+    protected virtual void create_headerbar () {
+        var headerbar = new Gtk.HeaderBar ();
+        headerbar.set_title (manager.get_folder_name ());
+        headerbar.pack_start (trash_button);
+        // Properties button is disabled for the moment because the properties panel is not ready.
+        // headerbar.pack_end (properties_button);
+        headerbar.set_decoration_layout ("");
+        this.set_titlebar (headerbar);
+    }
+
+    /**
+     * @name move_to
+     * @description move the window to other position
+     */
+    protected virtual void move_to (int x, int y) {
+        this.move (x, y);
+    }
+
+    /**
+     * @name resize_to
+     * @description resize the window to other position
+     */
+    protected virtual void resize_to (int width, int height) {
+        this.resize (width, height);
+    }
+
+    /**
      * @name reload_settings
      * @description reload the window style in general
      */
@@ -178,8 +202,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         FolderSettings settings = this.manager.get_settings ();
         if (settings.w > 0) {
             // applying existing position and size configuration
-            this.resize (settings.w, settings.h);
-            this.move (settings.x, settings.y);
+            this.resize_to (settings.w, settings.h);
+            this.move_to (settings.x, settings.y);
+            debug ("Moving '%s' to (%d,%d), Resizing to (%d,%d)", this.manager.get_folder_name (), settings.x, settings.y, settings.w, settings.h);
         }
         List <unowned string> classes = this.get_style_context ().list_classes ();
         for (int i = 0; i < classes.length (); i++) {
@@ -264,7 +289,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_enter_notify
      * @description On mouse entering the window
      */
-    private bool on_enter_notify (Gdk.EventCrossing event) {
+    protected virtual bool on_enter_notify (Gdk.EventCrossing event) {
+        // debug("FOLDERWINDOW '%s' ENTER notify",this.manager.get_folder_name());
         trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return false;
@@ -274,7 +300,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_enter_leave
      * @description On mouse leaving the window
      */
-    private bool on_leave_notify (Gdk.EventCrossing event) {
+    protected virtual bool on_leave_notify (Gdk.EventCrossing event) {
+        // debug("FOLDERWINDOW '%s' LEAVE notify",this.manager.get_folder_name());
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return false;

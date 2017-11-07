@@ -57,6 +57,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         this.align_to_grid = false;
         this.name          = name;
         this.items         = new string[0];
+        check_off_screen ();
     }
 
     /**

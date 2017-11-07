@@ -53,7 +53,12 @@ public class DesktopFolder.NoteManager : Object {
         if (!this.load_note_settings ()) {
             // removing the settings file
             if (this.file.query_exists ()) {
-                this.file.trash ();
+                try {
+                    this.file.trash ();
+                } catch (Error error) {
+                    stderr.printf ("Error: %s\n", error.message);
+                    Util.show_error_dialog ("Error", error.message);
+                }
             }
             this.flag_valid = false;
         } else {

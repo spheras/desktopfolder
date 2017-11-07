@@ -15,10 +15,11 @@ public class DesktopFolder.ResolutionSettings : Object {
 public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable {
     /** the internal list of resolutions stored for this object */
     public SList <ResolutionSettings> _resolutions = new SList <ResolutionSettings>();
-    public const int RESOLUTION_STRATEGY_NONE      = 0;
-    public const int RESOLUTION_STRATEGY_SCALE     = 1;
-    public const int RESOLUTION_STRATEGY_STORE     = 2;
-
+    private enum ResolutionStrategy {
+        NONE,
+        SCALE,
+        STORE
+    }
 
     // positions and dimensions for certain resolutions
     public SList <ResolutionSettings> resolutions {
@@ -63,7 +64,7 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      * @name get_resolution_strategy_setting
      * @description return the global setting resolution-strategy
      */
-    private int get_resolution_strategy_setting () {
+    private ResolutionStrategy get_resolution_strategy_setting () {
         GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
         string[]      keys     = settings.list_keys ();
         bool          found    = false;
@@ -74,9 +75,9 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
                 break;
             }
         }
-        int resolution_strategy = PositionSettings.RESOLUTION_STRATEGY_STORE;
+        ResolutionStrategy resolution_strategy = ResolutionStrategy.STORE;
         if (found) {
-            resolution_strategy = settings.get_int ("resolution-strategy");
+            resolution_strategy = (ResolutionStrategy) settings.get_enum ("resolution-strategy");
         }
         return resolution_strategy;
     }
@@ -89,18 +90,63 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
         if (this._resolutions == null) {
             this._resolutions = new SList <ResolutionSettings>();
         }
-        int strategy = this.get_resolution_strategy_setting ();
+        ResolutionStrategy strategy = this.get_resolution_strategy_setting ();
         switch (strategy) {
-        case PositionSettings.RESOLUTION_STRATEGY_STORE:
+        case ResolutionStrategy.STORE:
+            // debug("strategy store");
             this.strategy_store ();
+            check_off_screen ();
             break;
-        case PositionSettings.RESOLUTION_STRATEGY_SCALE:
+        case ResolutionStrategy.SCALE:
+            // debug("strategy scale");
             this.strategy_scale (this.resx, this.resy);
+            check_off_screen ();
             break;
         default:
-        case PositionSettings.RESOLUTION_STRATEGY_NONE:
+        case ResolutionStrategy.NONE:
             // nothing todo
             break;
+        }
+    }
+
+    /**
+     * @name check_off_screen
+     * @description check whether the new position is inside the monitor rectangle or not, and fix the position
+     */
+    protected void check_off_screen () {
+        Gdk.Rectangle monitor_rect;
+        Gdk.Screen    screen      = Gdk.Screen.get_default ();
+        int           monitor     = screen.get_monitor_at_point (this.x, this.y);
+        screen.get_monitor_geometry (monitor, out monitor_rect);
+        Gdk.Rectangle widget_rect = Gdk.Rectangle ();
+        widget_rect.x      = this.x;
+        widget_rect.y      = this.y;
+        widget_rect.width  = this.w;
+        widget_rect.height = this.h;
+
+        Gdk.Rectangle intersect_rect;
+
+        bool intersect = monitor_rect.intersect (widget_rect, out intersect_rect);
+        // debug(" intersection? %s, (%d, %d) - (%d,%d)",(intersect?"true":"false"),intersect_rect.width,intersect_rect.height,this.w,this.h);
+        if (!intersect || intersect_rect.width < this.w || intersect_rect.height < this.h) {
+            // debug("¡¡CAUTION - NO INTERSECTION (%d,%d,%d,%d)",intersect_rect.x,intersect_rect.y,intersect_rect.width,intersect_rect.height);
+            if (this.y < monitor_rect.y) {
+                var wingpanel_height_security = 50;
+                this.y = monitor_rect.y + wingpanel_height_security;
+            } else if (this.y > monitor_rect.y + monitor_rect.height) {
+                this.y = monitor_rect.y + monitor_rect.height - this.h;
+            }
+
+            if (this.x < monitor_rect.x) {
+                this.x = monitor_rect.x;
+            } else if (this.x > monitor_rect.x + monitor_rect.width) {
+                this.x = monitor_rect.x + monitor_rect.width - this.w;
+            }
+
+            // debug("MOVED TO-> (x:%d,y:%d,w:%d,h:%d)",this.x,this.y,this.w,this.h);
+        } else {
+            // debug("OK - INTERSCIONAN (%d,%d,%d,%d)",intersect_rect.x,intersect_rect.y,intersect_rect.width,intersect_rect.height);
+            // debug("widget(%d,%d,%d,%d) - monitor(%d,%d,%d,%d)",widget_rect.x,widget_rect.y,this.w,this.h,monitor_rect.x,monitor_rect.y,monitor_rect.width,monitor_rect.height);
         }
     }
 
@@ -109,20 +155,20 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      * @description the positions are all stored for the concrete resolution, if it is stored, it is restaured
      */
     private void strategy_store () {
-        int oldresx           = this.resx;
-        int oldresy           = this.resy;
         ResolutionSettings rs = find_current_resolution ();
         if (rs != null) {
-            // debug ("strategy store: %d,%d  -  %d,%d", rs.x, rs.y, rs.w, rs.h);
+            // debug("\n1-strategy_store:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
             this.x    = rs.x;
             this.y    = rs.y;
             this.w    = rs.w;
             this.h    = rs.h;
             this.resx = rs.resx;
             this.resy = rs.resy;
+            // debug("\n1-strategy_store:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
         } else {
             // debug ("strategy store: no resolution, lets scale");
-            this.strategy_scale (oldresx, oldresy);
+            // should we resize?? not sure, normally I just add a monitor, don't need to resize, just to position it correctly
+            // this.strategy_scale (oldresx, oldresy);
             this.create_current_resolution ();
         }
     }
@@ -137,12 +183,14 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
         int        sheight = screen.get_height ();
 
         if (this.resx > 0 && this.resy > 0) {
+            // debug("1-strategy_scale:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
             this.x    = (this.x * swidth) / oldresx;
             this.w    = (this.w * swidth) / oldresx;
             this.y    = (this.y * sheight) / oldresy;
             this.h    = (this.h * sheight) / oldresy;
             this.resx = swidth;
             this.resy = sheight;
+            // debug("2-strategy_scale:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
             // debug ("strategy scale: %d,%d  -  %d,%d", this.x, this.y, this.w, this.h);
         } else {
             // debug ("strategy scale: we don't know the resolution, default position");
@@ -253,15 +301,15 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
             return true;
         }
 
-        if (pspec.value_type == typeof (int)) {
-            @value = Value (typeof (int));
-            @value.set_int ((int) property_node.get_int ());
+        if (pspec.value_type == typeof (bool)) {
+            @value = Value (typeof (bool));
+            @value.set_boolean ((bool) property_node.get_boolean ());
             return true;
         }
 
-        if (pspec.value_type == typeof (bool)) {
-            @value = Value (typeof (bool));
-            @value.set_int ((int) property_node.get_boolean ());
+        if (pspec.value_type == typeof (int)) {
+            @value = Value (typeof (int));
+            @value.set_int ((int) property_node.get_int ());
             return true;
         }
 

@@ -32,7 +32,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     /** to know if the panel is moveable or not */
     protected bool is_moveable                   = true;
     /** the view of this logic */
-    private FolderWindow view                    = null;
+    protected FolderWindow view                  = null;
     /** Folder Settings of this folder */
     private FolderSettings settings              = null;
     /** File Monitor of this folder */
@@ -57,7 +57,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
         // First we create a Folder Window above the desktop
         this.application = application;
-        this.view        = new DesktopFolder.FolderWindow (this);
+        this.create_view ();
         this.application.add_window (this.view);
         this.view.show ();
 
@@ -76,6 +76,14 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.monitor_folder ();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
+    }
+
+    /**
+     * @name create_view
+     * @description create the view associated with this manager
+     */
+    protected virtual void create_view () {
+        this.view = new DesktopFolder.FolderWindow (this);
     }
 
     /**
@@ -384,7 +392,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 this.clear_all ();
                 this.settings.reset ();
                 this.settings.save ();
-                this.rename (DesktopFolder.Lang.APP_FIRST_PANEL);
+                if (this.get_folder_name () != DesktopFolder.Lang.APP_FIRST_PANEL) {
+                    this.rename (DesktopFolder.Lang.APP_FIRST_PANEL);
+                }
                 this.view.reload_settings ();
                 this.view.queue_draw ();
                 this.view.show_all ();

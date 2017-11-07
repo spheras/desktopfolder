@@ -24,7 +24,7 @@
 public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private NoteManager manager                     = null;
     private Gtk.Menu menu                           = null; // Context menu
-    private Gtk.SourceView text                     = null;
+    private Gtk.TextView text                       = null;
     private Cairo.Pattern texture_pattern           = null;
     private Cairo.Surface clip_surface              = null; // The clip image
     private Gtk.Button trash_button                 = null;
@@ -36,11 +36,18 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
     construct {
         set_keep_below (true);
-        stick ();
         this.hide_titlebar_when_maximized = false;
-        set_type_hint (Gdk.WindowTypeHint.MENU);
+        set_type_hint (Gdk.WindowTypeHint.DESKTOP);
+
         set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
+        this.set_property ("skip-pager-hint", true);
+        this.set_property ("skip_taskbar_hint", true);
+        this.set_property ("skip_pager_hint", true);
+        this.skip_pager_hint   = true;
+        this.skip_taskbar_hint = true;
+
+        stick ();
     }
 
     /**
@@ -52,13 +59,15 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             application:        manager.get_application (),
             icon_name:          "com.github.spheras.desktopfolder",
             resizable:          true,
+            accept_focus:       true,
             skip_taskbar_hint:  true,
-            type_hint:          Gdk.WindowTypeHint.DESKTOP,
+            skip_pager_hint:    true,
             decorated:          true,
             title:              (manager.get_note_name ()),
+            type_hint:          Gdk.WindowTypeHint.DESKTOP,
             deletable:          false,
-            width_request:      140,
-            height_request:     160
+            height_request:     140,
+            width_request:      160
         );
 
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
@@ -115,6 +124,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
+        this.text.add_events (Gdk.EventMask.ENTER_NOTIFY_MASK);
+        this.text.add_events (Gdk.EventMask.LEAVE_NOTIFY_MASK);
+        this.text.enter_notify_event.connect (this.on_enter_notify);
+        this.text.leave_notify_event.connect (this.on_leave_notify);
 
         trash_button.clicked.connect (this.manager.trash);
 
@@ -223,8 +236,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description On mouse entering the window
      */
     private bool on_enter_notify (Gdk.EventCrossing event) {
+        // debug("NOTEWINDOW ENTER notify");
         trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
-        return false;
+        return true;
     }
 
     /**
@@ -232,8 +246,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description On mouse leaving the window
      */
     private bool on_leave_notify (Gdk.EventCrossing event) {
+        // debug("NOTEWINDOW LEAVE notify");
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
-        return false;
+        return true;
     }
 
     /**

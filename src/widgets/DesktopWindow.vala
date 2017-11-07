@@ -31,8 +31,48 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         base (manager);
     }
 
+    /**
+     * @name on_enter_notify
+     * @description On mouse entering the window
+     */
+    protected override bool on_enter_notify (Gdk.EventCrossing event) {
+        // debug("DESKTOP enter notify");
+        return true;
+    }
+
+    /**
+     * @name move_to
+     * @description move the window to other position
+     */
+    protected override void move_to (int x, int y) {
+        // we cannot move move the desktop window
+    }
+
+    /**
+     * @name resize_to
+     * @description resize the window to other position
+     */
+    protected override void resize_to (int width, int height) {
+        // we cannot resize the desktop window
+    }
+
+    /**
+     * @name on_enter_leave
+     * @description On mouse leaving the window
+     */
+    protected override bool on_leave_notify (Gdk.EventCrossing event) {
+        // debug("DESKTOP leave notify");
+        return true;
+    }
+
+    /**
+     * @overrided
+     */
+    protected override void create_headerbar () {
+        this.set_titlebar (null);
+    }
+
     protected override void show_popup (Gdk.EventButton event) {
-        debug ("THIS IS THE OVERRIDED!");
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { // we need the event coordinates for the menu, we need to recreate?!
 
@@ -57,7 +97,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var newphoto_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
 
         var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
         var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS);;
@@ -75,7 +114,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
 
         ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
-        trash_item.activate.connect (this.manager.trash);
         ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
         ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
         ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
@@ -106,8 +144,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
 
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (aligntogrid_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (trash_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (textshadow_item);
         context_menu.append (textbold_item);

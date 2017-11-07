@@ -130,6 +130,8 @@ public class DesktopFolderApp : Gtk.Application {
 
         // Listening to size change events
         Gdk.Screen.get_default ().size_changed.connect (this.on_screen_size_changed);
+        Gdk.Screen.get_default ().composited_changed.connect (this.on_screen_size_changed);
+        Gdk.Screen.get_default ().monitors_changed.connect (this.on_screen_size_changed);
     }
 
     /**

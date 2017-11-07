@@ -44,8 +44,17 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         Gdk.Screen screen = Gdk.Screen.get_default ();
         this.on_screen_size_changed (screen);
 
-        this.get_view ().set_titlebar (new Gtk.Label (""));
         this.get_view ().change_body_color (0);
+
+    }
+
+    /**
+     * @name create_view
+     * @description create the view associated with this manager
+     * @overrided
+     */
+    protected override void create_view () {
+        this.view = new DesktopFolder.DesktopWindow (this);
     }
 
     /**
@@ -54,7 +63,11 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      */
     public override void on_screen_size_changed (Gdk.Screen screen) {
         this.get_view ().move (-12, -10);
-        this.get_view ().resize (screen.get_width () + 25, screen.get_height () + 25);
+        int w = screen.get_width () + 25;
+        int h = screen.get_height () + 25;
+        this.get_view ().resize (w, h);
+
+        debug ("DESKTOP SIZE CHANGED! %d,%d - %d,%d", -12, -10, w, h);
     }
 
     /**

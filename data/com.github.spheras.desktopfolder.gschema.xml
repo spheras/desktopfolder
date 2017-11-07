@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
+    <enum id="resolution-strategy">
+        <value value="0" nick="NONE"/>
+        <value value="1" nick="SCALE"/>
+        <value value="2" nick="STORE"/>
+    </enum>
+
   <schema path="/com/github/spheras/desktopfolder/"
   id="com.github.spheras.desktopfolder"
   gettext-domain="com.github.spheras.desktopfolder">
@@ -8,8 +14,8 @@
       <summary>Desktop Panel over Desktop</summary>
       <description>Desktop Transparent Panel to allow desktop interaction</description>
     </key>
-    <key name="resolution-strategy" type="i">
-      <default>2</default>
+    <key name="resolution-strategy" enum="resolution-strategy">
+      <default>'STORE'</default>
       <summary>Resolution Change Strategy</summary>
       <description>How the widgets should be adapted to different screen resolutions</description>
     </key>
