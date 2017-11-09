@@ -32,6 +32,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     private bool selected;
     /** the view associated with this manager */
     private ItemView view;
+    /** drag and drop behaviour for this folder */
+    private DragnDrop.DndBehaviour dnd_behaviour = null;
 
     /**
      * @constructor
@@ -40,11 +42,12 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @param FolderManager folder the folder parent
      */
     public ItemManager (string file_name, File file, FolderManager folder) {
-        this.file_name = file_name;
-        this.file      = file;
-        this.folder    = folder;
-        this.selected  = false;
-        this.view      = new ItemView (this);
+        this.file_name     = file_name;
+        this.file          = file;
+        this.folder        = folder;
+        this.selected      = false;
+        this.view          = new ItemView (this);
+        this.dnd_behaviour = new DragnDrop.DndBehaviour (this, true, false);
     }
 
     /**
@@ -381,6 +384,13 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public string get_display_target_uri () {
         return DragnDrop.Util.get_display_target_uri (this.get_file ());
+    }
+
+    /**
+     * @overrided
+     */
+    public Gtk.Image get_image () {
+        return this.view.get_image ();
     }
 
     // ---------------------------------------------------------------------------------------

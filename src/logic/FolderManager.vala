@@ -629,6 +629,13 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         return DragnDrop.Util.get_display_target_uri (this.get_file ());
     }
 
+    /**
+     * @overrided
+     */
+    public Gtk.Image get_image () {
+        return null;
+    }
+
     // ---------------------------------------------------------------------------------------
     // ---------------------------**********************--------------------------------------
     // ---------------------------------------------------------------------------------------

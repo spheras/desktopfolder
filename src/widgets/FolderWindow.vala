@@ -94,7 +94,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         );
 
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
-        this.set_transient_for (desktop_manager.get_view ());
+        if (desktop_manager != null) {
+            this.set_transient_for (desktop_manager.get_view ());
+        }
 
         this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         this.trash_button.has_tooltip  = true;
@@ -170,7 +172,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected virtual void create_headerbar () {
         var headerbar = new Gtk.HeaderBar ();
-        headerbar.set_title (manager.get_folder_name ());
+        if (this.manager != null) {
+            headerbar.set_title (manager.get_folder_name ());
+        }
         headerbar.pack_start (trash_button);
         // Properties button is disabled for the moment because the properties panel is not ready.
         // headerbar.pack_end (properties_button);
@@ -204,7 +208,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // applying existing position and size configuration
             this.resize_to (settings.w, settings.h);
             this.move_to (settings.x, settings.y);
-            debug ("Moving '%s' to (%d,%d), Resizing to (%d,%d)", this.manager.get_folder_name (), settings.x, settings.y, settings.w, settings.h);
+            // debug ("Moving '%s' to (%d,%d), Resizing to (%d,%d)", this.manager.get_folder_name (), settings.x, settings.y, settings.w, settings.h);
         }
         List <unowned string> classes = this.get_style_context ().list_classes ();
         for (int i = 0; i < classes.length (); i++) {
@@ -325,6 +329,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
+
+        // this code is to allow the drag'ndrop of files inside the folder window
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
+            return false;
+        }
+
+
         // This is to allow moving and resizing the panel
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.NORMAL; // Going to try DIALOG at some point to make below obsolete

@@ -131,6 +131,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
+     * @return the image icon
+     */
+    public Gtk.Image get_image () {
+        return this.icon;
+    }
+
+    /**
      * @name calculate_icon
      * @description calculate the icon image to show
      * @return Gtk.Image the image to be shown
@@ -446,6 +453,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private bool on_press (Gdk.EventButton event) {
         // debug("press:%i",(int)event.button);
 
+        // this code is to allow the drag'ndrop of files inside the folder window
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
+            return false;
+        }
 
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY) {
             // first we must select the item
@@ -690,6 +703,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_motion signal
      */
     private bool on_motion (Gdk.EventMotion event) {
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        if (control_pressed) {
+            return false;
+        }
+
         // debug("on_motion");
         this.flagModified = true;
 

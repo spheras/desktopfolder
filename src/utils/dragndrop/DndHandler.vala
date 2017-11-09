@@ -333,7 +333,7 @@ namespace DesktopFolder.DragnDrop {
         }
 
         public static void set_selection_data_from_file_list_2 (Gtk.SelectionData selection_data,
-                                                              GLib.List<File> file_list,
+                                                              GLib.List<DragnDrop.DndView> file_list,
                                                               string prefix = "") {
 
               //debug("set_selection_data_from_file_list!!!");
@@ -343,7 +343,7 @@ namespace DesktopFolder.DragnDrop {
                 bool in_recent = true;// file_list.data.is_recent_uri_scheme ();
 
                 file_list.@foreach ((file) => {
-                    var target = in_recent ? Util.get_display_target_uri (file) : file.get_uri ();
+                    var target = in_recent ? Util.get_display_target_uri (file.get_file()) : file.get_file().get_uri ();
                     //debug("target->%s",target);
                     sb.append (target);
                     sb.append ("\r\n");  /* Drop onto Filezilla does not work without the "\r" */

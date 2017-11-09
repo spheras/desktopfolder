@@ -42,6 +42,13 @@ namespace DesktopFolder.DragnDrop {
         public abstract GLib.File get_file();
 
         /**
+        * @name get_image
+        * @description return the image to be shown when dragging
+        * @return {Gtk.Image} the image to be rendered
+        */
+        public abstract Gtk.Image get_image();
+
+        /**
         * @name get_file_at
         * @name get the file at the position x, y
         * @return File

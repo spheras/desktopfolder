@@ -82,10 +82,40 @@ namespace DesktopFolder.DragnDrop {
             }
         }
 
-
-        private void on_drag_begin (Gdk.DragContext context) {
+        public void on_drag_begin (Gdk.DragContext context) {
             drag_has_begun = true;
             should_activate = false;
+
+            //calculating the icon
+            int x=10;
+            int y=10;
+            Gtk.Image image=this.view.get_image();
+            GLib.Icon icon;
+            Gtk.IconSize iconSize;
+            image.get_gicon(out icon, out iconSize);
+            if(icon!=null){
+                Gtk.drag_set_icon_gicon(context,icon,x,y);
+            }else{
+                string icon_name;
+                 image.get_icon_name (out icon_name, out iconSize);
+                 if(icon_name!=null){
+                     Gtk.drag_set_icon_name(context,icon_name,x,y);
+                 }else{
+                        string stock_name;
+                        image.get_stock (out stock_name, out iconSize);
+                        if(stock_name!=null){
+                            Gtk.drag_set_icon_stock(context,stock_name,x,y);
+                        }else{
+                            Gdk.Pixbuf pixbuf=image.get_pixbuf();
+                            if(pixbuf!=null){
+                                Gtk.drag_set_icon_pixbuf(context,pixbuf,x,y);
+                            }else{
+                                Gtk.drag_set_icon_default(context);
+                            }
+                        }
+                 }
+            }
+
         }
 
         private void on_drag_data_get (Gdk.DragContext context,
@@ -99,18 +129,10 @@ namespace DesktopFolder.DragnDrop {
                  return;
              }
 
-             /* NEVER USED
-             File file = drag_file_list.first ().data;
-             */
-
-             /* TODO custom file icon
-             if (file != null && file.pix != null)
-                 Gtk.drag_set_icon_pixbuf (context, file.pix, 0, 0);
-             else
-             */
-                 Gtk.drag_set_icon_name (context, "stock-file", 0, 0);
-
-             DndHandler.set_selection_data_from_file_list_2 (selection_data, drag_file_list);
+            //lets drag
+            unowned GLib.List<DragnDrop.DndView> list_of_files = null;
+            list_of_files.prepend(this.view);
+            DndHandler.set_selection_data_from_file_list_2 (selection_data, list_of_files);
          }
 
          private void on_drag_data_delete (Gdk.DragContext context) {
@@ -139,12 +161,7 @@ namespace DesktopFolder.DragnDrop {
 
          protected unowned GLib.List<File> get_selected_files_for_transfer (GLib.List<unowned File> selection = get_selected_files ()) {
             unowned GLib.List<File> list = null;
-
-            selection.@foreach ((file) => {
-                list.prepend (file);
-            });
-
-            list.reverse ();
+            list.prepend(this.view.get_file());
 
             return list;
         }

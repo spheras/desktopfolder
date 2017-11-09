@@ -345,7 +345,7 @@ namespace DesktopFolder.DragnDrop {
 
     						try{
 
-                                GLib.Thread<int> thread = new Thread<int>.try ("DesktopFolder File Operation", ()=>{
+                                new Thread<int>.try ("DesktopFolder File Operation", ()=>{
                                     try{
                                         DesktopFolder.Util.copy_recursive(f,
                                             final_target,
