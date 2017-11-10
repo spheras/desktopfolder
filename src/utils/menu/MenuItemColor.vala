@@ -2,12 +2,15 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
     private new bool has_focus;
     private int height;
     public signal void color_changed (int ncolor);
+    public signal void custom_changed (string custom);
     private string[] tags_colors;
-    //public const string TAGS_COLORS[10] = { null, "#fce94f", "#fcaf3e", "#997666", "#8ae234", "#729fcf", "#ad7fa8", "#ef2929", "#d3d7cf", "#000000" };
-    //public const string TAGS_COLORS_CLASS[10] = { "transparent", "yellow", "orange", "brown", "green", "blue", "purple", "red", "gray", "black" };
+    private string custom;
+    private Gtk.Window parent;
 
-    public MenuItemColor (string[] tags_colors) {
+    public MenuItemColor (string[] tags_colors, Gtk.Window parent, string? custom) {
+        this.parent=parent;
         this.tags_colors=tags_colors;
+        this.custom=custom;
         set_size_request (150, 20);
         height = 20;
 
@@ -37,9 +40,29 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         int xpad = 9;
 
         if (event.y >= y0 && event.y <= y0+btnh) {
-            for (i=1; i<=this.tags_colors.length; i++) {
+            for (i=1; i<=this.tags_colors.length+1; i++) {
                 if (event.x>= xpad+x0*i && event.x <= xpad+x0*i+btnw) {
-                    color_changed (i-1);
+                    if(i>this.tags_colors.length){
+                        Gtk.ColorSelectionDialog dialog = new Gtk.ColorSelectionDialog ("Select Your Favorite Color");
+                        dialog.set_transient_for(this.parent);
+                        dialog.get_color_selection().set_has_opacity_control(true);
+                        Gdk.RGBA _rgba = Gdk.RGBA ();
+                        _rgba.parse (this.custom);
+                        dialog.get_color_selection().set_current_rgba(_rgba);
+                        dialog.get_color_selection().set_previous_rgba(_rgba);
+                    	if (dialog.run () == Gtk.ResponseType.OK) {
+                    		unowned Gtk.ColorSelection widget = dialog.get_color_selection ();
+                    		string rgba = widget.current_rgba.to_string ();
+                            custom_changed(rgba);
+                            //uint alpha = widget.current_alpha;
+                    		//stdout.puts ("Selection\n");
+                    		//stdout.printf ("  %s\n", rgba);
+                    		//stdout.printf ("  %u\n", alpha);
+                    	}
+                    	dialog.close ();
+                    }else{
+                        color_changed (i-1);
+                    }
                     break;
                 }
             }
@@ -54,12 +77,23 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         int x0 = btnw+5;
         int xpad = 9;
 
-        for (i=1; i<=this.tags_colors.length; i++) {
-            if (i==1)
+        for (i=1; i<=this.tags_colors.length+1; i++) {
+            if (i==1){
                 DrawCross (cr,xpad + x0*i, y0+1, btnw-2, btnh-2);
-            else {
-                DrawRoundedRectangle (cr,xpad + x0*i, y0, btnw, btnh, "stroke", i-1);
-                DrawRoundedRectangle (cr,xpad + x0*i, y0, btnw, btnh, "fill", i-1);
+            }else if(i>this.tags_colors.length){
+                if(this.custom!=null){
+                    Gdk.RGBA rgba = Gdk.RGBA ();
+                    rgba.parse (this.custom);
+                    rgba.alpha=1;
+                    string custom_without_alpha=rgba.to_string();
+                    DrawRoundedRectangle (cr,xpad + x0*i, y0, btnw, btnh, "stroke", custom_without_alpha);
+                    DrawRoundedRectangle (cr,xpad + x0*i, y0, btnw, btnh, "fill", custom_without_alpha);
+                    DrawGradientOverlay (cr,xpad + x0*i, y0, btnw, btnh);
+                    DrawInterrogation (cr,xpad + x0*i, y0+1, btnw-2, btnh-2);
+                }
+            }else {
+                DrawRoundedRectangle (cr,xpad + x0*i, y0, btnw, btnh, "stroke", this.tags_colors[i-1]);
+                DrawRoundedRectangle (cr,xpad + x0*i, y0, btnw, btnh, "fill", this.tags_colors[i-1]);
                 DrawGradientOverlay (cr,xpad + x0*i, y0, btnw, btnh);
             }
         }
@@ -80,11 +114,36 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         cr.close_path ();
     }
 
+    /**
+    * @name DrawInterrogation
+    * @description draw an interrogation character over the back custom color
+    * @param {Cairo.Context} cr the context to use
+    * @param {int} the X position
+    * @param {int} the Y position
+    * @param {int} the Width of the rectangle
+    * @param {int} the Height of the rectangle
+    */
+    private void DrawInterrogation(Cairo.Context cr, int x, int y, int w, int h){
+            string utf8 = "?";
+
+            cr.set_source_rgba (1, 1, 1, 1);
+        	cr.select_font_face ("Dialog", Cairo.FontSlant.NORMAL, Cairo.FontWeight.BOLD);
+        	cr.set_font_size (12.0);
+
+        	Cairo.TextExtents extents;
+        	cr.text_extents (utf8, out extents);
+        	double sx = x+(w/2)-(extents.width/2 + extents.x_bearing);
+        	double sy = y+(y/2)-(extents.height/2 + extents.y_bearing);
+
+        	cr.move_to (sx, sy);
+        	cr.show_text (utf8);
+    }
+
     /*
      * Create a rounded rectangle using the Bezier curve.
      * Adapted from http://cairographics.org/cookbook/roundedrectangles/
      */
-    private void DrawRoundedRectangle (Cairo.Context cr, int x, int y, int w, int h, string style, int color) {
+    private void DrawRoundedRectangle (Cairo.Context cr, int x, int y, int w, int h, string style, string color) {
         int radius_x=2;
         int radius_y=2;
         double ARC_TO_BEZIER = 0.55228475;
@@ -116,7 +175,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         default:
         case "fill":
             Gdk.RGBA rgba = Gdk.RGBA ();
-            rgba.parse (this.tags_colors[color]);
+            rgba.parse (color);
             Gdk.cairo_set_source_rgba (cr, rgba);
             cr.fill ();
             break;
