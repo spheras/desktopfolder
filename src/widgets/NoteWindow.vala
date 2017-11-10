@@ -70,6 +70,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             width_request:      160
         );
 
+        this.manager = manager;
+
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
         this.set_transient_for (desktop_manager.get_view ());
 
@@ -87,16 +89,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             return true;
         });
 
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.set_title (manager.get_note_name ());
-        headerbar.pack_start (trash_button);
-        headerbar.set_decoration_layout ("");
-        this.set_titlebar (headerbar);
+        this.create_headerbar();
 
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
-
-        this.manager = manager;
 
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
         box.get_style_context ().add_class ("df_note_container");
@@ -137,6 +133,28 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         // TODO: Does the GTK window have any active signal or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
+    }
+
+    /**
+     * @name create_headerbar
+     * @description create the header bar
+     */
+    protected virtual void create_headerbar () {
+        // debug("Create headerbar for %s",this.manager.get_folder_name ());
+
+        var header = new Gtk.HeaderBar ();
+        header.has_subtitle = false;
+        DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_note_name ());
+        header.set_custom_title (label);
+        header.pack_start (trash_button);
+        header.set_decoration_layout ("");
+        this.set_titlebar (header);
+
+        label.changed.connect ((new_name) => {
+            if (this.manager.rename (new_name)) {
+                label.text = new_name;
+            }
+        });
     }
 
     /**

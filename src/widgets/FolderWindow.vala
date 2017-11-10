@@ -93,6 +93,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             width_request:      50
         );
 
+        this.manager = manager;
+
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
         if (desktop_manager != null) {
             this.set_transient_for (desktop_manager.get_view ());
@@ -134,8 +136,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         skip_taskbar_hint = true;
         this.set_property ("skip-taskbar-hint", true);
 
-        this.manager   = manager;
-
         this.container = new Gtk.Fixed ();
         add (this.container);
 
@@ -171,15 +171,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description create the header bar
      */
     protected virtual void create_headerbar () {
-        var headerbar = new Gtk.HeaderBar ();
-        if (this.manager != null) {
-            headerbar.set_title (manager.get_folder_name ());
-        }
-        headerbar.pack_start (trash_button);
-        // Properties button is disabled for the moment because the properties panel is not ready.
-        // headerbar.pack_end (properties_button);
-        headerbar.set_decoration_layout ("");
-        this.set_titlebar (headerbar);
+        // debug("Create headerbar for %s",this.manager.get_folder_name ());
+
+        var header = new Gtk.HeaderBar ();
+        header.has_subtitle = false;
+        DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_folder_name ());
+        header.set_custom_title (label);
+        header.pack_start (trash_button);
+        header.set_decoration_layout ("");
+        this.set_titlebar (header);
+
+        label.changed.connect ((new_name) => {
+            if (this.manager.rename (new_name)) {
+                label.text = new_name;
+            }
+        });
+    }
+
+    private DesktopFolder.EditableLabel get_title () {
+        Gtk.HeaderBar header = this.get_titlebar () as Gtk.HeaderBar;
+        return header.get_custom_title () as DesktopFolder.EditableLabel;
     }
 
     /**
@@ -329,6 +340,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
+        // Needed to exit focus from title when editting
+        this.activate_focus ();
 
         // this code is to allow the drag'ndrop of files inside the folder window
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
@@ -612,6 +625,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
+        // If the user is editting the title
+        if (this.get_title ().editing) {
+            return false;
+        }
+
         int key                   = (int) event.keyval;
         // debug("event key %d",key);
         const int DELETE_KEY      = 65535;
