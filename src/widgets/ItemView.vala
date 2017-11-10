@@ -93,23 +93,45 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
         try {
             this.refresh_icon ();
-            string slabel = this.get_correct_label (this.manager.get_file_name ());
-            this.label = new Gtk.Label (slabel);
-            this.label.set_width_chars (MAX_CHARACTERS);
-            this.label.set_max_width_chars (MAX_CHARACTERS);
-            this.label.wrap_mode = Pango.WrapMode.WORD_CHAR;
-            this.label.set_line_wrap (true);
-            this.label.set_justify (Gtk.Justification.CENTER);
+            // string slabel = this.get_correct_label (this.manager.get_file_name ());
+            // this.label = new Gtk.Label (slabel);
+            // this.label.set_width_chars (MAX_CHARACTERS);
+            // this.label.set_max_width_chars (MAX_CHARACTERS);
+            // this.label.wrap_mode = Pango.WrapMode.WORD_CHAR;
+            // this.label.set_line_wrap (true);
+            // this.label.set_justify (Gtk.Justification.CENTER);
+            //
+            // this.label.get_style_context ().add_class ("df_label");
+            // this.check_ellipse (slabel);
+            // this.container.pack_end (label, true, true);
+            this.create_label ();
 
-            this.label.get_style_context ().add_class ("df_label");
-            this.check_ellipse (slabel);
-            this.container.pack_end (label, true, true);
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
 
         this.add (this.container);
+    }
+
+
+    /**
+     * @name create_headerbar
+     * @description create the header bar
+     */
+    protected virtual void create_label () {
+        debug ("Create label for %s", this.manager.get_file_name ());
+        string slabel = this.get_correct_label (this.manager.get_file_name ());
+
+        DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (slabel);
+        this.container.pack_end (label, true, true);
+
+        label.changed.connect ((new_name) => {
+            if (this.manager.rename (new_name + this.hidden_extension)) {
+                label.text = new_name;
+                // this.check_ellipse (new_name);
+            }
+        });
     }
 
     /**
