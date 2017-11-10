@@ -67,8 +67,8 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         // This left margin is used to actually align the label to the position
         // of a window title. Only using Gtk.Align.CENTER doesn't do the job.
         // title_label.margin_left = 32;
-        title_label.valign    = Gtk.Align.CENTER;
-        title_label.halign    = Gtk.Align.FILL;
+        title_label.valign = Gtk.Align.CENTER;
+        title_label.halign = Gtk.Align.FILL;
 
         title_label.set_width_chars (14);
         title_label.set_max_width_chars (14);
@@ -77,9 +77,9 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         title_label.set_justify (Gtk.Justification.CENTER);
 
 
-        title_entry           = new Gtk.Entry ();
-        title_entry.halign    = Gtk.Align.FILL;
-        title_entry.set_style(title_label.get_style());
+        title_entry        = new Gtk.Entry ();
+        title_entry.halign = Gtk.Align.FILL;
+        title_entry.set_style (title_label.get_style ());
 
         stack                 = new Gtk.Stack ();
         stack.transition_type = Gtk.StackTransitionType.CROSSFADE;
@@ -105,11 +105,11 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
             return true;
         });
 
-        // // To prevent default popup and parent move
-        // // This event should be managed only by this.title_label
+        //// To prevent default popup and parent move
+        //// This event should be managed only by this.title_label
         // this.button_press_event.connect ((event) => {
-        //     // debug ("EditableLabel: button_press_event");
-        //     return true;
+        //// debug ("EditableLabel: button_press_event");
+        // return true;
         // });
 
         // If press intro while editting
@@ -125,7 +125,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
             return false;
         });
 
-        //Shotcuts
+        // Shotcuts
         this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
     }
@@ -137,17 +137,18 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
-        int key                   = (int) event.keyval;
+        int key = (int) event.keyval;
         // debug("event key %d",key);
 
-        var  mods                 = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool control_pressed      = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
 
-        if(control_pressed){
+        if (control_pressed) {
             if (key == 'z' || key == 'Z') {
                 title_entry.text = title_label.label;
             }
         }
         return false;
     }
+
 }

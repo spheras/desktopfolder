@@ -89,7 +89,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             return true;
         });
 
-        this.create_headerbar();
+        this.create_headerbar ();
 
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
