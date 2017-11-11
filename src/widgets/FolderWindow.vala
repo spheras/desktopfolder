@@ -100,6 +100,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.set_transient_for (desktop_manager.get_view ());
         }
 
+        this.name=manager.get_application().get_next_id();
         this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         this.trash_button.has_tooltip  = true;
         this.trash_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
@@ -225,18 +226,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // applying existing colors configuration
         if(settings.bgcolor.has_prefix("rgb")){
             string custom=settings.bgcolor;
-            Gtk.StyleContext.remove_provider_for_screen(Gdk.Screen.get_default(),this.custom_color_provider);
-            try{
-                this.custom_color_provider.load_from_data ("@define-color colorBackgroundCUSTOM "+custom+";");
-            }catch(Error e){
-                stderr.printf ("Error: %s\n", e.message);
-                DesktopFolder.Util.show_error_dialog ("Error", e.message);
-            }
-            Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-            string color="df_customcolor";
-            this.get_style_context ().add_class (color);
-            this.last_custom_color=custom;
+            this.set_custom_color(custom);
         }else{
             Gdk.RGBA rgba = Gdk.RGBA ();
             rgba.parse (this.get_color_for_class(settings.bgcolor));
@@ -260,6 +250,40 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         } else {
             this.sensitivity = SENSITIVITY_WITHOUT_GRID;
         }
+    }
+
+    /**
+    * @name set_custom_color
+    * @description utility function to set a custom color for the window
+    * @param {string} custom the custom color to set (rgba(....))
+    */
+    private void set_custom_color(string custom){
+        for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
+            string scolor = BODY_TAGS_COLORS_CLASS[i];
+            this.get_style_context ().remove_class (scolor);
+        }
+
+        Gtk.StyleContext.remove_provider_for_screen(Gdk.Screen.get_default(),this.custom_color_provider);
+        try{
+            string css=
+            "#"+this.name+""".df_folder.window-frame, #"""+this.name+""".df_folder.window-frame:backdrop {
+                border-color: """+custom+""";
+            }
+            #"""+this.name+""".df_folder.background, #"""+this.name+""".df_folder.background:backdrop {
+                background-color: """+custom+""";
+            }
+            #"""+this.name+""".df_folder .titlebar, #"""+this.name+""".df_folder .titlebar:backdrop{
+                background-color: """+custom+""";
+                border-color: """+custom+""";
+            }""";
+            //debug("applying css:\n %s",css);
+            this.custom_color_provider.load_from_data (css);
+        }catch(Error e){
+            stderr.printf ("Error: %s\n", e.message);
+            DesktopFolder.Util.show_error_dialog ("Error", e.message);
+        }
+        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        this.last_custom_color=custom;
     }
 
     /**
@@ -608,7 +632,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }
-        this.get_style_context ().remove_class ("df_customcolor");
+        if(this.custom_color_provider!=null){
+            Gtk.StyleContext.remove_provider_for_screen(Gdk.Screen.get_default(),this.custom_color_provider);
+        }
 
         if(ncolor>0){
             Gdk.RGBA rgba = Gdk.RGBA ();
@@ -630,34 +656,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param custom string the new custom color
      */
     public void change_body_color_custom (string custom) {
-        for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
-            string scolor = BODY_TAGS_COLORS_CLASS[i];
-            this.get_style_context ().remove_class (scolor);
-        }
-        this.get_style_context ().remove_class ("df_customcolor");
-
-        Gdk.RGBA rgba = Gdk.RGBA ();
-        rgba.parse (custom);
-        string mycustom=custom;
-        if(rgba.alpha==1){
-            //this solves a bug wen setting an opaque color to gtk and vice
-            rgba.alpha=0.999;
-            mycustom=rgba.to_string();
-        }
-
-        Gtk.StyleContext.remove_provider_for_screen(Gdk.Screen.get_default(),this.custom_color_provider);
-        try{
-        this.custom_color_provider.load_from_data ("@define-color colorBackgroundCUSTOM "+mycustom+";");
-        }catch(Error e){
-            stderr.printf ("Error: %s\n", e.message);
-            DesktopFolder.Util.show_error_dialog ("Error", e.message);
-        }
-        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-
-        this.get_style_context ().add_class ("df_customcolor");
-        this.manager.save_body_color (mycustom);
-        this.last_custom_color=mycustom;
+        this.set_custom_color(custom);
     }
 
     /**

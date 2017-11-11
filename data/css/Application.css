@@ -145,14 +145,6 @@
     background-color: @noteColorBackgroundORANGE;
     border-color: @noteColorBackgroundORANGE;
 }
-/* CUSTOM */
-.df_folder.df_note.window-frame.df_customcolor, .df_folder.df_note.window-frame.df_customcolor:backdrop,
-.df_folder.df_note.background.df_customcolor, .df_folder.df_note.background.df_customcolor:backdrop,
-.df_folder.df_note.df_customcolor .titlebar, .df_folder.df_note.df_customcolor .titlebar:backdrop {
-    border-color: @noteColorBackgroundCUSTOM;
-    background-color: @noteColorBackgroundCUSTOM;
-    border-color: @noteColorBackgroundCUSTOM;
-}
 
 /* BODY COLORS */
 /* TRANSPARENT */
@@ -265,17 +257,6 @@
 .df_folder.df_orange .titlebar, .df_folder.df_orange .titlebar:backdrop{
     background-color: @colorBackgroundORANGE;
     border-color: @colorBackgroundORANGE;
-}
-/* CUSTOM */
-.df_folder.window-frame.df_customcolor, .df_folder.window-frame.df_customcolor:backdrop {
-    border-color: @colorBackgroundCUSTOM;
-}
-.df_folder.background.df_customcolor, .df_folder.background.df_customcolor:backdrop {
-    background-color: @colorBackgroundCUSTOM;
-}
-.df_folder.df_customcolor .titlebar, .df_folder.df_customcolor .titlebar:backdrop{
-    background-color: @colorBackgroundCUSTOM;
-    border-color: @colorBackgroundCUSTOM;
 }
 
 
