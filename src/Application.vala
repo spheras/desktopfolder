@@ -31,7 +31,7 @@ public class DesktopFolderApp : Gtk.Application {
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
     private List <DesktopFolder.NoteManager> notes     = new List <DesktopFolder.NoteManager> ();
     private List <DesktopFolder.PhotoManager> photos   = new List <DesktopFolder.PhotoManager> ();
-    private int current_id=0;
+    private int current_id = 0;
 
     construct {
         /* Needed by Glib.Application */
@@ -86,13 +86,13 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-    * @name get_next_id
-    * @description return the next valid id for a window
-    * @return {string} the next valid id
-    */
-    public string get_next_id(){
+     * @name get_next_id
+     * @description return the next valid id for a window
+     * @return {string} the next valid id
+     */
+    public string get_next_id () {
         this.current_id++;
-        return "id%d".printf(this.current_id);
+        return "id%d".printf (this.current_id);
     }
 
     /**

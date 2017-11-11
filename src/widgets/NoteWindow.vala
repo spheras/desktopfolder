@@ -33,8 +33,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
     private const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
     private const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
-    private string last_custom_color="#FF0000";
-    private Gtk.CssProvider custom_color_provider = new Gtk.CssProvider ();
+    private string last_custom_color                = "#FF0000";
+    private Gtk.CssProvider custom_color_provider   = new Gtk.CssProvider ();
 
     construct {
         set_keep_below (true);
@@ -72,7 +72,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             width_request:      160
         );
 
-        this.name=manager.get_application().get_next_id();
+        this.name = manager.get_application ().get_next_id ();
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
         this.set_transient_for (desktop_manager.get_view ());
 
@@ -168,31 +168,31 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         this.get_style_context ().add_class ("df_note");
         this.get_style_context ().add_class ("df_shadow");
         // applying existing colors configuration
-        if(settings.bgcolor.has_prefix("rgb")){
-            string custom=settings.bgcolor;
-            this.set_custom_color(custom);
-        }else{
+        if (settings.bgcolor.has_prefix ("rgb")) {
+            string custom = settings.bgcolor;
+            this.set_custom_color (custom);
+        } else {
             Gdk.RGBA rgba = Gdk.RGBA ();
-            rgba.parse (this.get_color_for_class(settings.bgcolor));
-            rgba.alpha=0.6;
-            this.last_custom_color=rgba.to_string();
+            rgba.parse (this.get_color_for_class (settings.bgcolor));
+            rgba.alpha             = 0.6;
+            this.last_custom_color = rgba.to_string ();
             this.get_style_context ().add_class (settings.bgcolor);
         }
         this.get_style_context ().add_class (settings.fgcolor);
     }
 
     /**
-    * @name get_color_for_class
-    * @description return the correct color for a certain class
-    * @param {string} class the class to obtain (@see BODY_TAGS_COLORS_CLASS)
-    * @return {string} the color for the class passed
-    */
-    private string get_color_for_class(string class){
-        if(class=="df_transparent"){
+     * @name get_color_for_class
+     * @description return the correct color for a certain class
+     * @param {string} class the class to obtain (@see BODY_TAGS_COLORS_CLASS)
+     * @return {string} the color for the class passed
+     */
+    private string get_color_for_class (string class) {
+        if (class == "df_transparent") {
             return "rgba(0,0,0,0)";
-        }else{
-            for(int i=0;i<BODY_TAGS_COLORS_CLASS.length;i++){
-                if(BODY_TAGS_COLORS_CLASS[i]==class){
+        } else {
+            for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
+                if (BODY_TAGS_COLORS_CLASS[i] == class) {
                     return BODY_TAGS_COLORS[i];
                 }
             }
@@ -201,37 +201,37 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name set_custom_color
-    * @description utility function to set a custom color for the window
-    * @param {string} custom the custom color to set (rgba(....))
-    */
-    private void set_custom_color(string custom){
+     * @name set_custom_color
+     * @description utility function to set a custom color for the window
+     * @param {string} custom the custom color to set (rgba(....))
+     */
+    private void set_custom_color (string custom) {
         for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }
 
-        Gtk.StyleContext.remove_provider_for_screen(Gdk.Screen.get_default(),this.custom_color_provider);
-        try{
-            string css=
-            "#"+this.name+""".df_folder.window-frame, #"""+this.name+""".df_folder.window-frame:backdrop {
-                border-color: """+custom+""";
+        Gtk.StyleContext.remove_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider);
+        try {
+            string css =
+                "#" + this.name + """.df_folder.window-frame, #""" + this.name + """.df_folder.window-frame:backdrop {
+                border-color: """ + custom + """;
             }
-            #"""+this.name+""".df_folder.background, #"""+this.name+""".df_folder.background:backdrop {
-                background-color: """+custom+""";
+            #""" + this.name + """.df_folder.background, #""" + this.name + """.df_folder.background:backdrop {
+                background-color: """ + custom + """;
             }
-            #"""+this.name+""".df_folder .titlebar, #"""+this.name+""".df_folder .titlebar:backdrop{
-                background-color: """+custom+""";
-                border-color: """+custom+""";
+            #""" + this.name + """.df_folder .titlebar, #""" + this.name + """.df_folder .titlebar:backdrop{
+                background-color: """ + custom + """;
+                border-color: """ + custom + """;
             }""";
-            //debug("applying css:\n %s",css);
+            // debug("applying css:\n %s",css);
             this.custom_color_provider.load_from_data (css);
-        }catch(Error e){
+        } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             DesktopFolder.Util.show_error_dialog ("Error", e.message);
         }
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-        this.last_custom_color=custom;
+        this.last_custom_color = custom;
     }
 
     /**
@@ -261,7 +261,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             }
         }
     }
-
 
     /**
      * @name on_focus_out
@@ -345,13 +344,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button == Gdk.BUTTON_SECONDARY)) {
             this.show_popup (event);
-        }else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
-            //int width  = this.get_allocated_width ();
-            //int height = this.get_allocated_height ();
-            //debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
-            if(event.x>11 && event.y>11){
-                //the corner need some extra space
-                if(!(event.x<31 && event.y<31)){
+        } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
+            // int width  = this.get_allocated_width ();
+            // int height = this.get_allocated_height ();
+            // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
+            if (event.x > 11 && event.y > 11) {
+                // the corner need some extra space
+                if (!(event.x < 31 && event.y < 31)) {
                     this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
                 }
             }
@@ -448,12 +447,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         menu.append (item);
 
         // section to change the window head and body colors
-        item = new MenuItemColor (HEAD_TAGS_COLORS,this, null);
+        item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
         ((MenuItemColor) item).color_changed.connect (change_head_color);
         item.show ();
         menu.append (item);
 
-        item = new MenuItemColor (BODY_TAGS_COLORS,this,this.last_custom_color);
+        item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
         ((MenuItemColor) item).color_changed.connect (change_body_color);
         ((MenuItemColor) item).custom_changed.connect (change_body_color_custom);
         item.show ();
@@ -559,16 +558,16 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
         }
-        if(this.custom_color_provider!=null){
-            Gtk.StyleContext.remove_provider_for_screen(Gdk.Screen.get_default(),this.custom_color_provider);
+        if (this.custom_color_provider != null) {
+            Gtk.StyleContext.remove_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider);
         }
 
-        if(ncolor>0){
+        if (ncolor > 0) {
             Gdk.RGBA rgba = Gdk.RGBA ();
             rgba.parse (BODY_TAGS_COLORS[ncolor]);
-            this.last_custom_color=rgba.to_string();
-        }else{
-            this.last_custom_color="rgba(0,0,0,0)";
+            this.last_custom_color = rgba.to_string ();
+        } else {
+            this.last_custom_color = "rgba(0,0,0,0)";
         }
 
         this.get_style_context ().add_class (color);
@@ -582,7 +581,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param custom string the new custom color
      */
     public void change_body_color_custom (string custom) {
-        this.set_custom_color(custom);
+        this.set_custom_color (custom);
     }
 
     /**

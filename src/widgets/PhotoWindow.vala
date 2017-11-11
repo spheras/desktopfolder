@@ -287,7 +287,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         item.show ();
         menu.append (item);
 
-        item = new MenuItemColor (FIXO_TAGS_COLORS,this,null);
+        item = new MenuItemColor (FIXO_TAGS_COLORS, this, null);
         ((MenuItemColor) item).color_changed.connect (change_fixo_color);
         item.show ();
         menu.append (item);

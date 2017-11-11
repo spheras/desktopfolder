@@ -232,7 +232,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
 
             // regression for classes, now must have a df_ prefix
             if (existent.bgcolor.length > 0 && !existent.bgcolor.has_prefix ("df_")) {
-                if(!existent.bgcolor.has_prefix("rgb")){
+                if (!existent.bgcolor.has_prefix ("rgb")) {
                     existent.bgcolor = "df_" + existent.bgcolor;
                 }
             }
