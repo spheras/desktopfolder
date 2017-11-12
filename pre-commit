@@ -3,8 +3,6 @@
 # Runs uncrustify to format code
 # Adapted from elementary icon's pre-commit hook: https://github.com/elementary/icons/blob/master/pre-commit
 
-# NOTE: This has not been tested yet.
-
 CDIR=$(git rev-parse --show-toplevel)
 
 echo "Running Uncrustify..."
