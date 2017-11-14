@@ -69,7 +69,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
      * @overrided
      */
     protected override void create_headerbar () {
-        this.set_titlebar (null);
+        this.set_titlebar (new Gtk.HeaderBar ());
     }
 
     protected override void show_popup (Gdk.EventButton event) {

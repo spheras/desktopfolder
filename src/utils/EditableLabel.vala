@@ -21,9 +21,27 @@
  */
 
 public class DesktopFolder.EditableLabel : Gtk.EventBox {
+    /**
+     * @name changed
+     * @description Signal when the label has been changed
+     */
     public signal void changed (string new_title);
 
-    private Gtk.Label title_label;
+    /**
+     * @name on_start_editing
+     * @description Signal when the label has changed to entry
+     * @deprecated
+     */
+    public signal void on_start_editing ();
+
+    /**
+     * @name on_stop_editing
+     * @description Signal when the enyty has changed to label
+     * @deprecated
+     */
+    public signal void on_stop_editing ();
+
+    private Gtk.Label title_label { private set; public get; }
     private Gtk.Entry title_entry;
     private Gtk.Stack stack;
 
@@ -60,9 +78,8 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
 
     public EditableLabel (string ? title_name) {
 
-        title_label           = new Gtk.Label (title_name);
-        title_label.ellipsize = Pango.EllipsizeMode.END;
-        title_label.hexpand   = true;
+        title_label         = new Gtk.Label (title_name);
+        title_label.hexpand = true;
         // title_label.margin_top = 3;
         // This left margin is used to actually align the label to the position
         // of a window title. Only using Gtk.Align.CENTER doesn't do the job.
@@ -70,16 +87,16 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         title_label.valign = Gtk.Align.CENTER;
         title_label.halign = Gtk.Align.FILL;
 
-        title_label.set_width_chars (14);
-        title_label.set_max_width_chars (14);
+        title_label.get_style_context ().add_class ("df_label");
         title_label.wrap_mode = Pango.WrapMode.WORD_CHAR;
         title_label.set_line_wrap (true);
         title_label.set_justify (Gtk.Justification.CENTER);
 
-
         title_entry        = new Gtk.Entry ();
         title_entry.halign = Gtk.Align.FILL;
         title_entry.set_style (title_label.get_style ());
+        // Minimum entry with
+        title_entry.set_width_chars (1);
 
         stack                 = new Gtk.Stack ();
         stack.transition_type = Gtk.StackTransitionType.CROSSFADE;
@@ -101,7 +118,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         // This event should be managed only by this.title_label
         this.button_release_event.connect ((event) => {
             // debug ("EditableLabel: button_realease_event");
-            editing = true;
+            this.start_editing ();
             return true;
         });
 
@@ -115,17 +132,17 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         // If press intro while editting
         this.title_entry.activate.connect (() => {
             // debug ("title_entry.activate.connect");
-            editing = false;
+            this.stop_editing ();
         });
 
         // focus lost while editing
         this.title_entry.focus_out_event.connect ((event) => {
             // debug ("title_entry.focus_out_event.connect");
-            editing = false;
+            this.stop_editing ();
             return false;
         });
 
-        // Shotcuts
+        // keyboard shortcuts
         this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
     }
@@ -137,18 +154,70 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
+        // debug ("EditableLabel on_key, event: %s", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
         int key = (int) event.keyval;
-        // debug("event key %d",key);
+        // debug ("EditableLabel event key %d", key);
 
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
 
+        const int ESCAPE_KEY = 65307;
+
         if (control_pressed) {
             if (key == 'z' || key == 'Z') {
-                title_entry.text = title_label.label;
+                this.undo_changes ();
             }
+        } else if (key == ESCAPE_KEY) {
+            this.undo_changes ();
+            this.stop_editing ();
         }
-        return false;
+
+        return true;
+    }
+
+    /**
+     * @name start_editing
+     * @description Actions to be performed to start editing
+     */
+    public void start_editing () {
+        editing = true;
+        on_start_editing ();
+    }
+
+    /**
+     * @name stop_editing
+     * @description Actions to be performed to stop editing
+     */
+    public void stop_editing () {
+        editing = false;
+        on_stop_editing ();
+    }
+
+    /**
+     * @name undo_changes
+     * @description Actions to be performed to undo chenges when editing
+     */
+    private void undo_changes () {
+        title_entry.text = title_label.label;
+    }
+
+    /**
+     * @name set_lines
+     * @description Sets the number of lines of the Gtk.label component
+     * @see Gkt.label
+     */
+    public void set_lines (int n) {
+        this.title_label.set_lines (n);
+    }
+
+    /**
+     * @name set_lines
+     * @description Sets the mode used to ellipsize (add an ellipsis: "...") to
+     * the text if there is not enough space to render the entire string.
+     * @see Gkt.label
+     */
+    public void set_ellipsize (Pango.EllipsizeMode mode) {
+        this.title_label.set_ellipsize (mode);
     }
 
 }

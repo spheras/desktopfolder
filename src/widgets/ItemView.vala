@@ -22,8 +22,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     public const int PADDING_X       = 13;
     public const int PADDING_Y       = 47;
     // DEFAULT SIZES
-    private const int DEFAULT_WIDTH  = 48;
-    private const int DEFAULT_HEIGHT = 68;
+    private const int ICON_WIDTH     = 48;
+    private const int DEFAULT_WIDTH  = 90;
+    private const int DEFAULT_HEIGHT = 90;
     private const int MAX_CHARACTERS = 13;
     /** flag to know that the item has been moved */
     private bool flagModified        = false;
@@ -41,7 +42,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     /** the container of this item view */
     private Gtk.Box container;
     /** the label of the icon */
-    private Gtk.Label label;
+    private DesktopFolder.EditableLabel label;
     /** the image shown */
     private Gtk.Image icon = null;
 
@@ -93,19 +94,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
         try {
             this.refresh_icon ();
-            // string slabel = this.get_correct_label (this.manager.get_file_name ());
-            // this.label = new Gtk.Label (slabel);
-            // this.label.set_width_chars (MAX_CHARACTERS);
-            // this.label.set_max_width_chars (MAX_CHARACTERS);
-            // this.label.wrap_mode = Pango.WrapMode.WORD_CHAR;
-            // this.label.set_line_wrap (true);
-            // this.label.set_justify (Gtk.Justification.CENTER);
-            //
-            // this.label.get_style_context ().add_class ("df_label");
-            // this.check_ellipse (slabel);
-            // this.container.pack_end (label, true, true);
-            this.create_label ();
-
+            string slabel = this.get_correct_label (this.manager.get_file_name ());
+            this.create_label (slabel);
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
@@ -119,17 +109,17 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @name create_headerbar
      * @description create the header bar
      */
-    protected virtual void create_label () {
+    protected virtual void create_label (string slabel) {
         debug ("Create label for %s", this.manager.get_file_name ());
-        string slabel = this.get_correct_label (this.manager.get_file_name ());
 
-        DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (slabel);
-        this.container.pack_end (label, true, true);
+        this.label = new DesktopFolder.EditableLabel (slabel);
+        this.container.pack_end (label, true, true, 0);
+        this.check_ellipse ();
 
         label.changed.connect ((new_name) => {
             if (this.manager.rename (new_name + this.hidden_extension)) {
                 label.text = new_name;
-                // this.check_ellipse (new_name);
+                this.check_ellipse ();
             }
         });
     }
@@ -146,7 +136,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         }
 
         this.icon = newImage;
-        this.icon.set_size_request (DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.icon.set_size_request (ICON_WIDTH, ICON_WIDTH);
         this.icon.get_style_context ().add_class ("df_icon");
         this.container.pack_start (this.icon, true, true);
         this.show_all ();
@@ -186,11 +176,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                         icon = this.draw_link_mark_gicon (gicon);
                     } else {
                         GLib.ThemedIcon themed = new GLib.ThemedIcon.with_default_fallbacks (gicon.to_string ());
-                        var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, DEFAULT_WIDTH, 0);
+                        var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
                         var pixbuf             = info.load_icon ();
-                        if (pixbuf.height != DEFAULT_WIDTH) {
+                        if (pixbuf.height != ICON_WIDTH) {
                             // Some icons don't return the requested size, so we need to scale them
-                            pixbuf = pixbuf.scale_simple (DEFAULT_WIDTH, DEFAULT_WIDTH, Gdk.InterpType.BILINEAR);
+                            pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
                             icon   = new Gtk.Image.from_pixbuf (pixbuf);
                         } else {
                             icon = new Gtk.Image.from_gicon (gicon, Gtk.IconSize.DIALOG);
@@ -249,9 +239,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.IconInfo  iconInfo = theme.lookup_by_gicon (gicon, ICON_SIZE, 0);
             Gdk.Pixbuf    pixbuf   = iconInfo.load_icon ();
 
-            if (pixbuf.height != DEFAULT_WIDTH) {
+            if (pixbuf.height != ICON_WIDTH) {
                 // some icons doesn't return the asked size, so we need to scale them
-                pixbuf = pixbuf.scale_simple (DEFAULT_WIDTH, DEFAULT_WIDTH, Gdk.InterpType.BILINEAR);
+                pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
             }
 
             return this.draw_link_mark_pixbuf (pixbuf);
@@ -318,8 +308,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description check if the ellipse should be shown
      * @param string name the name to be shown in order to calculate if the ellipse will be shown
      */
-    private void check_ellipse (string name) {
-        if (name.length > MAX_CHARACTERS) {
+    private void check_ellipse () {
+        // debug ("check ellipse!");
+        if (this.label.text.length > MAX_CHARACTERS) {
             this.label.set_lines (2);
             this.label.set_ellipsize (Pango.EllipsizeMode.END);
         } else {
@@ -365,27 +356,24 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
-     * @name rename
+     * @name start_editing
      * @description action of rename the item selected by the user
      * @param string new_name the new name for this item
      */
-    public void rename (string new_name) {
-        debug ("renaming to:%s", new_name + this.hidden_extension);
-        if (this.manager.rename (new_name + this.hidden_extension)) {
-            this.label.set_label (new_name);
-            this.check_ellipse (new_name);
-        }
+    public void start_editing () {
+        // debug ("renaming ItemView");
+        this.label.start_editing ();
     }
 
-    /**
-     * @name force_adjust_label
-     * @description util function to foce the label to readjust
-     * sometimes, the label change its appareance, but it is not adjusted automatically
-     * this function force the adjust
-     */
-    public void force_adjust_label () {
-        this.label.set_label (this.label.get_text ());
-    }
+    ///**
+    // * @name force_adjust_label
+    // * @description util function to force the label to readjust
+    // * sometimes, the label change its appareance, but it is not adjusted automatically
+    // * this function force the adjust
+    // */
+    // public void force_adjust_label () {
+    // this.label.title_label.set_label (this.label.title_label.get_text ());
+    // }
 
     /**
      * @name select
@@ -396,6 +384,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         ((FolderWindow) window).unselect_all ();
         this.manager.select ();
         this.get_style_context ().add_class ("df_selected");
+
     }
 
     /**
@@ -575,7 +564,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_RENAME);
-        item.activate.connect ((item) => { this.rename_dialog (); });
+        item.activate.connect ((item) => { this.label.start_editing (); });
         item.show ();
         menu.append (item);
 
@@ -667,24 +656,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
-     * @name rename_dialog
-     * @description the user wants to rename the icon. Some info is needed before the rename action is performed.
-     */
-    public void rename_dialog () {
-        RenameDialog dialog = new RenameDialog (this.manager.get_application_window (),
-                DesktopFolder.Lang.ITEM_RENAME_TITLE,
-                DesktopFolder.Lang.ITEM_RENAME_MESSAGE,
-                this.label.get_label ());
-        dialog.on_rename.connect ((new_name) => {
-            // renaming
-            if (new_name != this.label.get_label ()) {
-                this.rename (new_name);
-            }
-        });
-        dialog.show_all ();
-    }
-
-    /**
      * @name change_icon
      * @description change the icon of an executable item
      */
@@ -725,6 +696,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_motion signal
      */
     private bool on_motion (Gdk.EventMotion event) {
+        // To prevent moving the itemView when editing the label
+        if (this.label.editing) {
+            // debug("ItemView has the focus but is editing the label");
+            return false;
+        }
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         if (control_pressed) {

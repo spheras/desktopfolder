@@ -22,12 +22,13 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    protected FolderManager manager        = null;
-    protected Gtk.Fixed container          = null;
-    protected Gtk.Menu context_menu        = null;
-    protected bool flag_moving             = false;
-    private Gtk.Button trash_button        = null;
-    protected Gtk.Button properties_button = null;
+    protected FolderManager manager           = null;
+    protected Gtk.Fixed container             = null;
+    protected Gtk.Menu context_menu           = null;
+    protected bool flag_moving                = false;
+    private Gtk.Button trash_button           = null;
+    private DesktopFolder.EditableLabel label = null;
+    protected Gtk.Button properties_button    = null;
 
     /** item alignment*/
     protected const int SENSITIVITY_WITH_GRID    = 100;
@@ -174,11 +175,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
-        header.has_subtitle = false;
-        DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_folder_name ());
-        header.set_custom_title (label);
-        header.pack_start (trash_button);
         header.set_decoration_layout ("");
+        this.label = new DesktopFolder.EditableLabel (manager.get_folder_name ());
+        // header.set_custom_title (label);
+        header.pack_start (trash_button);
+        header.set_custom_title (label);
+        // header.pack_end (properties_button);
+
         this.set_titlebar (header);
 
         label.changed.connect ((new_name) => {
@@ -427,7 +430,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
         trash_item.activate.connect (this.manager.trash);
-        rename_item.activate.connect (this.rename_folder);
+        rename_item.activate.connect (this.label.start_editing);
         ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
         ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
         ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
@@ -495,10 +498,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.manager.get_settings ().textbold = true;
         }
         this.manager.get_settings ().save ();
-        List <weak Gtk.Widget> children = this.container.get_children ();
-        foreach (Gtk.Widget elem in children) {
-            (elem as ItemView).force_adjust_label ();
-        }
+        // List <weak Gtk.Widget> children = this.container.get_children ();
+        // foreach (Gtk.Widget elem in children) {
+        // (elem as ItemView).force_adjust_label ();
+        // }
     }
 
     /**
@@ -533,10 +536,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.manager.get_settings ().textshadow = true;
         }
         this.manager.get_settings ().save ();
-        List <weak Gtk.Widget> children = this.container.get_children ();
-        foreach (Gtk.Widget elem in children) {
-            (elem as ItemView).force_adjust_label ();
-        }
+        // List <weak Gtk.Widget> children = this.container.get_children ();
+        // foreach (Gtk.Widget elem in children) {
+        // (elem as ItemView).force_adjust_label ();
+        // }
     }
 
     /**
@@ -625,8 +628,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
-        // If the user is editting the title
-        if (this.get_title ().editing) {
+        // debug("FolderWindow on_key, event: %s",event.type == Gdk.EventType.KEY_RELEASE?"KEY_RELEASE":event.type == Gdk.EventType.KEY_PRESS?"KEY_PRESS":"OTRO");
+        // If the uses is editing something on an entr
+        if (this.get_focus () is Gtk.Entry) {
+            // debug ("User is editing!");
             return false;
         }
 
@@ -675,10 +680,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     }
                 } else if (key == F2_KEY) {
                     if (selected != null) {
-                        selected.rename_dialog ();
+                        selected.start_editing ();
                         return true;
                     } else {
-                        this.rename_folder ();
+                        this.label.start_editing ();
                     }
                 } else if (key == ENTER_KEY) {
                     if (selected != null) {
@@ -942,7 +947,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
     /**
      * @name draw_backgorund
-     * @description draw the note window background intercepting the draw signal
+     * @description draw the folder window background intercepting the draw signal
      * @param {Cairo.Context} cr the cairo context
      * @bool @see draw signal
      */
@@ -962,7 +967,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
             int padding     = 13;
             int paddingx2   = padding * 2;
-            int header      = 35;
+            int header      = 25;
             int margin      = 10;
             int sensitivity = SENSITIVITY_WITH_GRID - 10;
             cr.set_source_rgba (1, 1, 1, 0.3);
