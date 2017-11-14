@@ -25,7 +25,7 @@ If you use elementary OS, you can get it directly from the AppCenter.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
-If you use GNOME 3, you should use the latest [.deb release](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
+The main target is Elementary, but this should work also on GNOME 3. The bad news is that we have experienced problems with Wayland (i.e. used in the last Ubuntu). We are working hard to fix those issues regarding Wayland. Anyway, if you want to check you should use the latest [.deb release](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
 
 `sudo apt install ./com.github.spheras.desktopfolder_[version]_amd64.deb`
 

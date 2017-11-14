@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Runs uncrustify to format code
+# Adapted from elementary icon's pre-commit hook: https://github.com/elementary/icons/blob/master/pre-commit
+
+CDIR=$(git rev-parse --show-toplevel)
+
+echo "Running Uncrustify..."
+
+git diff --cached --name-status --diff-filter=ACMR | while read STATUS FILE; do
+  if [[ "$FILE" =~ ^.+(vala)$ ]]; then
+    uncrustify --replace --no-backup -c $CDIR/etc/uncrustify-elementary-vala.cfg $CDIR/$FILE
+  fi
+done
+
+git add .
+exit 0

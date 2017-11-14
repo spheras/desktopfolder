@@ -104,9 +104,10 @@ public class DesktopFolder.NoteSettings : PositionSettings {
 
             // regression for classes, now must have a df_ prefix
             if (existent.bgcolor.length > 0 && !existent.bgcolor.has_prefix ("df_")) {
-                // backward compability
-                existent.bgcolor = "df_" + existent.bgcolor;
-                existent.texture = "square_paper";
+                if (!existent.bgcolor.has_prefix ("rgb")) {
+                    existent.bgcolor = "df_" + existent.bgcolor;
+                    existent.texture = "square_paper";
+                }
             }
             if (existent.fgcolor.length > 0 && !existent.fgcolor.has_prefix ("df_")) {
                 // backward compability

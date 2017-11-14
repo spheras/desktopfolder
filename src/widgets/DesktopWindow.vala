@@ -84,23 +84,22 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
         // Creating items (please try and keep these in the same order as appended to the menu)
-        var new_item             = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+        var new_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
 
-        var new_submenu          = new Gtk.Menu ();
-        var newfolder_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
-        var emptyfile_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
-        var newlink_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
-        var newlinkdir_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
-        var newpanel_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        var newlinkpanel_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        var newnote_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        var newphoto_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var new_submenu       = new Gtk.Menu ();
+        var newfolder_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
+        var emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
+        var newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+        var newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
 
-        var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
-        var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS);;
-        var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS);;
+        var aligntogrid_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        var textshadow_item   = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        var textbold_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        var textcolor_item    = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
         newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
@@ -119,7 +118,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
         ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
-        ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
 
         // Appending (in order)
         if (cm.can_paste) {
@@ -149,7 +147,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         context_menu.append (textbold_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
-        context_menu.append (backgroundcolor_item);
 
         context_menu.show_all ();
 

@@ -633,7 +633,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @overrided
      */
     public Gtk.Image get_image () {
-        return null;
+        return null as Gtk.Image;
     }
 
     // ---------------------------------------------------------------------------------------
