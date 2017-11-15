@@ -183,8 +183,11 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @description Actions to be performed to stop editing
      */
     public void stop_editing () {
-        editing = false;
-        on_stop_editing ();
+        if(editing==true){
+            debug("stop editing");
+            editing = false;
+            on_stop_editing ();
+        }
     }
 
     /**
