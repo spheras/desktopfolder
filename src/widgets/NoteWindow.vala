@@ -73,7 +73,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         );
 
         this.manager = manager;
-        this.name = manager.get_application ().get_next_id ();
+        this.name    = manager.get_application ().get_next_id ();
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
         this.set_transient_for (desktop_manager.get_view ());
 
@@ -229,13 +229,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             this.get_style_context ().remove_class (scolor);
         }
 
-        Gdk.RGBA rgba = Gdk.RGBA ();
+        Gdk.RGBA rgba   = Gdk.RGBA ();
         rgba.parse (custom);
-        string mycustom=custom;
-        if(rgba.alpha==1){
-            //this solves a bug wen setting an opaque color to gtk and vice
-            rgba.alpha=0.999;
-            mycustom=rgba.to_string();
+        string mycustom = custom;
+        if (rgba.alpha == 1) {
+            // this solves a bug wen setting an opaque color to gtk and vice
+            rgba.alpha = 0.999;
+            mycustom   = rgba.to_string ();
         }
 
         Gtk.StyleContext.remove_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider);
@@ -609,7 +609,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param custom string the new custom color
      */
     public void change_body_color_custom (string custom) {
-        string mycustom=this.set_custom_color (custom);
+        string mycustom = this.set_custom_color (custom);
         this.manager.save_body_color (mycustom);
     }
 

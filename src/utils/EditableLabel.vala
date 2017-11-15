@@ -109,7 +109,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         // Clicked on the title
         // This event should be managed only by this.title_label
         this.button_press_event.connect ((event) => {
-            if(event.type == Gdk.EventType.@2BUTTON_PRESS){
+            if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
                 this.start_editing ();
                 return true;
             }
@@ -183,8 +183,8 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @description Actions to be performed to stop editing
      */
     public void stop_editing () {
-        if(editing==true){
-            debug("stop editing");
+        if (editing == true) {
+            // debug("stop editing");
             editing = false;
             on_stop_editing ();
         }
