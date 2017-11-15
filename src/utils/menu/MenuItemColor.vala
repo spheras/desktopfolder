@@ -5,10 +5,10 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
     public signal void custom_changed (string custom);
     private string[] tags_colors;
     private string custom;
-    private Gtk.Window parent;
+    private Gtk.Window window_parent;
 
-    public MenuItemColor (string[] tags_colors, Gtk.Window parent, string? custom) {
-        this.parent=parent;
+    public MenuItemColor (string[] tags_colors, Gtk.Window window_parent, string? custom) {
+        this.window_parent=window_parent;
         this.tags_colors=tags_colors;
         this.custom=custom;
         set_size_request (150, 20);
@@ -44,7 +44,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
                 if (event.x>= xpad+x0*i && event.x <= xpad+x0*i+btnw) {
                     if(i>this.tags_colors.length){
                         Gtk.ColorSelectionDialog dialog = new Gtk.ColorSelectionDialog ("Select Your Favorite Color");
-                        dialog.set_transient_for(this.parent);
+                        dialog.set_transient_for(this.window_parent);
                         dialog.get_color_selection().set_has_opacity_control(true);
                         Gdk.RGBA _rgba = Gdk.RGBA ();
                         _rgba.parse (this.custom);

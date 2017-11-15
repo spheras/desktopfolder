@@ -106,20 +106,14 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
 
         this.get_style_context ().add_class ("title");
 
-        // Change the cursor over the title label
-        // This event should be managed only by this.title_label
-        this.enter_notify_event.connect ((event) => {
-            // debug("EditableLabel: enter_notify_event");
-            get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.PENCIL));
-            return false;
-        });
-
         // Clicked on the title
         // This event should be managed only by this.title_label
-        this.button_release_event.connect ((event) => {
-            // debug ("EditableLabel: button_realease_event");
-            this.start_editing ();
-            return true;
+        this.button_press_event.connect ((event) => {
+            if(event.type == Gdk.EventType.@2BUTTON_PRESS){
+                this.start_editing ();
+                return true;
+            }
+            return false;
         });
 
         //// To prevent default popup and parent move
