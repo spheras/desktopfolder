@@ -91,9 +91,12 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         title_label.wrap_mode = Pango.WrapMode.WORD_CHAR;
         title_label.set_line_wrap (true);
         title_label.set_justify (Gtk.Justification.CENTER);
+        title_label.set_ellipsize (Pango.EllipsizeMode.END);
+        title_label.set_lines (1);
 
         title_entry        = new Gtk.Entry ();
-        title_entry.halign = Gtk.Align.FILL;
+        title_entry.halign = Gtk.Align.CENTER;
+        title_entry.valign = Gtk.Align.FILL;
         title_entry.set_style (title_label.get_style ());
         // Minimum entry with
         title_entry.set_width_chars (1);
@@ -115,13 +118,6 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
             }
             return false;
         });
-
-        //// To prevent default popup and parent move
-        //// This event should be managed only by this.title_label
-        // this.button_press_event.connect ((event) => {
-        //// debug ("EditableLabel: button_press_event");
-        // return true;
-        // });
 
         // If press intro while editting
         this.title_entry.activate.connect (() => {
