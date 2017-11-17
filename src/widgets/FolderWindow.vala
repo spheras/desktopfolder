@@ -180,7 +180,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var header = new Gtk.HeaderBar ();
         header.set_decoration_layout ("");
         this.label = new DesktopFolder.EditableLabel (manager.get_folder_name ());
-        this.label.get_style_context ().add_class ("df_bold");
+        this.label.get_style_context ().add_class ("title");
         // header.set_custom_title (label);
         header.pack_start (trash_button);
         header.set_custom_title (label);

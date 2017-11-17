@@ -107,8 +107,6 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         stack.add (title_entry);
         add (stack);
 
-        this.get_style_context ().add_class ("title");
-
         // Clicked on the title
         // This event should be managed only by this.title_label
         this.button_press_event.connect ((event) => {
