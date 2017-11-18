@@ -111,7 +111,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         title_entry.halign = Gtk.Align.CENTER;
         title_entry.valign = Gtk.Align.FILL;
         title_entry.expand = true;
-        title_entry.set_style (title_label.get_style ());
+        // title_entry.set_style (title_label.get_style ());
         // Minimum entry with
         title_entry.set_width_chars (1);
 

@@ -198,11 +198,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         });
     }
 
-    private DesktopFolder.EditableLabel get_title () {
-        Gtk.HeaderBar header = this.get_titlebar () as Gtk.HeaderBar;
-        return header.get_custom_title () as DesktopFolder.EditableLabel;
-    }
-
     /**
      * @name move_to
      * @description move the window to other position
@@ -1000,23 +995,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.manager.create_new_link (filename, x, y);
         }
         chooser.close ();
-    }
-
-    /**
-     * @name rename_folder
-     * @description try to rename the current desktop folder
-     */
-    private void rename_folder () {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER,
-                DesktopFolder.Lang.DESKTOPFOLDER_RENAME_MESSAGE,
-                this.manager.get_folder_name ());
-        dialog.on_rename.connect ((new_name) => {
-            if (this.manager.rename (new_name)) {
-                this.set_title (new_name);
-            }
-        });
-        dialog.show_all ();
     }
 
     /**
