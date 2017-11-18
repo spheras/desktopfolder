@@ -156,7 +156,7 @@ namespace DesktopFolder.Util {
                 new Gdk.Pixbuf.from_file (photo_path);
 
                 PhotoSettings ps   = new PhotoSettings (photo_path);
-                string        path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.PHOTO_EXTENSION;
+                string        path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
                 File          file = File.new_for_path (path);
                 if (file.query_exists ()) {
                     debug ("Photo already exists, not creating.");
@@ -253,7 +253,7 @@ namespace DesktopFolder.Util {
                 DesktopFolder.Lang.NOTE_NEW);
         dialog.on_rename.connect ((new_name) => {
             string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
-            string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NOTE_EXTENSION;
+            string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
             File file = File.new_for_path (path);
             if (!DesktopFolder.Util.check_name (sanitized_name)) {
                 DesktopFolder.Util.show_invalid_name_error_dialog (window, sanitized_name);

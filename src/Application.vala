@@ -251,7 +251,7 @@ public class DesktopFolderApp : Gtk.Application {
                     if (index > 0) {
                         string ext       = basename.substring (index + 1);
                         string file_name = basename.substring (0, index);
-                        if (ext == DesktopFolder.NOTE_EXTENSION) {
+                        if (ext == DesktopFolder.OLD_NOTE_EXTENSION || ext == DesktopFolder.NEW_NOTE_EXTENSION) {
                             totalNotes++;
 
                             // Is this note already known about?
@@ -266,7 +266,7 @@ public class DesktopFolderApp : Gtk.Application {
                             if (nm.is_valid ()) {
                                 updated_note_list.append (nm);
                             }
-                        } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
+                        } else if (ext == DesktopFolder.OLD_PHOTO_EXTENSION || ext == DesktopFolder.NEW_PHOTO_EXTENSION) {
                             totalPhotos++;
 
                             // Is this photo already known about?
@@ -432,9 +432,9 @@ public class DesktopFolderApp : Gtk.Application {
         int    index    = basename.last_index_of (".", 0);
         if (index > 0) {
             string ext = basename.substring (index + 1);
-            if (ext == DesktopFolder.NOTE_EXTENSION) {
+            if (ext == DesktopFolder.OLD_NOTE_EXTENSION || ext == DesktopFolder.NEW_NOTE_EXTENSION) {
                 flagNote = true;
-            } else if (ext == DesktopFolder.PHOTO_EXTENSION) {
+            } else if (ext == DesktopFolder.OLD_PHOTO_EXTENSION || ext == DesktopFolder.NEW_PHOTO_EXTENSION) {
                 flagPhoto = true;
             }
         }

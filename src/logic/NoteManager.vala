@@ -254,7 +254,7 @@ public class DesktopFolder.NoteManager : Object {
         string old_path = this.get_absolute_path ();
         var    old_file = this.file;
         this.note_name = sanitized_name;
-        string new_path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NOTE_EXTENSION;
+        string new_path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
         var    new_file = File.new_for_path (new_path);
         try {
             if (new_file.query_exists ()) {

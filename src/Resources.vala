@@ -20,8 +20,10 @@ namespace DesktopFolder {
     public const string VERSION              = "1.0.2";
     /** Name of the Folder Settings File */
     public const string FOLDER_SETTINGS_FILE = ".desktopfolder";
-    public const string NOTE_EXTENSION       = "dfn";
-    public const string PHOTO_EXTENSION      = "dfp";
+    public const string OLD_NOTE_EXTENSION   = "dfn";
+    public const string OLD_PHOTO_EXTENSION  = "dfp";
+    public const string NEW_NOTE_EXTENSION   = "desktopnote";
+    public const string NEW_PHOTO_EXTENSION  = "desktopphoto";
     /** param to show the desktop */
     public const string PARAM_SHOW_DESKTOP   = "show-desktop";
     public const int    ICON_SIZE            = 48;

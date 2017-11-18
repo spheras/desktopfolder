@@ -85,7 +85,8 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
             File flagfile       = File.new_for_commandline_arg (flagfilepath);
             return flagfile.query_exists ();
         } else {
-            if (basename.has_suffix (".dfn") || basename.has_suffix (".dfp")) {
+            if (basename.has_suffix (DesktopFolder.OLD_NOTE_EXTENSION) || basename.has_suffix (DesktopFolder.OLD_PHOTO_EXTENSION)
+                || basename.has_suffix (DesktopFolder.NEW_NOTE_EXTENSION) || basename.has_suffix (DesktopFolder.NEW_PHOTO_EXTENSION)) {
                 return true;
             }
         }

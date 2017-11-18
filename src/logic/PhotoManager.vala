@@ -216,7 +216,7 @@ public class DesktopFolder.PhotoManager : Object {
         string old_name = this.photo_name;
         string old_path = this.get_absolute_path ();
         this.photo_name = new_name;
-        string new_path = DesktopFolderApp.get_app_folder () + "/" + new_name + "." + DesktopFolder.PHOTO_EXTENSION;
+        string new_path = DesktopFolderApp.get_app_folder () + "/" + new_name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
 
         try {
             PhotoSettings is = this.get_settings ();
