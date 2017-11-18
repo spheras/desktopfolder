@@ -69,9 +69,9 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 title_entry.text = title_label.label;
 
                 // trying to get the same size as label
-                // Gtk.Allocation label_allocation;
-                // title_label.get_allocation (out label_allocation);
-                // title_entry.width_request = label_allocation.width - 40;
+                Gtk.Allocation label_allocation;
+                title_label.get_allocation (out label_allocation);
+                title_entry.width_request = label_allocation.width - 40;
 
                 stack.set_visible_child (title_entry);
                 title_entry.grab_focus_without_selecting ();
@@ -83,7 +83,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                     changed (title_entry.text);
                 }
                 stack.set_visible_child (title_label);
-                // title_entry.width_request = -1;
+                title_entry.width_request = -1;
             }
         }
         public get {
@@ -95,12 +95,10 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
 
         title_label         = new Gtk.Label (title_name);
         title_label.hexpand = true;
-        // title_label.margin_top = 3;
-        // This left margin is used to actually align the label to the position
-        // of a window title. Only using Gtk.Align.CENTER doesn't do the job.
-        // title_label.margin_left = 32;
-        title_label.valign = Gtk.Align.CENTER;
-        title_label.halign = Gtk.Align.FILL;
+        /*
+           title_label.valign = Gtk.Align.CENTER;
+           title_label.halign = Gtk.Align.FILL;
+         */
 
         title_label.get_style_context ().add_class ("df_label");
         title_label.wrap_mode = Pango.WrapMode.WORD_CHAR;
@@ -112,13 +110,10 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         title_entry        = new Gtk.Entry ();
         title_entry.halign = Gtk.Align.CENTER;
         title_entry.valign = Gtk.Align.FILL;
+        title_entry.expand = true;
         // title_entry.set_style (title_label.get_style ());
-        title_entry.get_style_context ().add_class ("df_entry");
         // Minimum entry with
         title_entry.set_width_chars (1);
-        title_entry.xalign = 0.5f;
-        title_entry.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
-        title_entry.get_style_context ().add_class (Gtk.STYLE_CLASS_TITLE);
 
         stack                 = new Gtk.Stack ();
         stack.transition_type = Gtk.StackTransitionType.CROSSFADE;

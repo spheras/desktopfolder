@@ -29,10 +29,6 @@
 .title .df_label{
     font-weight: bold;
 }
-.title .df_entry{
-    background:transparent;
-    border:0;
-}
 .df_folder.df_light .titlebar .title, .df_folder.df_light .df_titlebar_button {
     color: @colorForegroundLIGHT;
 }
