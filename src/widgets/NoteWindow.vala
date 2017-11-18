@@ -146,7 +146,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
-        header.has_subtitle = false;
+        header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
+        header.has_subtitle   = false;
         DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_note_name ());
         label.show_popup.connect (this.on_press);
         label.get_style_context ().add_class ("title");

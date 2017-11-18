@@ -178,8 +178,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
+        header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.set_decoration_layout ("");
-        this.label = new DesktopFolder.EditableLabel (manager.get_folder_name ());
+        this.label            = new DesktopFolder.EditableLabel (manager.get_folder_name ());
         this.label.show_popup.connect (this.on_press);
         this.label.get_style_context ().add_class ("title");
         // header.set_custom_title (label);
