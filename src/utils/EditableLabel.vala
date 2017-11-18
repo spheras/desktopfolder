@@ -28,6 +28,14 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
     public signal void changed (string new_title);
 
     /**
+     * @name show_popup
+     * @description signal to allow third parties to show a popup when the right button has been pressed
+     * @param {Gdk.EventButton} event the event button produced for right click
+     * @return {bool} true-> the event has been captured and processed, false otherwise
+     */
+    public signal bool show_popup (Gdk.EventButton event);
+
+    /**
      * @name on_start_editing
      * @description Signal when the label has changed to entry
      * @deprecated
@@ -114,6 +122,11 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 this.start_editing ();
                 return true;
             }
+            if (event.type == Gdk.EventType.BUTTON_PRESS &&
+            (event.button == Gdk.BUTTON_SECONDARY)) {
+                return this.show_popup (event);
+            }
+
             return false;
         });
 
