@@ -335,9 +335,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     private bool on_enter_notify (Gdk.EventCrossing event) {
         // debug("NOTEWINDOW ENTER notify");
-        if (event.detail == Gdk.NotifyType.ANCESTOR || event.detail == Gdk.NotifyType.VIRTUAL || event.detail == Gdk.NotifyType.INFERIOR) {
-            return false;
-        }
         trash_button.get_image ().get_style_context ().remove_class ("df_titlebar_button_hidden");
         return true;
     }
