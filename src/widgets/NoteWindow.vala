@@ -148,6 +148,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         var header = new Gtk.HeaderBar ();
         header.has_subtitle = false;
         DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_note_name ());
+        label.get_style_context ().add_class ("title");
         header.set_custom_title (label);
         header.pack_start (trash_button);
         header.set_decoration_layout ("");
