@@ -73,7 +73,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         );
 
         this.manager = manager;
-        this.name = manager.get_application ().get_next_id ();
+        this.name    = manager.get_application ().get_next_id ();
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
         this.set_transient_for (desktop_manager.get_view ());
 
@@ -146,8 +146,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
-        header.has_subtitle = false;
+        header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
+        header.has_subtitle   = false;
         DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_note_name ());
+        label.set_margin (10);
+        label.show_popup.connect (this.on_press);
+        label.get_style_context ().add_class ("title");
         header.set_custom_title (label);
         header.pack_start (trash_button);
         header.set_decoration_layout ("");
@@ -221,25 +225,35 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @name set_custom_color
      * @description utility function to set a custom color for the window
      * @param {string} custom the custom color to set (rgba(....))
+     * @return {string} the real custom color applied
      */
-    private void set_custom_color (string custom) {
+    private string set_custom_color (string custom) {
         for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
+        }
+
+        Gdk.RGBA rgba   = Gdk.RGBA ();
+        rgba.parse (custom);
+        string mycustom = custom;
+        if (rgba.alpha == 1) {
+            // this solves a bug wen setting an opaque color to gtk and vice
+            rgba.alpha = 0.999;
+            mycustom   = rgba.to_string ();
         }
 
         Gtk.StyleContext.remove_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider);
         try {
             string css =
                 "#" + this.name + """.df_folder.window-frame, #""" + this.name + """.df_folder.window-frame:backdrop {
-                border-color: """ + custom + """;
+                border-color: """ + mycustom + """;
             }
             #""" + this.name + """.df_folder.background, #""" + this.name + """.df_folder.background:backdrop {
-                background-color: """ + custom + """;
+                background-color: """ + mycustom + """;
             }
             #""" + this.name + """.df_folder .titlebar, #""" + this.name + """.df_folder .titlebar:backdrop{
-                background-color: """ + custom + """;
-                border-color: """ + custom + """;
+                background-color: """ + mycustom + """;
+                border-color: """ + mycustom + """;
             }""";
             // debug("applying css:\n %s",css);
             this.custom_color_provider.load_from_data (css);
@@ -248,7 +262,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             DesktopFolder.Util.show_error_dialog ("Error", e.message);
         }
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-        this.last_custom_color = custom;
+        this.last_custom_color = mycustom;
+        return mycustom;
     }
 
     /**
@@ -331,6 +346,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     private bool on_leave_notify (Gdk.EventCrossing event) {
         // debug("NOTEWINDOW LEAVE notify");
+        if (event.detail == Gdk.NotifyType.ANCESTOR || event.detail == Gdk.NotifyType.VIRTUAL || event.detail == Gdk.NotifyType.INFERIOR) {
+            return false;
+        }
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         return true;
     }
@@ -598,7 +616,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param custom string the new custom color
      */
     public void change_body_color_custom (string custom) {
-        this.set_custom_color (custom);
+        string mycustom = this.set_custom_color (custom);
+        this.manager.save_body_color (mycustom);
     }
 
     /**

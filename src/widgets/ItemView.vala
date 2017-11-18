@@ -110,7 +110,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description create the header bar
      */
     protected virtual void create_label (string slabel) {
-        debug ("Create label for %s", this.manager.get_file_name ());
+        // debug ("Create label for %s", this.manager.get_file_name ());
 
         this.label = new DesktopFolder.EditableLabel (slabel);
         this.container.pack_end (label, true, true, 0);

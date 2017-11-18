@@ -178,8 +178,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
+        header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.set_decoration_layout ("");
-        this.label = new DesktopFolder.EditableLabel (manager.get_folder_name ());
+        this.label            = new DesktopFolder.EditableLabel (manager.get_folder_name ());
+        this.label.set_margin (10);
+        this.label.show_popup.connect (this.on_press);
+        this.label.get_style_context ().add_class ("title");
         // header.set_custom_title (label);
         header.pack_start (trash_button);
         header.set_custom_title (label);
@@ -270,25 +274,35 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name set_custom_color
      * @description utility function to set a custom color for the window
      * @param {string} custom the custom color to set (rgba(....))
+     * @return {string} the real custom color applied
      */
-    private void set_custom_color (string custom) {
+    private string set_custom_color (string custom) {
         for (int i = 0; i < BODY_TAGS_COLORS_CLASS.length; i++) {
             string scolor = BODY_TAGS_COLORS_CLASS[i];
             this.get_style_context ().remove_class (scolor);
+        }
+
+        Gdk.RGBA rgba   = Gdk.RGBA ();
+        rgba.parse (custom);
+        string mycustom = custom;
+        if (rgba.alpha == 1) {
+            // this solves a bug wen setting an opaque color to gtk and vice
+            rgba.alpha = 0.999;
+            mycustom   = rgba.to_string ();
         }
 
         Gtk.StyleContext.remove_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider);
         try {
             string css =
                 "#" + this.name + """.df_folder.window-frame, #""" + this.name + """.df_folder.window-frame:backdrop {
-                border-color: """ + custom + """;
+                border-color: """ + mycustom + """;
             }
             #""" + this.name + """.df_folder.background, #""" + this.name + """.df_folder.background:backdrop {
-                background-color: """ + custom + """;
+                background-color: """ + mycustom + """;
             }
             #""" + this.name + """.df_folder .titlebar, #""" + this.name + """.df_folder .titlebar:backdrop{
-                background-color: """ + custom + """;
-                border-color: """ + custom + """;
+                background-color: """ + mycustom + """;
+                border-color: """ + mycustom + """;
             }""";
             // debug("applying css:\n %s",css);
             this.custom_color_provider.load_from_data (css);
@@ -297,7 +311,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             DesktopFolder.Util.show_error_dialog ("Error", e.message);
         }
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-        this.last_custom_color = custom;
+        this.last_custom_color = mycustom;
+
+        return mycustom;
     }
 
     /**
@@ -384,6 +400,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description On mouse leaving the window
      */
     protected virtual bool on_leave_notify (Gdk.EventCrossing event) {
+        if (event.detail == Gdk.NotifyType.ANCESTOR || event.detail == Gdk.NotifyType.VIRTUAL || event.detail == Gdk.NotifyType.INFERIOR) {
+            return false;
+        }
         // debug("FOLDERWINDOW '%s' LEAVE notify",this.manager.get_folder_name());
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
@@ -408,6 +427,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
+        // debug("on_press folderwindow");
         // Needed to exit focus from title when editting
         this.activate_focus ();
 
@@ -672,7 +692,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param custom string the new custom color
      */
     public void change_body_color_custom (string custom) {
-        this.set_custom_color (custom);
+        string mycustom = this.set_custom_color (custom);
+        this.manager.save_body_color (mycustom);
     }
 
     /**

@@ -380,25 +380,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public void trash () {
         try {
-            if (this.application.count_widgets () > 1) {
-                File file = File.new_for_path (this.get_absolute_path ());
-                file.trash ();
-                this.close ();
-            } else {
-                for (int i = 0; i < this.items.length (); i++) {
-                    this.items.nth_data (i).trash ();
-                }
-
-                this.clear_all ();
-                this.settings.reset ();
-                this.settings.save ();
-                if (this.get_folder_name () != DesktopFolder.Lang.APP_FIRST_PANEL) {
-                    this.rename (DesktopFolder.Lang.APP_FIRST_PANEL);
-                }
-                this.view.reload_settings ();
-                this.view.queue_draw ();
-                this.view.show_all ();
-            }
+            File file = File.new_for_path (this.get_absolute_path ());
+            file.trash ();
+            this.close ();
         } catch (Error error) {
             stderr.printf ("Error: %s\n", error.message);
             Util.show_error_dialog ("Error", error.message);

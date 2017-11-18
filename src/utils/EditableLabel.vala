@@ -28,6 +28,14 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
     public signal void changed (string new_title);
 
     /**
+     * @name show_popup
+     * @description signal to allow third parties to show a popup when the right button has been pressed
+     * @param {Gdk.EventButton} event the event button produced for right click
+     * @return {bool} true-> the event has been captured and processed, false otherwise
+     */
+    public signal bool show_popup (Gdk.EventButton event);
+
+    /**
      * @name on_start_editing
      * @description Signal when the label has changed to entry
      * @deprecated
@@ -59,6 +67,12 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
             if (value) {
                 // debug("set editing true");
                 title_entry.text = title_label.label;
+
+                // trying to get the same size as label
+                Gtk.Allocation label_allocation;
+                title_label.get_allocation (out label_allocation);
+                title_entry.width_request = label_allocation.width - 40;
+
                 stack.set_visible_child (title_entry);
                 title_entry.grab_focus_without_selecting ();
             } else {
@@ -69,6 +83,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                     changed (title_entry.text);
                 }
                 stack.set_visible_child (title_label);
+                title_entry.width_request = -1;
             }
         }
         public get {
@@ -80,20 +95,22 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
 
         title_label         = new Gtk.Label (title_name);
         title_label.hexpand = true;
-        // title_label.margin_top = 3;
-        // This left margin is used to actually align the label to the position
-        // of a window title. Only using Gtk.Align.CENTER doesn't do the job.
-        // title_label.margin_left = 32;
-        title_label.valign = Gtk.Align.CENTER;
-        title_label.halign = Gtk.Align.FILL;
+        /*
+           title_label.valign = Gtk.Align.CENTER;
+           title_label.halign = Gtk.Align.FILL;
+         */
 
         title_label.get_style_context ().add_class ("df_label");
         title_label.wrap_mode = Pango.WrapMode.WORD_CHAR;
         title_label.set_line_wrap (true);
         title_label.set_justify (Gtk.Justification.CENTER);
+        title_label.set_ellipsize (Pango.EllipsizeMode.END);
+        title_label.set_lines (1);
 
         title_entry        = new Gtk.Entry ();
-        title_entry.halign = Gtk.Align.FILL;
+        title_entry.halign = Gtk.Align.CENTER;
+        title_entry.valign = Gtk.Align.FILL;
+        title_entry.expand = true;
         title_entry.set_style (title_label.get_style ());
         // Minimum entry with
         title_entry.set_width_chars (1);
@@ -104,30 +121,20 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         stack.add (title_entry);
         add (stack);
 
-        this.get_style_context ().add_class ("title");
-
-        // Change the cursor over the title label
-        // This event should be managed only by this.title_label
-        this.enter_notify_event.connect ((event) => {
-            // debug("EditableLabel: enter_notify_event");
-            get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.PENCIL));
-            return false;
-        });
-
         // Clicked on the title
         // This event should be managed only by this.title_label
-        this.button_release_event.connect ((event) => {
-            // debug ("EditableLabel: button_realease_event");
-            this.start_editing ();
-            return true;
-        });
+        this.button_press_event.connect ((event) => {
+            if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
+                this.start_editing ();
+                return true;
+            }
+            if (event.type == Gdk.EventType.BUTTON_PRESS &&
+            (event.button == Gdk.BUTTON_SECONDARY)) {
+                return this.show_popup (event);
+            }
 
-        //// To prevent default popup and parent move
-        //// This event should be managed only by this.title_label
-        // this.button_press_event.connect ((event) => {
-        //// debug ("EditableLabel: button_press_event");
-        // return true;
-        // });
+            return false;
+        });
 
         // If press intro while editting
         this.title_entry.activate.connect (() => {
@@ -145,6 +152,18 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         // keyboard shortcuts
         this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
+    }
+
+    /**
+     * @name set_margin
+     * @description set the left and right margin for the label and entry widgets
+     * @param {int} margin the margin to apply
+     */
+    public void set_margin (int margin) {
+        this.title_label.margin_left  = margin;
+        this.title_label.margin_right = margin;
+        // this.title_entry.margin_left=margin;
+        // this.title_entry.margin_right=margin;
     }
 
     /**
@@ -189,8 +208,11 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @description Actions to be performed to stop editing
      */
     public void stop_editing () {
-        editing = false;
-        on_stop_editing ();
+        if (editing == true) {
+            // debug("stop editing");
+            editing = false;
+            on_stop_editing ();
+        }
     }
 
     /**
