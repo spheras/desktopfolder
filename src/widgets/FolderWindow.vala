@@ -399,6 +399,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description On mouse leaving the window
      */
     protected virtual bool on_leave_notify (Gdk.EventCrossing event) {
+        if (event.detail == Gdk.NotifyType.ANCESTOR || event.detail == Gdk.NotifyType.VIRTUAL || event.detail == Gdk.NotifyType.INFERIOR) {
+            return false;
+        }
         // debug("FOLDERWINDOW '%s' LEAVE notify",this.manager.get_folder_name());
         trash_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
         properties_button.get_image ().get_style_context ().add_class ("df_titlebar_button_hidden");
