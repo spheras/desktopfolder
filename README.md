@@ -25,11 +25,15 @@ If you use elementary OS, you can get it directly from the AppCenter.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
-The main target is Elementary, but this should work also on GNOME 3. The bad news is that we have experienced problems with Wayland (i.e. used in the last Ubuntu). We are working hard to fix those issues regarding Wayland. Anyway, if you want to check you should use the latest [.deb release](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
+Our main target is elementary, but Desktop Folder should also work on Ubuntu and GNOME 3. You should use the latest [.deb release](https://github.com/spheras/desktopfolder/releases). To install the .deb with apt:
 
 `sudo apt install ./com.github.spheras.desktopfolder_[version]_amd64.deb`
 
 Open it like any other app after installing. Desktop Folder will launch automatically when you next log in.
+
+## Current Status on Wayland Support
+
+Wayland (in Ubuntu since 17.10) is not fully supported yet, and we've experienced problems with adding support for it. We are working hard to fix this. You're welcome to try Desktop Folder and help us find or fix issues.
 
 ## Contributing
 
