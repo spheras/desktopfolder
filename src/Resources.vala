@@ -28,6 +28,6 @@ namespace DesktopFolder {
     public const string PARAM_SHOW_DESKTOP   = "show-desktop";
     public const int    ICON_SIZE            = 48;
     public const string PANEL_BLACKLIST_FILE = ".nopanel";
-    public const int    HEADERBAR_HEIGHT     = 30;
+    public const int    HEADERBAR_HEIGHT     = 34;
 
 }

@@ -713,8 +713,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("initial position:%d,%d",x,y);
         x = ItemView.RoundToNearestMultiple (x, this.get_sensitivity ());
         y = ItemView.RoundToNearestMultiple (y, this.get_sensitivity ());
-
-        this.container.put (item, x, y);
+        int margin = ItemView.PADDING_X;
+        this.container.put (item, x + margin, y);
     }
 
     /**
@@ -1056,11 +1056,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
             int padding     = 13;
             int paddingx2   = padding * 2;
-            int header      = 25;
+            int header      = DesktopFolder.HEADERBAR_HEIGHT;
             int margin      = 10;
             int sensitivity = SENSITIVITY_WITH_GRID - 10;
             cr.set_source_rgba (1, 1, 1, 0.3);
-            for (int i = padding; i < width - paddingx2; i = i + sensitivity + margin) {
+            for (int i = padding + padding; i < width - paddingx2; i = i + sensitivity + margin) {
                 for (int j = padding + header; j < height - paddingx2; j = j + sensitivity + margin) {
                     cr.rectangle (i, j, sensitivity, sensitivity);
                     cr.fill ();

@@ -106,6 +106,8 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         title_label.set_justify (Gtk.Justification.CENTER);
         title_label.set_ellipsize (Pango.EllipsizeMode.END);
         title_label.set_lines (1);
+        title_label.valign = Gtk.Align.CENTER;
+        title_label.halign = Gtk.Align.FILL;
 
         title_entry        = new Gtk.Entry ();
         title_entry.halign = Gtk.Align.CENTER;

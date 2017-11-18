@@ -734,7 +734,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.py = y;
 
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
-            ((FolderWindow) window).move_item (this, x, y);
+            ((FolderWindow) window).move_item (this, x + PADDING_X, y);
         }
 
         return true;
