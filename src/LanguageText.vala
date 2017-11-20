@@ -31,6 +31,8 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_LINK_PANEL            = _("Link Panel");
     // desktopfolder menu - enable/disable alignment to grid
     public const string DESKTOPFOLDER_MENU_ALIGN_TO_GRID         = _("Align to Grid");
+    // desktopfolder menu - enable/disable lock items
+    public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock Items");
     // desktopfolder menu - enable/disable text shadows
     public const string DESKTOPFOLDER_MENU_TEXT_SHADOW           = _("Text Shadow");
     // desktopfolder menu - enable/disable text bolds

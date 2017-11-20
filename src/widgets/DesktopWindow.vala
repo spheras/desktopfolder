@@ -97,6 +97,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
 
         var aligntogrid_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        var lockitems_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
         var textshadow_item   = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
         var textbold_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item    = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
@@ -113,6 +114,8 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
 
         ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
+        ((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
+        ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
         ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
         ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
         ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
@@ -143,6 +146,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (aligntogrid_item);
         context_menu.append (new MenuItemSeparator ());
+        context_menu.append (lockitems_item);
         context_menu.append (textshadow_item);
         context_menu.append (textbold_item);
         context_menu.append (new MenuItemSeparator ());

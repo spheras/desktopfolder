@@ -476,24 +476,26 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.select ();
             this.flagMoved = false;
 
-            Gtk.Widget p = this.parent;
-            // offset == distance of parent widget from edge of screen ...
-            p.get_window ().get_position (out this.offsetx, out this.offsety);
-            // debug("offset:%i,%i",this.offsetx,this.offsety);
-            // plus distance from pointer to edge of widget
+            if (!this.manager.get_folder ().are_items_locked ()) {
+                Gtk.Widget p = this.parent;
+                // offset == distance of parent widget from edge of screen ...
+                p.get_window ().get_position (out this.offsetx, out this.offsety);
+                // debug("offset:%i,%i",this.offsetx,this.offsety);
+                // plus distance from pointer to edge of widget
 
-            this.offsetx += (int) event.x + PADDING_X;
-            this.offsety += (int) event.y + PADDING_Y;
+                this.offsetx += (int) event.x + PADDING_X;
+                this.offsety += (int) event.y + PADDING_Y;
 
-            // maxx, maxy both relative to the parent
-            // note that we're rounding down now so that these max values don't get
-            // rounded upward later and push the widget off the edge of its parent.
-            Gtk.Allocation pAllocation;
-            p.get_allocation (out pAllocation);
-            Gtk.Allocation thisAllocation;
-            this.get_allocation (out thisAllocation);
-            this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_view ().get_sensitivity ());
-            this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_view ().get_sensitivity ());
+                // maxx, maxy both relative to the parent
+                // note that we're rounding down now so that these max values don't get
+                // rounded upward later and push the widget off the edge of its parent.
+                Gtk.Allocation pAllocation;
+                p.get_allocation (out pAllocation);
+                Gtk.Allocation thisAllocation;
+                this.get_allocation (out thisAllocation);
+                this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_view ().get_sensitivity ());
+                this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_view ().get_sensitivity ());
+            }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             this.select ();
             on_double_click ();
@@ -696,48 +698,52 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_motion signal
      */
     private bool on_motion (Gdk.EventMotion event) {
-        // To prevent moving the itemView when editing the label
-        if (this.label.editing) {
-            // debug("ItemView has the focus but is editing the label");
+        if (!this.manager.get_folder ().are_items_locked ()) {
+
+            // To prevent moving the itemView when editing the label
+            if (this.label.editing) {
+                // debug("ItemView has the focus but is editing the label");
+                return false;
+            }
+            var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+            bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+            if (control_pressed) {
+                return false;
+            }
+
+            // debug("on_motion");
+            this.flagModified = true;
+
+            if (!this.flagMoved) {
+                // we notify that we are starting to move
+                this.manager.get_folder ().get_view ().on_item_moving (true);
+                this.flagMoved = true;
+            }
+
+            // x_root,x_root relative to screen
+            // x,y relative to parent (fixed widget)
+            // px,py stores previous values of x,y
+
+            // get starting values for x,y
+            int x = (int) event.x_root - this.offsetx;
+            int y = (int) event.y_root - this.offsety;
+
+            // make sure the potential coordinates x,y:
+            // 1) will not push any part of the widget outside of its parent container
+            // 2) is a multiple of Sensitivity
+            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
+            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
+            if (x != this.px || y != this.py) {
+                this.px = x;
+                this.py = y;
+
+                Gtk.Window window = (Gtk.Window) this.get_toplevel ();
+                ((FolderWindow) window).move_item (this, x + PADDING_X, y);
+            }
+            return true;
+        } else {
             return false;
         }
-        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        if (control_pressed) {
-            return false;
-        }
-
-        // debug("on_motion");
-        this.flagModified = true;
-
-        if (!this.flagMoved) {
-            // we notify that we are starting to move
-            this.manager.get_folder ().get_view ().on_item_moving (true);
-            this.flagMoved = true;
-        }
-
-        // x_root,x_root relative to screen
-        // x,y relative to parent (fixed widget)
-        // px,py stores previous values of x,y
-
-        // get starting values for x,y
-        int x = (int) event.x_root - this.offsetx;
-        int y = (int) event.y_root - this.offsety;
-
-        // make sure the potential coordinates x,y:
-        // 1) will not push any part of the widget outside of its parent container
-        // 2) is a multiple of Sensitivity
-        x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
-        y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
-        if (x != this.px || y != this.py) {
-            this.px = x;
-            this.py = y;
-
-            Gtk.Window window = (Gtk.Window) this.get_toplevel ();
-            ((FolderWindow) window).move_item (this, x + PADDING_X, y);
-        }
-
-        return true;
     }
 
     /**

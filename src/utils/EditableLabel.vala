@@ -164,8 +164,8 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
     public void set_margin (int margin) {
         this.title_label.margin_left  = margin;
         this.title_label.margin_right = margin;
-        // this.title_entry.margin_left=margin;
-        // this.title_entry.margin_right=margin;
+        this.title_entry.margin_left  = margin;
+        this.title_entry.margin_right = margin;
     }
 
     /**

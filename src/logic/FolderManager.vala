@@ -97,6 +97,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name are_items_locked
+     * @description return whether the items are locked or not
+     * @return {bool} true->yes, the items are locked, false otherwise
+     */
+    public bool are_items_locked () {
+        return this.get_settings ().lockitems;
+    }
+
+    /**
      * @name load_folder_settings
      * @description load the settings file inside the folder (if exist), if not, it will create a new one.
      * The settings file contains the basic info saved to create window and items componentes.. position, size, etc..

@@ -495,6 +495,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var rename_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
+        var lockitems_item       = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
         var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
         var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
@@ -514,6 +515,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
         trash_item.activate.connect (this.manager.trash);
         rename_item.activate.connect (this.label.start_editing);
+        ((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
+        ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
         ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
         ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
         ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
@@ -550,6 +553,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (rename_item);
         context_menu.append (new MenuItemSeparator ());
+        context_menu.append (lockitems_item);
         context_menu.append (textshadow_item);
         context_menu.append (textbold_item);
         context_menu.append (new MenuItemSeparator ());
@@ -624,6 +628,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // foreach (Gtk.Widget elem in children) {
         // (elem as ItemView).force_adjust_label ();
         // }
+    }
+
+    /**
+     * @name on_toggle_lockitems
+     * @description the toggle lock items event. The lock items property must change
+     */
+    protected void on_toggle_lockitems () {
+        this.manager.get_settings ().lockitems = !this.manager.get_settings ().lockitems;
+        this.manager.get_settings ().save ();
     }
 
     /**
