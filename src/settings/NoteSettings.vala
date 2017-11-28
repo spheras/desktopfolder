@@ -7,6 +7,7 @@ public class DesktopFolder.NoteSettings : PositionSettings {
     public int clipcolor { get; set; }
     public string texture { get; set; }
     public string text { get; set; }
+    public bool on_top {get; set; }
 
     private File file;
 
@@ -19,6 +20,7 @@ public class DesktopFolder.NoteSettings : PositionSettings {
         this.clipcolor = Random.int_range (1, 6);
         this.name      = name;
         this.text      = "Lorem Ipsum";
+        this.on_top    = true;
     }
 
     /**
