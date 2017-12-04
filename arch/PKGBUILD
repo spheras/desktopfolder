@@ -1,0 +1,36 @@
+# Maintainer: Gabriele Musco <emaildigabry@gmail.com> (change it if you want to put it on AUR)
+# Upstream URL: https://github.com/spheras/desktopfolder
+
+pkgname=desktopfolder-git
+pkgver=v1.0.2.r130.g3873c6e
+pkgrel=1
+pkgdesc='Bring your elementary desktop back to life'
+arch=('any')
+url='https://github.com/spheras/desktopfolder'
+license=('GPL3')
+depends=('libgee' 'cairo' 'json-glib' 'gdk-pixbuf2' 'libwnck3' 'gtksourceview3' 'gtk3>=3.14' 'python')
+makedepends=('git' 'meson' 'vala')
+provides=('desktopfolder')
+conflicts=('desktopfolder')
+source=("desktopfolder::git+https://github.com/spheras/desktopfolder")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/desktopfolder"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "$srcdir/desktopfolder"
+  rm -rf build
+  mkdir build
+  cd build
+  meson --prefix /usr --buildtype release ..
+  ninja
+}
+
+package() {
+  cd "$srcdir/desktopfolder"
+  cd build
+  DESTDIR="$pkgdir" ninja install
+}
