@@ -135,7 +135,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @return {bool} true->yes, the panel can be moved
      */
     public bool can_move () {
-        return this.is_moveable;
+        return this.is_moveable && !this.settings.lockpanel;
     }
 
     /**

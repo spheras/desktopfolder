@@ -24,12 +24,19 @@
 
 namespace DesktopFolder.Dialogs {
     public class PanelProperties : Gtk.Dialog {
+        private enum ResolutionStrategy {
+            NONE,
+            SCALE,
+            STORE
+        }
         private Gtk.Stack main_stack;
         private Gtk.Switch highlight_current_line;
         private Gtk.Switch highlight_matching_brackets;
         private Gtk.ComboBoxText style_scheme;
         private Gtk.Switch use_custom_font;
         private Gtk.FontButton select_font;
+        private FolderWindow window;
+        private FolderManager manager;
 
         public PanelProperties (FolderWindow window) {
             Object (
@@ -38,17 +45,23 @@ namespace DesktopFolder.Dialogs {
                 resizable:    false,
                 title:        _("Properties")
             );
+
+            this.window=window;
+            this.manager=this.window.get_manager();
+            build();
         }
 
-        construct {
-            // Scratch.settings.schema.bind ("indent-width", indent_width, "value", SettingsBindFlags.DEFAULT);
-
+        /**
+        * @name build
+        * @description build the window components
+        */
+        private void build(){
             main_stack               = new Gtk.Stack ();
             main_stack.margin        = 12;
             main_stack.margin_bottom = 18;
             main_stack.margin_top    = 24;
-            main_stack.add_titled (get_behavior_box (), "behavior", _("Behavior"));
-            main_stack.add_titled (get_interface_box (), "interface", _("Interface"));
+            main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
+            main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
             var main_stackswitcher = new Gtk.StackSwitcher ();
             main_stackswitcher.set_stack (main_stack);
@@ -63,7 +76,7 @@ namespace DesktopFolder.Dialogs {
 
             get_content_area ().add (main_grid);
 
-            var close_button = new Gtk.Button.with_label (_("Close"));
+            var close_button = new Gtk.Button.with_label (DesktopFolder.Lang.PANELPROPERTIES_CLOSE);
             close_button.clicked.connect (() => {
                 destroy ();
             });
@@ -71,71 +84,103 @@ namespace DesktopFolder.Dialogs {
             add_action_widget (close_button, 0);
         }
 
-        private Gtk.Widget get_behavior_box () {
+        /**
+        * @name get_properties_box
+        * @description build the properties section
+        * @return {Gtk.Widget} the built Gtk.Grid widget
+        */
+        private Gtk.Widget get_properties_box () {
             var general_grid = new Gtk.Grid ();
-            general_grid.column_spacing = 12;
             general_grid.row_spacing    = 6;
-            general_grid.attach (new SettingsHeader (_("Shortcuts")), 0, 0, 2, 1);
-            general_grid.attach (new SettingsLabel (_("Show Desktop:")), 0, 1, 1, 1);
-            general_grid.attach (new SettingsSwitch ("autosave"), 1, 1, 1, 1);
+            general_grid.column_spacing = 12;
+
+            //The behavior section
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_BEHAVIOR), 0, 0, 2, 1);
+            //align to grid
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID), 0, 1, 1, 1);
+            SettingsSwitch settings_switch=new SettingsSwitch ("align_to_grid");
+            general_grid.attach (settings_switch, 1, 1, 1, 1);
+            settings_switch.set_active (this.manager.get_settings ().align_to_grid);
+            settings_switch.notify["active"].connect (this.window.on_toggle_align_to_grid);
+            //lock items
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS), 0, 2, 1, 1);
+            settings_switch=new SettingsSwitch ("lock_items");
+            general_grid.attach (settings_switch, 1, 2, 1, 1);
+            settings_switch.set_active (this.manager.get_settings ().lockitems);
+            settings_switch.notify["active"].connect (this.window.on_toggle_lockitems);
+            //lock panel
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
+            settings_switch=new SettingsSwitch ("lock_panel");
+            general_grid.attach (settings_switch, 1, 3, 1, 1);
+            settings_switch.set_active (this.manager.get_settings ().lockpanel);
+            settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
+
+            //The interface section
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_INTERFACE), 0, 4, 2, 1);
+            //Tet shadow
+            settings_switch=new SettingsSwitch ("text_shadow");
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5, 1, 1);
+            general_grid.attach (settings_switch, 1, 5, 1, 1);
+            settings_switch.set_active (this.manager.get_settings ().textshadow);
+            settings_switch.notify["active"].connect (this.window.on_toggle_shadow);
+            //text bold
+            settings_switch=new SettingsSwitch ("text_bold");
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6, 1, 1);
+            general_grid.attach (settings_switch, 1, 6, 1, 1);
+            settings_switch.set_active (this.manager.get_settings ().textbold);
+            settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
             return general_grid;
         }
 
-        private Gtk.Widget get_interface_box () {
-            var content = new Gtk.Grid ();
-            content.row_spacing    = 6;
-            content.column_spacing = 12;
+        private Gtk.Widget get_general_box () {
+            var general_grid = new Gtk.Grid ();
+            general_grid.row_spacing    = 6;
+            general_grid.column_spacing = 12;
 
-            var editor_header                = new SettingsHeader (_("Editor"));
 
-            var highlight_current_line_label = new SettingsLabel (_("Highlight current line:"));
-            highlight_current_line = new SettingsSwitch ("highlight-current-line");
+            GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
 
-            var highlight_matching_brackets_label = new SettingsLabel (_("Highlight matching brackets:"));
-            highlight_matching_brackets = new SettingsSwitch ("highlight-matching-brackets");
+            //PANEL OVER DESKTOP
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 0, 2, 1);
+            Gtk.Label description=new Gtk.Label(DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION);
+            description.set_single_line_mode(false);
+            description.wrap=true;
+            description.set_size_request (100, -1);
+            description.set_max_width_chars (50);
+            description.set_line_wrap (true);
+            description.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
+            general_grid.attach(description,0,1,2,2);
 
-            var draw_spaces_label = new SettingsLabel (_("Draw Spaces:"));
-            var draw_spaces_combo = new Gtk.ComboBoxText ();
-            draw_spaces_combo.append ("Small", _("Small"));
-            draw_spaces_combo.append ("Medium", _("Medium"));
-            draw_spaces_combo.append ("Large", _("Large"));
-            // Scratch.settings.schema.bind ("draw-spaces", draw_spaces_combo, "active-id", SettingsBindFlags.DEFAULT);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 3, 1, 1);
+            SettingsSwitch settings_switch=new SettingsSwitch ("desktop_panel");
+            general_grid.attach (settings_switch, 1, 3, 1, 1);
 
-            var show_right_margin_label = new SettingsLabel (_("Line width guide:"));
-            var show_right_margin       = new SettingsSwitch ("show-right-margin");
+            settings_switch.set_active (settings.get_boolean ("desktop-panel"));
+            settings_switch.notify["active"].connect (()=>{
+                settings.set_boolean("desktop-panel",!settings.get_boolean ("desktop-panel"));
+            });
 
-            var right_margin_position   = new Gtk.SpinButton.with_range (1, 250, 1);
-            right_margin_position.hexpand = true;
-            // Scratch.settings.schema.bind ("right-margin-position", right_margin_position, "value", SettingsBindFlags.DEFAULT);
-            // Scratch.settings.schema.bind ("show-right-margin", right_margin_position, "sensitive", SettingsBindFlags.DEFAULT);
 
-            var appearance_header = new SettingsHeader (_("Appearance"));
+            //RESOLUTION STRATEGY
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 4, 2, 1);
+            description=new Gtk.Label(DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION);
+            description.set_single_line_mode(false);
+            description.wrap=true;
+            description.set_size_request (100, -1);
+            description.set_max_width_chars (50);
+            description.set_line_wrap (true);
+            description.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
+            general_grid.attach(description,0,5,2,2);
 
-            var icon_size_label   = new SettingsLabel (_("Icon size:"));
+            var strategy_combo = new Gtk.ComboBoxText ();
+            strategy_combo.append ("NONE", _("None"));
+            strategy_combo.append ("SCALE", _("Scale"));
+            strategy_combo.append ("STORE", _("Store"));
+            settings.bind ("resolution-strategy", strategy_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
+            general_grid.attach(strategy_combo,0,7,1,1);
 
-            var icon_size_combo   = new Gtk.ComboBoxText ();
-            icon_size_combo.append ("small", _("Small"));
-            icon_size_combo.append ("medium", _("Medium"));
-            icon_size_combo.append ("large", _("Large"));
-            icon_size_combo.append ("huge", _("Huge"));
-            // settings.schema.bind ("icon-size", icon_size_combo, "active-id", SettingsBindFlags.DEFAULT);
-
-            content.attach (appearance_header, 0, 7, 3, 1);
-            content.attach (icon_size_label, 0, 8, 1, 1);
-            content.attach (icon_size_combo, 1, 8, 2, 1);
-
-            // content.attach (editor_header, 0, 0, 3, 1);
-            // content.attach (highlight_current_line_label, 0, 1, 1, 1);
-            // content.attach (highlight_current_line, 1, 1, 1, 1);
-            // content.attach (highlight_matching_brackets_label, 0, 2, 1, 1);
-            // content.attach (highlight_matching_brackets, 1, 2, 1, 1);
-
-            // content.attach (show_right_margin_label, 0, 6, 1, 1);
-            // content.attach (show_right_margin, 1, 6, 1, 1);
-            // content.attach (right_margin_position, 2, 6, 1, 1);
-
-            return content;
+            return general_grid;
         }
 
         private void populate_style_scheme () {

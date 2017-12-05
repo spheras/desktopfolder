@@ -154,8 +154,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
 
-        trash_button.clicked.connect (this.manager.trash);
-        properties_button.clicked.connect (this.show_properties_dialog);
+        //Warning! we need to connect with the press_event, instead of release or clicked to avoid problems
+        trash_button.button_press_event.connect ((event)=>{
+            this.manager.trash();
+            return true;
+        });
+        properties_button.button_press_event.connect ((event)=>{
+            this.show_properties_dialog();
+            return true;
+        });
 
         // TODO: Does the GTK window have any active signal or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
@@ -164,7 +171,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
     }
 
-    private void show_properties_dialog (Gtk.Button properties_button) {
+    /**
+    * @name show_properties_dialog
+    * @description show the properties dialog
+    */
+    protected void show_properties_dialog () {
         var dialog = new DesktopFolder.Dialogs.PanelProperties (this);
         dialog.set_transient_for (this);
         dialog.show_all ();
@@ -187,7 +198,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // header.set_custom_title (label);
         header.pack_start (trash_button);
         header.set_custom_title (label);
-        // header.pack_end (properties_button);
+        header.pack_end (properties_button);
 
         this.set_titlebar (header);
 
@@ -422,7 +433,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
-        // debug("on_press folderwindow");
+         //debug("on_press folderwindow");
         // Needed to exit focus from title when editting
         this.activate_focus ();
 
@@ -492,12 +503,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var newnote_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         var newphoto_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
 
-        var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        //var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var rename_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
-        var lockitems_item       = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
-        var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        //var lockitems_item       = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
+        //var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        //var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
         var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
 
@@ -511,16 +522,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
 
-        ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
-        ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
+        //((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
+        //((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
         trash_item.activate.connect (this.manager.trash);
         rename_item.activate.connect (this.label.start_editing);
-        ((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
-        ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
-        ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
-        ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
-        ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
-        ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
+        ///((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
+        //((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
+        //((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
+        //((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
+        //((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
+        //((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
         ((MenuItemColor) backgroundcolor_item).custom_changed.connect (change_body_color_custom);
@@ -546,16 +557,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
 
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (aligntogrid_item);
+        //context_menu.append (new MenuItemSeparator ());
+        //context_menu.append (aligntogrid_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (trash_item);
-        context_menu.append (new MenuItemSeparator ());
+        //context_menu.append (new MenuItemSeparator ());
         context_menu.append (rename_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (lockitems_item);
-        context_menu.append (textshadow_item);
-        context_menu.append (textbold_item);
+        //context_menu.append (new MenuItemSeparator ());
+        //context_menu.append (lockitems_item);
+        //context_menu.append (textshadow_item);
+        //context_menu.append (textbold_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
         context_menu.append (backgroundcolor_item);
@@ -575,7 +586,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_bold
      * @description the bold toggle event. the text bold property must change
      */
-    protected void on_toggle_bold () {
+    public void on_toggle_bold () {
         Gtk.StyleContext style      = this.get_style_context ();
         string           bold_class = "df_bold";
         if (this.manager.get_settings ().textbold) {
@@ -596,7 +607,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_align_to_grid
      * @description the toggle align to grid event. The align to grid property must change
      */
-    protected void on_toggle_align_to_grid () {
+    public void on_toggle_align_to_grid () {
         if (this.get_sensitivity () == SENSITIVITY_WITH_GRID) {
             this.set_sensitivity (SENSITIVITY_WITHOUT_GRID);
             this.manager.get_settings ().align_to_grid = false;
@@ -613,7 +624,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_shadow
      * @description the toggle shadow event. The shadow property must change
      */
-    protected void on_toggle_shadow () {
+    public void on_toggle_shadow () {
         Gtk.StyleContext style        = this.get_style_context ();
         string           shadow_class = "df_shadow";
         if (this.manager.get_settings ().textshadow) {
@@ -634,8 +645,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name on_toggle_lockitems
      * @description the toggle lock items event. The lock items property must change
      */
-    protected void on_toggle_lockitems () {
+    public void on_toggle_lockitems () {
         this.manager.get_settings ().lockitems = !this.manager.get_settings ().lockitems;
+        this.manager.get_settings ().save ();
+    }
+
+    /**
+     * @name on_toggle_lockpanel
+     * @description the toggle lock panel event. The lock panel property must change
+     */
+    public void on_toggle_lockpanel () {
+        this.manager.get_settings ().lockpanel = !this.manager.get_settings ().lockpanel;
         this.manager.get_settings ().save ();
     }
 
@@ -1048,6 +1068,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+    * @name get_manager
+    * @description return the FolderManager
+    * @return {FolderManager}
+    */
+    public FolderManager get_manager(){
+        return this.manager;
+    }
+
+    /**
      * @name draw_backgorund
      * @description draw the folder window background intercepting the draw signal
      * @param {Cairo.Context} cr the cairo context
@@ -1077,7 +1106,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int header = title_allocation.height + top_padding;
             int margin = 10;
             int sensitivity = SENSITIVITY_WITH_GRID-10;
-            cr.set_source_rgba (1, 1, 1, 0.9);
+            cr.set_source_rgba (1, 1, 1, 0.2);
 
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X; i <= width - left_padding - sensitivity; i += sensitivity + margin) {
                 // debug("-i: %d",i);

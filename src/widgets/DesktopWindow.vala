@@ -95,11 +95,12 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var properties_item  = new Gtk.MenuItem.with_label(DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP);
 
-        var aligntogrid_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        var lockitems_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
-        var textshadow_item   = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        var textbold_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        //var aligntogrid_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        //var lockitems_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
+        //var textshadow_item   = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        //var textbold_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item    = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
@@ -112,15 +113,16 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
 
-        ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
-        ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
-        ((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
-        ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
-        ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
-        ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
-        ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
-        ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
+        // ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
+        // ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
+        // ((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
+        // ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
+        // ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
+        // ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
+        // ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
+        // ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
+        ((Gtk.MenuItem)properties_item).activate.connect(this.show_properties_dialog);
 
         // Appending (in order)
         if (cm.can_paste) {
@@ -143,14 +145,16 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
 
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (aligntogrid_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (lockitems_item);
-        context_menu.append (textshadow_item);
-        context_menu.append (textbold_item);
-        context_menu.append (new MenuItemSeparator ());
+        // context_menu.append (new MenuItemSeparator ());
+        // context_menu.append (aligntogrid_item);
+        // context_menu.append (new MenuItemSeparator ());
+        // context_menu.append (lockitems_item);
+        // context_menu.append (textshadow_item);
+        // context_menu.append (textbold_item);
+        // context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (properties_item);
 
         context_menu.show_all ();
 

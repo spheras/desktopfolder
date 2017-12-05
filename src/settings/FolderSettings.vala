@@ -28,6 +28,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
     public bool textbold { get; set; }
     public bool textshadow { get; set; }
     public bool lockitems { get; set; }
+    public bool lockpanel { get; set; }
     public bool align_to_grid { get; set; default = false; }
     public string[] items { get; set; default = new string[0]; }
     // default json seralization implementation only support primitive types
@@ -56,6 +57,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         this.textbold      = true;
         this.textshadow    = true;
         this.align_to_grid = false;
+        this.lockitems=false;
+        this.lockpanel=false;
         this.name          = name;
         this.items         = new string[0];
         check_off_screen ();

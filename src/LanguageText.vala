@@ -33,6 +33,8 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_ALIGN_TO_GRID         = _("Align to Grid");
     // desktopfolder menu - enable/disable lock items
     public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock Items");
+    // desktopfolder menu - enable/disable lock panel
+    public const string DESKTOPFOLDER_MENU_LOCK_PANEL            = _("Lock Panel");
     // desktopfolder menu - enable/disable text shadows
     public const string DESKTOPFOLDER_MENU_TEXT_SHADOW           = _("Text Shadow");
     // desktopfolder menu - enable/disable text bolds
@@ -140,4 +142,23 @@ namespace DesktopFolder.Lang {
     public const string PHOTO_SELECT_PHOTO_MESSAGE         = _("Select the picture to show");
     // desktopfolder menu - create a new empty Text File
     public const string DESKTOPFOLDER_MENU_NEW_SUBMENU     = _("New");
+    // panel properties - Properties section
+    public const string PANELPROPERTIES_PROPERTIES=_("Properties");
+    // panel properties - General section
+    public const string PANELPROPERTIES_GENERAL=_("General");
+    // panel properties - Behavior section
+    public const string PANELPROPERTIES_BEHAVIOR=_("Behavior");
+    // panel properties - Interface section
+    public const string PANELPROPERTIES_INTERFACE=_("Interface");
+    // panel properties - Close button
+    public const string PANELPROPERTIES_CLOSE=_("Close");
+    // panel properties - Panel over Desktop title
+    public const string PANELPROPERTIES_DESKTOP_PANEL=_("Panel Over Desktop");
+    // panel properties - Panel over desktop description
+    public const string PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION=_("Activating this you will have a transparent background panel over your desktop. This change will require relogin into your system.");
+    //panel properties - Resolution Strategy title
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY=_("Resolution Strategy");
+    // panel properties - Resolution Strategy Description
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION=_("This is how all the widgets behave when a new screen resolution is found, doing nothing, storing and restoring the new resolution positions, or scaling the positions.");
+
 }

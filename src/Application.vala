@@ -492,11 +492,9 @@ public class DesktopFolderApp : Gtk.Application {
         }
         unowned List <Wnck.Window> windows = screen.get_windows ();
         foreach (Wnck.Window w in windows) {
-            Wnck.Application window_app = w.get_application ();
-            string           name       = window_app.get_name ();
-                if(!w.is_minimized() && w.get_window_type()==Wnck.WindowType.NORMAL){
-                    flagShowingDesktop=false;
-                }
+            if(!w.is_minimized() && w.get_window_type()==Wnck.WindowType.NORMAL){
+                flagShowingDesktop=false;
+            }
         }
 
 
