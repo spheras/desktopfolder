@@ -480,22 +480,68 @@ public class DesktopFolderApp : Gtk.Application {
      * @param args string[] the list of args to initialize Gdk
      */
     private static void minimize_all (string[] args) {
-        Gdk.init (ref args);
-        Wnck.Screen screen = Wnck.Screen.get_default ();
+        Gtk.init (ref args);
+
+        bool flagShowingDesktop=true;
+
+        //Help wanted: Need to check manually if we are showing desktop
+        //because screen.get_showing_desktop (); always return false
+        unowned Wnck.Screen screen = Wnck.Screen.get_default ();
         while (Gtk.events_pending ()) {
             Gtk.main_iteration ();
         }
-
         unowned List <Wnck.Window> windows = screen.get_windows ();
-
         foreach (Wnck.Window w in windows) {
             Wnck.Application window_app = w.get_application ();
             string           name       = window_app.get_name ();
-            // debug("app name:%s",name);
-            if (name != DesktopFolder.APP_ID) {
-                w.minimize ();
-            }
+                if(!w.is_minimized() && w.get_window_type()==Wnck.WindowType.NORMAL){
+                    flagShowingDesktop=false;
+                }
         }
+
+
+        //unowned Wnck.Screen screen = Wnck.Screen.get_default ();
+        bool show=!flagShowingDesktop;//!screen.get_showing_desktop ();
+        screen.toggle_showing_desktop (show);
+
+        /*
+            string sshow="show: %s".printf(show?"true":"false");
+                // The MessageDialog
+            		Gtk.MessageDialog msg = new Gtk.MessageDialog (null, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK_CANCEL, "show:"+sshow);
+            			msg.response.connect ((response_id) => {
+            			switch (response_id) {
+            				case Gtk.ResponseType.OK:
+            					stdout.puts ("Ok\n");
+            					break;
+            				case Gtk.ResponseType.CANCEL:
+            					stdout.puts ("Cancel\n");
+            					break;
+            				case Gtk.ResponseType.DELETE_EVENT:
+            					stdout.puts ("Delete\n");
+            					break;
+            			}
+            			msg.destroy();
+            		});
+            		msg.show ();
+                Gtk.main ();
+        */
+
+                /**
+                "manual style"
+                Wnck.Screen screen = Wnck.Screen.get_default ();
+                while (Gtk.events_pending ()) {
+                    Gtk.main_iteration ();
+                }
+                unowned List <Wnck.Window> windows = screen.get_windows ();
+                foreach (Wnck.Window w in windows) {
+                    Wnck.Application window_app = w.get_application ();
+                    string           name       = window_app.get_name ();
+                    // debug("app name:%s",name);
+                    if (name != DesktopFolder.APP_ID) {
+                        w.minimize ();
+                    }
+                }
+                */
     }
 
     /**
