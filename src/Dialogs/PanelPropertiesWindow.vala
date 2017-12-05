@@ -1,4 +1,4 @@
-        /* This code was mostly imported from elementary: https://github.com/elementary/scratch/blob/master/src/Dialogs/PropertiesDialog.vala
+/* This code was mostly imported from elementary: https://github.com/elementary/scratch/blob/master/src/Dialogs/PropertiesDialog.vala
  *
  * Copyright (c) 2011-2017 elementary LLC (https://elementary.io)
  *
