@@ -7,7 +7,7 @@ public class DesktopFolder.NoteSettings : PositionSettings {
     public int clipcolor { get; set; }
     public string texture { get; set; }
     public string text { get; set; }
-    public bool on_top {get; set; }
+    public bool on_top { get; set; }
 
     private File file;
 

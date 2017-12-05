@@ -82,7 +82,7 @@ namespace DesktopFolder.Lang {
     // Note - popup option to set the paper texture or not
     public const string NOTE_MENU_PAPER_NOTE  = _("Paper Texture");
     // Note - popup option to set allways on top or not
-    public const string NOTE_MENU_ON_TOP  = _("Allways on top");
+    public const string NOTE_MENU_ON_TOP      = _("Always on top");
     // Menu popup option to rename the note
     public const string NOTE_MENU_RENAME_NOTE = _("Rename Note");
     // Menu popup option to delete the note

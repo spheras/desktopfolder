@@ -39,14 +39,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     construct {
         this.hide_titlebar_when_maximized = false;
 
-        set_skip_taskbar_hint (true);
-        this.set_property ("skip-taskbar-hint", true);
-        this.set_property ("skip-pager-hint", true);
-        this.set_property ("skip_taskbar_hint", true);
-        this.set_property ("skip_pager_hint", true);
-        this.skip_pager_hint   = true;
-        this.skip_taskbar_hint = true;
-
         stick ();
     }
 
@@ -60,8 +52,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             icon_name:          "com.github.spheras.desktopfolder",
             resizable:          true,
             accept_focus:       true,
-            skip_taskbar_hint:  true,
-            skip_pager_hint:    true,
             decorated:          true,
             title:              (manager.get_note_name ()),
             type_hint:          Gdk.WindowTypeHint.NORMAL,
@@ -91,9 +81,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.create_headerbar ();
 
-        this.set_skip_taskbar_hint (true);
-        this.set_property ("skip-taskbar-hint", true);
-
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
         box.get_style_context ().add_class ("df_note_container");
         box.set_border_width (20);
@@ -113,14 +100,16 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.show_all ();
 
-        if(!this.manager.get_settings ().on_top){
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            this.set_keep_below(true);
-            this.set_keep_above(false);
-        }else{
-            this.type_hint = Gdk.WindowTypeHint.NORMAL;
-            this.set_keep_below(false);
-            this.set_keep_above(true);
+        if (!this.manager.get_settings ().on_top) {
+            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            // this.set_keep_below(true);
+            this.set_keep_above (false);
+            // debug("KEEP_ABOVE -> FALSE");
+        } else {
+            // this.type_hint = Gdk.WindowTypeHint.NORMAL;
+            // this.set_keep_below(false);
+            this.set_keep_above (true);
+            // debug("KEEP_ABOVE -> TRUE");
         }
 
         this.configure_event.connect (this.on_configure);
@@ -209,13 +198,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (settings.fgcolor);
 
-        if(!this.manager.get_settings ().on_top){
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            this.set_keep_below(true);
-            this.set_keep_above(false);
-        }else{
-            this.set_keep_below(false);
-            this.set_keep_above(true);
+        if (this.manager.get_settings ().on_top) {
+            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            // this.set_keep_below(true);
+            this.set_keep_above (true);
+        } else {
+            // this.set_keep_below(false);
+            this.set_keep_above (false);
         }
     }
 
@@ -303,10 +292,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             if (style.has_class (sclass)) {
                 // debug("inactive");
                 style.remove_class ("df_active");
-                if(!this.manager.get_settings ().on_top){
-                    this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-                    this.set_keep_below(true);
-                    this.set_keep_above(false);
+                if (!this.manager.get_settings ().on_top) {
+                    // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+                    // this.set_keep_below(true);
+                    this.set_keep_above (false);
                 }
                 // we need to force a queue_draw
                 this.queue_draw ();
@@ -324,10 +313,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_focus_out (Gdk.EventFocus event) {
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
-        if(!this.manager.get_settings ().on_top){
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            this.set_keep_below(true);
-            this.set_keep_above(false);
+        if (!this.manager.get_settings ().on_top) {
+            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            // this.set_keep_below(true);
+            this.set_keep_above (false);
         }
 
         var buffer     = this.text.get_buffer ();
@@ -386,10 +375,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_release (Gdk.EventButton event) {
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
-        if(!this.manager.get_settings ().on_top){
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            this.set_keep_below(true);
-            this.set_keep_above(false);
+        if (!this.manager.get_settings ().on_top) {
+            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            // this.set_keep_below(true);
+            this.set_keep_above (false);
         }
         return false;
     }
@@ -402,7 +391,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_press (Gdk.EventButton event) {
         // This is to allow moving and resizing the panel
         // TODO: Is there a way to make a desktop window resizable and movable?
-        this.type_hint = Gdk.WindowTypeHint.NORMAL;
+        // this.type_hint = Gdk.WindowTypeHint.NORMAL;
 
         // debug("press:%i,%i",(int)event.button,(int)event.y);
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
@@ -433,13 +422,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
         // TODO: Is there a way to make a desktop window resizable and movable?
-        if(!this.manager.get_settings ().on_top){
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            this.set_keep_below(true);
-            this.set_keep_above(false);
+        if (!this.manager.get_settings ().on_top) {
+            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            // this.set_keep_below(true);
+            this.set_keep_above (false);
         }
 
-        this.menu      = new Gtk.Menu ();
+        this.menu = new Gtk.Menu ();
 
         // new submenu
         Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
@@ -798,14 +787,14 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
     protected void on_toggle_on_top () {
         this.manager.get_settings ().on_top = !this.manager.get_settings ().on_top;
-        if(!this.manager.get_settings ().on_top){
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            this.set_keep_below(true);
-            this.set_keep_above(false);
-        }else{
-            this.type_hint = Gdk.WindowTypeHint.NORMAL;
-            this.set_keep_below(false);
-            this.set_keep_above(true);
+        if (!this.manager.get_settings ().on_top) {
+            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            // this.set_keep_below(true);
+            this.set_keep_above (false);
+        } else {
+            // this.type_hint = Gdk.WindowTypeHint.NORMAL;
+            // this.set_keep_below(false);
+            this.set_keep_above (true);
         }
         this.manager.get_settings ().save ();
     }

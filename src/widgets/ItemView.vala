@@ -429,7 +429,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // if the icon wasnt moved, maybe we must execute it
         // depending if the files preferences single-click was activated
 
-        //Change cursor
+        // Change cursor
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "default"));
 
         // we notify that we are stopping to move
@@ -467,7 +467,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private bool on_press (Gdk.EventButton event) {
         // debug("press:%i",(int)event.button);
 
-        //Change cursor to closed hand
+        // Change cursor to closed hand
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "grabbing"));
 
         // this code is to allow the drag'ndrop of files inside the folder window
