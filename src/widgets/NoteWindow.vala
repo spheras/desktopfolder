@@ -100,17 +100,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.show_all ();
 
-        if (!this.manager.get_settings ().on_top) {
-            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            // this.set_keep_below(true);
-            this.set_keep_above (false);
-            // debug("KEEP_ABOVE -> FALSE");
-        } else {
-            // this.type_hint = Gdk.WindowTypeHint.NORMAL;
-            // this.set_keep_below(false);
-            this.set_keep_above (true);
-            // debug("KEEP_ABOVE -> TRUE");
-        }
+        this.check_onTop();
 
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
@@ -198,14 +188,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (settings.fgcolor);
 
-        if (this.manager.get_settings ().on_top) {
-            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            // this.set_keep_below(true);
-            this.set_keep_above (true);
-        } else {
-            // this.set_keep_below(false);
-            this.set_keep_above (false);
-        }
+        this.check_onTop();
     }
 
     /**
@@ -292,11 +275,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             if (style.has_class (sclass)) {
                 // debug("inactive");
                 style.remove_class ("df_active");
-                if (!this.manager.get_settings ().on_top) {
-                    // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-                    // this.set_keep_below(true);
-                    this.set_keep_above (false);
-                }
                 // we need to force a queue_draw
                 this.queue_draw ();
                 this.text.queue_draw ();
@@ -313,11 +291,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_focus_out (Gdk.EventFocus event) {
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
-        if (!this.manager.get_settings ().on_top) {
-            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            // this.set_keep_below(true);
-            this.set_keep_above (false);
-        }
+        // this.check_onTop();
 
         var buffer     = this.text.get_buffer ();
         var text       = buffer.text;
@@ -375,11 +349,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_release (Gdk.EventButton event) {
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
-        if (!this.manager.get_settings ().on_top) {
-            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            // this.set_keep_below(true);
-            this.set_keep_above (false);
-        }
+        // this.check_onTop();
+
         return false;
     }
 
@@ -422,11 +393,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
         // TODO: Is there a way to make a desktop window resizable and movable?
-        if (!this.manager.get_settings ().on_top) {
-            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            // this.set_keep_below(true);
-            this.set_keep_above (false);
-        }
+        // this.check_onTop();
 
         this.menu = new Gtk.Menu ();
 
@@ -787,16 +754,15 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
     protected void on_toggle_on_top () {
         this.manager.get_settings ().on_top = !this.manager.get_settings ().on_top;
-        if (!this.manager.get_settings ().on_top) {
-            // this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-            // this.set_keep_below(true);
-            this.set_keep_above (false);
-        } else {
-            // this.type_hint = Gdk.WindowTypeHint.NORMAL;
-            // this.set_keep_below(false);
-            this.set_keep_above (true);
-        }
         this.manager.get_settings ().save ();
+        this.check_onTop();
     }
 
+    private void check_onTop(){
+        if (this.manager.get_settings ().on_top) {
+            this.set_keep_above (true);
+        } else {
+           this.set_keep_above (false);
+        }
+    }
 }

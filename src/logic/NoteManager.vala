@@ -67,14 +67,6 @@ public class DesktopFolder.NoteManager : Object {
             this.view        = new NoteWindow (this);
             this.application.add_window (this.view);
             this.view.show ();
-
-            // trying to put it in front of the rest
-            // this.view.set_keep_below (false);
-            this.view.set_keep_above (true);
-            // this.view.present ();
-            // this.view.set_keep_above (false);
-            // this.view.set_keep_below (true);
-            // ---------------------------------------
         }
     }
 
