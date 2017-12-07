@@ -1097,7 +1097,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             cr.clip ();
 
             Gtk.Allocation title_allocation;
-            this.get_titlebar().get_allocation (out title_allocation);
+            this.get_titlebar ().get_allocation (out title_allocation);
             // debug("panel: width:%d height:%d",width,height);
             // debug("header: x:%d y:%d width:%d height:%d",title_allocation.x,title_allocation.y,title_allocation.width,title_allocation.height);
 
@@ -1110,7 +1110,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X; i <= width - left_padding - sensitivity; i += sensitivity + margin) {
                 // debug("-i: %d",i);
-                for (int j = header; j <= height - sensitivity -top_padding ; j += sensitivity + margin) {
+                for (int j = header; j <= height - sensitivity - top_padding; j += sensitivity + margin) {
                     // debug("|j: %d",j);
                     cr.rectangle (i, j, sensitivity, sensitivity);
                     cr.fill ();

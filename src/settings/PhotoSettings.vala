@@ -4,6 +4,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
     public int fixocolor { get; set; default = 0; }
     public string name { get; set; }
     public string photo_path { get; set; }
+    public int version = DesktopFolder.SETTINGS_VERSION;
 
     private File file;
 
@@ -14,6 +15,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
         var file = File.new_for_path (photo_path);
         this.name       = file.get_basename ();
         this.fixocolor  = Random.int_range (1, 6);
+        this.version=DesktopFolder.SETTINGS_VERSION;
 
         try {
             // we calculate an aproximated image size
@@ -134,6 +136,11 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
                 var pixbuf = new Gdk.Pixbuf.from_file (existent.photo_path);
                 existent.original_width  = pixbuf.get_width ();
                 existent.original_height = pixbuf.get_height ();
+            }
+
+            // regression for on top and back
+            if(existent.version==0){
+                existent.version=DesktopFolder.SETTINGS_VERSION;
             }
 
             return existent;

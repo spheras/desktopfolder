@@ -7,6 +7,11 @@ public class DesktopFolder.NoteSettings : PositionSettings {
     public int clipcolor { get; set; }
     public string texture { get; set; }
     public string text { get; set; }
+    public bool on_top { get; set; }
+    public bool on_back { get; set; }
+
+    //util value to know the settings versions
+    public int version = DesktopFolder.SETTINGS_VERSION;
 
     private File file;
 
@@ -19,6 +24,9 @@ public class DesktopFolder.NoteSettings : PositionSettings {
         this.clipcolor = Random.int_range (1, 6);
         this.name      = name;
         this.text      = "Lorem Ipsum";
+        this.on_top    = false;
+        this.on_back    = true;
+        this.version=DesktopFolder.SETTINGS_VERSION;
     }
 
     /**
@@ -113,6 +121,13 @@ public class DesktopFolder.NoteSettings : PositionSettings {
                 // backward compability
                 existent.fgcolor = "df_" + existent.fgcolor;
                 existent.texture = "square_paper";
+            }
+
+            // regression for on top and back
+            if(existent.version==0){
+                existent.version=DesktopFolder.SETTINGS_VERSION;
+                existent.on_top=false;
+                existent.on_back=true;
             }
 
             return existent;
