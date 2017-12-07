@@ -86,7 +86,7 @@ namespace DesktopFolder.Lang {
     // Note - popup option to set allways on top or not
     public const string NOTE_MENU_ON_TOP      = _("Always on top");
     // Note - popup option to set allways on back or not
-    public const string NOTE_MENU_ON_BACK      = _("Always on back");
+    public const string NOTE_MENU_ON_BACK     = _("Always on back");
     // Menu popup option to rename the note
     public const string NOTE_MENU_RENAME_NOTE = _("Rename Note");
     // Menu popup option to delete the note
@@ -129,40 +129,40 @@ namespace DesktopFolder.Lang {
     // Hint to show desktop shortcut
     // public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
     // Menu option to create a link to a file
-    public const string DESKTOPFOLDER_MENU_NEW_FILE_LINK   = _("Link to File");
+    public const string DESKTOPFOLDER_MENU_NEW_FILE_LINK                = _("Link to File");
     // Menu option to create a link to a folder
-    public const string DESKTOPFOLDER_MENU_NEW_FOLDER_LINK = _("Link to Folder");
+    public const string DESKTOPFOLDER_MENU_NEW_FOLDER_LINK              = _("Link to Folder");
     // Dialog message to create a new link
-    public const string DESKTOPFOLDER_LINK_MESSAGE         = _("Select the destination file/folder of the link");
+    public const string DESKTOPFOLDER_LINK_MESSAGE                      = _("Select the destination file/folder of the link");
     // Dialog message to create a new link panel
-    public const string DESKTOPFOLDER_PANELLINK_MESSAGE    = _("Select the destination folder for the Panel");
+    public const string DESKTOPFOLDER_PANELLINK_MESSAGE                 = _("Select the destination folder for the Panel");
     // Menu popup option to remove a photo
-    public const string PHOTO_MENU_DELETE_PHOTO            = _("Remove");
+    public const string PHOTO_MENU_DELETE_PHOTO                         = _("Remove");
     // Note - Dialog Message to DELETE the current photo
-    public const string PHOTO_DELETE_MESSAGE               = _("This action will DELETE the Photo.\n<b>Are you sure?</b>");
+    public const string PHOTO_DELETE_MESSAGE                            = _("This action will DELETE the Photo.\n<b>Are you sure?</b>");
     // desktopfolder menu - create a new Photo
-    public const string DESKTOPFOLDER_MENU_NEW_PHOTO       = _("Photo");
+    public const string DESKTOPFOLDER_MENU_NEW_PHOTO                    = _("Photo");
     // dialog message to select an image file to be shown at the desktop
-    public const string PHOTO_SELECT_PHOTO_MESSAGE         = _("Select the picture to show");
+    public const string PHOTO_SELECT_PHOTO_MESSAGE                      = _("Select the picture to show");
     // desktopfolder menu - create a new empty Text File
-    public const string DESKTOPFOLDER_MENU_NEW_SUBMENU     = _("New");
+    public const string DESKTOPFOLDER_MENU_NEW_SUBMENU                  = _("New");
     // panel properties - Properties section
-    public const string PANELPROPERTIES_PROPERTIES=_("Properties");
+    public const string PANELPROPERTIES_PROPERTIES                      = _("Properties");
     // panel properties - General section
-    public const string PANELPROPERTIES_GENERAL=_("General");
+    public const string PANELPROPERTIES_GENERAL                         = _("General");
     // panel properties - Behavior section
-    public const string PANELPROPERTIES_BEHAVIOR=_("Behavior");
+    public const string PANELPROPERTIES_BEHAVIOR                        = _("Behavior");
     // panel properties - Interface section
-    public const string PANELPROPERTIES_INTERFACE=_("Interface");
+    public const string PANELPROPERTIES_INTERFACE                       = _("Interface");
     // panel properties - Close button
-    public const string PANELPROPERTIES_CLOSE=_("Close");
+    public const string PANELPROPERTIES_CLOSE                           = _("Close");
     // panel properties - Panel over Desktop title
-    public const string PANELPROPERTIES_DESKTOP_PANEL=_("Panel Over Desktop");
+    public const string PANELPROPERTIES_DESKTOP_PANEL                   = _("Panel Over Desktop");
     // panel properties - Panel over desktop description
-    public const string PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION=_("Activating this you will have a transparent background panel over your desktop. This change will require relogin into your system.");
-    //panel properties - Resolution Strategy title
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY=_("Resolution Strategy");
+    public const string PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION       = _("Activating this you will have a transparent background panel over your desktop. This change will require relogin into your system.");
+    // panel properties - Resolution Strategy title
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY             = _("Resolution Strategy");
     // panel properties - Resolution Strategy Description
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION=_("This is how all the widgets behave when a new screen resolution is found, doing nothing, storing and restoring the new resolution positions, or scaling the positions.");
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION = _("This is how all the widgets behave when a new screen resolution is found, doing nothing, storing and restoring the new resolution positions, or scaling the positions.");
 
 }

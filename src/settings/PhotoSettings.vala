@@ -15,7 +15,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
         var file = File.new_for_path (photo_path);
         this.name       = file.get_basename ();
         this.fixocolor  = Random.int_range (1, 6);
-        this.version=DesktopFolder.SETTINGS_VERSION;
+        this.version    = DesktopFolder.SETTINGS_VERSION;
 
         try {
             // we calculate an aproximated image size
@@ -139,8 +139,8 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
             }
 
             // regression for on top and back
-            if(existent.version==0){
-                existent.version=DesktopFolder.SETTINGS_VERSION;
+            if (existent.version == 0) {
+                existent.version = DesktopFolder.SETTINGS_VERSION;
             }
 
             return existent;

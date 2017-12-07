@@ -10,7 +10,7 @@ public class DesktopFolder.NoteSettings : PositionSettings {
     public bool on_top { get; set; }
     public bool on_back { get; set; }
 
-    //util value to know the settings versions
+    // util value to know the settings versions
     public int version = DesktopFolder.SETTINGS_VERSION;
 
     private File file;
@@ -25,8 +25,8 @@ public class DesktopFolder.NoteSettings : PositionSettings {
         this.name      = name;
         this.text      = "Lorem Ipsum";
         this.on_top    = false;
-        this.on_back    = true;
-        this.version=DesktopFolder.SETTINGS_VERSION;
+        this.on_back   = true;
+        this.version   = DesktopFolder.SETTINGS_VERSION;
     }
 
     /**
@@ -124,10 +124,10 @@ public class DesktopFolder.NoteSettings : PositionSettings {
             }
 
             // regression for on top and back
-            if(existent.version==0){
-                existent.version=DesktopFolder.SETTINGS_VERSION;
-                existent.on_top=false;
-                existent.on_back=true;
+            if (existent.version == 0) {
+                existent.version = DesktopFolder.SETTINGS_VERSION;
+                existent.on_top  = false;
+                existent.on_back = true;
             }
 
             return existent;

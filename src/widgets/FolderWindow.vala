@@ -154,13 +154,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
 
-        //Warning! we need to connect with the press_event, instead of release or clicked to avoid problems
-        trash_button.button_press_event.connect ((event)=>{
-            this.manager.trash();
+        // Warning! we need to connect with the press_event, instead of release or clicked to avoid problems
+        trash_button.button_press_event.connect ((event) => {
+            this.manager.trash ();
             return true;
         });
-        properties_button.button_press_event.connect ((event)=>{
-            this.show_properties_dialog();
+        properties_button.button_press_event.connect ((event) => {
+            this.show_properties_dialog ();
             return true;
         });
 
@@ -172,9 +172,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name show_properties_dialog
-    * @description show the properties dialog
-    */
+     * @name show_properties_dialog
+     * @description show the properties dialog
+     */
     protected void show_properties_dialog () {
         var dialog = new DesktopFolder.Dialogs.PanelProperties (this);
         dialog.set_transient_for (this);
@@ -433,7 +433,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
-         //debug("on_press folderwindow");
+        // debug("on_press folderwindow");
         // Needed to exit focus from title when editting
         this.activate_focus ();
 
@@ -491,24 +491,24 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
         // Creating items (please try and keep these in the same order as appended to the menu)
-        var new_item             = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+        var new_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
 
-        var new_submenu          = new Gtk.Menu ();
-        var newfolder_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
-        var emptyfile_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
-        var newlink_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
-        var newlinkdir_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
-        var newpanel_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        var newlinkpanel_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        var newnote_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        var newphoto_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var new_submenu       = new Gtk.Menu ();
+        var newfolder_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
+        var emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
+        var newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+        var newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
 
-        //var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-        var rename_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
-        //var lockitems_item       = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
-        //var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        //var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        // var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
+        var trash_item  = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
+        var rename_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
+        // var lockitems_item       = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
+        // var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
+        // var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
         var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
         var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
 
@@ -522,16 +522,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
 
-        //((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
-        //((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
+        // ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
+        // ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
         trash_item.activate.connect (this.manager.trash);
         rename_item.activate.connect (this.label.start_editing);
         ///((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
-        //((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
-        //((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
-        //((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
-        //((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
-        //((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
+        // ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
+        // ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
+        // ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
+        // ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
+        // ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
         ((MenuItemColor) backgroundcolor_item).custom_changed.connect (change_body_color_custom);
@@ -557,16 +557,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
 
-        //context_menu.append (new MenuItemSeparator ());
-        //context_menu.append (aligntogrid_item);
+        // context_menu.append (new MenuItemSeparator ());
+        // context_menu.append (aligntogrid_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (trash_item);
-        //context_menu.append (new MenuItemSeparator ());
+        // context_menu.append (new MenuItemSeparator ());
         context_menu.append (rename_item);
-        //context_menu.append (new MenuItemSeparator ());
-        //context_menu.append (lockitems_item);
-        //context_menu.append (textshadow_item);
-        //context_menu.append (textbold_item);
+        // context_menu.append (new MenuItemSeparator ());
+        // context_menu.append (lockitems_item);
+        // context_menu.append (textshadow_item);
+        // context_menu.append (textbold_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
         context_menu.append (backgroundcolor_item);
@@ -1068,11 +1068,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name get_manager
-    * @description return the FolderManager
-    * @return {FolderManager}
-    */
-    public FolderManager get_manager(){
+     * @name get_manager
+     * @description return the FolderManager
+     * @return {FolderManager}
+     */
+    public FolderManager get_manager () {
         return this.manager;
     }
 
@@ -1102,10 +1102,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug("header: x:%d y:%d width:%d height:%d",title_allocation.x,title_allocation.y,title_allocation.width,title_allocation.height);
 
             int left_padding = title_allocation.x;
-            int top_padding = title_allocation.y;
-            int header = title_allocation.height + top_padding;
-            int margin = 10;
-            int sensitivity = SENSITIVITY_WITH_GRID-10;
+            int top_padding  = title_allocation.y;
+            int header       = title_allocation.height + top_padding;
+            int margin       = 10;
+            int sensitivity  = SENSITIVITY_WITH_GRID - 10;
             cr.set_source_rgba (1, 1, 1, 0.2);
 
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X; i <= width - left_padding - sensitivity; i += sensitivity + margin) {

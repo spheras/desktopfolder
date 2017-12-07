@@ -58,11 +58,11 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         this.textbold      = true;
         this.textshadow    = true;
         this.align_to_grid = false;
-        this.lockitems=false;
-        this.lockpanel=false;
+        this.lockitems     = false;
+        this.lockpanel     = false;
         this.name          = name;
         this.items         = new string[0];
-        this.version=DesktopFolder.SETTINGS_VERSION;
+        this.version       = DesktopFolder.SETTINGS_VERSION;
         check_off_screen ();
     }
 
@@ -247,8 +247,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
 
             // regression for on top and back
-            if(existent.version==0){
-                existent.version=DesktopFolder.SETTINGS_VERSION;
+            if (existent.version == 0) {
+                existent.version = DesktopFolder.SETTINGS_VERSION;
             }
 
             existent.check_all ();

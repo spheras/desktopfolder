@@ -60,7 +60,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             width_request:      160
         );
 
-        this.check_window_type();
+        this.check_window_type ();
         this.manager = manager;
         this.name    = manager.get_application ().get_next_id ();
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
@@ -101,7 +101,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.show_all ();
 
-        this.check_on_top();
+        this.check_on_top ();
 
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
@@ -189,7 +189,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (settings.fgcolor);
 
-        this.check_on_top();
+        this.check_on_top ();
     }
 
     /**
@@ -268,7 +268,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             if (!style.has_class (sclass)) {
                 // debug("active");
                 style.add_class ("df_active");
-                this.check_window_type();
+                this.check_window_type ();
                 // we need to force a queue_draw
                 this.queue_draw ();
                 this.text.queue_draw ();
@@ -293,7 +293,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_focus_out (Gdk.EventFocus event) {
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
-        this.check_window_type();
+        this.check_window_type ();
 
         var buffer     = this.text.get_buffer ();
         var text       = buffer.text;
@@ -312,7 +312,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         if (event.type == Gdk.EventType.CONFIGURE) {
             // This is to avoid minimization when Show Desktop shortcut is used
             // TODO: Is there a way to make a desktop window resizable and movable?
-            this.check_window_type();
+            this.check_window_type ();
 
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
             this.manager.set_new_shape (event.x, event.y, event.width, event.height);
@@ -351,7 +351,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private bool on_release (Gdk.EventButton event) {
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
-        this.check_window_type();
+        this.check_window_type ();
 
         return false;
     }
@@ -395,7 +395,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
         // TODO: Is there a way to make a desktop window resizable and movable?
-        this.check_window_type();
+        this.check_window_type ();
 
         this.menu = new Gtk.Menu ();
 
@@ -767,56 +767,56 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name on_toggle_on_top
-    * @description toggle the on top setting
-    */
+     * @name on_toggle_on_top
+     * @description toggle the on top setting
+     */
     protected void on_toggle_on_top () {
         this.manager.get_settings ().on_top = !this.manager.get_settings ().on_top;
-        if(this.manager.get_settings().on_top){
-            this.manager.get_settings ().on_back=false;
+        if (this.manager.get_settings ().on_top) {
+            this.manager.get_settings ().on_back = false;
         }
         this.manager.get_settings ().save ();
-        this.check_on_top();
-        this.manager.reopen();
+        this.check_on_top ();
+        this.manager.reopen ();
     }
 
     /**
-    * @name on_toggle_on_back
-    * @description toggle the on back setting
-    */
+     * @name on_toggle_on_back
+     * @description toggle the on back setting
+     */
     protected void on_toggle_on_back () {
         this.manager.get_settings ().on_back = !this.manager.get_settings ().on_back;
-        if(this.manager.get_settings().on_back){
-            this.manager.get_settings ().on_top=false;
+        if (this.manager.get_settings ().on_back) {
+            this.manager.get_settings ().on_top = false;
         }
         this.manager.get_settings ().save ();
-        this.check_on_top();
-        this.manager.reopen();
+        this.check_on_top ();
+        this.manager.reopen ();
     }
 
     /**
-    * @name check_on_top
-    * @description check the current settings to put the window above or not
-    */
-    private void check_on_top(){
-        this.check_window_type();
+     * @name check_on_top
+     * @description check the current settings to put the window above or not
+     */
+    private void check_on_top () {
+        this.check_window_type ();
         if (this.manager.get_settings ().on_top) {
             this.set_keep_above (true);
-        } else{
-           this.set_keep_above (false);
+        } else {
+            this.set_keep_above (false);
         }
     }
 
-
     /**
-    * @name check_window_type
-    * @description check whether the window should have a normal or desktop type
-    */
-    private void check_window_type(){
+     * @name check_window_type
+     * @description check whether the window should have a normal or desktop type
+     */
+    private void check_window_type () {
         if (this.manager.get_settings ().on_back) {
             this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-        }else{
+        } else {
             this.type_hint = Gdk.WindowTypeHint.NORMAL;
         }
     }
+
 }

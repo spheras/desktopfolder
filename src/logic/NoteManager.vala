@@ -112,12 +112,12 @@ public class DesktopFolder.NoteManager : Object {
         return true;
     }
 
-    public void reopen(){
-        //closing
-        this.application.remove_window(this.view);
-        this.view.close();
-        //reopening
-        this.view        = new NoteWindow (this);
+    public void reopen () {
+        // closing
+        this.application.remove_window (this.view);
+        this.view.close ();
+        // reopening
+        this.view = new NoteWindow (this);
         this.application.add_window (this.view);
         this.view.show ();
     }
