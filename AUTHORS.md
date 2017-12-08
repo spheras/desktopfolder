@@ -10,12 +10,15 @@
 
 * **[welaq](https://github.com/welaq)**
   * Lithuanian translation
-  
+
 * **[nvivant](https://github.com/nvivant)**
   * French translation
-  
+
 * **[pavlepiramida](https://github.com/pavlepiramida)**
   * Serbian translation (Cyrillic and Latin versions)
+
+* **[camellan](https://github.com/camellan)**
+  * Russian translation
 
 # Resources
 
