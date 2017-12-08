@@ -30,11 +30,6 @@ namespace DesktopFolder.Dialogs {
             STORE
         }
         private Gtk.Stack main_stack;
-        private Gtk.Switch highlight_current_line;
-        private Gtk.Switch highlight_matching_brackets;
-        private Gtk.ComboBoxText style_scheme;
-        private Gtk.Switch use_custom_font;
-        private Gtk.FontButton select_font;
         private FolderWindow window;
         private FolderManager manager;
 
@@ -181,17 +176,6 @@ namespace DesktopFolder.Dialogs {
             general_grid.attach (strategy_combo, 0, 7, 1, 1);
 
             return general_grid;
-        }
-
-        private void populate_style_scheme () {
-            string[] scheme_ids;
-            var      scheme_manager = new Gtk.SourceStyleSchemeManager ();
-            scheme_ids = scheme_manager.get_scheme_ids ();
-
-            foreach (string scheme_id in scheme_ids) {
-                var scheme = scheme_manager.get_scheme (scheme_id);
-                style_scheme.append (scheme.id, scheme.name);
-            }
         }
 
         private class SettingsHeader : Gtk.Label {
