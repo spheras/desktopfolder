@@ -164,5 +164,11 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_RESOLUTION_STRATEGY             = _("Resolution Strategy");
     // panel properties - Resolution Strategy Description
     public const string PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION = _("This is how all the widgets behave when a new screen resolution is found, doing nothing, storing and restoring the new resolution positions, or scaling the positions.");
+    // panel properties - Resolution Strategy NONE
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_NONE        = _("None");
+    // panel properties - Resolution Strategy NONE
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE       = _("Scale");
+    // panel properties - Resolution Strategy NONE
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_STORE       = _("Store");
 
 }

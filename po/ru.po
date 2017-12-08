@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-02 21:53+0400\n"
+"POT-Creation-Date: 2017-12-08 10:18+0100\n"
 "PO-Revision-Date: 2017-11-03 22:24+0400\n"
 "Last-Translator: Андрей Культяпов <camellan@yandex.ru>\n"
 "Language-Team: \n"
@@ -21,78 +21,8 @@ msgstr ""
 "X-Poedit-Basepath: ../src\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Dialogs/PanelPropertiesWindow.vala:39 LanguageText.vala:73
-msgid "Properties"
-msgstr "Настройки"
-
-#: Dialogs/PanelPropertiesWindow.vala:50
-msgid "Behavior"
-msgstr "Поведение"
-
-#: Dialogs/PanelPropertiesWindow.vala:51
-msgid "Interface"
-msgstr "Интерфейс"
-
-#: Dialogs/PanelPropertiesWindow.vala:66
-msgid "Close"
-msgstr "Закрыть"
-
-#: Dialogs/PanelPropertiesWindow.vala:78
-msgid "Shortcuts"
-msgstr "Ярлыки"
-
-#: Dialogs/PanelPropertiesWindow.vala:79
-msgid "Show Desktop:"
-msgstr "Показать Рабочий Стол:"
-
-#: Dialogs/PanelPropertiesWindow.vala:90
-msgid "Editor"
-msgstr "Редактор"
-
-#: Dialogs/PanelPropertiesWindow.vala:92
-msgid "Highlight current line:"
-msgstr "Подсветка текущей строки:"
-
-#: Dialogs/PanelPropertiesWindow.vala:95
-msgid "Highlight matching brackets:"
-msgstr "Подсветка парных скобок:"
-
-#: Dialogs/PanelPropertiesWindow.vala:98
-msgid "Draw Spaces:"
-msgstr "Отрисовка пространства:"
-
-#: Dialogs/PanelPropertiesWindow.vala:100
-#: Dialogs/PanelPropertiesWindow.vala:118
-msgid "Small"
-msgstr "Небольшой"
-
-#: Dialogs/PanelPropertiesWindow.vala:101
-#: Dialogs/PanelPropertiesWindow.vala:119
-msgid "Medium"
-msgstr "Средний"
-
-#: Dialogs/PanelPropertiesWindow.vala:102
-#: Dialogs/PanelPropertiesWindow.vala:120
-msgid "Large"
-msgstr "Большой"
-
-#: Dialogs/PanelPropertiesWindow.vala:105
-msgid "Line width guide:"
-msgstr " Ширина направляющей линии:"
-
-#: Dialogs/PanelPropertiesWindow.vala:113
-msgid "Appearance"
-msgstr "Внешний вид"
-
-#: Dialogs/PanelPropertiesWindow.vala:115
-msgid "Icon size:"
-msgstr "Размер значка:"
-
-#: Dialogs/PanelPropertiesWindow.vala:121
-msgid "Huge"
-msgstr "Огромный"
-
-#: LanguageText.vala:3
+#. Application Description
+#: src/LanguageText.vala:3
 msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
@@ -100,144 +30,215 @@ msgstr ""
 "Вернуёт к жизни ваш минималистский рабочий стол \n"
 "Упорядочит файлы на рабочем столе с помощью панелей."
 
-#: LanguageText.vala:5
+#. Generic Dialog OK Button
+#: src/LanguageText.vala:5
 msgid "_Ok"
 msgstr "_Ok"
 
-#: LanguageText.vala:7
+#. Generic Dialog CANCEL Button
+#: src/LanguageText.vala:7
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: LanguageText.vala:9
+#. Generic Dialog Select Button
+#: src/LanguageText.vala:9
 msgid "_Select"
 msgstr "_Выбрать"
 
-#: LanguageText.vala:11
+#. Trying to paste and the clipboard is empty
+#: src/LanguageText.vala:11
 msgid "There is nothing on the clipboard to paste"
 msgstr "Нет ничего в буфере обмена для вставки"
 
-#: LanguageText.vala:13
+#. Dialog Error Title: Invalid Filename provided
+#: src/LanguageText.vala:13
 msgid "Cannot drop this file"
 msgstr "Невозможно удалить этот файл"
 
-#: LanguageText.vala:15
+#. Dialog Error Message while trying to drop
+#: src/LanguageText.vala:15
 msgid "Invalid file name provided"
 msgstr "Недопустимое имя файла"
 
-#: LanguageText.vala:17
+#. Title dialog for File Operations
+#: src/LanguageText.vala:17
 msgid "File Operations"
 msgstr "Файловые Операции"
 
-#: LanguageText.vala:19
+#. Copying File message for progress dialog
+#: src/LanguageText.vala:19
 msgid "Copying"
 msgstr "Копирование"
 
-#: LanguageText.vala:21
+#. Drop Menu - Copy
+#: src/LanguageText.vala:21
 msgid "Copy Here"
 msgstr "Скопировать сюда"
 
-#: LanguageText.vala:23
+#. Drop Menu - Move
+#: src/LanguageText.vala:23
 msgid "Move Here"
 msgstr "Переместить сюда"
 
-#: LanguageText.vala:25
+#. Drop Menu - Link
+#: src/LanguageText.vala:25
 msgid "Link Here"
 msgstr "Ссылку сюда"
 
-#: LanguageText.vala:27
+#. Drop Menu - Cancel
+#: src/LanguageText.vala:27
 msgid "Cancel"
 msgstr "Отмена"
 
-#: LanguageText.vala:29
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/LanguageText.vala:29
 msgid "Panel"
 msgstr "Панель"
 
-#: LanguageText.vala:31
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/LanguageText.vala:31
 msgid "Link Panel"
 msgstr "Панель ссылок"
 
-#: LanguageText.vala:33
+#. desktopfolder menu - enable/disable alignment to grid
+#: src/LanguageText.vala:33
 msgid "Align to Grid"
 msgstr "Выровнять по сетке"
 
-#: LanguageText.vala:35
+#. desktopfolder menu - enable/disable lock items
+#: src/LanguageText.vala:35
+msgid "Lock Items"
+msgstr ""
+
+#. desktopfolder menu - enable/disable lock panel
+#: src/LanguageText.vala:37
+#, fuzzy
+msgid "Lock Panel"
+msgstr "Панель ссылок"
+
+#. desktopfolder menu - enable/disable text shadows
+#: src/LanguageText.vala:39
 msgid "Text Shadow"
 msgstr "Текст с тенью"
 
-#: LanguageText.vala:37
+#. desktopfolder menu - enable/disable text bolds
+#: src/LanguageText.vala:41
 msgid "Text Bold"
 msgstr "Жирный шрифт"
 
-#: LanguageText.vala:39
+#. desktopfolder menu - create a new Note
+#: src/LanguageText.vala:43
 msgid "Note"
 msgstr "Заметку"
 
-#: LanguageText.vala:41
+#. desktopfolder menu - create a new Folder
+#: src/LanguageText.vala:45
 msgid "Folder"
 msgstr "Папку"
 
-#: LanguageText.vala:43
+#. desktopfolder menu - create a new empty Text File
+#: src/LanguageText.vala:47
 msgid "Empty File"
 msgstr "Пустой файл"
 
-#: LanguageText.vala:45
+#. desktopfolder menu - rename a Desktop-Folder Pane
+#: src/LanguageText.vala:49
 msgid "Rename Panel"
 msgstr "Переименовать панель"
 
-#: LanguageText.vala:47
+#. desktopfolder menu - remove a Desktop-Folder Pane
+#: src/LanguageText.vala:51
 msgid "Move Panel to Trash"
 msgstr "Переместить панель в корзину"
 
-#: LanguageText.vala:49
+#. desktopfolder menu - past from clipboard to the desktop-folder
+#: src/LanguageText.vala:53
 msgid "Paste"
 msgstr "Вставить"
 
-#: LanguageText.vala:51 LanguageText.vala:55
+#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
+#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:55 src/LanguageText.vala:59
 msgid "New Panel"
 msgstr "Новая панель"
 
-#: LanguageText.vala:53 LanguageText.vala:89 LanguageText.vala:118
+#. desktopfolder - Dialog Message to rename the current Desktop-Folder
+#. Note - Dialog Message to rename the current note
+#. Item - Rename Dialog Message
+#: src/LanguageText.vala:57 src/LanguageText.vala:97 src/LanguageText.vala:126
 msgid "Enter the new name"
 msgstr "Введите новое имя"
 
-#: LanguageText.vala:57 LanguageText.vala:61 LanguageText.vala:67
-#: LanguageText.vala:77
+#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:61 src/LanguageText.vala:65 src/LanguageText.vala:71
+#: src/LanguageText.vala:81
 msgid "Enter the name"
 msgstr "Введите имя"
 
-#: LanguageText.vala:59
+#. desktopfolder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
+#: src/LanguageText.vala:63
 msgid "New Folder"
 msgstr "Новая папка"
 
-#: LanguageText.vala:63
+#. desktopfolder - The default name for the new folder to be created
+#: src/LanguageText.vala:67
 msgid "new folder"
 msgstr "новая папка"
 
-#: LanguageText.vala:65
+#. desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
+#: src/LanguageText.vala:69
 msgid "New Text File"
 msgstr "Новый текстовый Файл"
 
-#: LanguageText.vala:69
+#. desktopfolder - The default name for the new text file to be created
+#: src/LanguageText.vala:73
 msgid "new.txt"
 msgstr "новый.txt"
 
-#: LanguageText.vala:71 LanguageText.vala:85
+#. desktopfolder - The message to confirm the deletion of a Desktop Folder
+#. Menu popup option to delete the note
+#: src/LanguageText.vala:75 src/LanguageText.vala:93
 msgid "Move to Trash"
 msgstr "Переместить в корзину"
 
-#: LanguageText.vala:75 LanguageText.vala:79
+#. desktopfolder - The message to confirm the deletion of a Desktop Folder
+#. panel properties - Properties section
+#: src/LanguageText.vala:77 src/LanguageText.vala:150
+msgid "Properties"
+msgstr "Настройки"
+
+#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
+#: src/LanguageText.vala:79 src/LanguageText.vala:83
 msgid "New Note"
 msgstr "Новая заметка"
 
-#: LanguageText.vala:81
+#. Note - popup option to set the paper texture or not
+#: src/LanguageText.vala:85
 msgid "Paper Texture"
 msgstr "Текстура бумаги"
 
-#: LanguageText.vala:83 LanguageText.vala:87
+#. Note - popup option to set allways on top or not
+#: src/LanguageText.vala:87
+msgid "Always on top"
+msgstr ""
+
+#. Note - popup option to set allways on back or not
+#: src/LanguageText.vala:89
+msgid "Always on back"
+msgstr ""
+
+#. Menu popup option to rename the note
+#. Note - Dialog Title Message to rename the current note
+#: src/LanguageText.vala:91 src/LanguageText.vala:95
 msgid "Rename Note"
 msgstr "Переименовать заметку"
 
-#: LanguageText.vala:91
+#. Note - Dialog Message to DELETE the current note
+#: src/LanguageText.vala:99
 msgid ""
 "This action will DELETE the Note.\n"
 "<b>Are you sure?</b>"
@@ -245,35 +246,43 @@ msgstr ""
 "Это действие удалит заметку.\n"
 "<b>Вы уверены?</b>"
 
-#: LanguageText.vala:94
+#. Item Menu - Open the file
+#: src/LanguageText.vala:102
 msgid "Open"
 msgstr "Открыть"
 
-#: LanguageText.vala:96
+#. Item Menu - Execute the file
+#: src/LanguageText.vala:104
 msgid "Execute"
 msgstr "Выполнить"
 
-#: LanguageText.vala:98
+#. Item Menu - cut the file/folder
+#: src/LanguageText.vala:106
 msgid "Cut"
 msgstr "Вырезать"
 
-#: LanguageText.vala:100
+#. Item Menu - copy the file/folder
+#: src/LanguageText.vala:108
 msgid "Copy"
 msgstr "Копировать"
 
-#: LanguageText.vala:102
+#. Item Menu - rename the file/folder
+#: src/LanguageText.vala:110
 msgid "Rename"
 msgstr "Переименовать"
 
-#: LanguageText.vala:104
+#. Item Menu - delete the file/folder
+#: src/LanguageText.vala:112
 msgid "Delete"
 msgstr "Удалить"
 
-#: LanguageText.vala:106
+#. Item Menu - change icon
+#: src/LanguageText.vala:114
 msgid "Change Icon"
 msgstr "Сменить значок"
 
-#: LanguageText.vala:108
+#. Item - Delete Folder Item Dialog message
+#: src/LanguageText.vala:116
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
@@ -281,7 +290,8 @@ msgstr ""
 "Это действие удалит папку и все ее содержимое.\n"
 "<b>Вы уверены?</b>"
 
-#: LanguageText.vala:110
+#. Item - Delete File Item Dialog message
+#: src/LanguageText.vala:118
 msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
@@ -289,7 +299,8 @@ msgstr ""
 "Это действие приведет к удалению файла.\n"
 "<b>Вы уверены?</b>"
 
-#: LanguageText.vala:112
+#. Item - Delete File Link Dialog message
+#: src/LanguageText.vala:120
 msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
@@ -297,39 +308,50 @@ msgstr ""
 "Это действие удалит ссылку (просто ссылку).\n"
 "<b>Вы уверены?</b>"
 
-#: LanguageText.vala:114
+#. Item - Change icon dialog message to select an image file
+#: src/LanguageText.vala:122
 msgid "Select the image icon to be used."
 msgstr "Выберите значок изображения для использования."
 
-#: LanguageText.vala:116
+#. Item - Rename Dialog Title
+#: src/LanguageText.vala:124
 msgid "Rename Item"
 msgstr "Переименовать пункт"
 
-#: LanguageText.vala:120
+#. Name of the first desktop-folder panel, when no panels found
+#: src/LanguageText.vala:128
 msgid "My First Panel"
 msgstr "Моя первая панель"
 
-#: LanguageText.vala:124
+#. Hint to show desktop shortcut
+#. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
+#. Menu option to create a link to a file
+#: src/LanguageText.vala:132
 msgid "Link to File"
 msgstr "Ссылку на файл"
 
-#: LanguageText.vala:126
+#. Menu option to create a link to a folder
+#: src/LanguageText.vala:134
 msgid "Link to Folder"
 msgstr "Ссылку на папку"
 
-#: LanguageText.vala:128
+#. Dialog message to create a new link
+#: src/LanguageText.vala:136
 msgid "Select the destination file/folder of the link"
 msgstr "Выберите место назначения ссылки файл/папка"
 
-#: LanguageText.vala:130
+#. Dialog message to create a new link panel
+#: src/LanguageText.vala:138
 msgid "Select the destination folder for the Panel"
 msgstr "Выберите папку назначения для панели"
 
-#: LanguageText.vala:132
+#. Menu popup option to remove a photo
+#: src/LanguageText.vala:140
 msgid "Remove"
 msgstr "Удалить"
 
-#: LanguageText.vala:134
+#. Note - Dialog Message to DELETE the current photo
+#: src/LanguageText.vala:142
 msgid ""
 "This action will DELETE the Photo.\n"
 "<b>Are you sure?</b>"
@@ -337,27 +359,125 @@ msgstr ""
 "Это действие приведет к удалению фото\n"
 "<b>Вы уверены?</b>"
 
-#: LanguageText.vala:136
+#. desktopfolder menu - create a new Photo
+#: src/LanguageText.vala:144
 msgid "Photo"
 msgstr "Фоторамку"
 
-#: LanguageText.vala:138
+#. dialog message to select an image file to be shown at the desktop
+#: src/LanguageText.vala:146
 msgid "Select the picture to show"
 msgstr "Выберите картинку для отображения"
 
-#: LanguageText.vala:140
+#. desktopfolder menu - create a new empty Text File
+#: src/LanguageText.vala:148
 msgid "New"
 msgstr "Создать"
 
-#: utils/Util.vala:198 utils/Util.vala:287
-#, c-format
-msgid "Could not create \"%'s\""
-msgstr "Невозможно создать\"%'s\""
+#. panel properties - General section
+#: src/LanguageText.vala:152
+msgid "General"
+msgstr ""
 
-#: utils/Util.vala:200
-msgid "Panel already exists."
-msgstr "Панель уже существует."
+#. panel properties - Behavior section
+#: src/LanguageText.vala:154
+msgid "Behavior"
+msgstr "Поведение"
 
-#: utils/Util.vala:289
-msgid "Note already exists."
-msgstr "Заметка уже существует."
+#. panel properties - Interface section
+#: src/LanguageText.vala:156
+msgid "Interface"
+msgstr "Интерфейс"
+
+#. panel properties - Close button
+#: src/LanguageText.vala:158
+msgid "Close"
+msgstr "Закрыть"
+
+#. panel properties - Panel over Desktop title
+#: src/LanguageText.vala:160
+msgid "Panel Over Desktop"
+msgstr ""
+
+#. panel properties - Panel over desktop description
+#: src/LanguageText.vala:162
+msgid ""
+"Activating this you will have a transparent background panel over your "
+"desktop. This change will require relogin into your system."
+msgstr ""
+
+#. panel properties - Resolution Strategy title
+#: src/LanguageText.vala:164
+msgid "Resolution Strategy"
+msgstr ""
+
+#. panel properties - Resolution Strategy Description
+#: src/LanguageText.vala:166
+msgid ""
+"This is how all the widgets behave when a new screen resolution is found, "
+"doing nothing, storing and restoring the new resolution positions, or "
+"scaling the positions."
+msgstr ""
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:168
+msgid "None"
+msgstr ""
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:170
+msgid "Scale"
+msgstr ""
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:172
+msgid "Store"
+msgstr ""
+
+#~ msgid "Shortcuts"
+#~ msgstr "Ярлыки"
+
+#~ msgid "Show Desktop:"
+#~ msgstr "Показать Рабочий Стол:"
+
+#~ msgid "Editor"
+#~ msgstr "Редактор"
+
+#~ msgid "Highlight current line:"
+#~ msgstr "Подсветка текущей строки:"
+
+#~ msgid "Highlight matching brackets:"
+#~ msgstr "Подсветка парных скобок:"
+
+#~ msgid "Draw Spaces:"
+#~ msgstr "Отрисовка пространства:"
+
+#~ msgid "Small"
+#~ msgstr "Небольшой"
+
+#~ msgid "Medium"
+#~ msgstr "Средний"
+
+#~ msgid "Large"
+#~ msgstr "Большой"
+
+#~ msgid "Line width guide:"
+#~ msgstr " Ширина направляющей линии:"
+
+#~ msgid "Appearance"
+#~ msgstr "Внешний вид"
+
+#~ msgid "Icon size:"
+#~ msgstr "Размер значка:"
+
+#~ msgid "Huge"
+#~ msgstr "Огромный"
+
+#~ msgid "Could not create \"%'s\""
+#~ msgstr "Невозможно создать\"%'s\""
+
+#~ msgid "Panel already exists."
+#~ msgstr "Панель уже существует."
+
+#~ msgid "Note already exists."
+#~ msgstr "Заметка уже существует."

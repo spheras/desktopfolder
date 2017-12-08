@@ -630,7 +630,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description the user wants to delete the item. It should be confirmed before the deletion occurs
      */
     public void delete_dialog () {
-        string     message = _(DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE);
+        string     message = DesktopFolder.Lang.ITEM_DELETE_FOLDER_MESSAGE;
         Gtk.Window window  = (Gtk.Window) this.get_toplevel ();
         bool       isdir   = this.manager.is_folder ();
         if (!isdir) {

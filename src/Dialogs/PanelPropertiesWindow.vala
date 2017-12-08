@@ -43,7 +43,7 @@ namespace DesktopFolder.Dialogs {
                 border_width: 5,
                 deletable:    false,
                 resizable:    false,
-                title:        _("Properties")
+                title:        DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES
             );
 
             this.window  = window;
@@ -174,9 +174,9 @@ namespace DesktopFolder.Dialogs {
             general_grid.attach (description, 0, 5, 2, 2);
 
             var strategy_combo = new Gtk.ComboBoxText ();
-            strategy_combo.append ("NONE", _("None"));
-            strategy_combo.append ("SCALE", _("Scale"));
-            strategy_combo.append ("STORE", _("Store"));
+            strategy_combo.append ("NONE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_NONE);
+            strategy_combo.append ("SCALE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE);
+            strategy_combo.append ("STORE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_STORE);
             settings.bind ("resolution-strategy", strategy_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
             general_grid.attach (strategy_combo, 0, 7, 1, 1);
 
