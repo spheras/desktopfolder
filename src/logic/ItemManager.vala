@@ -34,6 +34,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     private ItemView view;
     /** drag and drop behaviour for this folder */
     private DragnDrop.DndBehaviour dnd_behaviour = null;
+    /** flag to indicate that the file doesn't exist.. and need to be rechecked */
+    private bool flag_dont_exist                 = false;
 
     /**
      * @constructor
@@ -42,8 +44,14 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @param FolderManager folder the folder parent
      */
     public ItemManager (string file_name, File file, FolderManager folder) {
-        this.file_name     = file_name;
-        this.file          = file;
+        this.file_name = file_name;
+        this.file      = file;
+        // checking if the file still exists... we need to check following symlinks!
+        if (!GLib.FileUtils.test (file.get_path (), GLib.FileTest.EXISTS)) {
+            this.flag_dont_exist = true;
+        } else {
+            this.flag_dont_exist = false;
+        }
         this.folder        = folder;
         this.selected      = false;
         this.view          = new ItemView (this);
@@ -57,6 +65,32 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public bool is_selected () {
         return this.selected;
+    }
+
+    /**
+     * @name check_exist_cached
+     * @description check if the file exist, but doesn't check fiscally, to avoid checking a lot of times
+     * @return {bool} true->, yes the file exist
+     */
+    public bool check_exist_cached () {
+        return !this.flag_dont_exist;
+    }
+
+    /**
+     * @name recheck_existence
+     * @description recheck if the file exist
+     */
+    public void recheck_existence () {
+        if (this.flag_dont_exist) {
+            // we need to recheck if the file exist now
+            // checking if the file still exists... we need to check following symlinks!
+            if (GLib.FileUtils.test (this.get_file ().get_path (), GLib.FileTest.EXISTS)) {
+                if (this.flag_dont_exist) {
+                    this.flag_dont_exist = false;
+                    this.view.refresh_icon ();
+                }
+            }
+        }
     }
 
     /**

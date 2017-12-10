@@ -26,6 +26,9 @@ public class DesktopFolderApp : Gtk.Application {
     /** File Monitor of desktop folder */
     private FileMonitor monitor = null;
 
+    /** The volume monitor */
+    private GLib.VolumeMonitor volume_monitor = null;
+
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
@@ -143,6 +146,29 @@ public class DesktopFolderApp : Gtk.Application {
         Gdk.Screen.get_default ().size_changed.connect (this.on_screen_size_changed);
         Gdk.Screen.get_default ().composited_changed.connect (this.on_screen_size_changed);
         Gdk.Screen.get_default ().monitors_changed.connect (this.on_screen_size_changed);
+
+        // Listening mount change events
+        this.volume_monitor = VolumeMonitor.get ();
+        volume_monitor.mount_changed.connect ((mount) => {
+            this.on_mount_changed ();
+        });
+        this.volume_monitor.volume_changed.connect ((volume) => {
+            this.on_mount_changed ();
+        });
+    }
+
+    /**
+     * @name on_mount_changed
+     * @description event to detect when the mount file system has been changed, probably we need to recheck files existence
+     */
+    public void on_mount_changed () {
+        debug ("MOUNT FILE SYSTEM CHANGED");
+        for (int i = 0; i < this.folders.length (); i++) {
+            this.folders.nth_data (i).on_mount_changed ();
+        }
+        if (this.desktop != null) {
+            this.desktop.on_mount_changed ();
+        }
     }
 
     /**

@@ -534,6 +534,27 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         return this.view;
     }
 
+    /**
+     * @name on_active
+     * @description the folder is window is being active.
+     */
+    public void on_active () {
+        // lets recheck the file existence
+        this.on_mount_changed ();
+    }
+
+    /**
+     * @name on_mount_changed
+     * @description the mount filesystem has been changed
+     */
+    public void on_mount_changed () {
+        // lets recheck the file existence
+        for (int i = 0; i < this.items.length (); i++) {
+            ItemManager element = (ItemManager) this.items.nth_data (i);
+            element.recheck_existence ();
+        }
+    }
+
     // ---------------------------------------------------------------------------------------
     // ---------------------------DndView Implementation--------------------------------------
     // ---------------------------------------------------------------------------------------

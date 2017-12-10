@@ -169,7 +169,20 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     icon = new Gtk.Image.from_pixbuf (custom);
                 }
             } else {
-                if (this.manager.is_desktop_file ()) {
+                // checking if the file still exists... we need to check following symlinks!
+                if (!this.manager.check_exist_cached ()) {
+                    // the file doesn't exist
+                    GLib.ThemedIcon themed = new ThemedIcon.with_default_fallbacks ("text-x-generic");
+                    var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
+                    var pixbuf             = info.load_icon ();
+                    if (pixbuf.height != ICON_WIDTH) {
+                        // Some icons don't return the requested size, so we need to scale them
+                        pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
+                    }
+                    // drawing a cross over the icon
+                    icon = draw_not_exist_mark_pixbuf (pixbuf);
+
+                } else if (this.manager.is_desktop_file ()) {
                     GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.manager.get_absolute_path ());
                     GLib.Icon           gicon      = desktopApp.get_icon ();
                     if (this.manager.is_link ()) {
@@ -187,7 +200,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                         }
                     }
                 } else {
-
                     var    ctypeInfo   = this.manager.get_file ().query_info ("standard::content-type", FileQueryInfoFlags.NONE);
                     string contentType = ctypeInfo.get_content_type ();
                     string mimeType    = GLib.ContentType.get_mime_type (contentType);
@@ -224,6 +236,58 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 stderr.printf ("Error: %s\n", ee.message);
                 Util.show_error_dialog ("Error", ee.message);
             }
+        }
+    }
+
+    /**
+     * @name draw_not_exist_mark_gicon
+     * @description draw a CROSS mark to indicate that the file doesn't exist
+     * @param gicon {GLib.Icon} the icon we want to modify and add the mark
+     * @result {Gtk.Image} the image produced
+     */
+    private Gtk.Image draw_not_exist_mark_gicon (GLib.Icon gicon) {
+        try {
+            Gtk.IconTheme theme    = Gtk.IconTheme.get_default ();
+            Gtk.IconInfo  iconInfo = theme.lookup_by_gicon (gicon, ICON_SIZE, 0);
+            Gdk.Pixbuf    pixbuf   = iconInfo.load_icon ();
+
+            if (pixbuf.height != ICON_WIDTH) {
+                // some icons doesn't return the asked size, so we need to scale them
+                pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
+            }
+
+            return this.draw_link_mark_pixbuf (pixbuf);
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
+        return null as Gtk.Image;
+    }
+
+    /**
+     * @name draw_not_exist_mark_pixbuf
+     * @description draw a CROSS mark to indicate that the file doesn't exist
+     * @param pixbuf {Gdk.Pixbuf} the pixbuf to modify
+     * @result {Gtk.Image} the image produced
+     */
+    private Gtk.Image draw_not_exist_mark_pixbuf (Gdk.Pixbuf pixbuf) {
+        try {
+            var surface = Gdk.cairo_surface_create_from_pixbuf (pixbuf, 1, null);
+            var context = new Cairo.Context (surface);
+
+            context.set_source_rgba (1, 0, 0, 1);
+            context.move_to (0, 0);
+            context.line_to (ICON_SIZE, ICON_SIZE);
+            context.move_to (ICON_SIZE, 0);
+            context.line_to (0, ICON_SIZE);
+            context.stroke ();
+
+            var       pixbuf2 = Gdk.pixbuf_get_from_surface (surface, 0, 0, ICON_SIZE, ICON_SIZE);
+            Gtk.Image icon    = new Gtk.Image.from_pixbuf (pixbuf2);
+            return icon;
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
         }
     }
 

@@ -351,6 +351,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         Gtk.StyleContext style  = this.get_style_context ();
         // debug("%s is active? %s",this.manager.get_folder_name(), this.is_active ? "true" : "false");
         if (this.is_active) {
+            this.manager.on_active ();
             if (!style.has_class (sclass)) {
                 style.add_class ("df_active");
                 // we need to force a queue_draw
