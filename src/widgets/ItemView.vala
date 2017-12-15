@@ -240,31 +240,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
-     * @name draw_not_exist_mark_gicon
-     * @description draw a CROSS mark to indicate that the file doesn't exist
-     * @param gicon {GLib.Icon} the icon we want to modify and add the mark
-     * @result {Gtk.Image} the image produced
-     */
-    private Gtk.Image draw_not_exist_mark_gicon (GLib.Icon gicon) {
-        try {
-            Gtk.IconTheme theme    = Gtk.IconTheme.get_default ();
-            Gtk.IconInfo  iconInfo = theme.lookup_by_gicon (gicon, ICON_SIZE, 0);
-            Gdk.Pixbuf    pixbuf   = iconInfo.load_icon ();
-
-            if (pixbuf.height != ICON_WIDTH) {
-                // some icons doesn't return the asked size, so we need to scale them
-                pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
-            }
-
-            return this.draw_link_mark_pixbuf (pixbuf);
-        } catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog ("Error", e.message);
-        }
-        return null as Gtk.Image;
-    }
-
-    /**
      * @name draw_not_exist_mark_pixbuf
      * @description draw a CROSS mark to indicate that the file doesn't exist
      * @param pixbuf {Gdk.Pixbuf} the pixbuf to modify
@@ -553,7 +528,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 // debug("offset:%i,%i",this.offsetx,this.offsety);
                 // plus distance from pointer to edge of widget
 
-                this.offsetx += (int) event.x + PADDING_X;
+                this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
 
                 // maxx, maxy both relative to the parent

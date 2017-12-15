@@ -210,7 +210,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         Gtk.Allocation allocation;
         this.view.get_allocation (out allocation);
         // HELP! don't know why these constants?? maybe padding??
-        is.x = allocation.x - ItemView.PADDING_X;
+        is.x = allocation.x - ItemView.PADDING_X - ItemView.PADDING_X;
         is.y = allocation.y - ItemView.PADDING_Y;
         this.folder.get_settings ().set_item (is);
         this.folder.get_settings ().save ();

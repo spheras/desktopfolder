@@ -154,11 +154,30 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 this.queue_draw ();
             }
         }
+
+        this.save_current_position_and_size ();
+    }
+
+    /**
+     * @name save_position_and_size
+     * @description save the current position and size of the window
+     */
+    private void save_current_position_and_size () {
+        // we are saving here the last position and size
+        // we avoid doing it at on_configure because it launches a lot of events
+        Gtk.Allocation all;
+        int x = 0;
+        int y = 0;
+        this.get_position (out x, out y);
+        this.get_allocation (out all);
+        // debug("allocation:%d,%d,%d,%d",x,y,all.width,all.height);
+        this.manager.set_new_shape (x, y, all.width, all.height);
     }
 
     /**
      * @name on_configure
      * @description the configure event is produced when the window change its dimensions or location settings
+     * @return {bool} @see configure_event signal
      */
     private bool on_configure (Gdk.EventConfigure event) {
         if (event.type == Gdk.EventType.CONFIGURE) {
@@ -167,7 +186,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             this.type_hint = Gdk.WindowTypeHint.DESKTOP;
 
             // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
-            this.manager.set_new_shape (event.x, event.y, event.width, event.height);
+            /*this.manager.set_new_shape (event.x, event.y, event.width, event.height);*/
 
             // reseting cached images
             this.shadowSurface = null;
@@ -391,6 +410,13 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     this.flag_resizing = false;
                     this.queue_draw ();
                     this.timeout_id = 0;
+
+                    // don't know why the size allocation doesn't return yet the previous resize info
+                    Gtk.Allocation all;
+                    int x = 0;
+                    int y = 0;
+                    this.get_position (out x, out y);
+                    this.manager.set_new_shape (x, y, pixwidth + margin, pixheight + margin);
                     return false;
                 });
             }

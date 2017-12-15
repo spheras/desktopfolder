@@ -103,7 +103,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.check_on_top ();
 
-        this.configure_event.connect (this.on_configure);
+        // this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
         this.draw.connect (this.draw_background);
@@ -149,6 +149,12 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             if (this.manager.rename (new_name)) {
                 label.text = new_name;
             }
+        });
+
+        header.button_press_event.connect ((event) => {
+            this.type_hint = Gdk.WindowTypeHint.NORMAL;
+            this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+            return false;
         });
     }
 
@@ -282,6 +288,16 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
                 this.text.queue_draw ();
             }
         }
+
+        // we are saving here the last position and size
+        // we avoid doing it at on_configure because it launches a lot of events
+        Gtk.Allocation all;
+        int x = 0;
+        int y = 0;
+        this.get_position (out x, out y);
+        this.get_allocation (out all);
+        // debug("allocation:%d,%d,%d,%d",x,y,all.width,all.height);
+        this.manager.set_new_shape (x, y, all.width, all.height);
     }
 
     /**
@@ -304,21 +320,25 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         return false;
     }
 
-    /**
-     * @name on_configure
-     * @description the configure event is produced when the window change its dimensions or location settings
-     */
-    private bool on_configure (Gdk.EventConfigure event) {
-        if (event.type == Gdk.EventType.CONFIGURE) {
-            // This is to avoid minimization when Show Desktop shortcut is used
-            // TODO: Is there a way to make a desktop window resizable and movable?
-            this.check_window_type ();
-
-            // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
-            this.manager.set_new_shape (event.x, event.y, event.width, event.height);
-        }
-        return false;
-    }
+    ///**
+    // * @name on_configure
+    // * @description the configure event is produced when the window change its dimensions or location settings
+    // */
+    // private bool on_configure (Gdk.EventConfigure event) {
+    ////debug("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d",event.type,event.send_event,event.width,event.height,event.x,event.y);
+    //// if(this.flag_dragging) {
+    ////     return false;
+    //// }
+    // if (event.type == Gdk.EventType.CONFIGURE) {
+    //// This is to avoid minimization when Show Desktop shortcut is used
+    //// TODO: Is there a way to make a desktop window resizable and movable?
+    // this.check_window_type ();
+    //
+    // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
+    // this.manager.set_new_shape (event.x, event.y, event.width, event.height);
+    // }
+    // return false;
+    // }
 
     /**
      * @name on_enter_notify
@@ -349,10 +369,10 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
+        debug ("window release");
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.check_window_type ();
-
         return false;
     }
 
@@ -362,6 +382,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     private bool on_press (Gdk.EventButton event) {
+        // debug("window press");
+
         // This is to allow moving and resizing the panel
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.NORMAL;
@@ -374,12 +396,16 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             // int width  = this.get_allocated_width ();
             // int height = this.get_allocated_height ();
             // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
-            if (event.x > 11 && event.y > 11) {
-                // the corner need some extra space
-                if (!(event.x < 31 && event.y < 31)) {
-                    this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
-                }
-            }
+
+            /*
+               if (event.x > 11 && event.y > 11) {
+               // the corner need some extra space
+               if (!(event.x < 31 && event.y < 31)) {
+                   this.flag_dragging=true;
+                   this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+               }
+               }
+             */
         }
         return false;
     }
@@ -812,10 +838,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description check whether the window should have a normal or desktop type
      */
     private void check_window_type () {
-        if (this.manager.get_settings ().on_back) {
-            this.type_hint = Gdk.WindowTypeHint.DESKTOP;
-        } else {
-            this.type_hint = Gdk.WindowTypeHint.NORMAL;
+        if (this.manager != null) {
+            var settings = this.manager.get_settings ();
+            if (settings == null || settings.on_back) {
+                this.type_hint = Gdk.WindowTypeHint.DESKTOP;
+            } else {
+                this.type_hint = Gdk.WindowTypeHint.NORMAL;
+            }
         }
     }
 

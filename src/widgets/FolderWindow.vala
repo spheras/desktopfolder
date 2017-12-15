@@ -380,6 +380,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description the configure event is produced when the window change its dimensions or location settings
      */
     private bool on_configure (Gdk.EventConfigure event) {
+        // debug("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d",event.type,event.send_event,event.width,event.height,event.x,event.y);
         if (event.type == Gdk.EventType.CONFIGURE) {
             // This is to avoid minimization when Show Desktop shortcut is used
             // TODO: Is there a way to make a desktop window resizable and movable?
@@ -663,7 +664,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /**
      * @name change_head_color
      * @description change event captured from the popup for a new color to the head window
-     * @param ncolor int the new color for the head window
+     * @param {int} ncolor the new color for the head window
      */
     protected void change_head_color (int ncolor) {
         string color = HEAD_TAGS_COLORS_CLASS[ncolor];
@@ -679,17 +680,19 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /**
      * @name move_item
      * @description move an item inside this window to a certain position
-     * @param int x the x position
-     * @param int y the y position
+     * @param {ItemView} item the item to be moved
+     * @param {int} x the x position
+     * @param {int} y the y position
      */
     public void move_item (ItemView item, int x, int y) {
+        // debug("moved to:%d,%d",x,y);
         this.container.move (item, x, y);
     }
 
     /**
      * @name change_body_color
      * @description change event captured from the popup for a new color to the body window
-     * @param ncolor int the new color for the body window
+     * @param {int} ncolor the new color for the body window
      */
     public void change_body_color (int ncolor) {
         string color = BODY_TAGS_COLORS_CLASS[ncolor];
