@@ -38,6 +38,7 @@ namespace DesktopFolder.Dialogs {
                 border_width: 5,
                 deletable:    false,
                 resizable:    false,
+                modal: true,
                 title:        DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES
             );
 
