@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-15 07:44+0100\n"
-"PO-Revision-Date: 2017-11-04 10:30+0100\n"
+"PO-Revision-Date: 2017-12-16 14:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sr_RS\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -95,9 +95,8 @@ msgstr "Панел"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:31
-#, fuzzy
 msgid "Link Panel"
-msgstr "Панел"
+msgstr "Симболички Панел"
 
 #. desktopfolder menu - enable/disable alignment to grid
 #: src/LanguageText.vala:33
@@ -107,13 +106,12 @@ msgstr "Послажи у мрежу"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:35
 msgid "Lock Items"
-msgstr ""
+msgstr "Закључај ставке"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:37
-#, fuzzy
 msgid "Lock Panel"
-msgstr "Панел"
+msgstr "Закључај Панел"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:39
@@ -207,7 +205,7 @@ msgstr "Премести у смеће"
 #. panel properties - Properties section
 #: src/LanguageText.vala:77 src/LanguageText.vala:150
 msgid "Properties"
-msgstr ""
+msgstr "Својства"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
 #. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
@@ -223,12 +221,12 @@ msgstr "Текстура Папира"
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:87
 msgid "Always on top"
-msgstr ""
+msgstr "Увек изнад"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:89
 msgid "Always on back"
-msgstr ""
+msgstr "Увек испод"
 
 #. Menu popup option to rename the note
 #. Note - Dialog Title Message to rename the current note
@@ -342,9 +340,8 @@ msgstr "Изаберите дестинациони фолдер/датотек�
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:138
-#, fuzzy
 msgid "Select the destination folder for the Panel"
-msgstr "Изаберите дестинациони фолдер/датотеку симболичке везе"
+msgstr "Изаберите дестинациони фолдер/датотеку Панела"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:140
@@ -378,27 +375,27 @@ msgstr "Нови"
 #. panel properties - General section
 #: src/LanguageText.vala:152
 msgid "General"
-msgstr ""
+msgstr "Опште"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:154
 msgid "Behavior"
-msgstr ""
+msgstr "Понашање"
 
 #. panel properties - Interface section
 #: src/LanguageText.vala:156
 msgid "Interface"
-msgstr ""
+msgstr "Визуални ефекти"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:158
 msgid "Close"
-msgstr ""
+msgstr "Затвори"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:160
 msgid "Panel Over Desktop"
-msgstr ""
+msgstr "Панел преко радног окружења"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:162
@@ -406,11 +403,13 @@ msgid ""
 "Activating this you will have a transparent background panel over your "
 "desktop. This change will require relogin into your system."
 msgstr ""
+"Активирањем ове опције омогућавате Панел провидне позадине преко целог "
+"радног окружења.Ова промена захтева поновно пријављивање у радно окружење."
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:164
 msgid "Resolution Strategy"
-msgstr ""
+msgstr "Стратегија резолуције "
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:166
@@ -419,21 +418,24 @@ msgid ""
 "doing nothing, storing and restoring the new resolution positions, or "
 "scaling the positions."
 msgstr ""
+"Понашанје свих панела при промени резолуције екрана,опција да се позиција "
+"панела не промени,да се позиција тренутних панела сачува и остане иста при "
+"промени резолуције,или да се скалира у односу на прошлу и тернутну позицију."
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:168
 msgid "None"
-msgstr ""
+msgstr "Ништа"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:170
 msgid "Scale"
-msgstr ""
+msgstr "Скалирање"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:172
 msgid "Store"
-msgstr ""
+msgstr "Сачувај"
 
 #~ msgid ""
 #~ "This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"
