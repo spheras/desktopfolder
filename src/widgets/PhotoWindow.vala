@@ -412,7 +412,6 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     this.timeout_id = 0;
 
                     // don't know why the size allocation doesn't return yet the previous resize info
-                    Gtk.Allocation all;
                     int x = 0;
                     int y = 0;
                     this.get_position (out x, out y);
