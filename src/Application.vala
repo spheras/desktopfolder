@@ -221,6 +221,19 @@ public class DesktopFolderApp : Gtk.Application {
 
         if (desktop_panel && this.desktop == null) {
             this.desktop = new DesktopFolder.DesktopManager (this);
+            for (int i = 0; i < this.folders.length (); i++) {
+                var fm = this.folders.nth (i).data;
+                fm.reopen();
+            }
+            for (int i = 0; i < this.notes.length (); i++) {
+                var fm = this.notes.nth (i).data;
+                fm.reopen();
+            }
+            for (int i = 0; i < this.photos.length (); i++) {
+                var fm = this.photos.nth (i).data;
+                fm.reopen();
+            }
+
         } else if (!desktop_panel && this.desktop != null) {
             this.desktop.close ();
             this.desktop = null;

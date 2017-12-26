@@ -162,7 +162,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @name save_position_and_size
      * @description save the current position and size of the window
      */
-    private void save_current_position_and_size () {
+    public void save_current_position_and_size () {
         // we are saving here the last position and size
         // we avoid doing it at on_configure because it launches a lot of events
         Gtk.Allocation all;

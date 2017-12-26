@@ -225,7 +225,7 @@ msgstr "Siempre Encima"
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:89
 msgid "Always on back"
-msgstr "Siempre en el Escritorio"
+msgstr "Siempre en el Fondo"
 
 #. Menu popup option to rename the note
 #. Note - Dialog Title Message to rename the current note

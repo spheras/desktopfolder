@@ -6,7 +6,7 @@ com.github.spheras.desktopfolder (1.0.3) precise; urgency=low
   * Buttons to Headers (remove)
   * Link Panels to folders
   * Photo Scale aspect ratio
-  * Custom Colors for Panel and Notes 
+  * Custom Colors for Panel and Notes
   * Menu Redesign & Panel Settings Window
   * Restore Windows when Super+D is pressed again
   * Resolution Strategy to prevent widgets going off-screen
@@ -17,7 +17,7 @@ com.github.spheras.desktopfolder (1.0.3) precise; urgency=low
   * Arch building by @GabMus
   * A lot of Minor Bugfixing
 
- -- José Amuedo <joseamuedo@gmail.com>  Sat, 8 Dic 2017 10:37:00 +0200
+ -- José Amuedo <joseamuedo@gmail.com>  Sat, 26 Dec 2017 10:37:00 +0200
 
 com.github.spheras.desktopfolder (1.0.2) precise; urgency=low
 
