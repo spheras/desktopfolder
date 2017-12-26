@@ -28,6 +28,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private Cairo.Pattern texture_pattern           = null;
     private Cairo.Surface clip_surface              = null; // The clip image
     private Gtk.Button trash_button                 = null;
+    private DesktopFolder.EditableLabel label = null;
 
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
@@ -136,18 +137,18 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         var header = new Gtk.HeaderBar ();
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.has_subtitle   = false;
-        DesktopFolder.EditableLabel label = new DesktopFolder.EditableLabel (manager.get_note_name ());
-        label.set_margin (10);
-        label.show_popup.connect (this.on_press);
-        label.get_style_context ().add_class ("title");
-        header.set_custom_title (label);
+        this.label = new DesktopFolder.EditableLabel (manager.get_note_name ());
+        this.label.set_margin (10);
+        this.label.show_popup.connect (this.on_press);
+        this.label.get_style_context ().add_class ("title");
+        header.set_custom_title (this.label);
         header.pack_start (trash_button);
         header.set_decoration_layout ("");
         this.set_titlebar (header);
 
-        label.changed.connect ((new_name) => {
+        this.label.changed.connect ((new_name) => {
             if (this.manager.rename (new_name)) {
-                label.text = new_name;
+                this.label.text = new_name;
             }
         });
 
@@ -509,7 +510,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         // Option to rename the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
-        item.activate.connect ((item) => { this.rename_note (); });
+        item.activate.connect (this.label.start_editing);
         item.show ();
         menu.append (item);
 
@@ -599,23 +600,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (color);
         this.manager.save_head_color (color);
-    }
-
-    /**
-     * @name rename_note
-     * @description try to rename the current note
-     */
-    private void rename_note () {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.NOTE_RENAME_TITLE,
-                DesktopFolder.Lang.NOTE_RENAME_MESSAGE,
-                this.manager.get_note_name ());
-        dialog.on_rename.connect ((new_name) => {
-            if (this.manager.rename (new_name)) {
-                this.set_title (new_name);
-            }
-        });
-        dialog.show_all ();
     }
 
     /**
