@@ -199,8 +199,11 @@ public class DesktopFolderApp : Gtk.Application {
         return Environment.get_home_dir () + "/Desktop";
     }
 
+    /**
+    * @name check_fake_desktop
+    * @description check if the fake desktop must be showed or not to create it
+    */
     private void check_fake_desktop () {
-        if (this.desktop == null) {
             GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
             string[]      keys     = settings.list_keys ();
             bool          found    = false;
@@ -215,10 +218,13 @@ public class DesktopFolderApp : Gtk.Application {
             if (found) {
                 desktop_panel = settings.get_boolean ("desktop-panel");
             }
-            if (desktop_panel) {
+
+            if (desktop_panel && this.desktop == null) {
                 this.desktop = new DesktopFolder.DesktopManager (this);
+            }else if(!desktop_panel && this.desktop!=null){
+                this.desktop.close();
+                this.desktop=null;
             }
-        }
     }
 
     /**
