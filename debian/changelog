@@ -6,6 +6,7 @@ com.github.spheras.desktopfolder (1.0.3) precise; urgency=low
   * Buttons to Headers (remove)
   * Link Panels to folders
   * Photo Scale aspect ratio
+  * Custom Colors for Panel and Notes 
   * Menu Redesign & Panel Settings Window
   * Restore Windows when Super+D is pressed again
   * Resolution Strategy to prevent widgets going off-screen

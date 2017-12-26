@@ -4,7 +4,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
     public int fixocolor { get; set; default = 0; }
     public string name { get; set; }
     public string photo_path { get; set; }
-    public int version {get; set;}
+    public int version { get; set; }
 
     private File file;
 

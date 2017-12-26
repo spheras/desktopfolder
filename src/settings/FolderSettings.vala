@@ -31,7 +31,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
     public bool lockpanel { get; set; }
     public bool align_to_grid { get; set; default = false; }
     public string[] items { get; set; default = new string[0]; }
-    public int version {get; set;}
+    public int version { get; set; }
     // default json seralization implementation only support primitive types
 
     private File file;

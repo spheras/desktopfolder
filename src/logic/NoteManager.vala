@@ -113,12 +113,12 @@ public class DesktopFolder.NoteManager : Object {
     }
 
     /**
-    * @name reopen
-    * @description close the current view and reopen it again
-    * (mainly to reposition the window on top or back, and most important, the icon over the status bar)
-    */
+     * @name reopen
+     * @description close the current view and reopen it again
+     * (mainly to reposition the window on top or back, and most important, the icon over the status bar)
+     */
     public void reopen () {
-        this.view.save_current_position_and_size();
+        this.view.save_current_position_and_size ();
         this.get_settings ().save ();
 
         // closing

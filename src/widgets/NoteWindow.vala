@@ -28,7 +28,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private Cairo.Pattern texture_pattern           = null;
     private Cairo.Surface clip_surface              = null; // The clip image
     private Gtk.Button trash_button                 = null;
-    private DesktopFolder.EditableLabel label = null;
+    private DesktopFolder.EditableLabel label       = null;
 
     private const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     private const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
@@ -137,9 +137,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         var header = new Gtk.HeaderBar ();
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.has_subtitle   = false;
-        this.label = new DesktopFolder.EditableLabel (manager.get_note_name ());
+        this.label            = new DesktopFolder.EditableLabel (manager.get_note_name ());
         this.label.set_margin (10);
-        this.label.show_popup.connect ((event)=>{this.show_popup(event);return true;});
+        this.label.show_popup.connect ((event) => { this.show_popup (event); return true; });
         this.label.get_style_context ().add_class ("title");
         header.set_custom_title (this.label);
         header.pack_start (trash_button);
@@ -378,7 +378,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
-        //debug ("window release");
+        // debug ("window release");
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.check_window_type ();
@@ -425,7 +425,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param event EventButton the origin event, needed to position the menu
      */
     private void show_popup (Gdk.EventButton event) {
-        //debug("evento:%f,%f",event.x,event.y);
+        // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!

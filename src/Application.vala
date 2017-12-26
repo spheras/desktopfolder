@@ -200,31 +200,31 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-    * @name check_fake_desktop
-    * @description check if the fake desktop must be showed or not to create it
-    */
+     * @name check_fake_desktop
+     * @description check if the fake desktop must be showed or not to create it
+     */
     private void check_fake_desktop () {
-            GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
-            string[]      keys     = settings.list_keys ();
-            bool          found    = false;
-            for (int i = 0; i < keys.length; i++) {
-                string key = keys[i];
-                if (key == "desktop-panel") {
-                    found = true;
-                    break;
-                }
+        GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+        string[]      keys     = settings.list_keys ();
+        bool          found    = false;
+        for (int i = 0; i < keys.length; i++) {
+            string key = keys[i];
+            if (key == "desktop-panel") {
+                found = true;
+                break;
             }
-            bool desktop_panel = false;
-            if (found) {
-                desktop_panel = settings.get_boolean ("desktop-panel");
-            }
+        }
+        bool desktop_panel = false;
+        if (found) {
+            desktop_panel = settings.get_boolean ("desktop-panel");
+        }
 
-            if (desktop_panel && this.desktop == null) {
-                this.desktop = new DesktopFolder.DesktopManager (this);
-            }else if(!desktop_panel && this.desktop!=null){
-                this.desktop.close();
-                this.desktop=null;
-            }
+        if (desktop_panel && this.desktop == null) {
+            this.desktop = new DesktopFolder.DesktopManager (this);
+        } else if (!desktop_panel && this.desktop != null) {
+            this.desktop.close ();
+            this.desktop = null;
+        }
     }
 
     /**
