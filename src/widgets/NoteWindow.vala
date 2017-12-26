@@ -378,7 +378,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
-        debug ("window release");
+        //debug ("window release");
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.check_window_type ();
