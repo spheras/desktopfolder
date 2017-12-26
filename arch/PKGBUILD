@@ -2,7 +2,7 @@
 # Upstream URL: https://github.com/spheras/desktopfolder
 
 pkgname=desktopfolder-git
-pkgver=v1.0.3
+pkgver=v1.0.5
 pkgrel=1
 pkgdesc='Bring your elementary desktop back to life'
 arch=('any')
