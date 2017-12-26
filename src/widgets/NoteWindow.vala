@@ -139,7 +139,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         header.has_subtitle   = false;
         this.label = new DesktopFolder.EditableLabel (manager.get_note_name ());
         this.label.set_margin (10);
-        this.label.show_popup.connect (this.on_press);
+        this.label.show_popup.connect ((event)=>{this.show_popup(event);return true;});
         this.label.get_style_context ().add_class ("title");
         header.set_custom_title (this.label);
         header.pack_start (trash_button);
@@ -290,6 +290,14 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             }
         }
 
+        this.save_current_position_and_size ();
+    }
+
+    /**
+     * @name save_position_and_size
+     * @description save the current position and size of the window
+     */
+    public void save_current_position_and_size () {
         // we are saving here the last position and size
         // we avoid doing it at on_configure because it launches a lot of events
         Gtk.Allocation all;
@@ -417,7 +425,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param event EventButton the origin event, needed to position the menu
      */
     private void show_popup (Gdk.EventButton event) {
-        // debug("evento:%f,%f",event.x,event.y);
+        //debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
 
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
