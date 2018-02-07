@@ -20,6 +20,9 @@
 * **[camellan](https://github.com/camellan)**
   * Russian translation
 
+* **[andreas-xavier](https://github.com/andreas-xavier)**
+  * Italian translation
+
 # Resources
 
 * App Icon was derived from [Plank's](https://launchpad.net/plank) icon.
