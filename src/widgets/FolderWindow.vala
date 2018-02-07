@@ -189,8 +189,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
-        header.button_press_event.connect(()=>{
-            //to avoid moving the window if it is forbidden
+        header.button_press_event.connect (() => {
+            // to avoid moving the window if it is forbidden
             return !this.manager.can_move ();
         });
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
@@ -465,9 +465,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.unselect_all ();
 
             if (this.manager.can_move ()) {
-                 //int width  = this.get_allocated_width ();
-                 //int height = this.get_allocated_height ();
-                 //debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
+                // int width  = this.get_allocated_width ();
+                // int height = this.get_allocated_height ();
+                // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
                 // some tricks to allow resizing from border
                 if (event.x > 11 && event.y > 11) {
                     // the corner need some extra space

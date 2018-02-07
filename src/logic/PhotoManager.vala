@@ -178,6 +178,23 @@ public class DesktopFolder.PhotoManager : Object {
     }
 
     /**
+     * @name reopen
+     * @description close the current view and reopen it again
+     */
+    public void reopen () {
+        this.view.save_current_position_and_size ();
+        this.get_settings ().save ();
+
+        // closing
+        this.application.remove_window (this.view);
+        this.view.close ();
+        // reopening
+        this.view = new PhotoWindow (this);
+        this.application.add_window (this.view);
+        this.view.show ();
+    }
+
+    /**
      * @name delete
      * @description delete the file associated
      */

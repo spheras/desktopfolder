@@ -11,7 +11,7 @@ public class DesktopFolder.NoteSettings : PositionSettings {
     public bool on_back { get; set; }
 
     // util value to know the settings versions
-    public int version = DesktopFolder.SETTINGS_VERSION;
+    public int version { get; set; }
 
     private File file;
 

@@ -525,6 +525,36 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         return this.settings;
     }
 
+
+    /**
+     * @name reopen
+     * @description close the current view and reopen it again
+     */
+    public void reopen () {
+        this.get_settings ().save ();
+
+        // closing
+        this.application.remove_window (this.view);
+        this.view.close ();
+        // reopening
+        this.view = new FolderWindow (this);
+        this.application.add_window (this.view);
+        this.view.show ();
+
+        // trying to put it in front of the rest
+        this.view.set_keep_below (false);
+        this.view.set_keep_above (true);
+        this.view.present ();
+        this.view.set_keep_above (false);
+        this.view.set_keep_below (true);
+        // ---------------------------------------
+
+        // let's sync the files found at this folder
+        this.sync_files (0, 0);
+        
+        this.view.show_all ();
+    }
+
     /**
      * @name get_view
      * @description return the FolderWindow view of this manager
