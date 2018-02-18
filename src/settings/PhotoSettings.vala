@@ -1,10 +1,72 @@
 public class DesktopFolder.PhotoSettings : PositionSettings {
-    public int original_width { get; set; default = 0; }
-    public int original_height { get; set; default = 0; }
-    public int fixocolor { get; set; default = 0; }
-    public string name { get; set; }
-    public string photo_path { get; set; }
-    public int version { get; set; }
+    private int _original_width = 0;
+    public int original_width {
+        get {
+            return _original_width;
+        }
+        set {
+            if (_original_width != value) {
+                _original_width = value; flagChanged = true;
+            }
+        }
+    }
+    private int _original_height = 0;
+    public int original_height {
+        get {
+            return _original_height;
+        }
+        set {
+            if (_original_height != value) {
+                _original_height = value; flagChanged = true;
+            }
+        }
+    }
+    private int _fixocolor = 0;
+    public int fixocolor {
+        get {
+            return _fixocolor;
+        }
+        set {
+            if (_fixocolor != value) {
+                _fixocolor = value; flagChanged = true;
+            }
+        }
+    }
+    private string _name;
+    public string name {
+        get {
+            return _name;
+        }
+        set {
+            if (_name != value) {
+                _name = value; flagChanged = true;
+            }
+        }
+    }
+    private string _photo_path;
+    public string photo_path {
+        get {
+            return _photo_path;
+        }
+        set {
+            if (_photo_path != value) {
+                _photo_path = value; flagChanged = true;
+            }
+        }
+    }
+
+    // util value to know the settings versions
+    private int _version;
+    public int version {
+        get {
+            return _version;
+        }
+        set {
+            if (_version != value) {
+                _version = value; flagChanged = true;
+            }
+        }
+    }
 
     private File file;
 
@@ -60,7 +122,13 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
      * @param file File the file to be saved
      */
     public void save_to_file (File file) {
-        this.file = file;
+        if (!flagChanged) {
+            return;
+        }
+
+        flagChanged = false;
+
+        this.file   = file;
 
         store_resolution_position ();
 
@@ -142,6 +210,9 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
             if (existent.version == 0) {
                 existent.version = DesktopFolder.SETTINGS_VERSION;
             }
+
+            //the properties have not changed, just loaded
+            existent.flagChanged = false;
 
             return existent;
         } catch (Error e) {

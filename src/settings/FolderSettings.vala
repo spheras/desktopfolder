@@ -22,16 +22,133 @@
  * Desktop Folder Settings
  */
 public class DesktopFolder.FolderSettings : PositionSettings {
-    public string name { get; set; }
-    public string bgcolor { get; set; }
-    public string fgcolor { get; set; }
-    public bool textbold { get; set; }
-    public bool textshadow { get; set; }
-    public bool lockitems { get; set; }
-    public bool lockpanel { get; set; }
-    public bool align_to_grid { get; set; default = false; }
-    public string[] items { get; set; default = new string[0]; }
-    public int version { get; set; }
+    private string _name;
+    public string name {
+        get {
+            return _name;
+        }
+        set {
+            if (_name != value) {
+                _name = value; flagChanged = true;
+            }
+        }
+    }
+    private string _bgcolor;
+    public string bgcolor {
+        get {
+            return _bgcolor;
+        }
+        set {
+            if (_bgcolor != value) {
+                _bgcolor = value; flagChanged = true;
+            }
+        }
+    }
+    private string _fgcolor;
+    public string fgcolor {
+        get {
+            return _fgcolor;
+        }
+        set {
+            if (_fgcolor != value) {
+                _fgcolor = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _textbold;
+    public bool textbold {
+        get {
+            return _textbold;
+        }
+        set {
+            if (_textbold != value) {
+                _textbold = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _textshadow;
+    public bool textshadow {
+        get {
+            return _textshadow;
+        }
+        set {
+            if (_textshadow != value) {
+                _textshadow = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _lockitems;
+    public bool lockitems {
+        get {
+            return _lockitems;
+        }
+        set {
+            if (_lockitems != value) {
+                _lockitems = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _lockpanel;
+    public bool lockpanel {
+        get {
+            return _lockpanel;
+        }
+        set {
+            if (_lockpanel != value) {
+                _lockpanel = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _align_to_grid;
+    public bool align_to_grid {
+        get {
+            return _align_to_grid;
+        }
+        set {
+            if (_align_to_grid != value) {
+                _align_to_grid = value; flagChanged = true;
+            }
+        }
+    }
+    private string[] _items = new string[0];
+    public string[] items {
+        get {
+            return _items;
+        }
+
+        set {
+            bool different = false;
+
+            if ((value == null && _items != null) || (_items == null && value != null) || value.length != _items.length) {
+                different = true;
+            }
+            if (!different && _items != null) {
+                for (int i = 0; i < _items.length; i++) {
+                    if (_items[i] != value[i]) {
+                        different = true;
+                        break;
+                    }
+                }
+            }
+
+            if (different) {
+                _items = value; flagChanged = true;
+            }
+        }
+    }
+
+    // util value to know the settings versions
+    private int _version;
+    public int version {
+        get {
+            return _version;
+        }
+        set {
+            if (_version != value) {
+                _version = value; flagChanged = true;
+            }
+        }
+    }
     // default json seralization implementation only support primitive types
 
     private File file;
@@ -169,7 +286,14 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @param file File the file to be saved
      */
     public void save_to_file (File file) {
-        this.file = file;
+        if (!flagChanged) {
+            return;
+        } else {
+            //debug ("saving settings!!");
+        }
+
+        flagChanged = false;
+        this.file   = file;
 
         store_resolution_position ();
 
@@ -251,7 +375,12 @@ public class DesktopFolder.FolderSettings : PositionSettings {
                 existent.version = DesktopFolder.SETTINGS_VERSION;
             }
 
+            //the properties have not changed, just loaded
+            existent.flagChanged = false;
+
+            //after flag changed to false because the check could modify some properties
             existent.check_all ();
+
             return existent;
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);

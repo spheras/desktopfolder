@@ -1,17 +1,108 @@
 
 
 public class DesktopFolder.NoteSettings : PositionSettings {
-    public string name { get; set; }
-    public string bgcolor { get; set; }
-    public string fgcolor { get; set; }
-    public int clipcolor { get; set; }
-    public string texture { get; set; }
-    public string text { get; set; }
-    public bool on_top { get; set; }
-    public bool on_back { get; set; }
+    private string _name;
+    public string name {
+        get {
+            return _name;
+        }
+        set {
+            if (_name != value) {
+                _name = value; flagChanged = true;
+            }
+        }
+    }
+    private string _bgcolor;
+    public string bgcolor {
+        get {
+            return _bgcolor;
+        }
+        set {
+            if (_bgcolor != value) {
+                _bgcolor = value; flagChanged = true;
+            }
+        }
+    }
+
+    private string _fgcolor;
+    public string fgcolor {
+        get {
+            return _fgcolor;
+        }
+        set {
+            if (_fgcolor != value) {
+                _fgcolor = value; flagChanged = true;
+            }
+        }
+    }
+    private int _clipcolor;
+    public int clipcolor {
+        get {
+            return _clipcolor;
+        }
+        set {
+            if (_clipcolor != value) {
+                _clipcolor = value; flagChanged = true;
+            }
+        }
+    }
+    private string _texture;
+    public string texture {
+        get {
+            return _texture;
+        }
+        set {
+            if (_texture != value) {
+                _texture = value; flagChanged = true;
+            }
+        }
+    }
+    private string _text;
+    public string text {
+        get {
+            return _text;
+        }
+        set {
+            if (_text != value) {
+                _text = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _on_top;
+    public bool on_top {
+        get {
+            return _on_top;
+        }
+        set {
+            if (_on_top != value) {
+                _on_top = value; flagChanged = true;
+            }
+        }
+    }
+    private bool _on_back;
+    public bool on_back {
+        get {
+            return _on_back;
+        }
+        set {
+            if (_on_back != value) {
+                _on_back = value; flagChanged = true;
+            }
+        }
+    }
 
     // util value to know the settings versions
-    public int version { get; set; }
+    private int _version;
+    public int version {
+        get {
+            return _version;
+        }
+        set {
+            if (_version != value) {
+                _version = value; flagChanged = true;
+            }
+        }
+    }
 
     private File file;
 
@@ -43,7 +134,12 @@ public class DesktopFolder.NoteSettings : PositionSettings {
      * @param file File the file to be saved
      */
     public void save_to_file (File file) {
-        this.file = file;
+        if (!flagChanged) {
+            return;
+        }
+
+        flagChanged = false;
+        this.file   = file;
 
         store_resolution_position ();
 
@@ -129,6 +225,9 @@ public class DesktopFolder.NoteSettings : PositionSettings {
                 existent.on_top  = false;
                 existent.on_back = true;
             }
+
+            //the properties have not changed, just loaded
+            existent.flagChanged = false;
 
             return existent;
         } catch (Error e) {

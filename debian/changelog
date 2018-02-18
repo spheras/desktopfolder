@@ -1,3 +1,11 @@
+com.github.spheras.desktopfolder (1.0.6) precise; urgency=low
+
+  * Italian translation
+  * Minor saving performance improvements
+  * *~ files are ignored now
+
+ -- José Amuedo <joseamuedo@gmail.com>  Fri, 16 Feb 2018 17:31:00 +0200
+
 com.github.spheras.desktopfolder (1.0.5) precise; urgency=low
 
   * Desktop Background

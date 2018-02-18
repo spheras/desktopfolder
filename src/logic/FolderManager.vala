@@ -226,6 +226,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         if (basename.has_prefix (".")) {
             return true;
         }
+        if(basename.has_suffix("~")){
+          return true;
+        }
         return false;
     }
 
@@ -525,7 +528,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         return this.settings;
     }
 
-
     /**
      * @name reopen
      * @description close the current view and reopen it again
@@ -551,7 +553,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
         // let's sync the files found at this folder
         this.sync_files (0, 0);
-        
+
         this.view.show_all ();
     }
 
