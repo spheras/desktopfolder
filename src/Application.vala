@@ -190,13 +190,16 @@ public class DesktopFolderApp : Gtk.Application {
         }
     }
 
+    /** the desktop folder name */
+    public static string desktop_folder_name="Desktop";
+
     /**
      * @name get_app_folder
      * @description return the path where the app search folders to be created (the desktop folder)
      * @return string the absolute path directory
      */
     public static string get_app_folder () {
-        return Environment.get_home_dir () + "/Desktop";
+        return Environment.get_home_dir () + "/" + DesktopFolderApp.desktop_folder_name;
     }
 
     /**
@@ -515,7 +518,10 @@ public class DesktopFolderApp : Gtk.Application {
             return 0;
         } else {
             var app = new DesktopFolderApp ();
-            return app.run (args);
+            if(args.length>1){
+                DesktopFolderApp.desktop_folder_name=args[1];
+            }
+            return app.run ();
         }
     }
 
