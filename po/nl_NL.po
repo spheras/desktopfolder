@@ -1,0 +1,436 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.spheras.desktopfolder package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.spheras.desktopfolder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-15 07:44+0100\n"
+"PO-Revision-Date: 2018-09-06 20:02+0200\n"
+"Language-Team: Dutch <vistausss@outlook.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl_NL\n"
+
+#. Application Description
+#: src/LanguageText.vala:3
+msgid ""
+"Come back to life your minimalist Desktop \n"
+" Organize files at your Desktop using Panes."
+msgstr ""
+"Breng je bureaublad weer tot leven\n"
+" Organiseer je bestanden m.b.v. panelen."
+
+#. Generic Dialog OK Button
+#: src/LanguageText.vala:5
+msgid "_Ok"
+msgstr "_Oké"
+
+#. Generic Dialog CANCEL Button
+#: src/LanguageText.vala:7
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#. Generic Dialog Select Button
+#: src/LanguageText.vala:9
+msgid "_Select"
+msgstr "_Selecteren"
+
+#. Trying to paste and the clipboard is empty
+#: src/LanguageText.vala:11
+msgid "There is nothing on the clipboard to paste"
+msgstr "Het klembord bevat geen te plakken inhoud"
+
+#. Dialog Error Title: Invalid Filename provided
+#: src/LanguageText.vala:13
+msgid "Cannot drop this file"
+msgstr "Kan bestand niet hierheen slepen"
+
+#. Dialog Error Message while trying to drop
+#: src/LanguageText.vala:15
+msgid "Invalid file name provided"
+msgstr "Ongeldige bestandsnaam opgegeven"
+
+#. Title dialog for File Operations
+#: src/LanguageText.vala:17
+msgid "File Operations"
+msgstr "Bestandshandelingen"
+
+#. Copying File message for progress dialog
+#: src/LanguageText.vala:19
+msgid "Copying"
+msgstr "Bezig met kopiëren"
+
+#. Drop Menu - Copy
+#: src/LanguageText.vala:21
+msgid "Copy Here"
+msgstr "Hierheen kopiëren"
+
+#. Drop Menu - Move
+#: src/LanguageText.vala:23
+msgid "Move Here"
+msgstr "Hierheen verplaatsen"
+
+#. Drop Menu - Link
+#: src/LanguageText.vala:25
+msgid "Link Here"
+msgstr "Hierheen verwijzen"
+
+#. Drop Menu - Cancel
+#: src/LanguageText.vala:27
+msgid "Cancel"
+msgstr "Annuleren"
+
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/LanguageText.vala:29
+msgid "Panel"
+msgstr "Paneel"
+
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/LanguageText.vala:31
+msgid "Link Panel"
+msgstr "Verwijzingspaneel"
+
+#. desktopfolder menu - enable/disable alignment to grid
+#: src/LanguageText.vala:33
+msgid "Align to Grid"
+msgstr "Uitlijnen in raster"
+
+#. desktopfolder menu - enable/disable lock items
+#: src/LanguageText.vala:35
+msgid "Lock Items"
+msgstr "Items vergrendelen"
+
+#. desktopfolder menu - enable/disable lock panel
+#: src/LanguageText.vala:37
+msgid "Lock Panel"
+msgstr "Paneel vergrendelen"
+
+#. desktopfolder menu - enable/disable text shadows
+#: src/LanguageText.vala:39
+msgid "Text Shadow"
+msgstr "Tekstschaduw"
+
+#. desktopfolder menu - enable/disable text bolds
+#: src/LanguageText.vala:41
+msgid "Text Bold"
+msgstr "Vetgedrukte tekst"
+
+#. desktopfolder menu - create a new Note
+#: src/LanguageText.vala:43
+msgid "Note"
+msgstr "Notitie"
+
+#. desktopfolder menu - create a new Folder
+#: src/LanguageText.vala:45
+msgid "Folder"
+msgstr "Map"
+
+#. desktopfolder menu - create a new empty Text File
+#: src/LanguageText.vala:47
+msgid "Empty File"
+msgstr "Leeg bestand"
+
+#. desktopfolder menu - rename a Desktop-Folder Pane
+#: src/LanguageText.vala:49
+msgid "Rename Panel"
+msgstr "Paneelnaam wijzigen"
+
+#. desktopfolder menu - remove a Desktop-Folder Pane
+#: src/LanguageText.vala:51
+msgid "Move Panel to Trash"
+msgstr "Paneel verplaatsen naar prullenbak"
+
+#. desktopfolder menu - past from clipboard to the desktop-folder
+#: src/LanguageText.vala:53
+msgid "Paste"
+msgstr "Plakken"
+
+#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
+#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:55 src/LanguageText.vala:59
+msgid "New Panel"
+msgstr "Nieuw paneel"
+
+#. desktopfolder - Dialog Message to rename the current Desktop-Folder
+#. Note - Dialog Message to rename the current note
+#. Item - Rename Dialog Message
+#: src/LanguageText.vala:57 src/LanguageText.vala:97 src/LanguageText.vala:126
+msgid "Enter the new name"
+msgstr "Voer de nieuwe naam in"
+
+#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
+#: src/LanguageText.vala:61 src/LanguageText.vala:65 src/LanguageText.vala:71
+#: src/LanguageText.vala:81
+msgid "Enter the name"
+msgstr "Voer de naam in"
+
+#. desktopfolder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
+#: src/LanguageText.vala:63
+msgid "New Folder"
+msgstr "Nieuwe map"
+
+#. desktopfolder - The default name for the new folder to be created
+#: src/LanguageText.vala:67
+msgid "new folder"
+msgstr "nieuwe map"
+
+#. desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
+#: src/LanguageText.vala:69
+msgid "New Text File"
+msgstr "Nieuw tekstbestand"
+
+#. desktopfolder - The default name for the new text file to be created
+#: src/LanguageText.vala:73
+msgid "new.txt"
+msgstr "nieuw.txt"
+
+#. desktopfolder - The message to confirm the deletion of a Desktop Folder
+#. Menu popup option to delete the note
+#: src/LanguageText.vala:75 src/LanguageText.vala:93
+msgid "Move to Trash"
+msgstr "Verplaatsen naar prullenbak"
+
+#. desktopfolder - The message to confirm the deletion of a Desktop Folder
+#. panel properties - Properties section
+#: src/LanguageText.vala:77 src/LanguageText.vala:150
+msgid "Properties"
+msgstr "Eigenschappen"
+
+#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
+#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
+#: src/LanguageText.vala:79 src/LanguageText.vala:83
+msgid "New Note"
+msgstr "Nieuwe notitie"
+
+#. Note - popup option to set the paper texture or not
+#: src/LanguageText.vala:85
+msgid "Paper Texture"
+msgstr "Papiertextuur"
+
+#. Note - popup option to set allways on top or not
+#: src/LanguageText.vala:87
+msgid "Always on top"
+msgstr "Altijd op voorgrond"
+
+#. Note - popup option to set allways on back or not
+#: src/LanguageText.vala:89
+msgid "Always on back"
+msgstr "Altijd op achtergrond"
+
+#. Menu popup option to rename the note
+#. Note - Dialog Title Message to rename the current note
+#: src/LanguageText.vala:91 src/LanguageText.vala:95
+msgid "Rename Note"
+msgstr "Notitienaam wijzigen"
+
+#. Note - Dialog Message to DELETE the current note
+#: src/LanguageText.vala:99
+msgid ""
+"This action will DELETE the Note.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+"Deze actie VERWIJDERT de notitie.\n"
+"<b>Weet je het zeker?</b>"
+
+#. Item Menu - Open the file
+#: src/LanguageText.vala:102
+msgid "Open"
+msgstr "Openen"
+
+#. Item Menu - Execute the file
+#: src/LanguageText.vala:104
+msgid "Execute"
+msgstr "Uitvoeren"
+
+#. Item Menu - cut the file/folder
+#: src/LanguageText.vala:106
+msgid "Cut"
+msgstr "Knippen"
+
+#. Item Menu - copy the file/folder
+#: src/LanguageText.vala:108
+msgid "Copy"
+msgstr "Kopiëren"
+
+#. Item Menu - rename the file/folder
+#: src/LanguageText.vala:110
+msgid "Rename"
+msgstr "Naam wijzigen"
+
+#. Item Menu - delete the file/folder
+#: src/LanguageText.vala:112
+msgid "Delete"
+msgstr "Verwijderen"
+
+#. Item Menu - change icon
+#: src/LanguageText.vala:114
+msgid "Change Icon"
+msgstr "Pictogram wijzigen"
+
+#. Item - Delete Folder Item Dialog message
+#: src/LanguageText.vala:116
+msgid ""
+"This action will DELETE the folder and ALL its content.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+"Deze actie VERWIJDERT de map en ALLE inhoud ervan.\n"
+"<b>Weet je het zeker?</b>"
+
+#. Item - Delete File Item Dialog message
+#: src/LanguageText.vala:118
+msgid ""
+"This action will DELETE the file.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+"Deze actie VERWIJDERT het bestand.\n"
+"<b>Weet je het zeker?</b>"
+
+#. Item - Delete File Link Dialog message
+#: src/LanguageText.vala:120
+msgid ""
+"This action will DELETE the link (just the link).\n"
+"<b>Are you sure?</b>"
+msgstr ""
+"Deze actie VERWIJDERT de verwijzing (alleen de verwijzing).\n"
+"<b>Weet je het zeker?</b>"
+
+#. Item - Change icon dialog message to select an image file
+#: src/LanguageText.vala:122
+msgid "Select the image icon to be used."
+msgstr "Kies het te gebruiken pictogram."
+
+#. Item - Rename Dialog Title
+#: src/LanguageText.vala:124
+msgid "Rename Item"
+msgstr "Itemnaam wijzigen"
+
+#. Name of the first desktop-folder panel, when no panels found
+#: src/LanguageText.vala:128
+msgid "My First Panel"
+msgstr "Mijn eerste paneel"
+
+#. Hint to show desktop shortcut
+#. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
+#. Menu option to create a link to a file
+#: src/LanguageText.vala:132
+msgid "Link to File"
+msgstr "Verwijzing naar bestand"
+
+#. Menu option to create a link to a folder
+#: src/LanguageText.vala:134
+msgid "Link to Folder"
+msgstr "Verwijzing naar map"
+
+#. Dialog message to create a new link
+#: src/LanguageText.vala:136
+msgid "Select the destination file/folder of the link"
+msgstr "Kies de bestemmingsmap of het bestemmingsbestand van de verwijzing"
+
+#. Dialog message to create a new link panel
+#: src/LanguageText.vala:138
+msgid "Select the destination folder for the Panel"
+msgstr "Kies de bestemmingsmap van het paneel"
+
+#. Menu popup option to remove a photo
+#: src/LanguageText.vala:140
+msgid "Remove"
+msgstr "Verwijderen"
+
+#. Note - Dialog Message to DELETE the current photo
+#: src/LanguageText.vala:142
+msgid ""
+"This action will DELETE the Photo.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+"Deze actie VERWIJDERT de foto.\n"
+"<b>Weet je het zeker?</b>"
+
+#. desktopfolder menu - create a new Photo
+#: src/LanguageText.vala:144
+msgid "Photo"
+msgstr "Foto"
+
+#. dialog message to select an image file to be shown at the desktop
+#: src/LanguageText.vala:146
+msgid "Select the picture to show"
+msgstr "Kies de tonen afbeelding"
+
+#. desktopfolder menu - create a new empty Text File
+#: src/LanguageText.vala:148
+msgid "New"
+msgstr "Nieuw"
+
+#. panel properties - General section
+#: src/LanguageText.vala:152
+msgid "General"
+msgstr "Algemeen"
+
+#. panel properties - Behavior section
+#: src/LanguageText.vala:154
+msgid "Behavior"
+msgstr "Gedrag"
+
+#. panel properties - Interface section
+#: src/LanguageText.vala:156
+msgid "Interface"
+msgstr "Uiterlijk"
+
+#. panel properties - Close button
+#: src/LanguageText.vala:158
+msgid "Close"
+msgstr "Sluiten"
+
+#. panel properties - Panel over Desktop title
+#: src/LanguageText.vala:160
+msgid "Panel Over Desktop"
+msgstr "Paneel over bureaublad"
+
+#. panel properties - Panel over desktop description
+#: src/LanguageText.vala:162
+msgid ""
+"Activating this you will have a transparent background panel over your "
+"desktop. This change will require relogin into your system."
+msgstr ""
+"Als je dit inschakelt, dan krijg je een paneel met doorzichtige achtergrond "
+"over je bureaublad. Deze wijziging wordt toegepast na het opnieuw inloggen."
+
+#. panel properties - Resolution Strategy title
+#: src/LanguageText.vala:164
+msgid "Resolution Strategy"
+msgstr "Resolutiestrategie"
+
+#. panel properties - Resolution Strategy Description
+#: src/LanguageText.vala:166
+msgid ""
+"This is how all the widgets behave when a new screen resolution is found, "
+"doing nothing, storing and restoring the new resolution positions, or "
+"scaling the positions."
+msgstr ""
+"Dit is hoe alle widgets zich gedragen zodra er een nieuwe schermresolutie "
+"wordt aangetroffen: niks, resolutieposities onthouden en herstellen of "
+"grootte wijzigen."
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:168
+msgid "None"
+msgstr "Niks"
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:170
+msgid "Scale"
+msgstr "Grootte wijzigen"
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:172
+msgid "Store"
+msgstr "Onthouden"
