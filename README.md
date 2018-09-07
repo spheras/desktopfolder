@@ -3,6 +3,9 @@ Bring your desktop back to life.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
+[![Build Status](https://travis-ci.org/spheras/desktopfolder.svg?branch=master)](https://travis-ci.org/spheras/desktopfolder)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+
 ![Desktop Folder Banner](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/banner.png)
 
 ## Description
