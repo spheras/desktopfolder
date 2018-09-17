@@ -191,7 +191,7 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /** the desktop folder name */
-    public static string desktop_folder_name="Desktop";
+    public static string desktop_folder_name = "Desktop";
 
     /**
      * @name get_app_folder
@@ -516,13 +516,14 @@ public class DesktopFolderApp : Gtk.Application {
         if (args.length > 1 && args[1].up () == DesktopFolder.PARAM_SHOW_DESKTOP.up ()) {
             minimize_all (args);
             return 0;
-        } if(args.length>1 && (args[1].up()==DesktopFolder.PARAM_SHOW_VERSION.up() || args[1].up()=="--"+DesktopFolder.PARAM_SHOW_VERSION.up())){
-            stdout.printf ("Desktop Folder. Version %s\n",DesktopFolder.VERSION);
+        }
+        if (args.length > 1 && (args[1].up () == DesktopFolder.PARAM_SHOW_VERSION.up () || args[1].up () == "--" + DesktopFolder.PARAM_SHOW_VERSION.up ())) {
+            stdout.printf ("Desktop Folder. Version %s\n", DesktopFolder.VERSION);
             return 0;
-        }else {
+        } else {
             var app = new DesktopFolderApp ();
-            if(args.length>1){
-                DesktopFolderApp.desktop_folder_name=args[1];
+            if (args.length > 1) {
+                DesktopFolderApp.desktop_folder_name = args[1];
             }
             return app.run ();
         }

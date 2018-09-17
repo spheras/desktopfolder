@@ -289,7 +289,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         if (!flagChanged) {
             return;
         } else {
-            //debug ("saving settings!!");
+            // debug ("saving settings!!");
         }
 
         flagChanged = false;
@@ -375,10 +375,10 @@ public class DesktopFolder.FolderSettings : PositionSettings {
                 existent.version = DesktopFolder.SETTINGS_VERSION;
             }
 
-            //the properties have not changed, just loaded
+            // the properties have not changed, just loaded
             existent.flagChanged = false;
 
-            //after flag changed to false because the check could modify some properties
+            // after flag changed to false because the check could modify some properties
             existent.check_all ();
 
             return existent;

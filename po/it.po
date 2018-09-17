@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-06 01:37+0100\n"
-"PO-Revision-Date: 2018-02-06 16:15+0100\n"
+"POT-Creation-Date: 2018-09-17 10:33+0200\n"
+"PO-Revision-Date: 2018-09-17 10:48+0200\n"
+"Last-Translator: \n"
 "Language-Team: andreas-xavier <andreas-xavier@ubuntu-it.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: it\n"
 
 #. Application Description
 #: src/LanguageText.vala:3
@@ -402,8 +402,8 @@ msgid ""
 "desktop. This change will require relogin into your system."
 msgstr ""
 "Attivando questa opzione verrà creato un pannello con sfondo trasparente "
-"sulla tua Scrivania. Per questo cambiamento è necessario un nuovo accesso "
-"al sistema."
+"sulla tua Scrivania. Per questo cambiamento è necessario un nuovo accesso al "
+"sistema."
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:164
@@ -435,3 +435,8 @@ msgstr "Scala"
 #: src/LanguageText.vala:172
 msgid "Store"
 msgstr "Mantieni"
+
+#. change desktop menu
+#: src/LanguageText.vala:174
+msgid "Change Wallpaper"
+msgstr "Cambia Sfondo"

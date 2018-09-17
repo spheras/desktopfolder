@@ -170,5 +170,6 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE       = _("Scale");
     // panel properties - Resolution Strategy NONE
     public const string PANELPROPERTIES_RESOLUTION_STRATEGY_STORE       = _("Store");
-
+    // change desktop menu
+    public const string DESKTOPFOLDER_MENU_CHANGEDESKTOP                = _("Change Wallpaper");
 }

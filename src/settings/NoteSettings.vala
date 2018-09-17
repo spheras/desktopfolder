@@ -226,7 +226,7 @@ public class DesktopFolder.NoteSettings : PositionSettings {
                 existent.on_back = true;
             }
 
-            //the properties have not changed, just loaded
+            // the properties have not changed, just loaded
             existent.flagChanged = false;
 
             return existent;

@@ -211,7 +211,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
                 existent.version = DesktopFolder.SETTINGS_VERSION;
             }
 
-            //the properties have not changed, just loaded
+            // the properties have not changed, just loaded
             existent.flagChanged = false;
 
             return existent;

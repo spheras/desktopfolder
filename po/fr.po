@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 07:44+0100\n"
-"PO-Revision-Date: 2017-12-26 07:28+0100\n"
+"POT-Creation-Date: 2018-09-17 10:33+0200\n"
+"PO-Revision-Date: 2018-09-17 10:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Application Description
@@ -401,9 +401,8 @@ msgid ""
 "Activating this you will have a transparent background panel over your "
 "desktop. This change will require relogin into your system."
 msgstr ""
-"En activant ceci, vous aurez un panneau d'arrière-plan transparent sur "
-"votre bureau. Ce changement nécessitera une nouvelle connexion à votre "
-"système."
+"En activant ceci, vous aurez un panneau d'arrière-plan transparent sur votre "
+"bureau. Ce changement nécessitera une nouvelle connexion à votre système."
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:164
@@ -435,6 +434,11 @@ msgstr "Échelle"
 #: src/LanguageText.vala:172
 msgid "Store"
 msgstr "Enregistrer"
+
+#. change desktop menu
+#: src/LanguageText.vala:174
+msgid "Change Wallpaper"
+msgstr "Changer le fond d'écran"
 
 #~ msgid ""
 #~ "This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"

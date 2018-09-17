@@ -226,8 +226,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         if (basename.has_prefix (".")) {
             return true;
         }
-        if(basename.has_suffix("~")){
-          return true;
+        if (basename.has_suffix ("~")) {
+            return true;
         }
         return false;
     }

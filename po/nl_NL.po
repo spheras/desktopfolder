@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 07:44+0100\n"
-"PO-Revision-Date: 2018-09-06 20:02+0200\n"
+"POT-Creation-Date: 2018-09-17 10:33+0200\n"
+"PO-Revision-Date: 2018-09-17 10:51+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <vistausss@outlook.com>\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: nl_NL\n"
 
 #. Application Description
 #: src/LanguageText.vala:3
@@ -434,3 +434,8 @@ msgstr "Grootte wijzigen"
 #: src/LanguageText.vala:172
 msgid "Store"
 msgstr "Onthouden"
+
+#. change desktop menu
+#: src/LanguageText.vala:174
+msgid "Change Wallpaper"
+msgstr "Verander achtergrond"
