@@ -20,8 +20,14 @@
 * **[camellan](https://github.com/camellan)**
   * Russian translation
 
+* **[ingumsky](https://github.com/ingumsky)**
+  * Russian translation
+
 * **[andreas-xavier](https://github.com/andreas-xavier)**
   * Italian translation
+
+  * **[vistaus](https://github.com/vistaus)**
+    * Dutch translation
 
 # Resources
 
