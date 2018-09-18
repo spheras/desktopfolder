@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-17 10:33+0200\n"
-"PO-Revision-Date: 2018-09-17 10:52+0200\n"
+"POT-Creation-Date: 2017-12-15 07:44+0100\n"
+"PO-Revision-Date: 2018-09-12 14:12+0300\n"
 "Last-Translator: Andrey Kultyapov <camellan@yandex.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-Basepath: ../src\n"
@@ -27,13 +27,13 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Вернуёт к жизни ваш минималистский рабочий стол \n"
-"Упорядочит файлы на рабочем столе с помощью панелей."
+"Вернёт к жизни ваш минималистский Рабочий стол \n"
+"Позволит организовать файлы на Рабочем столе при помощи панелей."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:5
 msgid "_Ok"
-msgstr "_Ok"
+msgstr "_OK"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:7
@@ -48,7 +48,7 @@ msgstr "_Выбрать"
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:11
 msgid "There is nothing on the clipboard to paste"
-msgstr "Нет ничего в буфере обмена для вставки"
+msgstr "В буфере обмена отсутствуют элементы для вставки"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:13
@@ -63,7 +63,7 @@ msgstr "Недопустимое имя файла"
 #. Title dialog for File Operations
 #: src/LanguageText.vala:17
 msgid "File Operations"
-msgstr "Файловые операции"
+msgstr "Операции с файлами"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:19
@@ -185,12 +185,12 @@ msgstr "Новая папка"
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:67
 msgid "new folder"
-msgstr "новая папка"
+msgstr "Новая папка"
 
 #. desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
 #: src/LanguageText.vala:69
 msgid "New Text File"
-msgstr "Новый текстовый Файл"
+msgstr "Новый текстовый файл"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:73
@@ -207,7 +207,7 @@ msgstr "Переместить в корзину"
 #. panel properties - Properties section
 #: src/LanguageText.vala:77 src/LanguageText.vala:150
 msgid "Properties"
-msgstr "Настройки"
+msgstr "Свойства"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
 #. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
@@ -286,7 +286,7 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Это действие удалит папку и все ее содержимое.\n"
+"Это действие удалит папку и всё содержимое.\n"
 "<b>Вы уверены?</b>"
 
 #. Item - Delete File Item Dialog message
@@ -295,7 +295,7 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Это действие приведет к удалению файла.\n"
+"Это действие приведёт к удалению файла.\n"
 "<b>Вы уверены?</b>"
 
 #. Item - Delete File Link Dialog message
@@ -304,7 +304,7 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Это действие удалит ссылку (просто ссылку).\n"
+"Это действие удалит ссылку (только ссылку).\n"
 "<b>Вы уверены?</b>"
 
 #. Item - Change icon dialog message to select an image file
@@ -315,7 +315,7 @@ msgstr "Выберите значок изображения для исполь
 #. Item - Rename Dialog Title
 #: src/LanguageText.vala:124
 msgid "Rename Item"
-msgstr "Переименовать пункт"
+msgstr "Переименовать элемент"
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:128
@@ -337,7 +337,7 @@ msgstr "Ссылку на папку"
 #. Dialog message to create a new link
 #: src/LanguageText.vala:136
 msgid "Select the destination file/folder of the link"
-msgstr "Выберите место назначения ссылки файл/папка"
+msgstr "Выберите место назначения ссылки (файл или папка)"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:138
@@ -355,18 +355,18 @@ msgid ""
 "This action will DELETE the Photo.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Это действие приведет к удалению фото\n"
+"Это действие приведёт к удалению фото\n"
 "<b>Вы уверены?</b>"
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:144
 msgid "Photo"
-msgstr "Фоторамку"
+msgstr "Фотографию"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:146
 msgid "Select the picture to show"
-msgstr "Выберите картинку для отображения"
+msgstr "Выберите изображение"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:148
@@ -404,8 +404,8 @@ msgid ""
 "Activating this you will have a transparent background panel over your "
 "desktop. This change will require relogin into your system."
 msgstr ""
-"Активируя это вы получите прозрачный фон панели поверх рабочего стола. Это "
-"изменение требует повторного входа в систему."
+"Активировав это, вы получите прозрачный фон панели поверх рабочего стола. "
+"Это изменение требует повторного входа в систему."
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:164
@@ -419,13 +419,14 @@ msgid ""
 "doing nothing, storing and restoring the new resolution positions, or "
 "scaling the positions."
 msgstr ""
-"Реакция виджетов на изменение разрешения экрана. Нет реакции, сохраняют "
-"позиции и восстанавливают в новом разрешении или масштабируют позиции."
+"Что происходит с виджетами при изменении разрешения экрана. Ничего не "
+"происходит, сохраняют позиции и восстанавливают в новом разрешении или "
+"масштабируют позиции."
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:168
 msgid "None"
-msgstr "Нет"
+msgstr "Ничего"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:170
