@@ -160,16 +160,36 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name move_to
+     * @description move the window to other position
+     */
+    protected virtual void move_to (int x, int y) {
+        this.move (x + 67, y + 53);
+        // WHY ARE NEEDED 67 AND 53?!!
+        debug ("Move to:%d,%d", x, y);
+    }
+
+    /**
+     * @name resize_to
+     * @description resize the window to other position
+     */
+    protected virtual void resize_to (int width, int height) {
+        this.set_default_size (width, height);
+        debug ("Set size:%d,%d", width, height);
+        // this.resize (width, height);
+    }
+
+    /**
      * @name reload_settings
      * @description reload the window style in general
      */
     public void reload_settings () {
         NoteSettings settings = this.manager.get_settings ();
         if (settings.w > 0) {
-            this.resize (settings.w, settings.h);
+            this.resize_to (settings.w, settings.h);
         }
         if (settings.x > 0 || settings.y > 0) {
-            this.move (settings.x, settings.y);
+            this.move_to (settings.x, settings.y);
         }
 
         List <unowned string> classes = this.get_style_context ().list_classes ();
@@ -300,13 +320,17 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     public void save_current_position_and_size () {
         // we are saving here the last position and size
         // we avoid doing it at on_configure because it launches a lot of events
-        Gtk.Allocation all;
+        int w = 0;
+        int h = 0;
+        this.get_size (out w, out h);
+        h = h;
+
         int x = 0;
         int y = 0;
         this.get_position (out x, out y);
-        this.get_allocation (out all);
-        // debug("allocation:%d,%d,%d,%d",x,y,all.width,all.height);
-        this.manager.set_new_shape (x, y, all.width, all.height);
+
+        debug ("configure event:%i,%i,%i,%i", x, y, w, h);
+        this.manager.set_new_shape (x, y, w, h);
     }
 
     /**

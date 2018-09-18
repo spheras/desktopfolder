@@ -60,31 +60,19 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             skip_taskbar_hint:  true,
             decorated:          true,
             type_hint:          Gdk.WindowTypeHint.DESKTOP,
-            title:              (manager.get_photo_name ()),
+            title:              "",
             deletable:          false,
-            width_request:      140,
-            height_request:     160
+            width_request:      0,
+            height_request:     0
         );
 
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
         this.set_transient_for (desktop_manager.get_view ());
-
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.set_title (manager.get_photo_name ());
-        // headerbar.set_subtitle("HeaderBar Subtitle");
-        // headerbar.set_show_close_button(true);
-        this.set_titlebar (headerbar);
-
+        this.set_titlebar (null);
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
         // setting the folder name
         this.manager = manager;
-
-        // Box:
-        Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 1);
-        box.get_style_context ().add_class ("df_photo_container");
-        box.set_border_width (20);
-        this.add (box);
 
         this.reload_settings ();
 
@@ -102,6 +90,26 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name move_to
+     * @description move the window to other position
+     */
+    protected virtual void move_to (int x, int y) {
+        this.move (x + 67, y + 53);
+        // WHY ARE NEEDED 67 AND 53?!!
+        debug ("Move to:%d,%d", x, y);
+    }
+
+    /**
+     * @name resize_to
+     * @description resize the window to other position
+     */
+    protected virtual void resize_to (int width, int height) {
+        // this.set_default_size(width,height);
+        debug ("Set size:%d,%d", width, height);
+        this.resize (width, height);
+    }
+
+    /**
      * @name reload_settings
      * @description reload the window style in general
      */
@@ -110,10 +118,10 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         PhotoSettings settings = this.manager.get_settings ();
         if (settings.w > 0) {
             // applying existing position and size configuration
-            this.resize (settings.w, settings.h);
+            this.resize_to (settings.w, settings.h);
         }
         if (settings.x > 0 || settings.y > 0) {
-            this.move (settings.x, settings.y);
+            this.move_to (settings.x, settings.y);
         }
 
         List <unowned string> classes = this.get_style_context ().list_classes ();
@@ -168,10 +176,13 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         Gtk.Allocation all;
         int x = 0;
         int y = 0;
+        int w = 0;
+        int h = 0;
         this.get_position (out x, out y);
         this.get_allocation (out all);
-        // debug("allocation:%d,%d,%d,%d",x,y,all.width,all.height);
-        this.manager.set_new_shape (x, y, all.width, all.height);
+        this.get_size (out w, out h);
+        debug ("allocation:%d,%d,%d,%d", x, y, w, h);
+        this.manager.set_new_shape (x, y, w, h);
     }
 
     /**
@@ -374,18 +385,24 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @bool @see draw signal
      */
     private bool draw_background (Cairo.Context cr) {
-        int width  = this.get_allocated_width ();
-        int height = this.get_allocated_height ();
+        int width        = 0;
+        int height       = 0;
+        this.get_size (out width, out height);
+        int MAGIC_NUMBER = 56;
+        height = height + MAGIC_NUMBER;
+
+        debug ("-width:%d, -height:%d", width, height);
 
         cr.set_operator (Cairo.Operator.CLEAR);
         cr.paint ();
         cr.set_operator (Cairo.Operator.OVER);
 
         try {
-            // the image dimenssions
-            int margin    = 50;
-            int pixwidth  = width - margin;
-            int pixheight = height - margin;
+            // the image dimensions
+            int margin     = 50;
+            int halfmargin = 25;
+            int pixwidth   = width - margin;
+            int pixheight  = height - margin;
             if (this.manager.get_settings ().original_width > 0) {
                 pixheight = (pixwidth * this.manager.get_settings ().original_height) / this.manager.get_settings ().original_width;
                 if (pixheight > (height - margin)) {
@@ -394,6 +411,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 }
             }
 
+            debug ("pixwidth:%d, pixheight:%d", pixwidth, pixheight);
             if (this.flag_resizing) {
                 cr.set_source_rgba (0, 0, 0, 0.2);
                 cr.rectangle (0, 0, width, height);
@@ -405,19 +423,20 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 }
                 this.timeout_id = GLib.Timeout.add (2000, () => {
                     // we force to resize to adapt to the image size, (to maintain aspect ratio)
-                    this.resize (pixwidth + margin, pixheight + margin);
-
+                    // this.resize (pixwidth + margin, pixheight + margin);
                     this.flag_resizing = false;
                     this.queue_draw ();
+                    debug ("!!resizing to %d,%d", pixwidth + margin, pixheight + margin);
+                    this.resize_to (pixwidth + margin, pixheight + margin - MAGIC_NUMBER);
                     this.timeout_id = 0;
 
-                    // don't know why the size allocation doesn't return yet the previous resize info
-                    int x = 0;
-                    int y = 0;
-                    this.get_position (out x, out y);
-                    this.manager.set_new_shape (x, y, pixwidth + margin, pixheight + margin);
+                    this.save_current_position_and_size ();
                     return false;
                 });
+            } else {
+                cr.set_source_rgba (255, 0, 0, 0);
+                cr.rectangle (0, 0, width, height);
+                cr.fill ();
             }
 
             // drawing the shadow
@@ -440,7 +459,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 this.photoSurface = Gdk.cairo_surface_create_from_pixbuf (photoPixbuf, 0, null);
                 // DesktopFolder.Util.blur_image_surface((Cairo.ImageSurface)this.photoSurface,4);
             }
-            cr.set_source_surface (this.photoSurface, 25, 25);
+            cr.set_source_surface (this.photoSurface, halfmargin, halfmargin);
             cr.paint ();
 
             // lets draw the fixo
