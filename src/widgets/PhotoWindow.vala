@@ -96,7 +96,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     protected virtual void move_to (int x, int y) {
         this.move (x + 67, y + 53);
         // WHY ARE NEEDED 67 AND 53?!!
-        debug ("Move to:%d,%d", x, y);
+        // debug ("Move to:%d,%d", x, y);
     }
 
     /**
@@ -105,7 +105,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      */
     protected virtual void resize_to (int width, int height) {
         // this.set_default_size(width,height);
-        debug ("Set size:%d,%d", width, height);
+        // debug ("Set size:%d,%d", width, height);
         this.resize (width, height);
     }
 
@@ -181,7 +181,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         this.get_position (out x, out y);
         this.get_allocation (out all);
         this.get_size (out w, out h);
-        debug ("allocation:%d,%d,%d,%d", x, y, w, h);
+        // debug ("allocation:%d,%d,%d,%d", x, y, w, h);
         this.manager.set_new_shape (x, y, w, h);
     }
 
@@ -391,7 +391,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         int MAGIC_NUMBER = 56;
         height = height + MAGIC_NUMBER;
 
-        debug ("-width:%d, -height:%d", width, height);
+        // debug ("-width:%d, -height:%d", width, height);
 
         cr.set_operator (Cairo.Operator.CLEAR);
         cr.paint ();
@@ -411,7 +411,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 }
             }
 
-            debug ("pixwidth:%d, pixheight:%d", pixwidth, pixheight);
+            // debug ("pixwidth:%d, pixheight:%d", pixwidth, pixheight);
             if (this.flag_resizing) {
                 cr.set_source_rgba (0, 0, 0, 0.2);
                 cr.rectangle (0, 0, width, height);
@@ -426,7 +426,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     // this.resize (pixwidth + margin, pixheight + margin);
                     this.flag_resizing = false;
                     this.queue_draw ();
-                    debug ("!!resizing to %d,%d", pixwidth + margin, pixheight + margin);
+                    // debug ("!!resizing to %d,%d", pixwidth + margin, pixheight + margin);
                     this.resize_to (pixwidth + margin, pixheight + margin - MAGIC_NUMBER);
                     this.timeout_id = 0;
 

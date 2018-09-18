@@ -220,7 +220,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     protected virtual void move_to (int x, int y) {
         this.move (x + 67, y + 53);
         // WHY ARE NEEDED 67 AND 53?!!
-        debug ("Move to:%d,%d", x, y);
+        // debug ("Move to:%d,%d", x, y);
     }
 
     /**
@@ -229,7 +229,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected virtual void resize_to (int width, int height) {
         this.set_default_size (width, height);
-        debug ("Set size:%d,%d", width, height);
+        // debug ("Set size:%d,%d", width, height);
         // this.resize (width, height);
     }
 
@@ -403,7 +403,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int y = 0;
             this.get_position (out x, out y);
 
-            debug ("configure event:%i,%i,%i,%i", x, y, w, h);
+            // debug ("configure event:%i,%i,%i,%i", x, y, w, h);
             this.manager.set_new_shape (x, y, w, h);
         }
         return false;
