@@ -477,15 +477,17 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         if (!this.flagMoved) {
             bool single_click = false;
             try {
-                GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
+                // loki -> GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
+                GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/io.elementary.files.gschema.xml");
                 if (f_check_elementary.query_exists ()) {
                     // it seems we can't control an error reading settings!!
-                    GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
+                    // loki -> GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
+                    GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
                     single_click = elementary_files_settings.get_boolean ("single-click");
-                    // debug("single_click: %s",(single_click?"true":"false"));
+                    debug ("single_click: %s", (single_click ? "true" : "false"));
                 }
             } catch (Error error) {
-                // we don't have any files settngs, using default config
+                // we don't have any files settings, using default config
                 single_click = false;
             }
 

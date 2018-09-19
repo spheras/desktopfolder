@@ -329,7 +329,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         int y = 0;
         this.get_position (out x, out y);
 
-        debug ("configure event:%i,%i,%i,%i", x, y, w, h);
+        // debug ("configure event:%i,%i,%i,%i", x, y, w, h);
         this.manager.set_new_shape (x, y, w, h);
     }
 
