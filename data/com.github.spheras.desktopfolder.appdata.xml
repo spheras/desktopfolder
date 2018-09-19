@@ -51,6 +51,8 @@
               <li>Change Wallpaper from Desktop right click</li>
               <li>Dutch Translation by @Vistaus</li>
               <li>Improved Russian Translation by @ingumsky</li>
+              <li>Updated project for GTK 3.22 and Elementary Juno</li>
+              <li>Minor Bugfixing</li>
           </ul>
         </description>
       </release>

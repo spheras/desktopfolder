@@ -3,7 +3,8 @@ com.github.spheras.desktopfolder (1.0.7) precise; urgency=low
   * Change Wallpaper from Desktop right click
   * Dutch Translation by @Vistaus
   * Improved Russian Translation by @ingumsky
-  * Updated project for Elementary Juno
+  * Updated project for GTK 3.22 and Elementary Juno
+  * Minor Bugfixing
 
  -- José Amuedo <joseamuedo@gmail.com>  Fri, 20 Sep 2018 19:13:00 +0200
 

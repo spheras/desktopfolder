@@ -227,10 +227,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name resize_to
      * @description resize the window to other position
      */
-    protected virtual void resize_to (int width, int height) {
+    public virtual void resize_to (int width, int height) {
         this.set_default_size (width, height);
         // debug ("Set size:%d,%d", width, height);
-        // this.resize (width, height);
+        this.resize (width, height);
     }
 
     /**
