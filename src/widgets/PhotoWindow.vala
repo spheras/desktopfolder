@@ -446,7 +446,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     shadowPixbuf       = shadowPixbuf.scale_simple (pixwidth, 40, Gdk.InterpType.BILINEAR);
                     this.shadowSurface = Gdk.cairo_surface_create_from_pixbuf (shadowPixbuf, 0, null);
                 }
-                cr.set_source_surface (this.shadowSurface, margin, pixheight + 20);
+                cr.set_source_surface (this.shadowSurface, halfmargin, pixheight + 20);
                 cr.paint ();
             }
 
