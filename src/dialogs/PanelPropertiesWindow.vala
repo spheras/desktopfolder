@@ -59,6 +59,10 @@ namespace DesktopFolder.Dialogs {
             main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
             main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
+            var version_label=new Gtk.Label ("version " + DesktopFolder.VERSION.up () );
+            version_label.set_size_request (250, -1);
+            version_label.xalign=0;
+
             var main_stackswitcher = new Gtk.StackSwitcher ();
             main_stackswitcher.set_stack (main_stack);
             main_stackswitcher.homogeneous  = true;
@@ -68,7 +72,7 @@ namespace DesktopFolder.Dialogs {
 
             var main_grid = new Gtk.Grid ();
             main_grid.attach (main_stackswitcher, 0, 0, 1, 1);
-            main_grid.attach (main_stack, 0, 1, 1, 1);
+            main_grid.attach (main_stack, 0,1, 1, 1);
 
             get_content_area ().add (main_grid);
 
@@ -77,6 +81,7 @@ namespace DesktopFolder.Dialogs {
                 destroy ();
             });
 
+            add_action_widget (version_label, 1);
             add_action_widget (close_button, 0);
         }
 
