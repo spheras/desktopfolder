@@ -268,7 +268,7 @@ public class DesktopFolder.NoteManager : Object {
         var    new_file = File.new_for_path (new_path);
         try {
             if (new_file.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"));
+                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"),null);
                 throw new NoteManagerIOError.FILE_EXISTS ("File already exists");
             }
             NoteSettings note_settings = this.get_settings ();
