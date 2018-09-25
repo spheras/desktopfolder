@@ -208,6 +208,15 @@ namespace DesktopFolder.Util {
                 DirUtils.create (folder_name, 0755);
                 File file = File.new_for_path (folder_name + "/.desktopfolder");
                 DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (new_name);
+
+                //lets put the panel at the mouse place
+                var device=Gtk.get_current_event_device();
+                int x=0;
+                int y=0;
+                window.get_window().get_device_position(device,out x,out y,null);
+                fs.x=x;
+                fs.y=y;
+
                 fs.save_to_file (file);
             }
         });
@@ -311,6 +320,15 @@ namespace DesktopFolder.Util {
                 DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Note"),eae);
             } else {
                 NoteSettings ns = new NoteSettings (sanitized_name);
+
+                //lets put the note at the mouse place
+                var device=Gtk.get_current_event_device();
+                int x=0;
+                int y=0;
+                window.get_window().get_device_position(device,out x,out y,null);
+                ns.x=x;
+                ns.y=y;
+
                 ns.save_to_file (file);
             }
         });

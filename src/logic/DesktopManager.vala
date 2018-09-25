@@ -103,10 +103,11 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      * we must create a .nopanel inside to avoid creating a panel from this folder
      */
     protected override void create_new_folder_inside (string folder_path) {
-        debug ("esta si que si");
         File nopanel = File.new_for_path (folder_path + "/.nopanel");
         try {
+          if(!nopanel.query_exists()){
             nopanel.create (FileCreateFlags.NONE);
+          }
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);

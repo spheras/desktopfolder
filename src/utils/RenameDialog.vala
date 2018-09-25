@@ -13,6 +13,7 @@ public class RenameDialog : Gtk.Dialog {
         set_default_size (350, 100);
         this.get_style_context ().add_class ("df_dialog");
         this.set_decorated (true);
+        this.window_position=Gtk.WindowPosition.MOUSE;
 
         create_widgets (label_message, entry_text);
         connect_signals ();
