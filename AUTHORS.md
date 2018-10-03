@@ -26,8 +26,8 @@
 * **[andreas-xavier](https://github.com/andreas-xavier)**
   * Italian translation
 
-  * **[vistaus](https://github.com/vistaus)**
-    * Dutch translation
+* **[vistaus](https://github.com/vistaus)**
+  * Dutch translation
 
 # Resources
 
