@@ -1,0 +1,25 @@
+Source: com.github.spheras.desktopfolder
+Section: x11
+Priority: extra
+Maintainer: José Amuedo <joseamuedo@gmail.com>
+Build-Depends: cmake,
+               debhelper (>= 9),
+               meson,
+               valac (>= 0.16),
+               libgtk-3-dev,
+               libgranite-dev,
+               libgee-0.8-dev,
+               libcairo2-dev,
+               libjson-glib-dev,
+               libgdk-pixbuf2.0-dev,
+               libwnck-3-dev,
+               libglib2.0-dev,
+               libgtksourceview-3.0-dev
+
+Standards-Version: 3.9.3
+Package: com.github.spheras.desktopfolder
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Organize your desktop with panels, notes and photos
+ Bring your desktop back to life
+ Organize your desktop with panels that hold your things.
