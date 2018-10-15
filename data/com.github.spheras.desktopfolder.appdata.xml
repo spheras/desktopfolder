@@ -44,6 +44,17 @@
     </custom>
 
     <releases>
+
+      <release version="1.0.8" date="2018-10-15">
+        <description>
+          <p>Release: Juno publication</p>
+          <ul>
+              <li>Minor bugfix</li>
+              <li>Juno publication</li>
+          </ul>
+        </description>
+      </release>
+
       <release version="1.0.7" date="2018-09-20">
         <description>
           <p>Release: Updated for Elementary Juno and other minor features</p>
