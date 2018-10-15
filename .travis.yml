@@ -21,6 +21,10 @@ cache:
   directories:
     - /tmp/liftoff
 
+matrix:
+    include:
+      -env: DIST=juno
+
 install:
   - npm install @elementaryos/houston
 
