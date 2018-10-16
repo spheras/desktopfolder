@@ -1,0 +1,5 @@
+#!/bin/sh
+
+killall com.github.spheras.desktopfolder
+
+exit 0
