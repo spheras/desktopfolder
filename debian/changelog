@@ -1,3 +1,9 @@
+com.github.spheras.desktopfolder (1.0.9) precise; urgency=low
+
+  * juno publication bugfixing (loki branch removed to avoid mixing code)
+
+ -- José Amuedo <joseamuedo@gmail.com>  Sun, 14 Oct 2018 14:11:00 +0200
+
 com.github.spheras.desktopfolder (1.0.8) precise; urgency=low
 
   * minor bugfixing
