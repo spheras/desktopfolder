@@ -96,6 +96,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         var properties_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP);
+        var desktop_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_CHANGEDESKTOP);
 
         // var aligntogrid_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         // var lockitems_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
@@ -123,6 +124,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         // ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
+        ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
 
         // Appending (in order)
         if (cm.can_paste) {
@@ -155,6 +157,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         context_menu.append (textcolor_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (properties_item);
+        context_menu.append (desktop_item);
 
         context_menu.show_all ();
 
@@ -165,6 +168,16 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             event.button, // button
             event.get_time () // Gtk.get_current_event_time() // time
         );
+    }
+
+    /**
+     * @name show_desktop_dialog
+     * @description show the desktop dialog
+     */
+    protected void show_desktop_dialog () {
+        var command = "xdg-open settings://desktop";
+        var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+        appinfo.launch_uris (null, null);
     }
 
 }

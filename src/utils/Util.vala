@@ -176,29 +176,72 @@ namespace DesktopFolder.Util {
      * @param {Gtk.Window} window the parent window to show the dialog
      */
     public static void create_new_desktop_folder (Gtk.Window window) {
+      string name=get_a_no_repeated_file_name(DesktopFolder.Lang.DESKTOPFOLDER_NEW,null);
+      create_new_desktop_folder_name(window,name);
+    }
+
+    /**
+     * @name create_new_desktop_folder
+     * @description create a new folder inside the desktop
+     * @param {Gtk.Window} window the parent window to show the dialog
+     */
+    public static void create_new_desktop_folder_name (Gtk.Window window, string name) {
         RenameDialog dialog = new RenameDialog (window,
                 DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
                 DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW);
+                name);
         dialog.on_rename.connect ((new_name) => {
             string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
             string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name;
             File folder = File.new_for_path (path);
+            ExecuteAfterError eae=(w)=>{
+              DesktopFolder.Util.create_new_desktop_folder(w);
+            };
 
             if (!DesktopFolder.Util.check_name (sanitized_name)) {
                 DesktopFolder.Util.show_invalid_name_error_dialog (window, new_name);
             } else if (folder.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Panel"));
+                DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Panel"),eae);
             } else {
                 // cancelling the current monitor
                 string folder_name = DesktopFolderApp.get_app_folder () + "/" + new_name;
                 DirUtils.create (folder_name, 0755);
                 File file = File.new_for_path (folder_name + "/.desktopfolder");
                 DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (new_name);
+
+                //lets put the panel at the mouse place
+                var device=Gtk.get_current_event_device();
+                int x=0;
+                int y=0;
+                window.get_window().get_device_position(device,out x,out y,null);
+                fs.x=x;
+                fs.y=y;
+
                 fs.save_to_file (file);
             }
         });
         dialog.show_all ();
+    }
+
+    /**
+     * @name get_a_no_repeated_file_name
+     * @description check if the name is repeated or not
+     * @param {string} the base name to check if its repeated
+     * @param {string} the extension for the file
+     * @return {string} the base name if it is ok, or a new one if not
+     */
+    public static string get_a_no_repeated_file_name(string base_name,string? extension){
+      string sanitized_name = DesktopFolder.Util.sanitize_name (base_name);
+      string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name;
+      if(extension!=null){
+        path=path+"."+extension;
+      }
+      File folder = File.new_for_path (path);
+      if (folder.query_exists ()) {
+          return get_a_no_repeated_file_name(base_name+"_2",extension);
+      }      else{
+        return base_name;
+      }
     }
 
     /**
@@ -247,20 +290,45 @@ namespace DesktopFolder.Util {
      * @param {Gtk.Window} window the parent window to show the dialog
      */
     public static void create_new_note (Gtk.Window window) {
+      string name=get_a_no_repeated_file_name(DesktopFolder.Lang.NOTE_NEW,DesktopFolder.NEW_NOTE_EXTENSION);
+      create_new_note_name(window,name);
+    }
+
+    /**
+     * @name create_new_note_name
+     * @description create a new note inside the desktop
+     * @param {Gtk.Window} window the parent window to show the dialog
+     * @param {string} name the name for the note
+     */
+    public static void create_new_note_name (Gtk.Window window,string name) {
         RenameDialog dialog = new RenameDialog (window,
                 DesktopFolder.Lang.NOTE_ENTER_TITLE,
                 DesktopFolder.Lang.NOTE_ENTER_NAME,
-                DesktopFolder.Lang.NOTE_NEW);
+                name);
         dialog.on_rename.connect ((new_name) => {
             string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
             string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
             File file = File.new_for_path (path);
+
+            ExecuteAfterError eae=(w)=>{
+              DesktopFolder.Util.create_new_note(w);
+            };
+
             if (!DesktopFolder.Util.check_name (sanitized_name)) {
                 DesktopFolder.Util.show_invalid_name_error_dialog (window, sanitized_name);
             } else if (file.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Note"));
+                DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Note"),eae);
             } else {
                 NoteSettings ns = new NoteSettings (sanitized_name);
+
+                //lets put the note at the mouse place
+                var device=Gtk.get_current_event_device();
+                int x=0;
+                int y=0;
+                window.get_window().get_device_position(device,out x,out y,null);
+                ns.x=x;
+                ns.y=y;
+
                 ns.save_to_file (file);
             }
         });
@@ -280,11 +348,13 @@ namespace DesktopFolder.Util {
         }
     }
 
+    delegate void ExecuteAfterError(Gtk.Window window);
+
     /**
      * @name show_file_exists_error_dialog
      * @description Show an error saying that the file exists.
      */
-    private static void show_file_exists_error_dialog (Gtk.Window window, string new_name, string widget_name) {
+    private static void show_file_exists_error_dialog (Gtk.Window window, string new_name, string widget_name,ExecuteAfterError? callback) {
         string message = "<big><b>" +
             _("Could not create \"%'s\"").printf (new_name) +
             "</b></big>\n\n" +
@@ -294,6 +364,9 @@ namespace DesktopFolder.Util {
         debug (widget_name + " already exists, not creating.");
         dialog.response.connect ((response_id) => {
             dialog.destroy ();
+            if(callback!=null){
+              callback(window);
+            }
         });
         dialog.set_deletable (false);
         dialog.use_markup = true;

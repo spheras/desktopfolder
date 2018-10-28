@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 07:44+0100\n"
-"PO-Revision-Date: 2017-10-25 11:00+0200\n"
+"POT-Creation-Date: 2018-09-17 10:33+0200\n"
+"PO-Revision-Date: 2018-09-17 10:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Application Description
@@ -94,9 +94,8 @@ msgstr "Panneau"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:31
-#, fuzzy
 msgid "Link Panel"
-msgstr "Panneau"
+msgstr "Lien Panneau"
 
 #. desktopfolder menu - enable/disable alignment to grid
 #: src/LanguageText.vala:33
@@ -106,13 +105,12 @@ msgstr "Aligner automatiquement"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:35
 msgid "Lock Items"
-msgstr ""
+msgstr "Verrouiller des Fichiers"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:37
-#, fuzzy
 msgid "Lock Panel"
-msgstr "Panneau"
+msgstr "Verrouiller Panneau"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:39
@@ -206,7 +204,7 @@ msgstr "Déplacer dans la corbeille"
 #. panel properties - Properties section
 #: src/LanguageText.vala:77 src/LanguageText.vala:150
 msgid "Properties"
-msgstr ""
+msgstr "Propriétés"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
 #. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
@@ -222,12 +220,12 @@ msgstr "Texture papier"
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:87
 msgid "Always on top"
-msgstr ""
+msgstr "Toujours au top"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:89
 msgid "Always on back"
-msgstr ""
+msgstr "Toujours sur le dos"
 
 #. Menu popup option to rename the note
 #. Note - Dialog Title Message to rename the current note
@@ -340,9 +338,8 @@ msgstr "Choisir le fichier/dossier de destination du lien"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:138
-#, fuzzy
 msgid "Select the destination folder for the Panel"
-msgstr "Choisir le fichier/dossier de destination du lien"
+msgstr "Choisir le fichier/dossier de destination du Panneau"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:140
@@ -376,27 +373,27 @@ msgstr "Nouveau"
 #. panel properties - General section
 #: src/LanguageText.vala:152
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:154
 msgid "Behavior"
-msgstr ""
+msgstr "Comportement"
 
 #. panel properties - Interface section
 #: src/LanguageText.vala:156
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:158
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:160
 msgid "Panel Over Desktop"
-msgstr ""
+msgstr "Panneau sur le Desktop"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:162
@@ -404,11 +401,13 @@ msgid ""
 "Activating this you will have a transparent background panel over your "
 "desktop. This change will require relogin into your system."
 msgstr ""
+"En activant ceci, vous aurez un panneau d'arrière-plan transparent sur votre "
+"bureau. Ce changement nécessitera une nouvelle connexion à votre système."
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:164
 msgid "Resolution Strategy"
-msgstr ""
+msgstr "Résolution Stratégie"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:166
@@ -417,21 +416,29 @@ msgid ""
 "doing nothing, storing and restoring the new resolution positions, or "
 "scaling the positions."
 msgstr ""
+"C'est ainsi que se comportent tous les widgets lorsqu'une nouvelle "
+"résolution d'écran est trouvée, ne rien faire, stocker et restaurer les "
+"nouvelles positions de résolution ou l'échelle les positions."
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:168
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:170
 msgid "Scale"
-msgstr ""
+msgstr "Échelle"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:172
 msgid "Store"
-msgstr ""
+msgstr "Enregistrer"
+
+#. change desktop menu
+#: src/LanguageText.vala:174
+msgid "Change Wallpaper"
+msgstr "Changer le fond d'écran"
 
 #~ msgid ""
 #~ "This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"

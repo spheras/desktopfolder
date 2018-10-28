@@ -3,6 +3,9 @@ Bring your desktop back to life.
 
 [![Get it on AppCenter](https://appcenter.elementary.io/badge.svg)](https://appcenter.elementary.io/com.github.spheras.desktopfolder)
 
+[![Build Status](https://travis-ci.org/spheras/desktopfolder.svg?branch=master)](https://travis-ci.org/spheras/desktopfolder)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+
 ![Desktop Folder Banner](https://raw.githubusercontent.com/spheras/desktopfolder/master/etc/banner.png)
 
 ## Description
@@ -40,6 +43,8 @@ Wayland (in Ubuntu since 17.10) is not fully supported yet, and we've experience
 See the [Contributing page](https://github.com/spheras/desktopfolder/wiki/Contributing) on the wiki.
 
 ## Building and Installing
+Important! This version only works correctly with GTK library >=3.22
+
 You'll need the following dependencies to build:
 
 * libgee-0.8-dev
@@ -51,6 +56,8 @@ You'll need the following dependencies to build:
 * libjson-glib-dev
 * meson
 * valac
+
+`sudo apt install meson valac libgee-0.8-dev libcairo2-dev libjson-glib-dev libgdk-pixbuf2.0-dev libwnck-3-dev libgtksourceview-3.0-dev libjson-glib-dev`
 
 Run `meson build` to configure the build environment and then change to the build directory and run `ninja` to build:
 

@@ -71,6 +71,8 @@ $ ninja com.github.spheras.desktopfolder-pot
 
 Debian build
 ············
+sudo apt install devscripts
+
 From root directory:
 $ debuild -uc -us
 

@@ -112,7 +112,15 @@ public class DesktopFolder.NoteManager : Object {
         return true;
     }
 
+    /**
+     * @name reopen
+     * @description close the current view and reopen it again
+     * (mainly to reposition the window on top or back, and most important, the icon over the status bar)
+     */
     public void reopen () {
+        this.view.save_current_position_and_size ();
+        this.get_settings ().save ();
+
         // closing
         this.application.remove_window (this.view);
         this.view.close ();
@@ -260,7 +268,7 @@ public class DesktopFolder.NoteManager : Object {
         var    new_file = File.new_for_path (new_path);
         try {
             if (new_file.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"));
+                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Note"),null);
                 throw new NoteManagerIOError.FILE_EXISTS ("File already exists");
             }
             NoteSettings note_settings = this.get_settings ();

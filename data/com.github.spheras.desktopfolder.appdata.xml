@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2017 Daniel Foré <daniel@elementary.io> -->
+
 <component type="desktop-application">
-    <id>com.github.spheras.desktopfolder.desktop</id>
+    <id>com.github.spheras.desktopfolder</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
     <name>Desktop Folder</name>
@@ -42,4 +42,113 @@
         <value key="x-appcenter-color-primary-text">#044b6c</value>
         <value key="x-appcenter-suggested-price">0</value>
     </custom>
+
+    <releases>
+
+      <release version="1.0.8" date="2018-10-15">
+        <description>
+          <p>Release: Juno publication</p>
+          <ul>
+              <li>Minor bugfix</li>
+              <li>Juno publication</li>
+          </ul>
+        </description>
+      </release>
+
+      <release version="1.0.7" date="2018-09-20">
+        <description>
+          <p>Release: Updated for Elementary Juno and other minor features</p>
+          <ul>
+              <li>Change Wallpaper from Desktop right click</li>
+              <li>Dutch Translation by @Vistaus</li>
+              <li>Improved Russian Translation by @ingumsky</li>
+              <li>Updated project for GTK 3.22 and Elementary Juno</li>
+              <li>Minor Bugfixing</li>
+          </ul>
+        </description>
+      </release>
+
+      <release version="1.0.6" date="2018-02-16">
+        <description>
+          <p>Release: Italian and minor improvements</p>
+          <ul>
+              <li>Italian Translation thanks to andreas-xavier</li>
+              <li>Saving settings performance improvements</li>
+              <li>*~ files are ignored now</li>
+          </ul>
+        </description>
+      </release>
+
+      <release version="1.0.5" date="2017-12-26">
+        <description>
+          <p>1.0.5 release with great changes!</p>
+          <ul>
+            <li>Desktop Background</li>
+            <li>Rename in Place</li>
+            <li>Different Notes Status (top, back, normal)</li>
+            <li>Buttons to Headers (remove)</li>
+            <li>Link Panels to folders</li>
+            <li>Photo Scale aspect ratio</li>
+            <li>Custom Colors for Panel and Notes</li>
+            <li>Menu Redesign And Panel Settings Window</li>
+            <li>Restore Windows when Super+D is pressed again</li>
+            <li>Resolution Strategy to prevent widgets going off-screen</li>
+            <li>Use .desktopnote/.desktopphoto rather than .dfn/.dfp</li>
+            <li>Don't allow renaming panels to invalid folder names</li>
+            <li>Serbian translation by @pavlepiramida</li>
+            <li>Russian translation by @camellan</li>
+            <li>Arch building by @GabMus</li>
+            <li>A lot of Minor Bugfixing</li>
+          </ul>
+        </description>
+      </release>
+
+      <release version="1.0.2" date="2017-10-19">
+        <description>
+          <p>1.0.2 release</p>
+          <ul>
+            <li>Drag and Drop to Move/Copy/Link depending on key pressed (none/control/alt|shift)</li>
+            <li>Text Shadow and Bold configuration</li>
+            <li>Deleting Last Panel bugfixing</li>
+            <li>Move panels from body</li>
+            <li>DESKTOP window types (workspace movement improvement and others)</li>
+            <li>Drag and Drop folders (recursive copy)</li>
+            <li>Undo/Redo and others over Text Notes</li>
+            <li>Menu Redesign</li>
+            <li>Lithuanian and French translations</li>
+            <li>Minor Bugfixing</li>
+          </ul>
+        </description>
+      </release>
+    </releases>
+
+    <content_rating type="oars-1.1">
+      <content_attribute id="violence-cartoon">none</content_attribute>
+      <content_attribute id="violence-fantasy">none</content_attribute>
+      <content_attribute id="violence-realistic">none</content_attribute>
+      <content_attribute id="violence-bloodshed">none</content_attribute>
+      <content_attribute id="violence-sexual">none</content_attribute>
+      <content_attribute id="violence-desecration">none</content_attribute>
+      <content_attribute id="violence-slavery">none</content_attribute>
+      <content_attribute id="violence-worship">none</content_attribute>
+      <content_attribute id="drugs-alcohol">none</content_attribute>
+      <content_attribute id="drugs-narcotics">none</content_attribute>
+      <content_attribute id="drugs-tobacco">none</content_attribute>
+      <content_attribute id="sex-nudity">none</content_attribute>
+      <content_attribute id="sex-themes">none</content_attribute>
+      <content_attribute id="sex-homosexuality">none</content_attribute>
+      <content_attribute id="sex-prostitution">none</content_attribute>
+      <content_attribute id="sex-adultery">none</content_attribute>
+      <content_attribute id="sex-appearance">none</content_attribute>
+      <content_attribute id="language-profanity">none</content_attribute>
+      <content_attribute id="language-humor">none</content_attribute>
+      <content_attribute id="language-discrimination">none</content_attribute>
+      <content_attribute id="social-chat">none</content_attribute>
+      <content_attribute id="social-info">intense</content_attribute>
+      <content_attribute id="social-audio">none</content_attribute>
+      <content_attribute id="social-location">none</content_attribute>
+      <content_attribute id="social-contacts">none</content_attribute>
+      <content_attribute id="money-purchasing">none</content_attribute>
+      <content_attribute id="money-gambling">none</content_attribute>
+    </content_rating>
 </component>

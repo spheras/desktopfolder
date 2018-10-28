@@ -189,6 +189,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("Create headerbar for %s",this.manager.get_folder_name ());
 
         var header = new Gtk.HeaderBar ();
+        header.button_press_event.connect (() => {
+            // to avoid moving the window if it is forbidden
+            return !this.manager.can_move ();
+        });
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.set_decoration_layout ("");
         this.label            = new DesktopFolder.EditableLabel (manager.get_folder_name ());
@@ -214,14 +218,18 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        this.move (x, y);
+        this.move (x + 67, y + 53);
+        // WHY ARE NEEDED 67 AND 53?!!
+        // debug ("Move to:%d,%d", x, y);
     }
 
     /**
      * @name resize_to
      * @description resize the window to other position
      */
-    protected virtual void resize_to (int width, int height) {
+    public virtual void resize_to (int width, int height) {
+        this.set_default_size (width, height);
+        // debug ("Set size:%d,%d", width, height);
         this.resize (width, height);
     }
 
@@ -386,8 +394,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // TODO: Is there a way to make a desktop window resizable and movable?
             this.type_hint = Gdk.WindowTypeHint.DESKTOP; // Going to try DIALOG at some point
 
-            // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
-            this.manager.set_new_shape (event.x, event.y, event.width, event.height);
+            int w = 0;
+            int h = 0;
+            this.get_size (out w, out h);
+            h = h + DesktopFolder.HEADERBAR_HEIGHT;
+
+            int x = 0;
+            int y = 0;
+            this.get_position (out x, out y);
+
+            // debug ("configure event:%i,%i,%i,%i", x, y, w, h);
+            this.manager.set_new_shape (x, y, w, h);
         }
         return false;
     }

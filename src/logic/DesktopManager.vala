@@ -40,12 +40,12 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         // we cannot be moved
         this.is_moveable = false;
         this.get_view ().set_type_hint (Gdk.WindowTypeHint.DOCK);
+        this.get_view ().change_body_color (0);
 
         Gdk.Screen screen = Gdk.Screen.get_default ();
         this.on_screen_size_changed (screen);
 
-        this.get_view ().change_body_color (0);
-
+        this.view.show ();
     }
 
     /**
@@ -62,12 +62,16 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      * @description detecting screen size changes
      */
     public override void on_screen_size_changed (Gdk.Screen screen) {
-        this.get_view ().move (-12, -10);
-        int w = screen.get_width () + 25;
-        int h = screen.get_height () + 25;
+        if (screen == null) {
+            screen = Gdk.Screen.get_default ();
+        }
+        this.get_view ().move (0, 0); // (-12, -10);
+        int w = screen.get_width (); // + 25;
+        int h = screen.get_height (); // + 25;
         this.get_view ().resize (w, h);
+        this.get_view ().set_default_size (w, h);
 
-        debug ("DESKTOP SIZE CHANGED! %d,%d - %d,%d", -12, -10, w, h);
+        debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", -12, -10, w, h);
     }
 
     /**
@@ -99,10 +103,11 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      * we must create a .nopanel inside to avoid creating a panel from this folder
      */
     protected override void create_new_folder_inside (string folder_path) {
-        debug ("esta si que si");
         File nopanel = File.new_for_path (folder_path + "/.nopanel");
         try {
+          if(!nopanel.query_exists()){
             nopanel.create (FileCreateFlags.NONE);
+          }
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);

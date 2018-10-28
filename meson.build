@@ -1,5 +1,5 @@
 project('com.github.spheras.desktopfolder', ['vala', 'c'],
-    version: '1.0.2'
+    version: '1.0.9'
 )
 
 gnome = import('gnome')
@@ -60,8 +60,8 @@ src = [
        'src/logic/ItemManager.vala',
        'src/logic/NoteManager.vala',
        'src/logic/PhotoManager.vala',
-       'src/Dialogs/ProgressDialog.vala',
-       'src/Dialogs/PanelPropertiesWindow.vala'
+       'src/dialogs/ProgressDialog.vala',
+       'src/dialogs/PanelPropertiesWindow.vala'
       ]
 
 executable(
@@ -74,7 +74,7 @@ executable(
         dependency('gee-0.8'),
         dependency('glib-2.0'),
         dependency('gobject-2.0'),
-        dependency('gtk+-3.0'),
+        dependency('gtk+-3.0',version:'>=3.22'),
         dependency('cairo'),
         dependency('json-glib-1.0'),
         dependency('gdk-pixbuf-2.0'),

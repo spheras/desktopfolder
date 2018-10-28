@@ -13,6 +13,8 @@ public class DesktopFolder.ResolutionSettings : Object {
  * @description abstract class to store a position x,y and a dimension width, height for a set of resolutions
  */
 public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable {
+    public bool flagChanged = false;
+
     /** the internal list of resolutions stored for this object */
     public SList <ResolutionSettings> _resolutions = new SList <ResolutionSettings>();
     private enum ResolutionStrategy {
@@ -28,16 +30,78 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
         }
         set {
             this._resolutions = value.copy ();
+            flagChanged       = false;
         }
     }
 
     // current working position and dimensions
-    public int resx  { get; set; }
-    public int resy  { get; set; }
-    public int x  { get; set; default = 0; }
-    public int y  { get; set; default = 0; }
-    public int w  { get; set; default = 0; }
-    public int h  { get; set; default = 0; }
+    private int _resx;
+    public int resx {
+        get {
+            return _resx;
+        }
+        set {
+            if (_resx != value) {
+                _resx = value; flagChanged = true;
+            }
+        }
+    }
+    private int _resy;
+    public int resy {
+        get {
+            return _resy;
+        }
+        set {
+            if (_resy != value) {
+                _resy = value; flagChanged = true;
+            }
+        }
+    }
+    private int _x = 0;
+    public int x {
+        get {
+            return _x;
+        }
+        set {
+            if (_x != value) {
+                _x = value; flagChanged = true;
+            }
+        }
+    }
+    private int _y = 0;
+    public int y {
+        get {
+            return _y;
+        }
+        set {
+            if (_y != value) {
+                _y = value; flagChanged = true;
+            }
+        }
+    }
+    private int _w = 0;
+    public int w {
+        get {
+            return _w;
+        }
+        set {
+            if (_w != value) {
+                _w = value; flagChanged = true;
+            }
+        }
+    }
+    private int _h = 0;
+    public int h {
+        get {
+            return _h;
+        }
+        set {
+            if (_h != value) {
+                _h = value; flagChanged = true;
+            }
+        }
+    }
+
 
     /**
      * @name store_resolution_position

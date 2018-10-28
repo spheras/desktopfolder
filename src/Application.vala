@@ -190,34 +190,56 @@ public class DesktopFolderApp : Gtk.Application {
         }
     }
 
+    /** the desktop folder name */
+    public static string desktop_folder_name = "Desktop";
+
     /**
      * @name get_app_folder
      * @description return the path where the app search folders to be created (the desktop folder)
      * @return string the absolute path directory
      */
     public static string get_app_folder () {
-        return Environment.get_home_dir () + "/Desktop";
+        return Environment.get_home_dir () + "/" + DesktopFolderApp.desktop_folder_name;
     }
 
+    /**
+     * @name check_fake_desktop
+     * @description check if the fake desktop must be showed or not to create it
+     */
     private void check_fake_desktop () {
-        if (this.desktop == null) {
-            GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
-            string[]      keys     = settings.list_keys ();
-            bool          found    = false;
-            for (int i = 0; i < keys.length; i++) {
-                string key = keys[i];
-                if (key == "desktop-panel") {
-                    found = true;
-                    break;
-                }
+        GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+        string[]      keys     = settings.list_keys ();
+        bool          found    = false;
+        for (int i = 0; i < keys.length; i++) {
+            string key = keys[i];
+            if (key == "desktop-panel") {
+                found = true;
+                break;
             }
-            bool desktop_panel = false;
-            if (found) {
-                desktop_panel = settings.get_boolean ("desktop-panel");
+        }
+        bool desktop_panel = false;
+        if (found) {
+            desktop_panel = settings.get_boolean ("desktop-panel");
+        }
+
+        if (desktop_panel && this.desktop == null) {
+            this.desktop = new DesktopFolder.DesktopManager (this);
+            for (int i = 0; i < this.folders.length (); i++) {
+                var fm = this.folders.nth (i).data;
+                fm.reopen ();
             }
-            if (desktop_panel) {
-                this.desktop = new DesktopFolder.DesktopManager (this);
+            for (int i = 0; i < this.notes.length (); i++) {
+                var fm = this.notes.nth (i).data;
+                fm.reopen ();
             }
+            for (int i = 0; i < this.photos.length (); i++) {
+                var fm = this.photos.nth (i).data;
+                fm.reopen ();
+            }
+
+        } else if (!desktop_panel && this.desktop != null) {
+            this.desktop.close ();
+            this.desktop = null;
         }
     }
 
@@ -494,9 +516,16 @@ public class DesktopFolderApp : Gtk.Application {
         if (args.length > 1 && args[1].up () == DesktopFolder.PARAM_SHOW_DESKTOP.up ()) {
             minimize_all (args);
             return 0;
+        }
+        if (args.length > 1 && (args[1].up () == DesktopFolder.PARAM_SHOW_VERSION.up () || args[1].up () == "--" + DesktopFolder.PARAM_SHOW_VERSION.up ())) {
+            stdout.printf ("Desktop Folder. Version %s\n", DesktopFolder.VERSION);
+            return 0;
         } else {
             var app = new DesktopFolderApp ();
-            return app.run (args);
+            if (args.length > 1) {
+                DesktopFolderApp.desktop_folder_name = args[1];
+            }
+            return app.run ();
         }
     }
 
