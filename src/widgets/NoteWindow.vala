@@ -321,7 +321,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         int w = 0;
         int h = 0;
         this.get_size (out w, out h);
-        h = h;
 
         int x = 0;
         int y = 0;

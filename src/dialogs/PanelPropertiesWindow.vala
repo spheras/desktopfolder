@@ -66,8 +66,8 @@ namespace DesktopFolder.Dialogs {
             main_stackswitcher.set_stack (main_stack);
             main_stackswitcher.homogeneous  = true;
 
-            main_stackswitcher.margin_left  = 12;
-            main_stackswitcher.margin_right = 12;
+            main_stackswitcher.margin_start  = 12;
+            main_stackswitcher.margin_end = 12;
 
             var main_grid = new Gtk.Grid ();
             main_grid.attach (main_stackswitcher, 0, 0, 1, 1);

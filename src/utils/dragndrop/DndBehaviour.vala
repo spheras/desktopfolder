@@ -101,17 +101,11 @@ namespace DesktopFolder.DragnDrop {
                 if (icon_name != null) {
                     Gtk.drag_set_icon_name (context, icon_name, x, y);
                 } else {
-                    string stock_name;
-                    image.get_stock (out stock_name, out iconSize);
-                    if (stock_name != null) {
-                        Gtk.drag_set_icon_stock (context, stock_name, x, y);
+                    Gdk.Pixbuf pixbuf = image.get_pixbuf ();
+                    if (pixbuf != null) {
+                        Gtk.drag_set_icon_pixbuf (context, pixbuf, x, y);
                     } else {
-                        Gdk.Pixbuf pixbuf = image.get_pixbuf ();
-                        if (pixbuf != null) {
-                            Gtk.drag_set_icon_pixbuf (context, pixbuf, x, y);
-                        } else {
-                            Gtk.drag_set_icon_default (context);
-                        }
+                        Gtk.drag_set_icon_default (context);
                     }
                 }
             }

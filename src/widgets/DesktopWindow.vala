@@ -173,9 +173,13 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
      * @description show the desktop dialog
      */
     protected void show_desktop_dialog () {
+      try{
         var command = "xdg-open settings://desktop";
         var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
         appinfo.launch_uris (null, null);
+      }catch(Error err){
+          //TODO
+      }
     }
 
 }
