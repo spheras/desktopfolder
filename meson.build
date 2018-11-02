@@ -64,8 +64,10 @@ src = [
        'src/dialogs/PanelPropertiesWindow.vala'
       ]
 
+exename = get_option('exename')
+
 executable(
-    'com.github.spheras.desktopfolder',
+    exename,
     src,
     asresources,
     c_args: c_args,
