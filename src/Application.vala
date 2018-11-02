@@ -29,6 +29,9 @@ public class DesktopFolderApp : Gtk.Application {
     /** The volume monitor */
     private GLib.VolumeMonitor volume_monitor = null;
 
+    /** schema settings */
+    private GLib.Settings settings = null;
+
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
@@ -108,6 +111,9 @@ public class DesktopFolderApp : Gtk.Application {
             get_windows ().data.present ();
             return;
         }
+
+        // define our settings schema
+        settings = new GLib.Settings ("com.github.spheras.desktopfolder");
 
         create_shortcut ();
 
@@ -207,7 +213,6 @@ public class DesktopFolderApp : Gtk.Application {
      * @description check if the fake desktop must be showed or not to create it
      */
     private void check_fake_desktop () {
-        GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
         string[]      keys     = settings.list_keys ();
         bool          found    = false;
         for (int i = 0; i < keys.length; i++) {
@@ -360,8 +365,9 @@ public class DesktopFolderApp : Gtk.Application {
             }
             this.photos = updated_photo_list.copy ();
 
-            // by default, at least one folder is needed
-            if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0) {
+            // by default, at we create at least one folder if set by settings
+            var first_folder = settings.get_boolean ("first-folder");
+            if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0 && first_folder) {
                 DirUtils.create (DesktopFolderApp.get_app_folder () + "/" + DesktopFolder.Lang.APP_FIRST_PANEL, 0755);
                 this.sync_folders_and_notes ();
             }
