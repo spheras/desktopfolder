@@ -1,16 +1,20 @@
-/***
-    Copyright (c) 2015-2017 elementary LLC (http://launchpad.net/elementary)
-    This program is free software: you can redistribute it and/or modify it
-    under the terms of the GNU Lesser General Public License version 3, as published
-    by the Free Software Foundation.
-    This program is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranties of
-    MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR
-    PURPOSE. See the GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License along
-    with this program. If not, see <http://www.gnu.org/licenses/>.
-    Authors :
- ***/
+/*
+ * Copyright (c) 2015-2017 elementary LLC (http://launchpad.net/elementary)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace DesktopFolder {
     public const string APP_ID               = "com.github.spheras.desktopfolder";
