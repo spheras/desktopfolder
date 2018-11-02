@@ -136,7 +136,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.has_subtitle   = false;
         this.label            = new DesktopFolder.EditableLabel (manager.get_note_name ());
-        this.label.set_margin (10);
+        this.label.set_margin_end(15);
         this.label.show_popup.connect ((event) => { this.show_popup (event); return true; });
         this.label.get_style_context ().add_class ("title");
         header.set_custom_title (this.label);
