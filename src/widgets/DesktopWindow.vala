@@ -174,7 +174,16 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
      */
     protected void show_desktop_dialog () {
       try{
-        var command = "xdg-open settings://desktop";
+        var current_desktop=GLib.Environment.get_variable("XDG_CURRENT_DESKTOP");
+        var command = "";
+
+        if(current_desktop=="Pantheon"){
+          debug("We are in pantheon...");
+          command="xdg-open settings://desktop";
+        }else {
+          command="gnome-control-center background";
+        }
+
         var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
         appinfo.launch_uris (null, null);
       }catch(Error err){
