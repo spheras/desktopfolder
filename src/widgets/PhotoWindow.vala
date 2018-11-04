@@ -65,7 +65,9 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         );
 
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
-        this.set_transient_for (desktop_manager.get_view ());
+        if (desktop_manager != null) {
+            this.set_transient_for (desktop_manager.get_view ());
+        }
         this.set_titlebar (null);
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
@@ -92,8 +94,12 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        this.move (x + 67, y + 53);
-        // WHY ARE NEEDED 67 AND 53?!!
+        if (this.is_visible ()) {
+            this.move (x, y);
+        } else {
+            // WHY ARE NEEDED 67 AND 53?!!
+            this.move (x + 67, y + 53);
+        }
         // debug ("Move to:%d,%d", x, y);
     }
 
@@ -102,9 +108,9 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     protected virtual void resize_to (int width, int height) {
-        // this.set_default_size(width,height);
-        // debug ("Set size:%d,%d", width, height);
+        this.set_default_size (width, height);
         this.resize (width, height);
+        // debug ("Set size:%d,%d", width, height);
     }
 
     /**
@@ -323,13 +329,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // }
 
         // finally we show the popup
-        menu.popup (
-            null // parent menu shell
-            , null // parent menu item
-            , null // func
-            , event.button // button
-            , event.get_time () // Gtk.get_current_event_time() //time
-        );
+        menu.popup_at_pointer (null);
     }
 
     /**

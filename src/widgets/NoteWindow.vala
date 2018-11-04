@@ -63,7 +63,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         this.manager = manager;
         this.name    = manager.get_application ().get_next_id ();
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
-        this.set_transient_for (desktop_manager.get_view ());
+        if (desktop_manager != null) {
+            this.set_transient_for (desktop_manager.get_view ());
+        }
 
         this.trash_button         = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         trash_button.has_tooltip  = true;
@@ -136,7 +138,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.has_subtitle   = false;
         this.label            = new DesktopFolder.EditableLabel (manager.get_note_name ());
-        this.label.set_margin_end(15);
+        this.label.set_margin_end (15);
         this.label.show_popup.connect ((event) => { this.show_popup (event); return true; });
         this.label.get_style_context ().add_class ("title");
         header.set_custom_title (this.label);
@@ -162,9 +164,13 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        this.move (x + 67, y + 53);
-        // WHY ARE NEEDED 67 AND 53?!!
-        debug ("Move to:%d,%d", x, y);
+        if (this.is_visible ()) {
+            this.move (x, y);
+        } else {
+            // WHY ARE NEEDED 67 AND 53?!!
+            this.move (x + 67, y + 53);
+        }
+        // debug ("Move to:%d,%d", x, y);
     }
 
     /**
@@ -173,8 +179,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      */
     protected virtual void resize_to (int width, int height) {
         this.set_default_size (width, height);
-        debug ("Set size:%d,%d", width, height);
-        // this.resize (width, height);
+        this.resize (width, height);
+        // debug ("Set size:%d,%d", width, height);
     }
 
     /**
@@ -559,13 +565,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         item.show ();
         menu.append (item);
 
-        menu.popup (
-            null // parent menu shell
-            , null // parent menu item
-            , null // func
-            , event.button // button
-            , event.get_time () // Gtk.get_current_event_time() //time
-        );
+        menu.popup_at_pointer (null);
     }
 
     /**

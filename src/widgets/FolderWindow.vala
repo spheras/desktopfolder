@@ -216,8 +216,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        this.move (x + 67, y + 53);
-        // WHY ARE NEEDED 67 AND 53?!!
+        if (this.is_visible ()) {
+            this.move (x, y);
+        } else {
+            // WHY ARE NEEDED 67 AND 53?!!
+            this.move (x + 67, y + 53);
+        }
         // debug ("Move to:%d,%d", x, y);
     }
 
@@ -226,9 +230,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     public virtual void resize_to (int width, int height) {
-        this.set_default_size (width, height);
+        if (this.is_visible ()) {
+            // WHY IS NEEDED 34??!!!
+            this.set_default_size (width, height - 34);
+            this.resize (width, height - 34);
+        } else {
+            this.set_default_size (width, height);
+            this.resize (width, height);
+        }
         // debug ("Set size:%d,%d", width, height);
-        this.resize (width, height);
     }
 
     /**
@@ -590,13 +600,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         context_menu.show_all ();
 
-        context_menu.popup (
-            null, // parent menu shell
-            null, // parent menu item
-            null, // func
-            event.button, // button
-            event.get_time () // Gtk.get_current_event_time() // time
-        );
+        context_menu.popup_at_pointer (null);
     }
 
     /**

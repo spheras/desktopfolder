@@ -301,7 +301,7 @@ namespace DesktopFolder.DragnDrop {
 
 
             // depending on the modifier pressed, we will copy move or link
-            Gdk.Keymap keymap    = Gdk.Keymap.get_default ();
+            Gdk.Keymap keymap    = Gdk.Keymap.get_for_display (Gdk.Display.get_default ());
             uint       modifiers = keymap.get_modifier_state ();
             if ((modifiers & Gdk.ModifierType.CONTROL_MASK) > 0) {
                 // lets copy

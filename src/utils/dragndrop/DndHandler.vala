@@ -85,7 +85,7 @@ namespace DesktopFolder.DragnDrop {
                 remove_action (win);
             });
 
-            ask_menu.popup (null, null, null, 0, Gdk.CURRENT_TIME);
+            ask_menu.popup_at_pointer (null);
             loop.run ();
             Gtk.grab_remove (ask_menu);
 
@@ -151,7 +151,7 @@ namespace DesktopFolder.DragnDrop {
             case "link":
                 this.chosen = Gdk.DragAction.LINK;
                 break;
-            case "background":     /* not implemented yet */
+            case "background": /* not implemented yet */
             case "cancel":
             default:
                 this.chosen = Gdk.DragAction.DEFAULT;
@@ -168,10 +168,10 @@ namespace DesktopFolder.DragnDrop {
             bool exists            = Gdk.property_get (context.get_source_window (),
                     property_name,
                     property_type,
-                    0,                         /* offset into property to start getting */
-                    1024,                         /* max bytes of data to retrieve */
-                    0,                         /* do not delete after retrieving */
-                    null, null,                         /* actual property type and format got disregarded */
+                    0, /* offset into property to start getting */
+                    1024, /* max bytes of data to retrieve */
+                    0, /* do not delete after retrieving */
+                    null, null, /* actual property type and format got disregarded */
                     out data
                 );
 

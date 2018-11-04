@@ -14,7 +14,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 public class DesktopFolder.ItemView : Gtk.EventBox {
 
     // NOT SURE ABOUT THESE CONSTANTS!!! TODO!!!!!
@@ -632,13 +632,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // }
 
         // showing the menu
-        menu.popup (
-            null // parent menu shell
-            , null // parent menu item
-            , null // func
-            , event.button // button
-            , event.get_time () // Gtk.get_current_event_time() //time
-        );
+        menu.popup_at_pointer (null);
     }
 
     /**

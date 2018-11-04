@@ -14,8 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
- public class DesktopFolder.PhotoSettings : PositionSettings {
+
+public class DesktopFolder.PhotoSettings : PositionSettings {
     private int _original_width = 0;
     public int original_width {
         get {
@@ -87,7 +87,7 @@
 
     private File file;
 
-    public PhotoSettings (string photo_path) {
+    public PhotoSettings (string photo_path, Gdk.Window window) {
         this.x          = 110;
         this.y          = 110;
         this.photo_path = photo_path;
@@ -106,7 +106,7 @@
 
             // max a 30% of the screen
             Gdk.Screen screen = Gdk.Screen.get_default ();
-            int        MAX    = (screen.get_width () * 30) / 100;
+            int        MAX    = (screen.get_display ().get_monitor_at_window (window).get_geometry ().width * 30) / 100;
 
             if (this.w > MAX) {
                 int newWidth  = MAX;

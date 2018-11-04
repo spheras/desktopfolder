@@ -182,7 +182,9 @@ public class DesktopFolderApp : Gtk.Application {
     public void on_screen_size_changed () {
         debug ("SCREEN SIZE CHANGED!");
         Gdk.Screen screen = Gdk.Screen.get_default ();
-        this.desktop.on_screen_size_changed (screen);
+        if (this.desktop != null) {
+            this.desktop.on_screen_size_changed (screen);
+        }
         for (int i = 0; i < this.folders.length (); i++) {
             this.folders.nth_data (i).on_screen_size_changed (screen);
         }
@@ -211,8 +213,8 @@ public class DesktopFolderApp : Gtk.Application {
      * @description check if the fake desktop must be showed or not to create it
      */
     private void check_fake_desktop () {
-        string[]      keys     = settings.list_keys ();
-        bool          found    = false;
+        string[]      keys  = settings.list_keys ();
+        bool          found = false;
         for (int i = 0; i < keys.length; i++) {
             string key = keys[i];
             if (key == "desktop-panel") {

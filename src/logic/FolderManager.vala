@@ -58,6 +58,12 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.create_view ();
         this.application.add_window (this.view);
         this.view.show ();
+        /*
+           GLib.Idle.add(()=>{
+           this.view.reload_settings();
+            return false;
+           });
+         */
 
         // trying to put it in front of the rest
         this.view.set_keep_below (false);
@@ -89,8 +95,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @description detecting screen size changes
      */
     public virtual void on_screen_size_changed (Gdk.Screen screen) {
-        // debug ("size changed for %s", this.folder_name);
+        debug ("size changed for %s", this.folder_name);
         this.settings.calculate_current_position ();
+        debug ("reloading settings");
         this.view.reload_settings ();
     }
 
@@ -427,7 +434,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         var directory = File.new_for_path (new_path);
         try {
             if (directory.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Panel"),null);
+                DesktopFolder.Util.show_file_exists_error_dialog (this.view, sanitized_name, _("Panel"), null);
                 throw new FolderManagerIOError.FILE_EXISTS ("Folder already exists");
             }
             this.settings.name = this.folder_name;

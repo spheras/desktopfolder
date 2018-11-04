@@ -58,20 +58,20 @@ namespace DesktopFolder.Dialogs {
             main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
             main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
-            var version_label=new Gtk.Label ("version " + DesktopFolder.VERSION.up () );
+            var version_label = new Gtk.Label ("version " + DesktopFolder.VERSION.up ());
             version_label.set_size_request (250, -1);
-            version_label.xalign=0;
+            version_label.xalign = 0;
 
             var main_stackswitcher = new Gtk.StackSwitcher ();
             main_stackswitcher.set_stack (main_stack);
             main_stackswitcher.homogeneous  = true;
 
-            main_stackswitcher.margin_start  = 12;
-            main_stackswitcher.margin_end = 12;
+            main_stackswitcher.margin_start = 12;
+            main_stackswitcher.margin_end   = 12;
 
             var main_grid = new Gtk.Grid ();
             main_grid.attach (main_stackswitcher, 0, 0, 1, 1);
-            main_grid.attach (main_stack, 0,1, 1, 1);
+            main_grid.attach (main_stack, 0, 1, 1, 1);
 
             get_content_area ().add (main_grid);
 

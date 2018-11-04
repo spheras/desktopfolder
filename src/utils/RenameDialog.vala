@@ -14,8 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
- public class RenameDialog : Gtk.Dialog {
+
+public class RenameDialog : Gtk.Dialog {
     private Gtk.Entry entry;
 
     public signal void on_rename (string new_name);
@@ -30,7 +30,7 @@
         set_default_size (350, 100);
         this.get_style_context ().add_class ("df_dialog");
         this.set_decorated (true);
-        this.window_position=Gtk.WindowPosition.MOUSE;
+        this.window_position = Gtk.WindowPosition.MOUSE;
 
         create_widgets (label_message, entry_text);
         connect_signals ();

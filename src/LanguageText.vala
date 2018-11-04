@@ -14,8 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
- namespace DesktopFolder.Lang {
+
+namespace DesktopFolder.Lang {
     // Application Description
     public const string APP_DESCRIPTION                          = _("Come back to life your minimalist Desktop \n Organize files at your Desktop using Panes.");
     // Generic Dialog OK Button

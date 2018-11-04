@@ -159,13 +159,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
 
         context_menu.show_all ();
 
-        context_menu.popup (
-            null, // parent menu shell
-            null, // parent menu item
-            null, // func
-            event.button, // button
-            event.get_time () // Gtk.get_current_event_time() // time
-        );
+        context_menu.popup_at_pointer (null);
     }
 
     /**
@@ -173,22 +167,22 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
      * @description show the desktop dialog
      */
     protected void show_desktop_dialog () {
-      try{
-        var current_desktop=GLib.Environment.get_variable("XDG_CURRENT_DESKTOP");
-        var command = "";
+        try {
+            var current_desktop = GLib.Environment.get_variable ("XDG_CURRENT_DESKTOP");
+            var command         = "";
 
-        if(current_desktop=="Pantheon"){
-          debug("We are in pantheon...");
-          command="xdg-open settings://desktop";
-        }else {
-          command="gnome-control-center background";
+            if (current_desktop == "Pantheon") {
+                debug ("We are in pantheon...");
+                command = "xdg-open settings://desktop";
+            } else {
+                command = "gnome-control-center background";
+            }
+
+            var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+            appinfo.launch_uris (null, null);
+        } catch (Error err) {
+            // TODO
         }
-
-        var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-        appinfo.launch_uris (null, null);
-      }catch(Error err){
-          //TODO
-      }
     }
 
 }
