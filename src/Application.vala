@@ -29,6 +29,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /** schema settings */
     private GLib.Settings settings = null;
+    private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
 
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
@@ -113,6 +114,10 @@ public class DesktopFolderApp : Gtk.Application {
         // define our settings schema
         settings = new GLib.Settings ("com.github.spheras.desktopfolder");
 
+        // Connect to show-desktopfolder key
+        settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
+        on_show_desktopfolder_changed();
+
         create_shortcut ();
 
         // we need the app folder (desktop folder)
@@ -162,6 +167,17 @@ public class DesktopFolderApp : Gtk.Application {
         });
     }
 
+    /**
+     * @name on_show_desktopfolder_changed
+     * @description detect when desktopfolder key is toggled
+     */
+    private void on_show_desktopfolder_changed () {
+        bool show_desktopfolder = settings.get_boolean(SHOW_DESKTOPFOLDER_KEY);
+        if (!show_desktopfolder) {
+            // requested to no longer show the desktop so let's gracefully quit
+            this.quit ();
+        }
+    }
     /**
      * @name on_mount_changed
      * @description event to detect when the mount file system has been changed, probably we need to recheck files existence
