@@ -284,9 +284,15 @@ namespace DesktopFolder.Util {
 
         // Process response:
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
-            var  folderpath = chooser.get_filename ();
-            var  foldername = Path.get_basename (folderpath);
-            File linkdest   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
+            var  folderpath                 = chooser.get_filename ();
+            var  foldername                 = Path.get_basename (folderpath);
+            File linkdest                   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
+            File settings_file              = File.new_for_path (folderpath + "/.desktopfolder");
+            DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (foldername);
+            fs.save_to_file (settings_file);
+
+
+            debug ("creating settings at: %s", folderpath + "/.desktopfolder");
             debug ("file:%s", folderpath);
             debug ("file name:%s", foldername);
             debug ("link path:%s", DesktopFolderApp.get_app_folder () + "/" + foldername);
@@ -302,6 +308,8 @@ namespace DesktopFolder.Util {
                     Util.show_error_dialog ("Error", e.message);
                 }
             }
+
+
         }
 
         chooser.close ();

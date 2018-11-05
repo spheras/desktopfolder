@@ -58,12 +58,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.create_view ();
         this.application.add_window (this.view);
         this.view.show ();
-        /*
-           GLib.Idle.add(()=>{
-           this.view.reload_settings();
-            return false;
-           });
-         */
 
         // trying to put it in front of the rest
         this.view.set_keep_below (false);
@@ -74,7 +68,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // ---------------------------------------
 
         // let's sync the files found at this folder
-        this.sync_files (0, 0);
+        GLib.Idle.add_full (GLib.Priority.LOW, () => {
+            this.sync_files (0, 0);
+            return false;
+        });
+
 
         // finally, we start monitoring the folder
         this.monitor_folder ();
@@ -254,6 +252,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             // listing all the files inside this folder
             var      enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
             FileInfo file_info;
+
+            // list of gaps to put new items without a custom position
+            ItemSettings[, ] gaps = null;
+
             while ((file_info = enumerator.next_file ()) != null) {
                 string file_name = file_info.get_name ();
                 // debug("found:%s", file_name);
@@ -277,9 +279,19 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 ItemSettings is = this.settings.get_item (file_name);
                 if (is == null) {
                     // we need to create one empty
-                    is      = new ItemSettings ();
-                    is.x    = x;
-                    is.y    = y;
+                    is = new ItemSettings ();
+                    if (x == 0 && y == 0) {
+                        if (gaps == null) {
+                            // building the structure to see current gaps
+                            gaps = this.settings.build_cell_structure ();
+                        }
+                        Gdk.Point pos = this.settings.get_next_gap (gaps, is);
+                        is.x = pos.x;
+                        is.y = pos.y;
+                    } else {
+                        is.x = x;
+                        is.y = y;
+                    }
                     is.name = file_name;
                     this.settings.add_item (is);
                 }

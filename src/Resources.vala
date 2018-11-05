@@ -32,6 +32,8 @@ namespace DesktopFolder {
     public const string PARAM_SHOW_DESKTOP   = "show-desktop";
     public const string PARAM_SHOW_VERSION   = "version";
     public const int    ICON_SIZE            = 48;
+    public const int    ICON_DEFAULT_WIDTH   = 90;
+
     public const string PANEL_BLACKLIST_FILE = ".nopanel";
     public const int    HEADERBAR_HEIGHT     = 34;
 

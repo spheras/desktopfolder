@@ -93,7 +93,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             height_request:     50,
             width_request:      50
         );
-
         this.manager = manager;
 
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
