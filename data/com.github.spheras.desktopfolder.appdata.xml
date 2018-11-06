@@ -6,6 +6,7 @@
     <project_license>GPL-3.0+</project_license>
     <name>Desktop Folder</name>
     <summary>Bring your desktop back to life</summary>
+    <update_contact>joseamuedo@gmail.com</update_contact>
     <description>
         <p>Organize your desktop with panels that hold your things.</p>
         <ul>
@@ -47,34 +48,34 @@
 
       <release version="1.0.8" date="2018-10-15">
         <description>
-          <p>Release: Juno publication</p>
+          <p>Release: Juno publication.</p>
           <ul>
-              <li>Minor bugfix</li>
-              <li>Juno publication</li>
+              <li>Minor bugfix release</li>
+              <li>Juno publication release</li>
           </ul>
         </description>
       </release>
 
       <release version="1.0.7" date="2018-09-20">
         <description>
-          <p>Release: Updated for Elementary Juno and other minor features</p>
+          <p>Release: Updated for Elementary Juno and other minor features.</p>
           <ul>
               <li>Change Wallpaper from Desktop right click</li>
               <li>Dutch Translation by @Vistaus</li>
               <li>Improved Russian Translation by @ingumsky</li>
-              <li>Updated project for GTK 3.22 and Elementary Juno</li>
-              <li>Minor Bugfixing</li>
+              <li>Updated project for GTK+ 3.22 and Elementary Juno</li>
+              <li>Minor Bugfixes are included for this release</li>
           </ul>
         </description>
       </release>
 
       <release version="1.0.6" date="2018-02-16">
         <description>
-          <p>Release: Italian and minor improvements</p>
+          <p>Release: Italian and minor improvements.</p>
           <ul>
               <li>Italian Translation thanks to andreas-xavier</li>
               <li>Saving settings performance improvements</li>
-              <li>*~ files are ignored now</li>
+              <li>Files *~ are ignored now</li>
           </ul>
         </description>
       </release>
@@ -83,8 +84,7 @@
         <description>
           <p>1.0.5 release with great changes!</p>
           <ul>
-            <li>Desktop Background</li>
-            <li>Rename in Place</li>
+            <li>Desktop Background &amp; Rename in Place</li>
             <li>Different Notes Status (top, back, normal)</li>
             <li>Buttons to Headers (remove)</li>
             <li>Link Panels to folders</li>
@@ -105,7 +105,7 @@
 
       <release version="1.0.2" date="2017-10-19">
         <description>
-          <p>1.0.2 release</p>
+          <p>1.0.2 release.</p>
           <ul>
             <li>Drag and Drop to Move/Copy/Link depending on key pressed (none/control/alt|shift)</li>
             <li>Text Shadow and Bold configuration</li>
@@ -113,10 +113,9 @@
             <li>Move panels from body</li>
             <li>DESKTOP window types (workspace movement improvement and others)</li>
             <li>Drag and Drop folders (recursive copy)</li>
-            <li>Undo/Redo and others over Text Notes</li>
-            <li>Menu Redesign</li>
+            <li>Undo/Redo and others over Text Notes &amp; Menu Redesign</li>
             <li>Lithuanian and French translations</li>
-            <li>Minor Bugfixing</li>
+            <li>Minor Bugfixing included with this release</li>
           </ul>
         </description>
       </release>
