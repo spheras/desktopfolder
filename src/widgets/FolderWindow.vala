@@ -404,8 +404,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             return false;
         }
 
-        debug ("---------------------------------------------------------");
-        debug ("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d", event.type, event.send_event, event.width, event.height, event.x, event.y);
+        // debug ("---------------------------------------------------------");
+        // debug ("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d", event.type, event.send_event, event.width, event.height, event.x, event.y);
         if (event.type == Gdk.EventType.CONFIGURE) {
             // This is to avoid minimization when Show Desktop shortcut is used
             // TODO: Is there a way to make a desktop window resizable and movable?
@@ -415,7 +415,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int y = event.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
             int w = event.width - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
             int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
-            debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
+            // debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
             this.manager.set_new_shape (x, y, w, h);
         }
         return false;
