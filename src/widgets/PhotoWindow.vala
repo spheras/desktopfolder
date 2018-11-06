@@ -36,6 +36,8 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     // flag to know if the window is being resized
     private bool flag_resizing = false;
     private uint timeout_id    = 0;
+    /** flag to know if the window was painted /packed already */
+    private bool flag_realized = false;
 
     construct {
         set_keep_below (true);
@@ -74,12 +76,26 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // setting the folder name
         this.manager = manager;
 
+        // important to load settings 2 times, now and after realized event
         this.reload_settings ();
+        this.realize.connect (() => {
+            if (!this.flag_realized) {
+                this.flag_realized = true;
+                // we need to reload settings to ensure that it get the real sizes and positiions
+                this.reload_settings ();
+            }
+        });
 
         this.show_all ();
 
         // connecting to events
         this.configure_event.connect (this.on_configure);
+        this.motion_notify_event.connect ((event) => {
+            // forzing to draw the borders background
+            this.flag_resizing = true;
+            this.queue_draw ();
+            return true;
+        });
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
         this.draw.connect (this.draw_background);
@@ -94,23 +110,18 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        if (this.is_visible ()) {
-            this.move (x, y);
-        } else {
-            // WHY ARE NEEDED 67 AND 53?!!
-            this.move (x + 67, y + 53);
-        }
-        // debug ("Move to:%d,%d", x, y);
+        // debug ("MOVE_TO: %d,%d", x, y);
+        this.move (x, y);
     }
 
     /**
      * @name resize_to
      * @description resize the window to other position
      */
-    protected virtual void resize_to (int width, int height) {
+    public virtual void resize_to (int width, int height) {
+        // debug ("RESIZE_TO: %d,%d", width, height);
         this.set_default_size (width, height);
         this.resize (width, height);
-        // debug ("Set size:%d,%d", width, height);
     }
 
     /**
@@ -185,7 +196,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         this.get_position (out x, out y);
         this.get_allocation (out all);
         this.get_size (out w, out h);
-        // debug ("allocation:%d,%d,%d,%d", x, y, w, h);
+        // debug ("set_new_shape:%i,%i,%i,%i", x, y, w, h);
         this.manager.set_new_shape (x, y, w, h);
     }
 

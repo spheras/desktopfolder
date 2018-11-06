@@ -17,25 +17,27 @@
  */
 
 namespace DesktopFolder {
-    public const string APP_ID               = "com.github.spheras.desktopfolder";
-    public const string APP_DESKTOP          = APP_ID + ".desktop";
-    public const string APP_TITLE            = "Desktop-Folder";
-    public const string APP_NAME             = "desktopfolder";
-    public const string VERSION              = "1.0.9";
+    public const string APP_ID                = "com.github.spheras.desktopfolder";
+    public const string APP_DESKTOP           = APP_ID + ".desktop";
+    public const string APP_TITLE             = "Desktop-Folder";
+    public const string APP_NAME              = "desktopfolder";
+    public const string VERSION               = "1.0.9";
     /** Name of the Folder Settings File */
-    public const string FOLDER_SETTINGS_FILE = ".desktopfolder";
-    public const string OLD_NOTE_EXTENSION   = "dfn";
-    public const string OLD_PHOTO_EXTENSION  = "dfp";
-    public const string NEW_NOTE_EXTENSION   = "desktopnote";
-    public const string NEW_PHOTO_EXTENSION  = "desktopphoto";
+    public const string FOLDER_SETTINGS_FILE  = ".desktopfolder";
+    public const string OLD_NOTE_EXTENSION    = "dfn";
+    public const string OLD_PHOTO_EXTENSION   = "dfp";
+    public const string NEW_NOTE_EXTENSION    = "desktopnote";
+    public const string NEW_PHOTO_EXTENSION   = "desktopphoto";
     /** param to show the desktop */
-    public const string PARAM_SHOW_DESKTOP   = "show-desktop";
-    public const string PARAM_SHOW_VERSION   = "version";
-    public const int    ICON_SIZE            = 48;
-    public const int    ICON_DEFAULT_WIDTH   = 90;
+    public const string PARAM_SHOW_DESKTOP    = "show-desktop";
+    public const string PARAM_SHOW_VERSION    = "version";
+    public const int    ICON_SIZE             = 48;
+    public const int    ICON_DEFAULT_WIDTH    = 90;
+    // Decoration margin for windows, see application.css
+    public const int WINDOW_DECORATION_MARGIN = 10;
 
-    public const string PANEL_BLACKLIST_FILE = ".nopanel";
-    public const int    HEADERBAR_HEIGHT     = 34;
+    public const string PANEL_BLACKLIST_FILE  = ".nopanel";
+    public const int    HEADERBAR_HEIGHT      = 34;
 
-    public const int SETTINGS_VERSION        = 3;
+    public const int SETTINGS_VERSION         = 3;
 }

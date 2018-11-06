@@ -35,6 +35,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private string last_custom_color                = "#FF0000";
     private Gtk.CssProvider custom_color_provider   = new Gtk.CssProvider ();
 
+    /** flag to know if the window was painted /packed already */
+    private bool flag_realized = false;
+
     construct {
         this.hide_titlebar_when_maximized = false;
 
@@ -98,7 +101,15 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         this.text.buffer.text = this.manager.get_settings ().text;
         scrolled.add (this.text);
 
+        // important to load settings 2 times, now and after realized event
         this.reload_settings ();
+        this.realize.connect (() => {
+            if (!this.flag_realized) {
+                this.flag_realized = true;
+                // we need to reload settings to ensure that it get the real sizes and positiions
+                this.reload_settings ();
+            }
+        });
 
         this.show_all ();
 
@@ -164,13 +175,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        if (this.is_visible ()) {
-            this.move (x, y);
-        } else {
-            // WHY ARE NEEDED 67 AND 53?!!
-            this.move (x + 67, y + 53);
-        }
-        // debug ("Move to:%d,%d", x, y);
+        // debug ("MOVE_TO: %d,%d", x, y);
+        this.move (x, y);
     }
 
     /**
@@ -178,9 +184,9 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     protected virtual void resize_to (int width, int height) {
+        // debug ("RESIZE_TO: %d,%d", width, height);
         this.set_default_size (width, height);
         this.resize (width, height);
-        // debug ("Set size:%d,%d", width, height);
     }
 
     /**
@@ -332,7 +338,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         int y = 0;
         this.get_position (out x, out y);
 
-        // debug ("configure event:%i,%i,%i,%i", x, y, w, h);
+        // debug ("set_new_shape:%i,%i,%i,%i", x, y, w, h);
         this.manager.set_new_shape (x, y, w, h);
     }
 
@@ -355,26 +361,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         }
         return false;
     }
-
-    ///**
-    // * @name on_configure
-    // * @description the configure event is produced when the window change its dimensions or location settings
-    // */
-    // private bool on_configure (Gdk.EventConfigure event) {
-    ////debug("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d",event.type,event.send_event,event.width,event.height,event.x,event.y);
-    //// if(this.flag_dragging) {
-    ////     return false;
-    //// }
-    // if (event.type == Gdk.EventType.CONFIGURE) {
-    //// This is to avoid minimization when Show Desktop shortcut is used
-    //// TODO: Is there a way to make a desktop window resizable and movable?
-    // this.check_window_type ();
-    //
-    // debug("configure event:%i,%i,%i,%i",event.x,event.y,event.width,event.height);
-    // this.manager.set_new_shape (event.x, event.y, event.width, event.height);
-    // }
-    // return false;
-    // }
 
     /**
      * @name on_enter_notify
@@ -676,6 +662,11 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @bool @see draw signal
      */
     private bool draw_background (Cairo.Context cr) {
+        // util code to draw the whole window background (which contains also the decoration and you can size it)
+        // cr.rectangle(0,0,10000,10000);
+        // cr.set_source_rgba (1, 1, 1, 0.2);
+        // cr.fill();
+
         int width  = this.get_allocated_width ();
         int height = this.get_allocated_height ();
 

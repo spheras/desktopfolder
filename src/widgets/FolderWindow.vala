@@ -42,6 +42,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     protected string last_custom_color             = "#FF0000";
     private Gtk.CssProvider custom_color_provider  = new Gtk.CssProvider ();
 
+    /** flag to know if the window was painted /packed already */
+    private bool flag_realized = false;
+
 
     // this is the link image loaded
     static Gdk.Pixbuf LINK_PIXBUF = null;
@@ -140,7 +143,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.container = new Gtk.Fixed ();
         add (this.container);
 
+        // important to load settings 2 times, now and after realized event
         this.reload_settings ();
+        this.realize.connect (() => {
+            if (!this.flag_realized) {
+                this.flag_realized = true;
+                // we need to reload settings to ensure that it get the real sizes and positiions
+                this.reload_settings ();
+            }
+        });
 
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
@@ -164,6 +175,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // TODO: Does the GTK window have any active signal or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
+
 
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
     }
@@ -215,13 +227,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        if (this.is_visible ()) {
-            this.move (x, y);
-        } else {
-            // WHY ARE NEEDED 67 AND 53?!!
-            this.move (x + 67, y + 53);
-        }
-        // debug ("Move to:%d,%d", x, y);
+        // debug ("MOVE_TO: %d,%d", x, y);
+        this.move (x, y);
     }
 
     /**
@@ -229,15 +236,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     public virtual void resize_to (int width, int height) {
-        if (this.is_visible ()) {
-            // WHY IS NEEDED 34??!!!
-            this.set_default_size (width, height - 34);
-            this.resize (width, height - 34);
-        } else {
-            this.set_default_size (width, height);
-            this.resize (width, height);
-        }
-        // debug ("Set size:%d,%d", width, height);
+        // debug ("RESIZE_TO: %d,%d", width, height);
+        this.set_default_size (width, height);
+        this.resize (width, height);
     }
 
     /**
@@ -395,22 +396,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description the configure event is produced when the window change its dimensions or location settings
      */
     private bool on_configure (Gdk.EventConfigure event) {
-        // debug("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d",event.type,event.send_event,event.width,event.height,event.x,event.y);
+        // it seems:
+        // - the window.height is this.allocation.height + decoration.margin.height * 2 + header.height
+        // - the window.width is the allocation.width + decoration.margin.width * 2
+        if (!this.flag_realized) {
+            // we discard all the pre realized configure events
+            return false;
+        }
+
+        debug ("---------------------------------------------------------");
+        debug ("event configure: type:%d,se:%d,w:%d,h:%d,x:%d,y:%d", event.type, event.send_event, event.width, event.height, event.x, event.y);
         if (event.type == Gdk.EventType.CONFIGURE) {
             // This is to avoid minimization when Show Desktop shortcut is used
             // TODO: Is there a way to make a desktop window resizable and movable?
             this.type_hint = Gdk.WindowTypeHint.DESKTOP; // Going to try DIALOG at some point
 
-            int w = 0;
-            int h = 0;
-            this.get_size (out w, out h);
-            h = h + DesktopFolder.HEADERBAR_HEIGHT;
-
-            int x = 0;
-            int y = 0;
-            this.get_position (out x, out y);
-
-            // debug ("configure event:%i,%i,%i,%i", x, y, w, h);
+            int x = event.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            int y = event.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            int w = event.width - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
+            int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
+            debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
             this.manager.set_new_shape (x, y, w, h);
         }
         return false;
@@ -1105,6 +1110,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @bool @see draw signal
      */
     private bool draw_background (Cairo.Context cr) {
+// util code to draw the whole window background (which contains also the decoration and you can size it)
+        // cr.rectangle(0,0,10000,10000);
+        // cr.set_source_rgba (1, 1, 1, 0.2);
+        // cr.fill();
 
         // we must show the grid if it is enabled and an item being moved
         if (flag_moving == true && this.manager.get_settings ().align_to_grid) {

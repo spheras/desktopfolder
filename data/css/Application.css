@@ -276,6 +276,13 @@
     border-width: 1px;
 }
 
+window decoration{
+  /** if changed, modify resources.vala, the const WINDOW_DECORATION_MARGIN */
+  margin-left:10px;
+  margin-top:10px;
+  margin-right:10px;
+  margin-bottom:10px;
+}
 .df_folder.background, .df_folder.background:backdrop, .df_folder decoration{
     box-shadow: none;
     text-shadow: none;
