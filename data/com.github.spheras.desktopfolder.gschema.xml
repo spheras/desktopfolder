@@ -24,5 +24,10 @@
       <summary>Create first folder</summary>
       <description>When first run create an initial folder on the desktop</description>
     </key>
+    <key name="show-desktopfolder" type="b">
+      <default>true</default>
+      <summary>Have DesktopFolder handle the desktop</summary>
+      <description>If set false, DesktopFolder will exit gracefully on startup or when running</description>
+    </key>
   </schema>
 </schemalist>
