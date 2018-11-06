@@ -70,7 +70,12 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         if (desktop_manager != null) {
             this.set_transient_for (desktop_manager.get_view ());
         }
-        this.set_titlebar (null);
+
+        // this.set_titlebar (null);
+        var header = new Gtk.HeaderBar ();
+        this.set_titlebar (header);
+
+
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
         // setting the folder name
