@@ -450,7 +450,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             if (f.query_exists ()) {
                 all.append (is);
             } else {
-                debug ("Alert! doesnt exist: %s", filepath);
+                debug ("Alert! does not exist: %s", filepath);
                 // doesn't exist, we must remove the entry
             }
         }
