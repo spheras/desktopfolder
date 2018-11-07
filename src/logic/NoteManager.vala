@@ -96,7 +96,7 @@ public class DesktopFolder.NoteManager : Object {
         var abs_path = this.get_absolute_path ();
         debug ("loading note settings...%s", abs_path);
         if (!this.file.query_exists ()) {
-            warning ("note file doesnt exist!");
+            warning ("note file does not exist!");
             return false;
         } else {
             NoteSettings existent = NoteSettings.read_settings (this.file, this.get_note_name ());
