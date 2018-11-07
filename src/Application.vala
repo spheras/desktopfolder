@@ -28,7 +28,7 @@ public class DesktopFolderApp : Gtk.Application {
     private GLib.VolumeMonitor volume_monitor = null;
 
     /** schema settings */
-    private GLib.Settings settings = null;
+    private GLib.Settings settings              = null;
     private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
 
     /** List of folder owned by the application */
@@ -116,7 +116,7 @@ public class DesktopFolderApp : Gtk.Application {
 
         // Connect to show-desktopfolder key
         settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
-        on_show_desktopfolder_changed();
+        on_show_desktopfolder_changed ();
 
         create_shortcut ();
 
@@ -172,12 +172,13 @@ public class DesktopFolderApp : Gtk.Application {
      * @description detect when desktopfolder key is toggled
      */
     private void on_show_desktopfolder_changed () {
-        bool show_desktopfolder = settings.get_boolean(SHOW_DESKTOPFOLDER_KEY);
+        bool show_desktopfolder = settings.get_boolean (SHOW_DESKTOPFOLDER_KEY);
         if (!show_desktopfolder) {
             // requested to no longer show the desktop so let's gracefully quit
             this.quit ();
         }
     }
+
     /**
      * @name on_mount_changed
      * @description event to detect when the mount file system has been changed, probably we need to recheck files existence
