@@ -389,7 +389,7 @@ namespace DesktopFolder.DragnDrop {
                                 stderr.printf ("Error: %s\n", error.message);
                             }
                         } else {
-                            debug ("unkown action!");
+                            debug ("unknown action!");
                         }
                     }
                 }

@@ -99,7 +99,7 @@ public class DesktopFolder.PhotoManager : Object {
         var abs_path = this.get_absolute_path ();
         debug ("loading photo settings...%s", abs_path);
         if (!this.file.query_exists ()) {
-            warning ("photo file doesnt exist!");
+            warning ("photo file does not exist!");
             return false;
         } else {
             PhotoSettings existent = PhotoSettings.read_settings (this.file, this.get_photo_name ());
