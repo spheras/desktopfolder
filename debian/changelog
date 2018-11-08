@@ -1,9 +1,18 @@
+com.github.spheras.desktopfolder (1.0.10) precise; urgency=low
+
+  * Change Icon for Files and SVG selections
+  * Auto alignment for initial Files
+  * Ubuntu Budgie compatible
+  * Fully update to Gtk+3.22
+
+ -- José Amuedo <joseamuedo@gmail.com>  Thu, 7 Nov 2018 18:33:00 +0100
+
 com.github.spheras.desktopfolder (1.0.9) precise; urgency=low
 
   * juno publication bugfixing (loki branch removed to avoid mixing code)
 
  -- José Amuedo <joseamuedo@gmail.com>  Sun, 14 Oct 2018 14:11:00 +0200
- 
+
 com.github.spheras.desktopfolder (1.0.8) precise; urgency=low
 
   * minor bugfixing
