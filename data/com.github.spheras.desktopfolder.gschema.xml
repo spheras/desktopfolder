@@ -19,11 +19,6 @@
       <summary>Resolution Change Strategy</summary>
       <description>How the widgets should be adapted to different screen resolutions</description>
     </key>
-    <key name="first-folder" type="b">
-      <default>true</default>
-      <summary>Create first folder</summary>
-      <description>When first run create an initial folder on the desktop</description>
-    </key>
     <key name="show-desktopfolder" type="b">
       <default>true</default>
       <summary>Have DesktopFolder handle the desktop</summary>

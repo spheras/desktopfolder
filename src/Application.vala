@@ -384,8 +384,7 @@ public class DesktopFolderApp : Gtk.Application {
             this.photos = updated_photo_list.copy ();
 
             // by default, we create at least one folder if set by settings
-            var first_folder = settings.get_boolean ("first-folder");
-            if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0 && this.desktop == null && first_folder) {
+            if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0 && this.desktop == null) {
                 string first_panel_path         = DesktopFolderApp.get_app_folder () + "/" + DesktopFolder.Lang.APP_FIRST_PANEL;
                 DirUtils.create (first_panel_path, 0755);
                 File first_settings_file        = File.new_for_path (first_panel_path + "/.desktopfolder");
