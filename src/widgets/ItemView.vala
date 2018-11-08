@@ -189,7 +189,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     } else {
                         GLib.ThemedIcon themed = new GLib.ThemedIcon.with_default_fallbacks (gicon.to_string ());
                         var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
-                        var pixbuf             = info.load_icon ();
+                        Gdk.Pixbuf pixbuf = null;
+                        if (info == null) {
+                            // force a large icon load to ensure icons like svg's are scaled correctly later
+                            pixbuf = new Gdk.Pixbuf.from_file_at_scale (gicon.to_string (), 128, 128, true);
+                        } else {
+                            pixbuf             = info.load_icon ();
+                        }
+
                         if (pixbuf.height != ICON_WIDTH) {
                             // Some icons don't return the requested size, so we need to scale them
                             pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
@@ -716,8 +723,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         filter.add_mime_type ("image/png");
         filter.add_mime_type ("image/jpeg");
         filter.add_mime_type ("image/gif");
+        filter.add_mime_type ("image/svg+xml");
         filter.add_pattern ("*.png");
         filter.add_pattern ("*.jpg");
+        filter.add_pattern ("*.svg");
         filter.add_pattern ("*.gif");
         filter.add_pattern ("*.tif");
         filter.add_pattern ("*.xpm");
