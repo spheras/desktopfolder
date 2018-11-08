@@ -43,7 +43,7 @@ Wayland (in Ubuntu since 17.10) is not fully supported yet, and we've experience
 See the [Contributing page](https://github.com/spheras/desktopfolder/wiki/Contributing) on the wiki.
 
 ## Building and Installing
-Important! This version only works correctly with GTK library >=3.22
+Important!! This version only works correctly with GTK library >=3.22
 
 You'll need the following dependencies to build:
 
