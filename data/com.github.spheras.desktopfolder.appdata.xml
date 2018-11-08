@@ -49,6 +49,7 @@
         <description>
           <p>1.0.10 release.</p>
           <ul>
+              <li>Change Icon for Files, and SVG selections</li>
               <li>Auto alignment for initial files</li>
               <li>Ubuntu Budgie compatible</li>
               <li>fully update to Gtk+3.22</li>
