@@ -628,12 +628,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         item.show ();
         menu.append (item);
 
-        if (this.manager.is_executable ()) {
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CHANGEICON);
-            item.activate.connect ((item) => { this.change_icon (); });
-            item.show ();
-            menu.append (item);
-        }
+        // if (this.manager.is_executable ()) { //only allowing this to executable files
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CHANGEICON);
+        item.activate.connect ((item) => { this.change_icon (); });
+        item.show ();
+        menu.append (item);
+        // }
 
         menu.show_all ();
         // }
