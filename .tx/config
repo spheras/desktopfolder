@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[desktopfolder.com-github-spheras-desktopfolder-pot]
+file_filter = po/<lang>.po
+minimum_perc = 0
+source_file = po/com.github.spheras.desktopfolder.pot
+source_lang = en_US
+type = PO
+
