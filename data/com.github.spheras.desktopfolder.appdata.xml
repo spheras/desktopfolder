@@ -45,6 +45,17 @@
     </custom>
 
     <releases>
+      <release version="1.0.10" date="2018-11-07">
+        <description>
+          <p>1.0.10 release.</p>
+          <ul>
+              <li>Auto alignment for initial files</li>
+              <li>Ubuntu Budgie compatible</li>
+              <li>fully update to Gtk+3.22</li>
+              <li>Minor bugfixes and stabilization</li>
+          </ul>
+        </description>
+      </release>
 
       <release version="1.0.8" date="2018-10-15">
         <description>

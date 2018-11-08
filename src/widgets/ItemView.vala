@@ -160,8 +160,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             if (manager.get_settings ().icon != null && manager.get_settings ().icon.length > 0) {
                 // We have a custom icon
                 int        scale  = DesktopFolder.ICON_SIZE;
-                Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file (manager.get_settings ().icon);
-                custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
+                Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file_at_scale (manager.get_settings ().icon, scale, scale, true);
+                // custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
                 if (this.manager.is_link ()) {
                     icon = this.draw_link_mark_pixbuf (custom);
                 } else {
@@ -188,13 +188,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                         icon = this.draw_link_mark_gicon (gicon);
                     } else {
                         GLib.ThemedIcon themed = new GLib.ThemedIcon.with_default_fallbacks (gicon.to_string ());
-                        var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
-                        Gdk.Pixbuf pixbuf = null;
+                        var        info        = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
+                        Gdk.Pixbuf pixbuf      = null;
                         if (info == null) {
                             // force a large icon load to ensure icons like svg's are scaled correctly later
-                            pixbuf = new Gdk.Pixbuf.from_file_at_scale (gicon.to_string (), 128, 128, true);
+                            pixbuf = new Gdk.Pixbuf.from_file_at_scale (gicon.to_string (), ICON_WIDTH, ICON_WIDTH, true);
                         } else {
-                            pixbuf             = info.load_icon ();
+                            pixbuf = info.load_icon ();
                         }
 
                         if (pixbuf.height != ICON_WIDTH) {
