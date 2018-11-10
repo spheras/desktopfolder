@@ -602,15 +602,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         item.show ();
         menu.append (item);
 
-        //////////////////////////////////
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN_WITH); /* newadd */
-        string path = this.manager.get_absolute_path (); /* newadd */
-        item.activate.connect ((item) => { this.manager.openwith (path); }); /* newadd */
-        item.show (); /* newadd */
-        menu.append (item); /* newadd */
-        //////////////////////////////////
-
-
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN_WITH);
+        string path = this.manager.get_absolute_path ();
+        item.activate.connect ((item) => { this.manager.openwith (path); });
+        item.show ();
+        menu.append (item);
 
         item = new MenuItemSeparator ();
         item.show ();
