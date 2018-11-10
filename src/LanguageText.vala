@@ -114,9 +114,10 @@ namespace DesktopFolder.Lang {
     public const string NOTE_RENAME_MESSAGE   = _("Enter the new name");
     // Note - Dialog Message to DELETE the current note
     public const string NOTE_DELETE_MESSAGE   = _("This action will DELETE the Note.\n<b>Are you sure?</b>");
-
     // Item Menu - Open the file
     public const string ITEM_MENU_OPEN             = _("Open");
+    // Item Menu - Execute the file
+    public const string ITEM_MENU_OPEN_WITH       = _("Open with other application");
     // Item Menu - Execute the file
     public const string ITEM_MENU_EXECUTE          = _("Execute");
     // Item Menu - cut the file/folder
