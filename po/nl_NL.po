@@ -247,6 +247,11 @@ msgstr ""
 msgid "Open"
 msgstr "Openen"
 
+#. Item Menu - Open the file with application
+#: src/LanguageText.vala:122
+msgid "Open with other application"
+msgstr "Met andere toepassing openen"
+
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:104
 msgid "Execute"
