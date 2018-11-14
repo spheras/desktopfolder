@@ -125,7 +125,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
         ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
-        
+
 
         // Appending (in order)
         if (cm.can_paste) {

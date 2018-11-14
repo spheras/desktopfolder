@@ -323,8 +323,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @description open terminal here, works in folder & on Desktop
      */
     public void open_terminal_here (string path) {
-        Environment.set_current_dir(path);
-        Process.spawn_command_line_async("x-terminal-emulator");
+        Environment.set_current_dir (path);
+        Process.spawn_command_line_async ("x-terminal-emulator");
     }
 
     /**
@@ -354,7 +354,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // monitoring again
         this.monitor_folder ();
     }
-
 
     /**
      * @name create_new_text_file

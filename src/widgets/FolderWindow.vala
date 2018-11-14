@@ -605,7 +605,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         context_menu.append (backgroundcolor_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (openterminal_item);
-        
+
 
         context_menu.show_all ();
 
@@ -1001,7 +1001,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description Open terminal here
      */
     protected void open_terminal () {
-        string path = this.manager.get_absolute_path();
+        string path = this.manager.get_absolute_path ();
         this.manager.open_terminal_here (path);
     }
 
