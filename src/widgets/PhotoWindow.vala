@@ -537,7 +537,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             if (color != null) {
                 if (this.fixoPixbuf == null) {
                     this.fixoPixbuf = new Gdk.Pixbuf.from_resource ("/com/github/spheras/desktopfolder/fixo-" + color + ".svg");
-                    // this.fixoPixbuf=fixoPixbuf.scale_simple(100,100,Gdk.InterpType.BILINEAR);
+                    this.fixoPixbuf=fixoPixbuf.scale_simple(30,30,Gdk.InterpType.BILINEAR);
                 }
                 var fixoSurface = Gdk.cairo_surface_create_from_pixbuf (this.fixoPixbuf, 0, null);
                 cr.set_source_surface (fixoSurface, fixoMargin, fixoMargin);

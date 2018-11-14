@@ -646,7 +646,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
         // only add open-folder-in-terminal to menu if the item is a folder
         if (this.manager.is_folder ()) {
-            string open_folderpath = this.manager.get_absolute_path();
             item = new MenuItemSeparator ();
             item.show ();
             menu.append (item);
