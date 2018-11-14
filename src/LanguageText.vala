@@ -192,4 +192,6 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_CHANGEDESKTOP                = _("Change Wallpaper");
     // open terminal here
     public const string DESKTOPFOLDER_MENU_OPENTERMINAL                 = _("Open terminal here");
+    // open terminal here
+    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL                 = _("Open in terminal");
 }
