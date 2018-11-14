@@ -227,6 +227,16 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         return false;
     }
 
+    public void open_in_terminal (string path) {
+        try {
+            Environment.set_current_dir (path);
+            Process.spawn_command_line_async ("x-terminal-emulator --working-directory \"" + path + "\"");
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
+    }
+
     /**
      * @name execute
      * @description execute the file associated with this item

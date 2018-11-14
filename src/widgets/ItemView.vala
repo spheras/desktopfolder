@@ -583,6 +583,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @param EventButton event the event button that originates this context menu
      */
     private void show_popup (Gdk.EventButton event) {
+
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
 
@@ -642,6 +643,19 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         item.show ();
         menu.append (item);
         // }
+
+        // only add open-folder-in-terminal to menu if the item is a folder
+        if (this.manager.is_folder ()) {
+            string open_folderpath = this.manager.get_absolute_path();
+            item = new MenuItemSeparator ();
+            item.show ();
+            menu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL);
+            item.activate.connect ((item) => { this.manager.open_in_terminal (path); });
+            item.show ();
+            menu.append (item);
+        }
 
         menu.show_all ();
         // }
