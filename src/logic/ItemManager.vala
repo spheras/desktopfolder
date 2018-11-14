@@ -254,19 +254,19 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
 
     public void openwith (string filepath) {
         // get content type
-        File file = File.new_for_path(filepath);
+        File   file              = File.new_for_path (filepath);
         string file_content_type = "";
         try {
             file_content_type = file.query_info (
                 "*", FileQueryInfoFlags.NONE
-                ).get_content_type();
+                ).get_content_type ();
         } catch (Error e) {
             file_content_type = "Unknown";
         }
         // open dialog
         var dialog = new DesktopFolder.Dialogs.OpenWith (
             file_content_type, filepath
-        );
+            );
     }
 
     /**

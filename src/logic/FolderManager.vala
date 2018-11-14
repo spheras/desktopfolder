@@ -319,6 +319,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name open_terminal_here
+     * @description open terminal here, works in folder & on Desktop
+     */
+    public void open_terminal_here (string path) {
+        Environment.set_current_dir (path);
+        Process.spawn_command_line_async ("x-terminal-emulator");
+    }
+
+    /**
      * @name create_new_folder_inside
      * @description function to create inside the recent created folder whatever is needed
      * @param {string} folder_path the folder which is being created

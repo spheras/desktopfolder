@@ -36,8 +36,12 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     // flag to know if the window is being resized
     private bool flag_resizing = false;
     private uint timeout_id    = 0;
+    // flag to know if the mouse is over the Window
+    private bool flag_over     = false;
     /** flag to know if the window was painted /packed already */
     private bool flag_realized = false;
+    /** flag to know if the window is being dragged */
+    private bool flag_dragged  = false;
 
     construct {
         set_keep_below (true);
@@ -96,11 +100,21 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // connecting to events
         this.configure_event.connect (this.on_configure);
         this.motion_notify_event.connect ((event) => {
+            this.flag_dragged = false;
             // forzing to draw the borders background
-            this.flag_resizing = true;
+            this.flag_over = true;
             this.queue_draw ();
             return true;
         });
+        this.leave_notify_event.connect ((event) => {
+            var is_dragging_window = (event.detail == 3 && this.flag_dragged);
+            if (!is_dragging_window) {
+                this.flag_over = false;
+                this.queue_draw ();
+            }
+            return true;
+        });
+
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
         this.draw.connect (this.draw_background);
@@ -256,13 +270,15 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             return true;
         } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button == Gdk.BUTTON_PRIMARY)) {
-            this.flag_resizing = true;
             int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
             int margin = 30;
             // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
             if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
+                this.flag_dragged = true;
                 this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+            } else {
+                this.flag_resizing = true;
             }
         }
         return false;
@@ -426,16 +442,26 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             }
 
             // debug ("pixwidth:%d, pixheight:%d", pixwidth, pixheight);
-            if (this.flag_resizing) {
-                cr.set_source_rgba (0, 0, 0, 0.2);
+            if (this.flag_resizing || this.flag_over) {
+                if (this.flag_resizing) {
+                    cr.set_source_rgba (0, 0, 0, 0.4);
+                } else {
+                    cr.set_source_rgba (0, 0, 0, 0.2);
+                }
                 cr.rectangle (0, 0, width, height);
                 cr.fill ();
+            } else {
+                cr.set_source_rgba (255, 0, 0, 0);
+                cr.rectangle (0, 0, width, height);
+                cr.fill ();
+            }
 
+            if (this.flag_resizing) {
                 if (this.timeout_id > 0) {
                     GLib.Source.remove (this.timeout_id);
                     this.timeout_id = 0;
                 }
-                this.timeout_id = GLib.Timeout.add (2000, () => {
+                this.timeout_id = GLib.Timeout.add (1000, () => {
                     // we force to resize to adapt to the image size, (to maintain aspect ratio)
                     // this.resize (pixwidth + margin, pixheight + margin);
                     this.flag_resizing = false;
@@ -447,10 +473,6 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     this.save_current_position_and_size ();
                     return false;
                 });
-            } else {
-                cr.set_source_rgba (255, 0, 0, 0);
-                cr.rectangle (0, 0, width, height);
-                cr.fill ();
             }
 
             // drawing the shadow

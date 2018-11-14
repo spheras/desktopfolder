@@ -97,27 +97,27 @@ namespace DesktopFolder.Lang {
     // desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
     public const string NOTE_ENTER_NAME                          = _("Enter the name");
     // desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
-    public const string NOTE_NEW              = _("New Note");
+    public const string NOTE_NEW                   = _("New Note");
     // Note - popup option to set the paper texture or not
-    public const string NOTE_MENU_PAPER_NOTE  = _("Paper Texture");
+    public const string NOTE_MENU_PAPER_NOTE       = _("Paper Texture");
     // Note - popup option to set allways on top or not
-    public const string NOTE_MENU_ON_TOP      = _("Always on top");
+    public const string NOTE_MENU_ON_TOP           = _("Always on top");
     // Note - popup option to set allways on back or not
-    public const string NOTE_MENU_ON_BACK     = _("Always on back");
+    public const string NOTE_MENU_ON_BACK          = _("Always on back");
     // Menu popup option to rename the note
-    public const string NOTE_MENU_RENAME_NOTE = _("Rename Note");
+    public const string NOTE_MENU_RENAME_NOTE      = _("Rename Note");
     // Menu popup option to delete the note
-    public const string NOTE_MENU_DELETE_NOTE = _("Move to Trash");
+    public const string NOTE_MENU_DELETE_NOTE      = _("Move to Trash");
     // Note - Dialog Title Message to rename the current note
-    public const string NOTE_RENAME_TITLE     = _("Rename Note");
+    public const string NOTE_RENAME_TITLE          = _("Rename Note");
     // Note - Dialog Message to rename the current note
-    public const string NOTE_RENAME_MESSAGE   = _("Enter the new name");
+    public const string NOTE_RENAME_MESSAGE        = _("Enter the new name");
     // Note - Dialog Message to DELETE the current note
-    public const string NOTE_DELETE_MESSAGE   = _("This action will DELETE the Note.\n<b>Are you sure?</b>");
+    public const string NOTE_DELETE_MESSAGE        = _("This action will DELETE the Note.\n<b>Are you sure?</b>");
     // Item Menu - Open the file
     public const string ITEM_MENU_OPEN             = _("Open");
     // Item Menu - Execute the file
-    public const string ITEM_MENU_OPEN_WITH       = _("Open with other application");
+    public const string ITEM_MENU_OPEN_WITH        = _("Open with other application");
     // Item Menu - Execute the file
     public const string ITEM_MENU_EXECUTE          = _("Execute");
     // Item Menu - cut the file/folder
@@ -190,4 +190,6 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_RESOLUTION_STRATEGY_STORE       = _("Store");
     // change desktop menu
     public const string DESKTOPFOLDER_MENU_CHANGEDESKTOP                = _("Change Wallpaper");
+    // open terminal here
+    public const string DESKTOPFOLDER_MENU_OPENTERMINAL                 = _("Open terminal here");
 }

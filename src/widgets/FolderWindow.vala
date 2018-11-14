@@ -533,6 +533,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
         var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
         var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
         // var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         var trash_item  = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
@@ -552,6 +553,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
+        openterminal_item.activate.connect (this.open_terminal);
 
         // ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         // ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
@@ -601,6 +603,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
         context_menu.append (backgroundcolor_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (openterminal_item);
+
 
         context_menu.show_all ();
 
@@ -989,6 +994,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_photo () {
         DesktopFolder.Util.create_new_photo (this);
+    }
+
+    /**
+     * @name open_terminal
+     * @description Open terminal here
+     */
+    protected void open_terminal () {
+        string path = this.manager.get_absolute_path ();
+        this.manager.open_terminal_here (path);
     }
 
     /**

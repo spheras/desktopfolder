@@ -25,26 +25,26 @@ namespace DesktopFolder.Dialogs {
 
     public class OpenWith : Gtk.AppChooserDialog  {
         public OpenWith (string content_type, string path) {
-            string cleaned_path = "'" + path.replace("'", "'\\''") + "'";
-            var dialog = new Gtk.AppChooserDialog.for_content_type(
+            string cleaned_path = "'" + path.replace ("'", "'\\''") + "'";
+            var    dialog       = new Gtk.AppChooserDialog.for_content_type (
                 this, 0, content_type
-            );
+                );
             if (dialog.run () == Gtk.ResponseType.OK) {
                 AppInfo info = dialog.get_app_info ();
                 if (info != null) {
                     try {
-                        Process.spawn_command_line_async(
+                        Process.spawn_command_line_async (
                             info.get_executable () + " " + cleaned_path);
-                    }
-                    catch (SpawnError e) {
+                    } catch (SpawnError e) {
                         // nothing to be done
                     }
                 }
             }
             dialog.close ();
         }
+
     }
-    
+
     public class PanelProperties : Gtk.Dialog {
         private enum ResolutionStrategy {
             NONE,
