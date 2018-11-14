@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-10 23:49+0000\n"
+"POT-Creation-Date: 2018-11-14 12:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:449 src/LanguageText.vala:46
-#: src/utils/Util.vala:227
-msgid "Panel"
-msgstr ""
-
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:269 src/LanguageText.vala:60
 #: src/utils/Util.vala:351
 msgid "Note"
+msgstr ""
+
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/logic/FolderManager.vala:458 src/LanguageText.vala:46
+#: src/utils/Util.vala:227
+msgid "Panel"
 msgstr ""
 
 #. Application Description
@@ -427,6 +427,11 @@ msgstr ""
 #. change desktop menu
 #: src/LanguageText.vala:192
 msgid "Change Wallpaper"
+msgstr ""
+
+#. open terminal here
+#: src/LanguageText.vala:194
+msgid "Open terminal here"
 msgstr ""
 
 #: src/utils/Util.vala:390 src/utils/Util.vala:413
