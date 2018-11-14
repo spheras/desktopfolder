@@ -164,7 +164,7 @@ namespace DesktopFolder.Lang {
     public const string PHOTO_SELECT_PHOTO_MESSAGE                      = _("Select the picture to show");
     // desktopfolder menu - create a new empty Text File
     public const string DESKTOPFOLDER_MENU_NEW_SUBMENU                  = _("New");
-    // file properties - Properties section
+    // panel properties - Properties section
     public const string PANELPROPERTIES_PROPERTIES                      = _("Properties");
     // panel properties - General section
     public const string PANELPROPERTIES_GENERAL                         = _("General");

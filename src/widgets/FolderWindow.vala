@@ -553,7 +553,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
-        openterminal_item.activate.connect (this.open_terminal); // waarom werkt dit niet? verkeerde directory! waar ligt dat?
+        openterminal_item.activate.connect (this.open_terminal);
 
         // ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         // ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
