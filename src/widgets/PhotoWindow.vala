@@ -479,7 +479,15 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             if (this.manager.get_settings ().fixocolor == 0) {
                 if (this.shadowSurface == null) {
                     var shadowPixbuf = new Gdk.Pixbuf.from_resource ("/com/github/spheras/desktopfolder/shadow.png");
-                    shadowPixbuf       = shadowPixbuf.scale_simple (pixwidth, 40, Gdk.InterpType.BILINEAR);
+                    var shadowHeight = 40;
+                    if (pixwidth < 100 || pixheight < 100) {
+                        if (pixwidth < pixheight) {
+                            shadowHeight = (int) (shadowHeight * (pixwidth / 100f));
+                        } else {
+                            shadowHeight = (int) (shadowHeight * (pixheight / 100f));
+                        }
+                    }
+                    shadowPixbuf       = shadowPixbuf.scale_simple (pixwidth, shadowHeight, Gdk.InterpType.BILINEAR);
                     this.shadowSurface = Gdk.cairo_surface_create_from_pixbuf (shadowPixbuf, 0, null);
                 }
                 cr.set_source_surface (this.shadowSurface, halfmargin, pixheight + 20);
@@ -499,11 +507,13 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             cr.paint ();
 
             // lets draw the fixo
-            int fixoWidth  = 56;
-            int fixoHeight = 56;
-            int fixoMargin = 4;
-            int fixocolor  = this.manager.get_settings ().fixocolor;
-            var color      = "";
+            int defaultFixoWidth  = 56;
+            int defaultFixoHeight = 56;
+            int fixoWidth         = 56;
+            int fixoHeight        = 56;
+            int fixoMargin        = 4;
+            int fixocolor         = this.manager.get_settings ().fixocolor;
+            var color             = "";
             switch (fixocolor) {
             case 0:
                 color = null;
@@ -537,25 +547,52 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             if (color != null) {
                 if (this.fixoPixbuf == null) {
                     this.fixoPixbuf = new Gdk.Pixbuf.from_resource ("/com/github/spheras/desktopfolder/fixo-" + color + ".svg");
-                    this.fixoPixbuf=fixoPixbuf.scale_simple(30,30,Gdk.InterpType.BILINEAR);
+
+                    var fixoWidthScaled  = fixoWidth;
+                    var fixoHeightScaled = fixoHeight;
+                    if (pixwidth < 100 || pixheight < 100) {
+                        if (pixwidth < pixheight) {
+                            fixoWidthScaled  = fixoWidth * pixwidth / 100;
+                            fixoHeightScaled = fixoWidthScaled;
+                        } else {
+                            fixoHeightScaled = fixoHeight * pixheight / 100;
+                            fixoWidthScaled  = fixoHeightScaled;
+                        }
+                        this.fixoPixbuf = fixoPixbuf.scale_simple (fixoWidthScaled, fixoHeightScaled, Gdk.InterpType.BILINEAR);
+                        fixoWidth       = fixoWidthScaled;
+                        fixoHeight      = fixoHeightScaled;
+                    }
+
+                } else {
+                    fixoWidth  = this.fixoPixbuf.get_width ();
+                    fixoHeight = this.fixoPixbuf.get_height ();
                 }
+
                 var fixoSurface = Gdk.cairo_surface_create_from_pixbuf (this.fixoPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, fixoMargin, fixoMargin);
+                var fixoLeft    = fixoMargin + (defaultFixoWidth - fixoWidth) / 2.5;
+                var fixoTop     = fixoMargin + (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
 
                 var rotatedPixbuf = this.fixoPixbuf.rotate_simple (Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface = Gdk.cairo_surface_create_from_pixbuf (rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, pixwidth + margin - fixoWidth - fixoMargin, fixoMargin);
+                fixoLeft    = pixwidth + margin - fixoWidth - fixoMargin - (defaultFixoWidth - fixoWidth) / 2.5;
+                fixoTop     = fixoMargin + (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
 
                 rotatedPixbuf = rotatedPixbuf.rotate_simple (Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface   = Gdk.cairo_surface_create_from_pixbuf (rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, pixwidth + margin - fixoWidth - fixoMargin, pixheight + margin - fixoHeight - fixoMargin);
+                fixoLeft      = pixwidth + margin - fixoWidth - fixoMargin - (defaultFixoWidth - fixoWidth) / 2.5;
+                fixoTop       = pixheight + margin - fixoHeight - fixoMargin - (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
 
                 rotatedPixbuf = rotatedPixbuf.rotate_simple (Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface   = Gdk.cairo_surface_create_from_pixbuf (rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, fixoMargin, pixheight + margin - fixoHeight - fixoMargin);
+                fixoLeft      = fixoMargin + (defaultFixoWidth - fixoWidth) / 2.5;
+                fixoTop       = pixheight + margin - fixoHeight - fixoMargin - (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
             }
 
