@@ -593,10 +593,18 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         if (this.manager.is_executable ()) {
             label = DesktopFolder.Lang.ITEM_MENU_EXECUTE;
         }
+
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (label);
         item.activate.connect ((item) => {
             this.manager.execute ();
         });
+
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN_WITH);
+        string path = this.manager.get_absolute_path ();
+        item.activate.connect ((item) => { this.manager.openwith (path); });
         item.show ();
         menu.append (item);
 
