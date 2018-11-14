@@ -95,6 +95,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         var properties_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP);
         var desktop_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_CHANGEDESKTOP);
+        var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
         // var aligntogrid_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
         // var lockitems_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
@@ -111,6 +112,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
+        openterminal_item.activate.connect (this.open_terminal);
 
         // ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
         // ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
@@ -123,6 +125,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
         ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
+        
 
         // Appending (in order)
         if (cm.can_paste) {
@@ -156,9 +159,9 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (properties_item);
         context_menu.append (desktop_item);
-
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (openterminal_item);
         context_menu.show_all ();
-
         context_menu.popup_at_pointer (null);
     }
 
