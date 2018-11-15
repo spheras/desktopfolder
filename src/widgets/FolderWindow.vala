@@ -1124,7 +1124,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @bool @see draw signal
      */
     private bool draw_background (Cairo.Context cr) {
-// util code to draw the whole window background (which contains also the decoration and you can size it)
+        // util code to draw the whole window background (which contains also the decoration and you can size it)
         // cr.rectangle(0,0,10000,10000);
         // cr.set_source_rgba (1, 1, 1, 0.2);
         // cr.fill();
