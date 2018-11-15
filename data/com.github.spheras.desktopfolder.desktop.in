@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=Desktop Folder
-Comment=Organize your desktop with panels, notes and photos
+_Name=Desktop Folder
+_Comment=Organize your desktop with panels, notes and photos
 Exec=com.github.spheras.desktopfolder
 Icon=com.github.spheras.desktopfolder
 Keywords=desktop;folder;file;organize;

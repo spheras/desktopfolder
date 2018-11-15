@@ -1,26 +1,41 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.spheras.desktopfolder package.
-# Moo, 2017.
-#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Moo, 2018
+# David Mohammed <fossfreedom@ubuntu.com>, 2018
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: com.github.spheras.desktopfolder\n"
+"Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-17 10:33+0200\n"
-"PO-Revision-Date: 2018-09-17 10:50+0200\n"
-"Last-Translator: Moo\n"
-"Language-Team: \n"
-"Language: lt\n"
+"POT-Creation-Date: 2018-11-15 09:14+0000\n"
+"PO-Revision-Date: 2018-11-08 12:46+0000\n"
+"Last-Translator: David Mohammed <fossfreedom@ubuntu.com>, 2018\n"
+"Language-Team: Lithuanian (https://www.transifex.com/ubuntu-budgie/teams/72251/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#. desktopfolder menu - create a new Note
+#: src/logic/NoteManager.vala:269 src/LanguageText.vala:60
+#: src/utils/Util.vala:351
+msgid "Note"
+msgstr "Pastabos"
+
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/logic/FolderManager.vala:463 src/LanguageText.vala:46
+#: src/utils/Util.vala:227
+msgid "Panel"
+msgstr "Skydelis"
 
 #. Application Description
-#: src/LanguageText.vala:3
+#: src/LanguageText.vala:20
 msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
@@ -29,213 +44,212 @@ msgstr ""
 " Tvarkykite failus darbalaukyje, naudodami polangius."
 
 #. Generic Dialog OK Button
-#: src/LanguageText.vala:5
+#: src/LanguageText.vala:22
 msgid "_Ok"
 msgstr "_Gerai"
 
 #. Generic Dialog CANCEL Button
-#: src/LanguageText.vala:7
+#: src/LanguageText.vala:24
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
 #. Generic Dialog Select Button
-#: src/LanguageText.vala:9
+#: src/LanguageText.vala:26
 msgid "_Select"
 msgstr "_Pasirinkti"
 
 #. Trying to paste and the clipboard is empty
-#: src/LanguageText.vala:11
+#: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
 msgstr "Iškarpinėje nieko nėra"
 
 #. Dialog Error Title: Invalid Filename provided
-#: src/LanguageText.vala:13
+#: src/LanguageText.vala:30
 msgid "Cannot drop this file"
 msgstr "Nepavyksta vilkti šį failą"
 
 #. Dialog Error Message while trying to drop
-#: src/LanguageText.vala:15
+#: src/LanguageText.vala:32
 msgid "Invalid file name provided"
 msgstr "Pateiktas neteisingas failo pavadinimas"
 
 #. Title dialog for File Operations
-#: src/LanguageText.vala:17
+#: src/LanguageText.vala:34
 msgid "File Operations"
 msgstr "Failų operacijos"
 
 #. Copying File message for progress dialog
-#: src/LanguageText.vala:19
+#: src/LanguageText.vala:36
 msgid "Copying"
 msgstr "Kopijavimas"
 
 #. Drop Menu - Copy
-#: src/LanguageText.vala:21
+#: src/LanguageText.vala:38
 msgid "Copy Here"
 msgstr "Kopijuoti čia"
 
 #. Drop Menu - Move
-#: src/LanguageText.vala:23
+#: src/LanguageText.vala:40
 msgid "Move Here"
 msgstr "Perkelti čia"
 
 #. Drop Menu - Link
-#: src/LanguageText.vala:25
+#: src/LanguageText.vala:42
 msgid "Link Here"
 msgstr "Sukurti čia nuorodą"
 
 #. Drop Menu - Cancel
-#: src/LanguageText.vala:27
+#: src/LanguageText.vala:44
 msgid "Cancel"
 msgstr "Atsisakyti"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/LanguageText.vala:29
-msgid "Panel"
-msgstr "Skydelis"
-
-#. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/LanguageText.vala:31
+#: src/LanguageText.vala:48
 msgid "Link Panel"
 msgstr "Susieti skydelį"
 
 #. desktopfolder menu - enable/disable alignment to grid
-#: src/LanguageText.vala:33
+#: src/LanguageText.vala:50
 msgid "Align to Grid"
 msgstr "Lygiuoti tinkleliu"
 
 #. desktopfolder menu - enable/disable lock items
-#: src/LanguageText.vala:35
+#: src/LanguageText.vala:52
 msgid "Lock Items"
 msgstr "Užrakinti elementus"
 
 #. desktopfolder menu - enable/disable lock panel
-#: src/LanguageText.vala:37
+#: src/LanguageText.vala:54
 msgid "Lock Panel"
 msgstr "Užrakinti skydelį"
 
 #. desktopfolder menu - enable/disable text shadows
-#: src/LanguageText.vala:39
+#: src/LanguageText.vala:56
 msgid "Text Shadow"
 msgstr "Teksto šešėlis"
 
 #. desktopfolder menu - enable/disable text bolds
-#: src/LanguageText.vala:41
+#: src/LanguageText.vala:58
 msgid "Text Bold"
 msgstr "Pusjuodis tekstas"
 
-#. desktopfolder menu - create a new Note
-#: src/LanguageText.vala:43
-msgid "Note"
-msgstr "Pastabos"
-
 #. desktopfolder menu - create a new Folder
-#: src/LanguageText.vala:45
+#: src/LanguageText.vala:62
 msgid "Folder"
 msgstr "Aplankas"
 
 #. desktopfolder menu - create a new empty Text File
-#: src/LanguageText.vala:47
+#: src/LanguageText.vala:64
 msgid "Empty File"
 msgstr "Tuščias failas"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
-#: src/LanguageText.vala:49
+#: src/LanguageText.vala:66
 msgid "Rename Panel"
 msgstr "Pervadinti skydelį"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
-#: src/LanguageText.vala:51
+#: src/LanguageText.vala:68
 msgid "Move Panel to Trash"
 msgstr "Perkelti skydelį į šiukšlinę"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
-#: src/LanguageText.vala:53
+#: src/LanguageText.vala:70
 msgid "Paste"
 msgstr "Įdėti"
 
-#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
-#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:55 src/LanguageText.vala:59
+#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new
+#. name
+#. desktopfolder - Title for a Dialog Text to ask the new name for the
+#. Desktop-Folder
+#: src/LanguageText.vala:72 src/LanguageText.vala:76
 msgid "New Panel"
 msgstr "Naujas skydelis"
 
 #. desktopfolder - Dialog Message to rename the current Desktop-Folder
 #. Note - Dialog Message to rename the current note
 #. Item - Rename Dialog Message
-#: src/LanguageText.vala:57 src/LanguageText.vala:97 src/LanguageText.vala:126
+#: src/LanguageText.vala:74 src/LanguageText.vala:114
+#: src/LanguageText.vala:144
 msgid "Enter the new name"
 msgstr "Įveskite naują pavadinimą"
 
 #. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for a folder inside a
+#. Desktop-Folder
+#. desktopfolder - Dialog Text to ask the new name for a text file inside a
+#. Desktop-Folder
 #. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:61 src/LanguageText.vala:65 src/LanguageText.vala:71
-#: src/LanguageText.vala:81
+#: src/LanguageText.vala:78 src/LanguageText.vala:82 src/LanguageText.vala:88
+#: src/LanguageText.vala:98
 msgid "Enter the name"
 msgstr "Įveskite pavadinimą"
 
-#. desktopfolder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
-#: src/LanguageText.vala:63
+#. desktopfolder - Title for Dialog to ask the new name for a folder inside a
+#. Desktop-Folder
+#: src/LanguageText.vala:80
 msgid "New Folder"
 msgstr "Naujas aplankas"
 
 #. desktopfolder - The default name for the new folder to be created
-#: src/LanguageText.vala:67
+#: src/LanguageText.vala:84
 msgid "new folder"
 msgstr "naujas aplankas"
 
-#. desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
-#: src/LanguageText.vala:69
+#. desktopfolder - Dialog Title to ask the new name for a text file inside a
+#. Desktop-Folder
+#: src/LanguageText.vala:86
 msgid "New Text File"
 msgstr "Naujas tekstinis failas"
 
 #. desktopfolder - The default name for the new text file to be created
-#: src/LanguageText.vala:73
+#: src/LanguageText.vala:90
 msgid "new.txt"
 msgstr "naujas.txt"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
-#: src/LanguageText.vala:75 src/LanguageText.vala:93
+#: src/LanguageText.vala:92 src/LanguageText.vala:110
 msgid "Move to Trash"
 msgstr "Perkelti į šiukšlinę"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. panel properties - Properties section
-#: src/LanguageText.vala:77 src/LanguageText.vala:150
+#: src/LanguageText.vala:94 src/LanguageText.vala:168
 msgid "Properties"
 msgstr "Savybės"
 
-#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
-#: src/LanguageText.vala:79 src/LanguageText.vala:83
+#. desktopfolder - Title for a Dialog Text to ask the new name for the
+#. Desktop-Folder
+#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new
+#. name
+#: src/LanguageText.vala:96 src/LanguageText.vala:100
 msgid "New Note"
 msgstr "Naujos pastabos"
 
 #. Note - popup option to set the paper texture or not
-#: src/LanguageText.vala:85
+#: src/LanguageText.vala:102
 msgid "Paper Texture"
 msgstr "Popieriaus tekstūra"
 
 #. Note - popup option to set allways on top or not
-#: src/LanguageText.vala:87
+#: src/LanguageText.vala:104
 msgid "Always on top"
 msgstr "Visada viršuje"
 
 #. Note - popup option to set allways on back or not
-#: src/LanguageText.vala:89
+#: src/LanguageText.vala:106
 msgid "Always on back"
 msgstr "Visada fone"
 
 #. Menu popup option to rename the note
 #. Note - Dialog Title Message to rename the current note
-#: src/LanguageText.vala:91 src/LanguageText.vala:95
+#: src/LanguageText.vala:108 src/LanguageText.vala:112
 msgid "Rename Note"
 msgstr "Pervadinti pastabas"
 
 #. Note - Dialog Message to DELETE the current note
-#: src/LanguageText.vala:99
+#: src/LanguageText.vala:116
 msgid ""
 "This action will DELETE the Note.\n"
 "<b>Are you sure?</b>"
@@ -244,42 +258,47 @@ msgstr ""
 "<b>Ar esate tikri?</b>"
 
 #. Item Menu - Open the file
-#: src/LanguageText.vala:102
+#: src/LanguageText.vala:118
 msgid "Open"
 msgstr "Atverti"
 
 #. Item Menu - Execute the file
-#: src/LanguageText.vala:104
+#: src/LanguageText.vala:120
+msgid "Open with other application"
+msgstr ""
+
+#. Item Menu - Execute the file
+#: src/LanguageText.vala:122
 msgid "Execute"
 msgstr "Vykdyti"
 
 #. Item Menu - cut the file/folder
-#: src/LanguageText.vala:106
+#: src/LanguageText.vala:124
 msgid "Cut"
 msgstr "Iškirpti"
 
 #. Item Menu - copy the file/folder
-#: src/LanguageText.vala:108
+#: src/LanguageText.vala:126
 msgid "Copy"
 msgstr "Kopijuoti"
 
 #. Item Menu - rename the file/folder
-#: src/LanguageText.vala:110
+#: src/LanguageText.vala:128
 msgid "Rename"
 msgstr "Pervadinti"
 
 #. Item Menu - delete the file/folder
-#: src/LanguageText.vala:112
+#: src/LanguageText.vala:130
 msgid "Delete"
 msgstr "Ištrinti"
 
 #. Item Menu - change icon
-#: src/LanguageText.vala:114
+#: src/LanguageText.vala:132
 msgid "Change Icon"
 msgstr "Pakeisti piktogramą"
 
 #. Item - Delete Folder Item Dialog message
-#: src/LanguageText.vala:116
+#: src/LanguageText.vala:134
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
@@ -288,7 +307,7 @@ msgstr ""
 "<b>Ar esate tikri?</b>"
 
 #. Item - Delete File Item Dialog message
-#: src/LanguageText.vala:118
+#: src/LanguageText.vala:136
 msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
@@ -297,7 +316,7 @@ msgstr ""
 "<b>Ar esate tikri?</b>"
 
 #. Item - Delete File Link Dialog message
-#: src/LanguageText.vala:120
+#: src/LanguageText.vala:138
 msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
@@ -306,49 +325,49 @@ msgstr ""
 "<b>Ar esate tikri?</b>"
 
 #. Item - Change icon dialog message to select an image file
-#: src/LanguageText.vala:122
+#: src/LanguageText.vala:140
 msgid "Select the image icon to be used."
 msgstr "Pasirinkite norimą naudoti piktogramą."
 
 #. Item - Rename Dialog Title
-#: src/LanguageText.vala:124
+#: src/LanguageText.vala:142
 msgid "Rename Item"
 msgstr "Pervadinti elementą"
 
 #. Name of the first desktop-folder panel, when no panels found
-#: src/LanguageText.vala:128
+#: src/LanguageText.vala:146
 msgid "My First Panel"
 msgstr "Mano pirmasis skydelis"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
-#: src/LanguageText.vala:132
+#: src/LanguageText.vala:150
 msgid "Link to File"
 msgstr "Nuoroda į failą"
 
 #. Menu option to create a link to a folder
-#: src/LanguageText.vala:134
+#: src/LanguageText.vala:152
 msgid "Link to Folder"
 msgstr "Nuorodą į aplanką"
 
 #. Dialog message to create a new link
-#: src/LanguageText.vala:136
+#: src/LanguageText.vala:154
 msgid "Select the destination file/folder of the link"
 msgstr "Pasirinkite nuorodos paskirties failą/aplanką"
 
 #. Dialog message to create a new link panel
-#: src/LanguageText.vala:138
+#: src/LanguageText.vala:156
 msgid "Select the destination folder for the Panel"
 msgstr "Pasirinkite paskirties aplanką skydeliui"
 
 #. Menu popup option to remove a photo
-#: src/LanguageText.vala:140
+#: src/LanguageText.vala:158
 msgid "Remove"
 msgstr "Pašalinti"
 
 #. Note - Dialog Message to DELETE the current photo
-#: src/LanguageText.vala:142
+#: src/LanguageText.vala:160
 msgid ""
 "This action will DELETE the Photo.\n"
 "<b>Are you sure?</b>"
@@ -357,47 +376,47 @@ msgstr ""
 "<b>Ar esate tikri?</b>"
 
 #. desktopfolder menu - create a new Photo
-#: src/LanguageText.vala:144
+#: src/LanguageText.vala:162
 msgid "Photo"
 msgstr "Nuotrauka"
 
 #. dialog message to select an image file to be shown at the desktop
-#: src/LanguageText.vala:146
+#: src/LanguageText.vala:164
 msgid "Select the picture to show"
 msgstr "Pasirinkite nuotrauką, kurią rodyti"
 
 #. desktopfolder menu - create a new empty Text File
-#: src/LanguageText.vala:148
+#: src/LanguageText.vala:166
 msgid "New"
 msgstr "Naujas"
 
 #. panel properties - General section
-#: src/LanguageText.vala:152
+#: src/LanguageText.vala:170
 msgid "General"
 msgstr "Bendra"
 
 #. panel properties - Behavior section
-#: src/LanguageText.vala:154
+#: src/LanguageText.vala:172
 msgid "Behavior"
 msgstr "Elgsena"
 
 #. panel properties - Interface section
-#: src/LanguageText.vala:156
+#: src/LanguageText.vala:174
 msgid "Interface"
 msgstr "Sąsaja"
 
 #. panel properties - Close button
-#: src/LanguageText.vala:158
+#: src/LanguageText.vala:176
 msgid "Close"
 msgstr "Užverti"
 
 #. panel properties - Panel over Desktop title
-#: src/LanguageText.vala:160
+#: src/LanguageText.vala:178
 msgid "Panel Over Desktop"
 msgstr "Skydelis virš darbalaukio"
 
 #. panel properties - Panel over desktop description
-#: src/LanguageText.vala:162
+#: src/LanguageText.vala:180
 msgid ""
 "Activating this you will have a transparent background panel over your "
 "desktop. This change will require relogin into your system."
@@ -406,65 +425,60 @@ msgstr ""
 "pakeitimas reikalauja, kad atsijungtumėte ir prisijungtumėte iš naujo."
 
 #. panel properties - Resolution Strategy title
-#: src/LanguageText.vala:164
+#: src/LanguageText.vala:182
 msgid "Resolution Strategy"
 msgstr "Raiškos strategija"
 
 #. panel properties - Resolution Strategy Description
-#: src/LanguageText.vala:166
+#: src/LanguageText.vala:184
 msgid ""
 "This is how all the widgets behave when a new screen resolution is found, "
 "doing nothing, storing and restoring the new resolution positions, or "
 "scaling the positions."
 msgstr ""
-"Tai yra tai, kaip visi valdikliai elgsis, aptikus naują ekrano raišką: nieko "
-"nedarys, išsaugos ir atkurs naujos raiškos pozicijas ar keis pozicijų "
+"Tai yra tai, kaip visi valdikliai elgsis, aptikus naują ekrano raišką: nieko"
+" nedarys, išsaugos ir atkurs naujos raiškos pozicijas ar keis pozicijų "
 "mastelį."
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:168
+#: src/LanguageText.vala:186
 msgid "None"
 msgstr "Nėra"
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:170
+#: src/LanguageText.vala:188
 msgid "Scale"
 msgstr "Keisti mastelį"
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:172
+#: src/LanguageText.vala:190
 msgid "Store"
 msgstr "Išsaugoti"
 
 #. change desktop menu
-#: src/LanguageText.vala:174
+#: src/LanguageText.vala:192
 msgid "Change Wallpaper"
-msgstr "Pakeisti tapetai"
+msgstr "Pakeisti darbalaukio foną"
 
-#~ msgid ""
-#~ "This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"
-#~ "<b>Are you sure?</b>"
-#~ msgstr ""
-#~ "Šis veiksmas IŠTRINS DARBALAUKIO APLANKĄ ir VISUS jame esančius failus.\n"
-#~ "<b>Ar esate tikri?</b>"
+#. open terminal here
+#: src/LanguageText.vala:194
+msgid "Open terminal here"
+msgstr ""
 
-#~ msgid "Rename this Panel"
-#~ msgstr "Pervadinti šį skydelį"
+#. open terminal here
+#: src/LanguageText.vala:196
+msgid "Open in terminal"
+msgstr ""
 
-#~ msgid "Delete this Panel"
-#~ msgstr "Ištrinti šį skydelį"
+#: src/utils/Util.vala:390 src/utils/Util.vala:413
+#, c-format
+msgid "Could not create \"%'s\""
+msgstr ""
 
-#~ msgid "About"
-#~ msgstr "Apie"
+#: src/utils/Util.vala:392
+msgid " already exists."
+msgstr ""
 
-#~ msgid "Rename this Note"
-#~ msgstr "Pervadinti šias pastabas"
-
-#~ msgid "Delete This Note"
-#~ msgstr "Ištrinti šias pastabas"
-
-#~ msgid "Press ⌘-D to Show Desktop"
-#~ msgstr "Norėdami rodyti darbalaukį, paspauskite ⌘-D"
-
-#~ msgid "Delete this Photo"
-#~ msgstr "Ištrinti šią nuotrauką"
+#: src/utils/Util.vala:415
+msgid "Name is invalid."
+msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-15 09:14+0000\n"
+"POT-Creation-Date: 2018-11-15 10:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -450,4 +450,12 @@ msgstr ""
 
 #: src/utils/Util.vala:415
 msgid "Name is invalid."
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+msgid "Desktop Folder"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.desktop.in.h:2
+msgid "Organize your desktop with panels, notes and photos"
 msgstr ""
