@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-14 12:19+0000\n"
+"POT-Creation-Date: 2018-11-15 09:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgid "Note"
 msgstr ""
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:458 src/LanguageText.vala:46
+#: src/logic/FolderManager.vala:463 src/LanguageText.vala:46
 #: src/utils/Util.vala:227
 msgid "Panel"
 msgstr ""
@@ -432,6 +432,11 @@ msgstr ""
 #. open terminal here
 #: src/LanguageText.vala:194
 msgid "Open terminal here"
+msgstr ""
+
+#. open terminal here
+#: src/LanguageText.vala:196
+msgid "Open in terminal"
 msgstr ""
 
 #: src/utils/Util.vala:390 src/utils/Util.vala:413
