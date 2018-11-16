@@ -1,5 +1,5 @@
 name: desktopfolder # you probably want to 'snapcraft register <name>'
-version: '1.0.5' # just for humans, typically '1.2+git' or '1.3.2'
+version: '1.0.10' # just for humans, typically '1.2+git' or '1.3.2'
 summary: Bring your desktop back to life # 79 char long summary
 description: |
   This is my-snap's description. You have a paragraph or two to tell the
@@ -8,12 +8,38 @@ description: |
   store.
 icon: data/icons/128/com.github.spheras.desktopfolder.svg
 
+base: core18
+
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+plugs:
+  gnome-3-28-1804:
+    interface: content
+    target: gnome-platform
+    default-provider: gnome-3-28-1804:gnome-3-28-1804
+    content: gnome-3-28-1804
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes:gtk-3-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes:icon-themes
 apps:
   desktopfolder:
-    command: com.github.spheras.desktopfolder
+    command: desktop-launch com.github.spheras.desktopfolder
+    plugs:
+      - x11
+      - network
+      - home
+      - gsettings
+      - opengl
+      - desktop
+      - desktop-legacy
+      - unity7
+      - gnome-3-28-1804
     desktop: usr/share/applications/com.github.spheras.desktopfolder.desktop
     environment:
      GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
@@ -23,11 +49,12 @@ parts:
     source: .
     plugin: meson
     meson-parameters: [--prefix=/usr]
+    after: [desktop-gnome-platform]
     organize:
       snap/desktopfolder/current/usr: usr
-    install: |
-      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp snapbuild/data/simple-scan.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
+    #install: |
+    #  mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
+    #  cp snapbuild/data/simple-scan.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
      - valac
      - libgtk-3-dev
@@ -38,3 +65,8 @@ parts:
      - libgdk-pixbuf2.0-dev
      - libwnck-3-dev
      - libglib2.0-dev
+     - libgtksourceview-3.0-dev
+    stage-packages:
+     - gnome-settings-daemon-schemas
+     - gnome-themes-extra
+     - adwaita-icon-theme
