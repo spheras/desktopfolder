@@ -41,6 +41,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     private string folder_name                   = null;
     /** drag and drop behaviour for this folder */
     private DragnDrop.DndBehaviour dnd_behaviour = null;
+    /** the arrangement for this folder manager */
+    private FolderArrangement arrangement        = null;
+    // the last selected item
+    private ItemView selected_item               = null;
+
 
     /**
      * @constructor
@@ -100,6 +105,37 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name on_arrange_change
+     * @description arrange type changed for the panel
+     */
+    public void on_arrange_change (int type) {
+        if (this.settings.arrangement_type != type) {
+            this.settings.arrangement_type = type;
+            this.settings.save ();
+            this.arrangement               = FolderArrangement.factory (this.settings.arrangement_type);
+        }
+    }
+
+    /**
+     * @name set_selected_item
+     * @description set the selected item
+     * @param ItemView selected the new selected item
+     */
+    public void set_selected_item (ItemView ? selected) {
+        this.selected_item = selected;
+    }
+
+    /**
+     * @name get_selected_item
+     * @description return the current selected item, or null if none
+     * @return ItemView the current selected item, null if none
+     */
+    public ItemView ? get_selected_item () {
+        return this.selected_item;
+    }
+
+
+    /**
      * @name are_items_locked
      * @description return whether the items are locked or not
      * @return {bool} true->yes, the items are locked, false otherwise
@@ -130,6 +166,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         }
 
         this.settings.calculate_current_position ();
+
+        // creating the Manager
+        this.arrangement = FolderArrangement.factory (this.settings.arrangement_type);
     }
 
     /**
@@ -218,6 +257,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public DesktopFolderApp get_application () {
         return this.application;
+    }
+
+    /**
+     * @name get_arrangement
+     * @description return the current arrangement for the panel's items
+     * @return FolderArrangement the current arrangement class
+     */
+    public FolderArrangement get_arrangement () {
+        return this.arrangement;
     }
 
     /**

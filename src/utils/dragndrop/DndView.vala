@@ -17,76 +17,76 @@
 
 namespace DesktopFolder.DragnDrop {
 
-    public interface DndView : Object{
+    public interface DndView : Object {
         /**
-        * @name get_widget
-        * @description return the widget associated with this view
-        * @return Widget the widget
-        */
-        public abstract Gtk.Widget get_widget();
+         * @name get_widget
+         * @description return the widget associated with this view
+         * @return Widget the widget
+         */
+        public abstract Gtk.Widget get_widget ();
 
         /**
-        * @name get_application_window
-        * @description return the application window of this view, needed for drag operations
-        * @return ApplicationWindow
-        */
-        public abstract Gtk.ApplicationWindow get_application_window();
+         * @name get_application_window
+         * @description return the application window of this view, needed for drag operations
+         * @return ApplicationWindow
+         */
+        public abstract Gtk.ApplicationWindow get_application_window ();
 
         /**
-        * @name get_file
-        * @description return the file asociated with this view
-        * @return File the file
-        */
-        public abstract GLib.File get_file();
+         * @name get_file
+         * @description return the file asociated with this view
+         * @return File the file
+         */
+        public abstract GLib.File get_file ();
 
         /**
-        * @name get_image
-        * @description return the image to be shown when dragging
-        * @return {Gtk.Image} the image to be rendered
-        */
-        public abstract Gtk.Image get_image();
+         * @name get_image
+         * @description return the image to be shown when dragging
+         * @return {Gtk.Image} the image to be rendered
+         */
+        public abstract Gtk.Image get_image ();
 
         /**
-        * @name get_file_at
-        * @name get the file at the position x, y
-        * @return File
-        */
-        public abstract GLib.File get_file_at(int x, int y);
+         * @name get_file_at
+         * @name get the file at the position x, y
+         * @return File
+         */
+        public abstract GLib.File get_file_at (int x, int y);
 
         /**
-        * @name is_folder
-        * @description check whether the view represents a folder or a file
-        * @return bool true->this view represents a folder
-        */
-        public abstract bool is_folder();
+         * @name is_folder
+         * @description check whether the view represents a folder or a file
+         * @return bool true->this view represents a folder
+         */
+        public abstract bool is_folder ();
 
         /**
-        * @name is_writable
-        * @description indicates if the file linked by this view is writable or not
-        * @return bool
-        */
-        public abstract bool is_writable();
+         * @name is_writable
+         * @description indicates if the file linked by this view is writable or not
+         * @return bool
+         */
+        public abstract bool is_writable ();
 
         /**
-        * @name get_target_location
-        * @description return the target File that represents this view
-        * @return File the file target of this view
-        */
-        public abstract GLib.File get_target_location();
+         * @name get_target_location
+         * @description return the target File that represents this view
+         * @return File the file target of this view
+         */
+        public abstract GLib.File get_target_location ();
 
         /**
-        * @name is_recent_uri_scheme
-        * @description check whether the File is a recent uri scheme?
-        * @return bool
-        */
-        public abstract bool is_recent_uri_scheme();
+         * @name is_recent_uri_scheme
+         * @description check whether the File is a recent uri scheme?
+         * @return bool
+         */
+        public abstract bool is_recent_uri_scheme ();
 
         /**
-        * @name get_display_target_uri
-        * @description return the target uri of this view
-        * @return string the target uri
-        */
-        public abstract string get_display_target_uri();
+         * @name get_display_target_uri
+         * @description return the target uri of this view
+         * @return string the target uri
+         */
+        public abstract string get_display_target_uri ();
 
     }
 }

@@ -500,6 +500,20 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             if (single_click && event.type == Gdk.EventType.BUTTON_RELEASE && event.button == Gdk.BUTTON_PRIMARY) {
                 on_double_click ();
             }
+        } else {
+            Gtk.Allocation allocation;
+            this.get_allocation (out allocation);
+            // HELP! don't know why these constants?? maybe padding??
+            int x           = allocation.x - PADDING_X;
+            int y           = allocation.y - PADDING_Y;
+
+            int sensitivity = this.manager.get_folder ().get_arrangement ().get_sensitivity ();
+            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
+            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
+
+            Gtk.Window window = (Gtk.Window) this.get_toplevel ();
+            ((FolderWindow) window).move_item (this, x + PADDING_X, y);
+
         }
 
         return false;
@@ -529,7 +543,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.select ();
             this.flagMoved = false;
 
-            if (!this.manager.get_folder ().are_items_locked ()) {
+            if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
                 Gtk.Widget p = this.parent;
                 // offset == distance of parent widget from edge of screen ...
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
@@ -546,8 +560,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 p.get_allocation (out pAllocation);
                 Gtk.Allocation thisAllocation;
                 this.get_allocation (out thisAllocation);
-                this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_view ().get_sensitivity ());
-                this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_view ().get_sensitivity ());
+                this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
+                this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
             }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             this.select ();
@@ -768,7 +782,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_motion signal
      */
     private bool on_motion (Gdk.EventMotion event) {
-        if (!this.manager.get_folder ().are_items_locked ()) {
+        if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
 
             // To prevent moving the itemView when editing the label
             if (this.label.editing) {
@@ -801,8 +815,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             // make sure the potential coordinates x,y:
             // 1) will not push any part of the widget outside of its parent container
             // 2) is a multiple of Sensitivity
-            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
-            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
+            int sensitivity = this.manager.get_folder ().get_arrangement ().get_sensitivity ();
+            sensitivity = 4;
+            x           = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
+            y           = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
             if (x != this.px || y != this.py) {
                 this.px = x;
                 this.py = y;

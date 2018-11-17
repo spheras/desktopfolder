@@ -123,6 +123,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void select () {
         this.selected = true;
+        this.get_folder ().set_selected_item (this.view);
     }
 
     /**
@@ -131,6 +132,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void unselect () {
         this.selected = false;
+        this.get_folder ().set_selected_item (null);
     }
 
     /**
@@ -227,6 +229,11 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         return false;
     }
 
+    /**
+     * @name open_in_terminal
+     * @description open the folder item in a terminal (it is only called by folder items, see popup)
+     * @param string path the path of the folder to open
+     */
     public void open_in_terminal (string path) {
         try {
             Environment.set_current_dir (path);
@@ -274,9 +281,9 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             file_content_type = "Unknown";
         }
         // open dialog
-        var dialog = new DesktopFolder.Dialogs.OpenWith (
+        new DesktopFolder.Dialogs.OpenWith (
             file_content_type, filepath
-            );
+        );
     }
 
     /**

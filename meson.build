@@ -61,7 +61,11 @@ src = [
        'src/logic/NoteManager.vala',
        'src/logic/PhotoManager.vala',
        'src/dialogs/ProgressDialog.vala',
-       'src/dialogs/PanelPropertiesWindow.vala'
+       'src/dialogs/PanelPropertiesWindow.vala',
+       'src/logic/folderarrangement/FolderArrangement.vala',
+       'src/logic/folderarrangement/FreeArrangement.vala',
+       'src/logic/folderarrangement/GridArrangement.vala',
+       'src/logic/folderarrangement/ManagedArrangement.vala'
       ]
 
 exename = get_option('exename')

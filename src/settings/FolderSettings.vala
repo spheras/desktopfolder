@@ -97,6 +97,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    // @deprecated since version 4
     private bool _align_to_grid;
     public bool align_to_grid {
         get {
@@ -108,6 +110,19 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    private int _arrangement_type;
+    public int arrangement_type {
+        get {
+            return _arrangement_type;
+        }
+        set {
+            if (_arrangement_type != value) {
+                _arrangement_type = value; flagChanged = true;
+            }
+        }
+    }
+
     private string[] _items = new string[0];
     public string[] items {
         get {
@@ -164,20 +179,21 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @description reset the properties
      */
     public void reset () {
-        this.x             = 100;
-        this.y             = 100;
-        this.w             = 300;
-        this.h             = 300;
-        this.bgcolor       = "df_black";
-        this.fgcolor       = "df_light";
-        this.textbold      = true;
-        this.textshadow    = true;
-        this.align_to_grid = false;
-        this.lockitems     = false;
-        this.lockpanel     = false;
-        this.name          = name;
-        this.items         = new string[0];
-        this.version       = DesktopFolder.SETTINGS_VERSION;
+        this.x                = 100;
+        this.y                = 100;
+        this.w                = 300;
+        this.h                = 300;
+        this.bgcolor          = "df_black";
+        this.fgcolor          = "df_light";
+        this.textbold         = true;
+        this.textshadow       = true;
+        this.align_to_grid    = false;
+        this.lockitems        = false;
+        this.lockpanel        = false;
+        this.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        this.name             = name;
+        this.items            = new string[0];
+        this.version          = DesktopFolder.SETTINGS_VERSION;
         check_off_screen ();
     }
 
@@ -415,6 +431,14 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
             if (existent.fgcolor.length > 0 && !existent.fgcolor.has_prefix ("df_")) {
                 existent.fgcolor = "df_" + existent.fgcolor;
+            }
+
+            // align_to_grid is deprecated from version 4
+            if (existent.align_to_grid == true) {
+                existent.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_GRID;
+                existent.align_to_grid    = false;
+            } else if (existent.arrangement_type == 0) {
+                existent.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_FREE;
             }
 
             // regression for on top and back

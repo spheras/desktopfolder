@@ -46,8 +46,6 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER    = _("Panel");
     // desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_LINK_PANEL            = _("Link Panel");
-    // desktopfolder menu - enable/disable alignment to grid
-    public const string DESKTOPFOLDER_MENU_ALIGN_TO_GRID         = _("Align to Grid");
     // desktopfolder menu - enable/disable lock items
     public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock Items");
     // desktopfolder menu - enable/disable lock panel
@@ -193,5 +191,13 @@ namespace DesktopFolder.Lang {
     // open terminal here
     public const string DESKTOPFOLDER_MENU_OPENTERMINAL                 = _("Open terminal here");
     // open terminal here
-    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL                 = _("Open in terminal");
+    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL             = _("Open in terminal");
+    // Items Arrangement Configuration
+    public const string PANELPROPERTIES_ARRANGEMENT                     = _("Items Arrangement");
+    // Free arrangement
+    public const string PANELPROPERTIES_ARRANGEMENT_FREE                = _("Free");
+    // Grid arrangement
+    public const string PANELPROPERTIES_ARRANGEMENT_GRID                = _("Grid");
+    // Managed arrangement
+    public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Managed");
 }

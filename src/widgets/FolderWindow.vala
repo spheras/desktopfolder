@@ -20,19 +20,13 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    protected FolderManager manager           = null;
-    protected Gtk.Fixed container             = null;
-    protected Gtk.Menu context_menu           = null;
-    protected bool flag_moving                = false;
-    private Gtk.Button trash_button           = null;
-    private DesktopFolder.EditableLabel label = null;
-    protected Gtk.Button properties_button    = null;
-
-    /** item alignment*/
-    protected const int SENSITIVITY_WITH_GRID    = 100;
-    protected const int SENSITIVITY_WITHOUT_GRID = 4;
-    // TODO: private int _sensitivity {public get;public set; default=SENSITIVITY_WITHOUT_GRID;}
-    protected int sensitivity                      = SENSITIVITY_WITHOUT_GRID;
+    protected FolderManager manager                = null;
+    protected Gtk.Fixed container                  = null;
+    protected Gtk.Menu context_menu                = null;
+    protected bool flag_moving                     = false;
+    private Gtk.Button trash_button                = null;
+    private DesktopFolder.EditableLabel label      = null;
+    protected Gtk.Button properties_button         = null;
 
     public const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
     public const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
@@ -44,6 +38,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
     /** flag to know if the window was painted /packed already */
     private bool flag_realized = false;
+    /** flag to create fade_out effect for the grid */
+    private float grid_fade    = 0;
 
 
     // this is the link image loaded
@@ -285,11 +281,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         this.set_title (manager.get_folder_name ());
 
-        if (this.manager.get_settings ().align_to_grid) {
-            this.sensitivity = SENSITIVITY_WITH_GRID;
-        } else {
-            this.sensitivity = SENSITIVITY_WITHOUT_GRID;
-        }
     }
 
     /**
@@ -522,25 +513,21 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
         // Creating items (please try and keep these in the same order as appended to the menu)
-        var new_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+        var new_item             = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
 
-        var new_submenu       = new Gtk.Menu ();
-        var newfolder_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
-        var emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
-        var newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
-        var newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
-        var newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
+        var new_submenu          = new Gtk.Menu ();
+        var newfolder_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
+        var emptyfile_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
+        var newlink_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+        var newlinkdir_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var newpanel_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var newlinkpanel_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var newnote_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var newphoto_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var openterminal_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
-        // var aligntogrid_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID);
-        var trash_item  = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
-        var rename_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
-        // var lockitems_item       = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS);
-        // var textshadow_item      = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW);
-        // var textbold_item        = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD);
+        var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
+        var rename_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
         var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
         var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
 
@@ -555,16 +542,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newphoto_item.activate.connect (this.new_photo);
         openterminal_item.activate.connect (this.open_terminal);
 
-        // ((Gtk.CheckMenuItem)aligntogrid_item).set_active (this.manager.get_settings ().align_to_grid);
-        // ((Gtk.CheckMenuItem)aligntogrid_item).toggled.connect (this.on_toggle_align_to_grid);
         trash_item.activate.connect (this.manager.trash);
         rename_item.activate.connect (this.label.start_editing);
-        ///((Gtk.CheckMenuItem)lockitems_item).set_active (this.manager.get_settings ().lockitems);
-        // ((Gtk.CheckMenuItem)lockitems_item).toggled.connect (this.on_toggle_lockitems);
-        // ((Gtk.CheckMenuItem)textshadow_item).set_active (this.manager.get_settings ().textshadow);
-        // ((Gtk.CheckMenuItem)textshadow_item).toggled.connect (this.on_toggle_shadow);
-        // ((Gtk.CheckMenuItem)textbold_item).set_active (this.manager.get_settings ().textbold);
-        // ((Gtk.CheckMenuItem)textbold_item).toggled.connect (this.on_toggle_bold);
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((MenuItemColor) backgroundcolor_item).color_changed.connect (change_body_color);
         ((MenuItemColor) backgroundcolor_item).custom_changed.connect (change_body_color_custom);
@@ -631,23 +610,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // foreach (Gtk.Widget elem in children) {
         // (elem as ItemView).force_adjust_label ();
         // }
-    }
-
-    /**
-     * @name on_toggle_align_to_grid
-     * @description the toggle align to grid event. The align to grid property must change
-     */
-    public void on_toggle_align_to_grid () {
-        if (this.get_sensitivity () == SENSITIVITY_WITH_GRID) {
-            this.set_sensitivity (SENSITIVITY_WITHOUT_GRID);
-            this.manager.get_settings ().align_to_grid = false;
-        } else {
-            this.set_sensitivity (SENSITIVITY_WITH_GRID);
-            this.manager.get_settings ().align_to_grid = true;
-        }
-        this.manager.get_settings ().save ();
-        this.clear_all ();
-        this.manager.sync_files (0, 0);
     }
 
     /**
@@ -776,8 +738,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     public void add_item (ItemView item, int x, int y) {
         // debug("initial position:%d,%d",x,y);
-        x = ItemView.RoundToNearestMultiple (x, this.get_sensitivity ());
-        y = ItemView.RoundToNearestMultiple (y, this.get_sensitivity ());
+        // x = ItemView.RoundToNearestMultiple (x, this.get_sensitivity ()); TODO
+        // y = ItemView.RoundToNearestMultiple (y, this.get_sensitivity ()); TODO
         int margin = ItemView.PADDING_X;
         this.container.put (item, x + margin, y);
     }
@@ -820,7 +782,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         bool control_pressed      = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool shift_pressed        = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
 
-        ItemView selected         = this.get_selected_item ();
+        ItemView selected         = this.manager.get_selected_item ();
 
         if (event.type == Gdk.EventType.KEY_RELEASE) {
             if (control_pressed) {
@@ -912,7 +874,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param {CompareAllocations} is_selectable a function to check that the next item is in the correct direction
      */
     private void move_selected_to (CompareAllocations same_axis, CompareAllocations is_selectable) {
-        ItemView actual_item = this.get_selected_item ();
+        ItemView actual_item = this.manager.get_selected_item ();
         if (actual_item == null) {
             actual_item = (ItemView) this.container.get_children ().nth_data (0);
             if (actual_item == null) {
@@ -949,11 +911,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-     * @name get_selected_item
+     * @name find_selected_item
      * @description return the selected item
      * @return ItemView return the selected item at the desktop folder, or null if none selected
      */
-    private ItemView get_selected_item () {
+    private ItemView find_selected_item () {
         var children = this.container.get_children ();
         for (int i = 0; i < children.length (); i++) {
             ItemView element = (ItemView) children.nth_data (i);
@@ -1083,29 +1045,29 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-     * @name get_sensitivity
-     * @description Get the value of sensitivity, used to calculate the alignment of the items
-     */
-    public int get_sensitivity () {
-        return this.sensitivity;
-    }
-
-    /**
-     * @name set_sensitivity
-     * @description Set value to sensitivity, used to calculate the alignment of the items
-     */
-    public void set_sensitivity (int s) {
-        this.sensitivity = s;
-    }
-
-    /**
      * @name on_item_moving
      * @description event capture of an item moving or stop moving
      * @param {bool} moving if the item started moving or stopped moving
      */
     public void on_item_moving (bool moving) {
-        this.flag_moving = moving;
-        this.queue_draw ();
+        if (!moving) {
+            // trying to perform a fadeout effect (OMG, just learning)
+            for (int i = 0; i < 501; i++) {
+                GLib.Timeout.add (i, () => {
+                    this.grid_fade = this.grid_fade + 0.002f;
+                    if (this.grid_fade >= 1) {
+                        this.grid_fade = 0;
+                        this.flag_moving = false;
+                    }
+                    this.queue_draw ();
+                    return false;
+                });
+            }
+
+        } else {
+            this.grid_fade   = 0;
+            this.flag_moving = moving;
+        }
     }
 
     /**
@@ -1130,7 +1092,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // cr.fill();
 
         // we must show the grid if it is enabled and an item being moved
-        if (flag_moving == true && this.manager.get_settings ().align_to_grid) {
+
+        if (flag_moving == true && this.manager.get_settings ().arrangement_type == FolderArrangement.ARRANGEMENT_TYPE_GRID) {
+
             int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
 
@@ -1138,6 +1102,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             cr.paint ();
             cr.set_operator (Cairo.Operator.OVER);
 
+            // TODO hate magic numbers!!
             cr.rectangle (0, 40, width - 14, height - 54);
             cr.clip ();
 
@@ -1146,19 +1111,57 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug("panel: width:%d height:%d",width,height);
             // debug("header: x:%d y:%d width:%d height:%d",title_allocation.x,title_allocation.y,title_allocation.width,title_allocation.height);
 
-            int left_padding = title_allocation.x;
-            int top_padding  = title_allocation.y;
-            int header       = title_allocation.height + top_padding;
-            int margin       = 10;
-            int sensitivity  = SENSITIVITY_WITH_GRID - 10;
-            cr.set_source_rgba (1, 1, 1, 0.2);
+            int left_padding             = title_allocation.x;
+            int top_padding              = title_allocation.y;
+            int header                   = title_allocation.height + top_padding;
+            int margin                   = 10;
+            int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity () - margin;
 
-            for (int i = left_padding + DesktopFolder.ItemView.PADDING_X; i <= width - left_padding - sensitivity; i += sensitivity + margin) {
+            ItemView       selected_item = this.manager.get_selected_item ();
+            Gtk.Allocation allocation;
+            selected_item.get_allocation (out allocation);
+            int selected_cell_x = allocation.x / (sensitivity + margin);
+            int selected_cell_y = allocation.y / (sensitivity + margin);
+            // debug ("sellected: %d, %d", selected_i, selected_j);
+
+            for (int i = left_padding + DesktopFolder.ItemView.PADDING_X, cell_x = 0; i <= width - left_padding; i += sensitivity + margin, cell_x++) {
                 // debug("-i: %d",i);
-                for (int j = header; j <= height - sensitivity - top_padding; j += sensitivity + margin) {
+                for (int j = header, cell_y = 0; j <= height - top_padding; j += sensitivity + margin, cell_y++) {
                     // debug("|j: %d",j);
                     cr.rectangle (i, j, sensitivity, sensitivity);
+
+                    int distance_x = cell_x - selected_cell_x;
+                    int distance_y = cell_y - selected_cell_y;
+                    if (distance_x < 0) {
+                        distance_x = -distance_x;
+                    }
+                    if (distance_y < 0) {
+                        distance_y = -distance_y;
+                    }
+                    float distance = distance_x;
+                    if (distance_y > distance) {
+                        distance = distance_y;
+                    }
+                    distance = (distance) / 18;
+                    float alpha = 0.2f;
+                    alpha    = alpha - distance;
+
+                    if (distance == 0) {
+                        alpha = 0.8f;
+                    }
+                    // debug("alpha:%f, distance: %f",alpha,distance);
+
+                    cr.set_source_rgba (1, 1, 1, alpha - this.grid_fade);
                     cr.fill ();
+
+                    cr.rectangle (i, j, sensitivity, sensitivity);
+                    cr.set_source_rgba (1, 1, 1, alpha + 0.1 - this.grid_fade);
+                    if (distance == 0) {
+                        cr.set_dash (null, 0);
+                    } else {
+                        cr.set_dash ({ 1 }, 0);
+                    }
+                    cr.stroke ();
                 }
             }
 

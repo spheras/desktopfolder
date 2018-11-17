@@ -119,15 +119,37 @@ namespace DesktopFolder.Dialogs {
 
             // The behavior section
             general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_BEHAVIOR), 0, 0, 2, 1);
-            // align to grid
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID), 0, 1, 1, 1);
-            SettingsSwitch settings_switch = new SettingsSwitch ("align_to_grid");
-            general_grid.attach (settings_switch, 1, 1, 1, 1);
-            settings_switch.set_active (this.manager.get_settings ().align_to_grid);
-            settings_switch.notify["active"].connect (this.window.on_toggle_align_to_grid);
+
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT), 0, 1, 1, 1);
+            var arrangement_combo = new Gtk.ComboBoxText ();
+            arrangement_combo.append ("FREE", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_FREE);
+            arrangement_combo.append ("GRID", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_GRID);
+            arrangement_combo.append ("MANAGED", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_MANAGED);
+            arrangement_combo.active = this.manager.get_settings ().arrangement_type - 1;
+            arrangement_combo.changed.connect (() => {
+                if (arrangement_combo.get_active_id () == "FREE") {
+                    this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_FREE);
+                } else if (arrangement_combo.get_active_id () == "GRID") {
+                    this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_GRID);
+                } else {
+                    this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_MANAGED);
+                }
+            });
+            general_grid.attach (arrangement_combo, 1, 1, 1, 1);
+
+            /*
+               // align to grid
+               general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID), 0, 1, 1, 1);
+               SettingsSwitch settings_switch = new SettingsSwitch ("align_to_grid");
+               settings_switch.set_active (this.manager.get_settings ().align_to_grid);
+               general_grid.attach (settings_switch, 1, 1, 1, 1);
+               settings_switch.notify["active"].connect (this.window.on_toggle_align_to_grid);
+             */
+
+
             // lock items
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS), 0, 2, 1, 1);
-            settings_switch = new SettingsSwitch ("lock_items");
+            SettingsSwitch settings_switch = new SettingsSwitch ("lock_items");
             general_grid.attach (settings_switch, 1, 2, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().lockitems);
             settings_switch.notify["active"].connect (this.window.on_toggle_lockitems);
