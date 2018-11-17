@@ -293,7 +293,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // debug ("syncingfiles for folder %s, %d, %d", this.get_folder_name (), x, y);
         try {
             this.load_folder_settings ();
-            this.clear_all ();
+            // this.clear_all ();
+            List <ItemManager> oldItems = new List <ItemManager>();
+            this.items.foreach ((entry) => { oldItems.append (entry); }) ;
+            this.items = new List <ItemManager>();
+
             string base_path = this.get_absolute_path ();
             File   directory = this.get_file ();
 
@@ -342,19 +346,52 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     }
                     is.name = file_name;
                     this.settings.add_item (is);
+                    ItemManager item = new ItemManager (file_name, file, this);
+                    this.items.append (item);
+                    this.view.add_item (item.get_view (), is.x, is.y);
+                } else {
+                    // lets check if the item already exists
+                    ItemManager oldItemManager = popItemFromList (file_name, ref oldItems);
+                    if (oldItemManager != null) {
+                        this.items.append (oldItemManager);
+                    } else {
+                        ItemManager item = new ItemManager (file_name, file, this);
+                        this.items.append (item);
+                        this.view.add_item (item.get_view (), is.x, is.y);
+                    }
+
                 }
 
-                ItemManager item = new ItemManager (file_name, file, this);
-                this.items.append (item);
-
-                this.view.add_item (item.get_view (), is.x, is.y);
             }
+
+            // removing old entries, now no exist
+            oldItems.foreach ((entry) => {
+                this.view.remove_item (entry.get_view ());
+            }) ;
+
             this.settings.save ();
             this.view.refresh ();
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
+    }
+
+    /**
+     * @name popItemFromList
+     * @description try to ind an item in a item list by the file get_name
+     * @param string file_name the file name of the item
+     * @param List<ItemManager> the list to search inside (reference)
+     * @return ItemManager the itemmanager found, or null if none match
+     */
+    private ItemManager ? popItemFromList (string file_name, ref List <ItemManager> items) {
+        foreach (ItemManager item in items) {
+            if (item.get_file_name () == file_name) {
+                items.remove (item);
+                return item;
+            }
+        }
+        return null;
     }
 
     /**

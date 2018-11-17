@@ -745,6 +745,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name remove_item
+     * @description remove an item from the view
+     * @param ItemView item the item to be removed
+     */
+    public void remove_item (ItemView item) {
+        this.container.remove (item);
+    }
+
+    /**
      * @name raise
      * @description bring to front the item
      * @param {ItemView}
@@ -878,7 +887,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         if (actual_item == null) {
             actual_item = (ItemView) this.container.get_children ().nth_data (0);
             if (actual_item == null) {
-                debug ("There is not widgets on the folder.");
+                debug ("There are not widgets on the folder.");
                 return;
             }
         }

@@ -815,6 +815,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int x = (int) event.x_root - this.offsetx;
             int y = (int) event.y_root - this.offsety;
 
+            // debug ("offset(%d,%d)", this.offsetx, this.offsety);
+            // debug ("root(%f, %f)", event.x_root, event.y_root);
+            // debug ("x,y=(%d,%d)", x, y);
+
             // make sure the potential coordinates x,y:
             // 1) will not push any part of the widget outside of its parent container
             // 2) is a multiple of Sensitivity
