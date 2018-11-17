@@ -1142,14 +1142,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     if (distance_y > distance) {
                         distance = distance_y;
                     }
-                    distance = (distance) / 18;
-                    float alpha = 0.2f;
+                    distance = (distance) / 60;
+                    float alpha = 0.1f;
                     alpha    = alpha - distance;
 
                     if (distance == 0) {
-                        alpha = 0.8f;
+                        alpha = 0.5f;
+                    } else if (cell_x == selected_cell_x || cell_y == selected_cell_y) {
+                        alpha = 0.15f;
                     }
-                    // debug("alpha:%f, distance: %f",alpha,distance);
 
                     cr.set_source_rgba (1, 1, 1, alpha - this.grid_fade);
                     cr.fill ();
