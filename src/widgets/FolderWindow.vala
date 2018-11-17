@@ -39,7 +39,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** flag to know if the window was painted /packed already */
     private bool flag_realized = false;
     /** flag to create fade_out effect for the grid */
-    private float grid_fade    = 0;
+    private double grid_fade   = 0;
 
 
     // this is the link image loaded
@@ -1050,12 +1050,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param {bool} moving if the item started moving or stopped moving
      */
     public void on_item_moving (bool moving) {
+        this.grid_fade = 0;
         if (!moving) {
             // trying to perform a fadeout effect (OMG, just learning)
-            for (int i = 0; i < 501; i++) {
+            double step     = 0.002f; // fade steps
+            int    duration = 300; // desired milliseconds
+            double last     = step * (duration - 1);
+            for (int i = 0; i < duration; i++) {
                 GLib.Timeout.add (i, () => {
-                    this.grid_fade = this.grid_fade + 0.002f;
-                    if (this.grid_fade >= 1) {
+                    this.grid_fade = this.grid_fade + step;
+                    if (this.grid_fade == last) {
                         this.grid_fade = 0;
                         this.flag_moving = false;
                     }
@@ -1065,7 +1069,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             }
 
         } else {
-            this.grid_fade   = 0;
             this.flag_moving = moving;
         }
     }
@@ -1124,6 +1127,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int selected_cell_y = allocation.y / (sensitivity + margin);
             // debug ("sellected: %d, %d", selected_i, selected_j);
 
+
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X, cell_x = 0; i <= width - left_padding; i += sensitivity + margin, cell_x++) {
                 // debug("-i: %d",i);
                 for (int j = header, cell_y = 0; j <= height - top_padding; j += sensitivity + margin, cell_y++) {
@@ -1147,7 +1151,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     alpha    = alpha - distance;
 
                     if (distance == 0) {
-                        alpha = 0.5f;
+                        alpha = 0.7f;
                     } else if (cell_x == selected_cell_x || cell_y == selected_cell_y) {
                         alpha = 0.15f;
                     }
