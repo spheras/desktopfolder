@@ -333,6 +333,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     // we need to create one empty
                     is = new ItemSettings ();
                     if (x == 0 && y == 0) {
+                        // no desired position for the item, lets calculate a good position
                         if (gaps == null) {
                             // building the structure to see current gaps
                             gaps = this.settings.build_cell_structure ();
