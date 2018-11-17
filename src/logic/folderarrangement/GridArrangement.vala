@@ -21,6 +21,11 @@
  */
 public class DesktopFolder.GridArrangement : Object, FolderArrangement {
     protected const int SENSITIVITY_WITH_GRID = 100;
+    public const int MARGIN = 10;
+
+    public int get_margin () {
+        return MARGIN;
+    }
 
     public bool can_drag () {
         return true;

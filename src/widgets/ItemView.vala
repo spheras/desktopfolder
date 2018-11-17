@@ -18,8 +18,8 @@
 public class DesktopFolder.ItemView : Gtk.EventBox {
 
     // NOT SURE ABOUT THESE CONSTANTS!!! TODO!!!!!
-    public const int PADDING_X       = 13;
-    public const int PADDING_Y       = 47;
+    public const int PADDING_X       = 10;
+    public const int PADDING_Y       = 44;
     // DEFAULT SIZES
     private const int ICON_WIDTH     = 48;
     private const int DEFAULT_WIDTH  = 90;
@@ -504,15 +504,18 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
             // HELP! don't know why these constants?? maybe padding??
-            int x           = allocation.x - PADDING_X;
-            int y           = allocation.y - PADDING_Y;
+            int x = allocation.x - PADDING_X;
+            int y = allocation.y - PADDING_Y;
 
-            int sensitivity = this.manager.get_folder ().get_arrangement ().get_sensitivity ();
+            FolderArrangement arrangement = this.manager.get_folder ().get_arrangement ();
+            int sensitivity               = arrangement.get_sensitivity ();
             x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
             y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
 
+            x = x + arrangement.get_margin ();
+
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
-            ((FolderWindow) window).move_item (this, x + PADDING_X, y);
+            ((FolderWindow) window).move_item (this, x, y);
 
         }
 
@@ -815,10 +818,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             // make sure the potential coordinates x,y:
             // 1) will not push any part of the widget outside of its parent container
             // 2) is a multiple of Sensitivity
-            int sensitivity = this.manager.get_folder ().get_arrangement ().get_sensitivity ();
-            sensitivity = 4;
-            x           = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
-            y           = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
+            // x           = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), FreeArrangement.SENSITIVITY_WITHOUT_GRID);
+            // y           = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), FreeArrangement.SENSITIVITY_WITHOUT_GRID);
             if (x != this.px || y != this.py) {
                 this.px = x;
                 this.py = y;

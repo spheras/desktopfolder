@@ -20,7 +20,12 @@
  * Free Arragement for Panels. User can put icons wherever
  */
 public class DesktopFolder.FreeArrangement : Object, FolderArrangement {
-    protected const int SENSITIVITY_WITHOUT_GRID = 4;
+    public const int SENSITIVITY_WITHOUT_GRID = 1;
+    public const int MARGIN = 0;
+
+    public int get_margin () {
+        return MARGIN;
+    }
 
     public bool can_drag () {
         return true;

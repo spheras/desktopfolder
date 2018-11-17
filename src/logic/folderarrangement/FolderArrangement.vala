@@ -38,6 +38,12 @@ public interface DesktopFolder.FolderArrangement : Object {
     public abstract int get_sensitivity ();
 
     /**
+     * @name get_margin
+     * @description return the margin used to position folders inside the panel
+     */
+    public abstract int get_margin ();
+
+    /**
      * Factory method to obtain an arragement type
      * @see ARRAGEMENT_TYPE_FREE, ARRAGEMENT_TYPE_GRID, ARRAGEMENT_TYPE_MANAGED constants
      * @param int type the factory type

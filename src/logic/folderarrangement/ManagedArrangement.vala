@@ -21,6 +21,11 @@
  * are managed by the sytem
  */
 public class DesktopFolder.ManagedArrangement : Object, FolderArrangement {
+    public const int MARGIN = 0;
+
+    public int get_margin () {
+        return MARGIN;
+    }
 
     public bool can_drag () {
         return false;

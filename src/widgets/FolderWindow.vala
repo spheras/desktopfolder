@@ -1117,7 +1117,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int left_padding             = title_allocation.x;
             int top_padding              = title_allocation.y;
             int header                   = title_allocation.height + top_padding;
-            int margin                   = 10;
+            int margin                   = this.get_manager ().get_arrangement ().get_margin ();
             int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity () - margin;
 
             ItemView       selected_item = this.manager.get_selected_item ();
