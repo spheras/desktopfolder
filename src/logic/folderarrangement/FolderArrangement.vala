@@ -47,6 +47,13 @@ public interface DesktopFolder.FolderArrangement : Object {
     public abstract bool can_organize ();
 
     /**
+     * @name forze_organization
+     * @description indicates whether the arrangement must foze the organization when the panel is resized
+     * @return bool true->yes, forze, othwerise false
+     */
+    public abstract bool forze_organization ();
+
+    /**
      * Factory method to obtain an arragement type
      * @see ARRAGEMENT_TYPE_FREE, ARRAGEMENT_TYPE_GRID, ARRAGEMENT_TYPE_MANAGED constants
      * @param int type the factory type
@@ -96,7 +103,7 @@ public interface DesktopFolder.FolderArrangement : Object {
 
             // moving the cursor
             cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + ARRANGEMENT_PADDING;
-            if (cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH > width) {
+            if (cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + left_margin > width) {
                 // we need to move to the next rows
                 cursor_x = left_margin;
                 cursor_y = cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH + ARRANGEMENT_PADDING;

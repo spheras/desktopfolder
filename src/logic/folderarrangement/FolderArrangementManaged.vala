@@ -34,4 +34,8 @@ public class DesktopFolder.FolderArrangementManaged : Object, FolderArrangement 
         return false;
     }
 
+    public bool forze_organization () {
+        return true;
+    }
+
 }

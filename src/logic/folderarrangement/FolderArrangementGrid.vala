@@ -38,6 +38,10 @@ public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
         return true;
     }
 
+    public bool forze_organization () {
+        return false;
+    }
+
     /**
      * @name on_toggle_align_to_grid
      * @description the toggle align to grid event. The align to grid property must change

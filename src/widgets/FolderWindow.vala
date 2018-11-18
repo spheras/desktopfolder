@@ -408,6 +408,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
             // debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
             this.manager.set_new_shape (x, y, w, h);
+
+            if (this.manager.get_arrangement ().forze_organization ()) {
+                this.manager.organize_panel_items ();
+            }
         }
         return false;
     }
