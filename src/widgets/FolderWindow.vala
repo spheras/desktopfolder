@@ -22,6 +22,7 @@
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     protected FolderManager manager                = null;
     protected Gtk.Fixed container                  = null;
+    protected Gtk.ScrolledWindow scroll            = null;
     protected Gtk.Menu context_menu                = null;
     protected bool flag_moving                     = false;
     private Gtk.Button trash_button                = null;
@@ -137,7 +138,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.set_property ("skip-taskbar-hint", true);
 
         this.container = new Gtk.Fixed ();
-        add (this.container);
+        if (!(this is DesktopWindow)) {
+            // only panels are scrollable
+            this.scroll = new Gtk.ScrolledWindow (null, null);
+            this.scroll.add (this.container);
+            add (this.scroll);
+        } else {
+            add (this.container);
+        }
 
         // important to load settings 2 times, now and after realized event
         this.reload_settings ();

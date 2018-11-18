@@ -22,6 +22,10 @@
 public class DesktopFolder.FolderArrangementFree : Object, FolderArrangement {
     public const int SENSITIVITY_WITHOUT_GRID = 1;
 
+    public bool have_margin () {
+        return false;
+    }
+
     public bool can_drag () {
         return true;
     }

@@ -22,6 +22,10 @@
  */
 public class DesktopFolder.FolderArrangementManaged : Object, FolderArrangement {
 
+    public bool have_margin () {
+        return true;
+    }
+
     public bool can_drag () {
         return false;
     }

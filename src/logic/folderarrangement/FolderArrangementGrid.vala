@@ -22,6 +22,10 @@
 public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
     protected const int SENSITIVITY_WITH_GRID = DesktopFolder.ICON_DEFAULT_WIDTH;
 
+    public bool have_margin () {
+        return true;
+    }
+
     public bool can_drag () {
         return true;
     }

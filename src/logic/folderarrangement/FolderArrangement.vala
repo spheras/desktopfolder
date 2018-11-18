@@ -27,6 +27,14 @@ public interface DesktopFolder.FolderArrangement : Object {
     public static int ARRANGEMENT_TYPE_MANAGED = 3;
 
     /**
+     * @name have_margin
+     * @description indicates whether the arrangment have internal margins at the panel
+     * to put items inside the panel
+     * @return bool true->yes we have margins, false otherwise
+     */
+    public abstract bool have_margin ();
+
+    /**
      * @name can_drag
      * @description return whether the items dan be dragged or not
      * @return bool true->yes they can be dragged, false otherwise

@@ -503,18 +503,26 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         } else {
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
+            // debug("release(%d,%d)",allocation.x,allocation.y);
             // HELP! don't know why these constants?? maybe padding??
-            int x = allocation.x - PADDING_X;
-            int y = allocation.y - PADDING_Y;
+            int x = allocation.x;
+            int y = allocation.y;
+
+            if ((this.manager.get_folder ().get_view () is DesktopWindow)) {
+                x = x - PADDING_X;
+                y = y - PADDING_Y;
+            }
 
             FolderArrangement arrangement = this.manager.get_folder ().get_arrangement ();
             int sensitivity               = arrangement.get_sensitivity ();
             x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
             y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
 
-            Gtk.Allocation title_allocation;
-            this.manager.get_folder ().get_view ().get_titlebar ().get_allocation (out title_allocation);
-            x = x + title_allocation.x; // header bar left margin
+            if (this.manager.get_folder ().get_arrangement ().have_margin ()) {
+                Gtk.Allocation title_allocation;
+                this.manager.get_folder ().get_view ().get_titlebar ().get_allocation (out title_allocation);
+                x = x + title_allocation.x; // header bar left margin
+            }
 
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
             ((FolderWindow) window).move_item (this, x, y);
@@ -825,7 +833,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int x = (int) event.x_root - this.offsetx;
             int y = (int) event.y_root - this.offsety;
 
+            // removing parent absolute position due to scroll
+            if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
+                FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
+                x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+                y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            }
+
+            // debug("-------------");
             // debug ("offset(%d,%d)", this.offsetx, this.offsety);
+            // debug ("event-xy(%f, %f)", event.x, event.y);
             // debug ("root(%f, %f)", event.x_root, event.y_root);
             // debug ("x,y=(%d,%d)", x, y);
 
@@ -838,8 +855,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.px = x;
                 this.py = y;
 
-                Gtk.Window window = (Gtk.Window) this.get_toplevel ();
-                ((FolderWindow) window).move_item (this, x + PADDING_X, y);
+                FolderWindow window = this.manager.get_folder ().get_view ();
+                window.move_item (this, x + PADDING_X, y);
             }
             return true;
         } else {
