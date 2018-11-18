@@ -32,12 +32,21 @@ public class DesktopFolder.FolderSortByType : Object, FolderSort {
             } else {
                 File af = a.get_file ();
                 File bf = b.get_file ();
-                var afti = af.query_info ("standard::content-type", FileQueryInfoFlags.NONE);
-                var bfti = bf.query_info ("standard::content-type", FileQueryInfoFlags.NONE);
-                string act = afti.get_content_type ();
-                string bct = bfti.get_content_type ();
 
-                return (asc) ? strcmp (act, bct) : strcmp (bct, act);
+                try {
+                    var afti = af.query_info ("standard::content-type", FileQueryInfoFlags.NONE);
+                    var bfti = bf.query_info ("standard::content-type", FileQueryInfoFlags.NONE);
+                    string act = afti.get_content_type ();
+                    string bct = bfti.get_content_type ();
+
+                    return (asc) ? strcmp (act, bct) : strcmp (bct, act);
+
+                } catch (Error e) {
+                    // error! ??
+                    stderr.printf ("Error: %s\n", e.message);
+                    DesktopFolder.Util.show_error_dialog ("Error", e.message);
+                    return -1;
+                }
             }
         });
     }

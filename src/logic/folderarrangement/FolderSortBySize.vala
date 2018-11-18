@@ -32,11 +32,17 @@ public class DesktopFolder.FolderSortBySize : Object, FolderSort {
             } else {
                 File af = a.get_file ();
                 File bf = b.get_file ();
+                try {
+                    FileInfo afi = af.query_info ("standard::size", FileQueryInfoFlags.NONE);
+                    FileInfo bfi = bf.query_info ("standard::size", FileQueryInfoFlags.NONE);
 
-                FileInfo afi = af.query_info ("standard::size", FileQueryInfoFlags.NONE);
-                FileInfo bfi = bf.query_info ("standard::size", FileQueryInfoFlags.NONE);
-
-                return (asc) ? (int) (afi.get_size () - bfi.get_size ()) : (int) (bfi.get_size () - afi.get_size ());
+                    return (asc) ? (int) (afi.get_size () - bfi.get_size ()) : (int) (bfi.get_size () - afi.get_size ());
+                } catch (Error e) {
+                    // error! ??
+                    stderr.printf ("Error: %s\n", e.message);
+                    DesktopFolder.Util.show_error_dialog ("Error", e.message);
+                    return -1;
+                }
             }
         });
     }
