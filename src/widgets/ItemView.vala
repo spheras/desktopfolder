@@ -382,7 +382,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @param eventCrossing EventCrossing @see on_enter signal
      * @return bool @see the on_leave signal
      */
-    private bool on_leave (Gdk.EventCrossing eventCrossing) {
+    public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
@@ -512,7 +512,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
             y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
 
-            x = x + arrangement.get_margin ();
+            Gtk.Allocation title_allocation;
+            this.manager.get_folder ().get_view ().get_titlebar ().get_allocation (out title_allocation);
+            x = x + title_allocation.x; // header bar left margin
 
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
             ((FolderWindow) window).move_item (this, x, y);
@@ -776,6 +778,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.manager.change_icon (filename);
         }
         chooser.close ();
+    }
+
+    /**
+     * @name modify
+     * @description raise the flat modify
+     */
+    public void modify () {
+        this.flagModified = true;
     }
 
     /**

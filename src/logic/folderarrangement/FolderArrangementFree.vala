@@ -17,22 +17,21 @@
 
 /**
  * @class
- * Managed Arragement for Panels - User can't move icons.. all of them
- * are managed by the sytem
+ * Free Arragement for Panels. User can put icons wherever
  */
-public class DesktopFolder.ManagedArrangement : Object, FolderArrangement {
-    public const int MARGIN = 0;
-
-    public int get_margin () {
-        return MARGIN;
-    }
+public class DesktopFolder.FolderArrangementFree : Object, FolderArrangement {
+    public const int SENSITIVITY_WITHOUT_GRID = 1;
 
     public bool can_drag () {
-        return false;
+        return true;
     }
 
     public int get_sensitivity () {
-        return -1;
+        return SENSITIVITY_WITHOUT_GRID;
+    }
+
+    public bool can_organize () {
+        return true;
     }
 
 }

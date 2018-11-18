@@ -513,18 +513,28 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
         // Creating items (please try and keep these in the same order as appended to the menu)
-        var new_item             = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+        var new_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
 
-        var new_submenu          = new Gtk.Menu ();
-        var newfolder_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
-        var emptyfile_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
-        var newlink_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
-        var newlinkdir_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
-        var newpanel_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        var newlinkpanel_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        var newnote_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        var newphoto_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        var openterminal_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
+        var new_submenu       = new Gtk.Menu ();
+        var newfolder_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
+        var emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
+        var newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+        var newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
+
+        // sortby submenu -----------
+        var sortby_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY);
+        var sortby_submenu      = new Gtk.Menu ();
+        var sortby_name_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_NAME);
+        var sortby_size_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_SIZE);
+        var sortby_type_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_TYPE);
+        var sortby_reverse_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_REVERSE);
+        var organize_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_ORGANIZE);
+        // ----------------------------
 
         var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var rename_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
@@ -541,6 +551,28 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
         openterminal_item.activate.connect (this.open_terminal);
+
+        // sortby submenu ---------
+        sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
+        sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
+        sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
+        sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
+        sortby_name_item.toggled.connect ((item) => {
+            this.on_sort_by (FolderSort.SORT_BY_NAME);
+        });
+        sortby_size_item.toggled.connect ((item) => {
+            this.on_sort_by (FolderSort.SORT_BY_SIZE);
+        });
+        sortby_type_item.toggled.connect ((item) => {
+            this.on_sort_by (FolderSort.SORT_BY_TYPE);
+        });
+        sortby_reverse_item.toggled.connect ((item) => {
+            this.manager.get_settings ().sort_reverse = !this.manager.get_settings ().sort_reverse;
+            this.manager.get_settings ().save ();
+            this.manager.organize_panel_items ();
+        });
+        organize_item.activate.connect (this.manager.organize_panel_items);
+        // ------------------------
 
         trash_item.activate.connect (this.manager.trash);
         rename_item.activate.connect (this.label.start_editing);
@@ -568,6 +600,20 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         new_submenu.append (newlinkpanel_item);
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
+
+        // sortby submenu ---------
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (sortby_item);
+        sortby_item.set_submenu (sortby_submenu);
+        sortby_submenu.append (sortby_name_item);
+        sortby_submenu.append (sortby_size_item);
+        sortby_submenu.append (sortby_type_item);
+        sortby_submenu.append (new MenuItemSeparator ());
+        sortby_submenu.append (sortby_reverse_item);
+        if (this.manager.get_arrangement ().can_organize ()) {
+            context_menu.append (organize_item);
+        }
+        // -------------------------
 
         // context_menu.append (new MenuItemSeparator ());
         // context_menu.append (aligntogrid_item);
@@ -610,6 +656,19 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // foreach (Gtk.Widget elem in children) {
         // (elem as ItemView).force_adjust_label ();
         // }
+    }
+
+    /**
+     * @name on_sort_by
+     * @description the sort by of the panel has changed
+     * @param int type the new sort by type @see FolderArrangetment sort by types consts
+     */
+    public void on_sort_by (int type) {
+        if (this.manager.get_settings ().sort_by_type != type) {
+            this.manager.get_settings ().sort_by_type = type;
+            this.manager.get_settings ().save ();
+            this.manager.organize_panel_items ();
+        }
     }
 
     /**
@@ -1126,7 +1185,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int left_padding             = title_allocation.x;
             int top_padding              = title_allocation.y;
             int header                   = title_allocation.height + top_padding;
-            int margin                   = this.get_manager ().get_arrangement ().get_margin ();
+            int margin                   = FolderArrangement.ARRANGEMENT_PADDING;
             int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity () - margin;
 
             ItemView       selected_item = this.manager.get_selected_item ();
@@ -1155,7 +1214,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     if (distance_y > distance) {
                         distance = distance_y;
                     }
-                    distance = (distance) / 60;
+                    distance = (distance) / 50;
                     float alpha = 0.1f;
                     alpha    = alpha - distance;
 

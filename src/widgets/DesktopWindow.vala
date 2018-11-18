@@ -97,7 +97,17 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var desktop_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_CHANGEDESKTOP);
         var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
-        var textcolor_item    = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
+        // sortby submenu -----------
+        var sortby_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY);
+        var sortby_submenu      = new Gtk.Menu ();
+        var sortby_name_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_NAME);
+        var sortby_size_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_SIZE);
+        var sortby_type_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_TYPE);
+        var sortby_reverse_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_REVERSE);
+        var organize_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_ORGANIZE);
+        // ----------------------------
+
+        var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
         newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
@@ -109,6 +119,28 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
         openterminal_item.activate.connect (this.open_terminal);
+
+        // sortby submenu ---------
+        sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
+        sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
+        sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
+        sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
+        sortby_name_item.toggled.connect ((item) => {
+            this.on_sort_by (FolderSort.SORT_BY_NAME);
+        });
+        sortby_size_item.toggled.connect ((item) => {
+            this.on_sort_by (FolderSort.SORT_BY_SIZE);
+        });
+        sortby_type_item.toggled.connect ((item) => {
+            this.on_sort_by (FolderSort.SORT_BY_TYPE);
+        });
+        sortby_reverse_item.toggled.connect ((item) => {
+            this.manager.get_settings ().sort_reverse = !this.manager.get_settings ().sort_reverse;
+            this.manager.get_settings ().save ();
+            this.manager.organize_panel_items ();
+        });
+        organize_item.activate.connect (this.manager.organize_panel_items);
+        // ------------------------
 
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
@@ -136,15 +168,23 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
 
-        // context_menu.append (new MenuItemSeparator ());
-        // context_menu.append (aligntogrid_item);
-        // context_menu.append (new MenuItemSeparator ());
-        // context_menu.append (lockitems_item);
-        // context_menu.append (textshadow_item);
-        // context_menu.append (textbold_item);
-        // context_menu.append (new MenuItemSeparator ());
-        context_menu.append (textcolor_item);
+        // sortby submenu ---------
         context_menu.append (new MenuItemSeparator ());
+        context_menu.append (sortby_item);
+        sortby_item.set_submenu (sortby_submenu);
+        sortby_submenu.append (sortby_name_item);
+        sortby_submenu.append (sortby_size_item);
+        sortby_submenu.append (sortby_type_item);
+        sortby_submenu.append (new MenuItemSeparator ());
+        sortby_submenu.append (sortby_reverse_item);
+        if (this.manager.get_arrangement ().can_organize ()) {
+            context_menu.append (organize_item);
+        }
+        // -------------------------
+
+        context_menu.append (new MenuItemSeparator ());
+
+        context_menu.append (textcolor_item);
         context_menu.append (properties_item);
         context_menu.append (desktop_item);
         context_menu.append (new MenuItemSeparator ());

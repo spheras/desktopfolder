@@ -123,6 +123,30 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         }
     }
 
+    private int _sort_by_type;
+    public int sort_by_type {
+        get {
+            return _sort_by_type;
+        }
+        set {
+            if (_sort_by_type != value) {
+                _sort_by_type = value; flagChanged = true;
+            }
+        }
+    }
+
+    private bool _sort_reverse;
+    public bool sort_reverse {
+        get {
+            return _sort_reverse;
+        }
+        set {
+            if (_sort_reverse != value) {
+                _sort_reverse = value; flagChanged = true;
+            }
+        }
+    }
+
     private string[] _items = new string[0];
     public string[] items {
         get {

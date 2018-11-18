@@ -63,9 +63,13 @@ src = [
        'src/dialogs/ProgressDialog.vala',
        'src/dialogs/PanelPropertiesWindow.vala',
        'src/logic/folderarrangement/FolderArrangement.vala',
-       'src/logic/folderarrangement/FreeArrangement.vala',
-       'src/logic/folderarrangement/GridArrangement.vala',
-       'src/logic/folderarrangement/ManagedArrangement.vala'
+       'src/logic/folderarrangement/FolderArrangementFree.vala',
+       'src/logic/folderarrangement/FolderArrangementGrid.vala',
+       'src/logic/folderarrangement/FolderArrangementManaged.vala',
+       'src/logic/folderarrangement/FolderSort.vala',
+       'src/logic/folderarrangement/FolderSortByName.vala',
+       'src/logic/folderarrangement/FolderSortBySize.vala',
+       'src/logic/folderarrangement/FolderSortByType.vala'
       ]
 
 exename = get_option('exename')

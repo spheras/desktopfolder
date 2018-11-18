@@ -200,4 +200,19 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_ARRANGEMENT_GRID                = _("Grid");
     // Managed arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Managed");
+
+    // sort by submenu
+    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort By");
+    // sort panel's items by name
+    public const string DESKTOPFOLDER_MENU_SORT_BY_NAME  = _("Name");
+    // sort panel's items by size
+    public const string DESKTOPFOLDER_MENU_SORT_BY_SIZE  = _("Size");
+    // sort panel's items by file type
+    public const string DESKTOPFOLDER_MENU_SORT_BY_TYPE  = _("Type");
+    // sort panel's in reverse
+    public const string DESKTOPFOLDER_MENU_SORT_REVERSE  = _("Reverse Order");
+    // force panels to be organized automatically one time
+    public const string DESKTOPFOLDER_MENU_SORT_ORGANIZE = _("Force Reorganization");
+
+
 }

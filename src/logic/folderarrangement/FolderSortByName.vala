@@ -17,22 +17,24 @@
 
 /**
  * @class
- * Free Arragement for Panels. User can put icons wherever
+ * Sort By File Name
  */
-public class DesktopFolder.FreeArrangement : Object, FolderArrangement {
-    public const int SENSITIVITY_WITHOUT_GRID = 1;
-    public const int MARGIN = 0;
+public class DesktopFolder.FolderSortByName : Object, FolderSort {
 
-    public int get_margin () {
-        return MARGIN;
-    }
-
-    public bool can_drag () {
-        return true;
-    }
-
-    public int get_sensitivity () {
-        return SENSITIVITY_WITHOUT_GRID;
+    public void sort (ref List <ItemManager> items, bool asc) {
+        items.sort_with_data ((a, b) => {
+            if (a.is_folder () != b.is_folder ()) {
+                if (a.is_folder ()) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {
+                string afn = a.get_file_name ();
+                string bfn = b.get_file_name ();
+                return (asc) ? strcmp (afn, bfn) : strcmp (bfn, afn);
+            }
+        });
     }
 
 }

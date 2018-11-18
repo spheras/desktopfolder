@@ -20,6 +20,8 @@
  * Folder Arragement Interface
  */
 public interface DesktopFolder.FolderArrangement : Object {
+    public static int ARRANGEMENT_PADDING      = 0;
+
     public static int ARRANGEMENT_TYPE_FREE    = 1;
     public static int ARRANGEMENT_TYPE_GRID    = 2;
     public static int ARRANGEMENT_TYPE_MANAGED = 3;
@@ -38,10 +40,11 @@ public interface DesktopFolder.FolderArrangement : Object {
     public abstract int get_sensitivity ();
 
     /**
-     * @name get_margin
-     * @description return the margin used to position folders inside the panel
+     * @name can_organize
+     * @description return whether the arrangement allow the reorganization of items, asked manually
+     * @return bool true->yes, it is allowed, false otherwise
      */
-    public abstract int get_margin ();
+    public abstract bool can_organize ();
 
     /**
      * Factory method to obtain an arragement type
@@ -51,13 +54,54 @@ public interface DesktopFolder.FolderArrangement : Object {
      */
     public static FolderArrangement ? factory (int type) {
         if (type == FolderArrangement.ARRANGEMENT_TYPE_FREE) {
-            return new FreeArrangement ();
+            return new FolderArrangementFree ();
         } else if (type == FolderArrangement.ARRANGEMENT_TYPE_GRID) {
-            return new GridArrangement ();
+            return new FolderArrangementGrid ();
         } else if (type == FolderArrangement.ARRANGEMENT_TYPE_MANAGED) {
-            return new ManagedArrangement ();
+            return new FolderArrangementManaged ();
         }
         return null;
+    }
+
+
+    public static void organize_items (FolderWindow parent_window, ref List <ItemManager> items, int sort_by_type, bool asc) {
+        FolderSort folder_sort = FolderSort.factory (sort_by_type);
+        folder_sort.sort (ref items, asc);
+
+        // getting the header panel
+        Gtk.Allocation title_allocation;
+        parent_window.get_titlebar ().get_allocation (out title_allocation);
+
+        // window width
+        int width       = parent_window.get_manager ().get_settings ().w;
+        // left margin to start the grid
+        int left_margin = title_allocation.x;
+
+        // cursors pixel
+        int cursor_x = left_margin;
+        int cursor_y = 0;
+
+        for (int i = 0; i < items.length (); i++) {
+            ItemManager item = items.nth_data (i);
+
+            // moving in the view to the correct position
+            parent_window.move_item (item.get_view (), cursor_x, cursor_y);
+
+            // saving settings for the new position
+            ItemSettings is = item.get_folder ().get_settings ().get_item (item.get_file_name ());
+            is.x            = cursor_x - ItemView.PADDING_X;
+            is.y            = cursor_y;
+            item.get_folder ().get_settings ().set_item (is);
+            item.get_folder ().get_settings ().save ();
+
+            // moving the cursor
+            cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + ARRANGEMENT_PADDING;
+            if (cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH > width) {
+                // we need to move to the next rows
+                cursor_x = left_margin;
+                cursor_y = cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH + ARRANGEMENT_PADDING;
+            }
+        }
     }
 
 }

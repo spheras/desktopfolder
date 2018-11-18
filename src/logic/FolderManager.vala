@@ -379,6 +379,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name organize_panel_items
+     * @description the panel try to organize all the items over the panel. This is asked manually by the user.
+     */
+    public void organize_panel_items () {
+        bool asc = !this.settings.sort_reverse;
+        FolderArrangement.organize_items (this.view, ref this.items, this.settings.sort_by_type, asc);
+    }
+
+    /**
      * @name popItemFromList
      * @description try to ind an item in a item list by the file get_name
      * @param string file_name the file name of the item
