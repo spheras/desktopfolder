@@ -76,6 +76,7 @@ public class DesktopFolderApp : Gtk.Application {
     protected override void activate () {
         base.activate ();
         debug ("activate event");
+        this.hold ();
         // we'll init the app in the activate event
         init ();
     }
