@@ -1184,16 +1184,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         if (flag_moving == true && this.manager.get_settings ().arrangement_type == FolderArrangement.ARRANGEMENT_TYPE_GRID) {
 
-            int width  = this.get_allocated_width ();
-            int height = this.get_allocated_height ();
+            int container_width  = this.container.get_allocated_width ();
+            int container_height = this.container.get_allocated_height ();
+            int window_width     = this.get_allocated_width ();
+            int window_height    = this.get_allocated_height ();
+
+            int width            = (container_width > window_width ? container_width : window_width);
+            int height           = (container_height > window_height ? container_height : window_height);
 
             cr.set_operator (Cairo.Operator.CLEAR);
             cr.paint ();
             cr.set_operator (Cairo.Operator.OVER);
 
+            double vscroll = this.scroll.get_vadjustment ().value;
+            double hscroll = this.scroll.get_hadjustment ().value;
+            // debug("scroll: %f %f",hscroll,vscroll);
+
             // TODO hate magic numbers!!
-            cr.rectangle (0, 40, width - 14, height - 54);
+            cr.rectangle (0, 40, window_width - 14, window_height - 54);
             cr.clip ();
+
 
             Gtk.Allocation title_allocation;
             this.get_titlebar ().get_allocation (out title_allocation);
@@ -1218,7 +1228,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 // debug("-i: %d",i);
                 for (int j = header, cell_y = 0; j <= height - top_padding; j += sensitivity + margin, cell_y++) {
                     // debug("|j: %d",j);
-                    cr.rectangle (i, j, sensitivity, sensitivity);
+                    cr.rectangle (i - hscroll, j - vscroll, sensitivity, sensitivity);
 
                     int distance_x = cell_x - selected_cell_x;
                     int distance_y = cell_y - selected_cell_y;
@@ -1248,7 +1258,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     cr.set_source_rgba (1, 1, 1, alpha - this.grid_fade);
                     cr.fill ();
 
-                    cr.rectangle (i, j, sensitivity, sensitivity);
+                    cr.rectangle (i - hscroll, j - vscroll, sensitivity, sensitivity);
                     cr.set_source_rgba (1, 1, 1, alpha + 0.1 - this.grid_fade);
                     if (distance == 0) {
                         cr.set_dash (null, 0);
