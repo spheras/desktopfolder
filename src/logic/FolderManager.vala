@@ -297,20 +297,24 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // debug ("syncingfiles for folder %s, %d, %d", this.get_folder_name (), x, y);
         try {
             this.load_folder_settings ();
-            // this.clear_all ();
+
+            // the current list must be refreshed, copying in an old list
             List <ItemManager> oldItems = new List <ItemManager>();
             this.items.foreach ((entry) => { oldItems.append (entry); }) ;
             this.items = new List <ItemManager>();
 
-            string base_path = this.get_absolute_path ();
-            File   directory = this.get_file ();
+            // list of new file names recently created that need to find a valid position
+            List <string> newItemsToPosition = new List <string>();
+
+            string base_path                 = this.get_absolute_path ();
+            File   directory                 = this.get_file ();
 
             // listing all the files inside this folder
             var      enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
             FileInfo file_info;
 
             // list of gaps to put new items without a custom position
-            ItemSettings[, ] gaps = null;
+            FolderGrid <ItemSettings> grid = null;
 
             while ((file_info = enumerator.next_file ()) != null) {
                 string file_name = file_info.get_name ();
@@ -334,26 +338,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 // we try to get the settings for this item
                 ItemSettings is = this.settings.get_item (file_name);
                 if (is == null) {
-                    // we need to create one empty
-                    is = new ItemSettings ();
-                    if (x == 0 && y == 0) {
-                        // no desired position for the item, lets calculate a good position
-                        if (gaps == null) {
-                            // building the structure to see current gaps
-                            gaps = this.settings.build_cell_structure ();
-                        }
-                        Gdk.Point pos = this.settings.get_next_gap (gaps, is);
-                        is.x = pos.x;
-                        is.y = pos.y;
-                    } else {
-                        is.x = x;
-                        is.y = y;
-                    }
-                    is.name = file_name;
-                    this.settings.add_item (is);
-                    ItemManager item = new ItemManager (file_name, file, this);
-                    this.items.append (item);
-                    this.view.add_item (item.get_view (), is.x, is.y);
+                    newItemsToPosition.append (file_name);
                 } else {
                     // lets check if the item already exists
                     ItemManager oldItemManager = popItemFromList (file_name, ref oldItems);
@@ -372,6 +357,32 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             // removing old entries, now no exist
             oldItems.foreach ((entry) => {
                 this.view.remove_item (entry.get_view ());
+            }) ;
+
+            // last, there are new items that need to be positioned in a valid place
+            newItemsToPosition.foreach ((file_name) => {
+                File file = File.new_for_commandline_arg (base_path + "/" + file_name);
+                // we need to create one empty
+                ItemSettings is = new ItemSettings ();
+                if (x == 0 && y == 0) {
+                    // no desired position for the item, lets calculate a good position
+                    if (grid == null) {
+                        // building the structure to see current gaps
+                        grid = FolderGrid.build_grid_structure (this.view);
+                        // grid.print();
+                    }
+                    Gdk.Point pos = grid.get_next_gap (this.view, is);
+                    is.x = pos.x;
+                    is.y = pos.y;
+                } else {
+                    is.x = x;
+                    is.y = y;
+                }
+                is.name = file_name;
+                this.settings.add_item (is);
+                ItemManager item = new ItemManager (file_name, file, this);
+                this.items.append (item);
+                this.view.add_item (item.get_view (), is.x, is.y);
             }) ;
 
             this.settings.save ();

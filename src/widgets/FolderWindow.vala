@@ -1239,7 +1239,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     if (distance == 0) {
                         alpha = 0f;
                     } else if (cell_x == selected_cell_x || cell_y == selected_cell_y) {
-                        alpha = 0.4f;
+                        alpha = 0.4f - distance + 0.1f;
+                        if (alpha < 0.02) {
+                            alpha = 0.02f;
+                        }
                     }
 
                     cr.set_source_rgba (1, 1, 1, alpha - this.grid_fade);

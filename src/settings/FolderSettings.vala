@@ -222,55 +222,6 @@ public class DesktopFolder.FolderSettings : PositionSettings {
     }
 
     /**
-     * @name build_cell_structure
-     * @description build an array describing the cell structure inside the panel.
-     * This map is useful to try to structure and align all the items inside the panel
-     * @return {ItemSettings[,]} multiarray[rows][cols] with the ItemSettings inside, null are empty places
-     */
-    public ItemSettings[, ] build_cell_structure () {
-        // first, we parse all the items we have so far
-        List <ItemSettings> all = new List <ItemSettings> ();
-        for (int i = 0; i < this.items.length; i++) {
-            ItemSettings is = ItemSettings.parse (this.items[i]);
-            all.append (is);
-        }
-
-        // we create a cell structure of allowed items
-        ItemSettings[, ] cells = new ItemSettings[this.w / DesktopFolder.ICON_DEFAULT_WIDTH, this.h / DesktopFolder.ICON_DEFAULT_WIDTH];
-
-        // now, ordering current items in the structure to see gaps
-        for (int i = 0; i < all.length (); i++) {
-            ItemSettings item = all.nth_data (i);
-            cells[(int) (item.x / DesktopFolder.ICON_DEFAULT_WIDTH), (int) (item.y / DesktopFolder.ICON_DEFAULT_WIDTH)] = item;
-        }
-
-        return cells;
-    }
-
-    /**
-     * @name get_next_gap
-     * @description find a gap inside the current structure and put there the item
-     * @param {ItemSettings[,]} cell_structure the current cell structure to search gaps (obtained from build_cell_structure)
-     * @param {ItemSettings} item the item we want to put inside the current structure, we need to find a gap there
-     * @return {Gdk.Point} the point where it was inserted
-     */
-    public Gdk.Point get_next_gap (ItemSettings[, ] cell_structure, ItemSettings item) {
-        for (int row = 0; row < cell_structure.length[0]; row++) {
-            for (int col = 0; col < cell_structure.length[1]; col++) {
-                if (cell_structure[row, col] == null) {
-                    cell_structure[row, col] = item;
-                    Gdk.Point point = Gdk.Point ();
-                    point.y = row * DesktopFolder.ICON_DEFAULT_WIDTH;
-                    point.x = col * DesktopFolder.ICON_DEFAULT_WIDTH;
-                    return point;
-                }
-            }
-        }
-
-        return Gdk.Point ();
-    }
-
-    /**
      * @name set_item
      * @description replace the current settings for a certain item with other new info
      * @param ItemSettings item the new settings for the item with the same name

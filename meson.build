@@ -69,7 +69,8 @@ src = [
        'src/logic/folderarrangement/FolderSort.vala',
        'src/logic/folderarrangement/FolderSortByName.vala',
        'src/logic/folderarrangement/FolderSortBySize.vala',
-       'src/logic/folderarrangement/FolderSortByType.vala'
+       'src/logic/folderarrangement/FolderSortByType.vala',
+       'src/logic/folderarrangement/FolderGrid.vala'
       ]
 
 exename = get_option('exename')

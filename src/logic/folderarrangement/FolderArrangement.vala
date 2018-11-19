@@ -78,7 +78,14 @@ public interface DesktopFolder.FolderArrangement : Object {
         return null;
     }
 
-
+    /**
+     * @name organize_items
+     * @desription organize the list of items in a panel sorted
+     * @param parent_window FolderWindow the parent panel of the items
+     * @param items List<ItemManager> the reference for the list of items to organize. Items are positioned to foce the new organization
+     * @param sort_by_type int the sort type @see FolderSort constants
+     * @param asc bool to indicate ascendent sort or descent (true->ascendent)
+     */
     public static void organize_items (FolderWindow parent_window, ref List <ItemManager> items, int sort_by_type, bool asc) {
         FolderSort folder_sort = FolderSort.factory (sort_by_type);
         folder_sort.sort (ref items, asc);
@@ -118,5 +125,9 @@ public interface DesktopFolder.FolderArrangement : Object {
             }
         }
     }
+
+}
+
+private class GridRow {
 
 }
