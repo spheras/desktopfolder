@@ -43,7 +43,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     /** the label of the icon */
     private DesktopFolder.EditableLabel label;
     /** the image shown */
-    private Gtk.Image icon = null;
+    private Gtk.Image icon             = null;
+    /** flag to know whether the drag drop event was started */
+    private bool flag_dragdrop_started = false;
+
 
     /** set of variables to allow move the widget */
     private int offsetx;
@@ -390,8 +393,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
             // HELP! don't know why these constants?? maybe padding??
-            int x = allocation.x - PADDING_X;
-            int y = allocation.y - PADDING_Y;
+            int x = allocation.x; // - PADDING_X;
+            int y = allocation.y; // - PADDING_Y;
 
             this.manager.save_position (x, y);
             this.flagModified = false;
@@ -505,13 +508,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.get_allocation (out allocation);
             // debug("release(%d,%d)",allocation.x,allocation.y);
             // HELP! don't know why these constants?? maybe padding??
-            int x = allocation.x;
-            int y = allocation.y;
-
-            if ((this.manager.get_folder ().get_view () is DesktopWindow)) {
-                x = x - PADDING_X;
-                y = y - PADDING_Y;
-            }
+            int x = allocation.x; // - PADDING_X;
+            int y = allocation.y; // - PADDING_Y;
 
             FolderArrangement arrangement = this.manager.get_folder ().get_arrangement ();
             int sensitivity               = arrangement.get_sensitivity ();
@@ -533,6 +531,23 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
+     * @name is_dragdrop_started
+     * @description return whether the item has started a drag drop event
+     * @return true -> yes, it was started, false otherwise
+     */
+    public bool is_dragdrop_started () {
+        return this.flag_dragdrop_started;
+    }
+
+    /**
+     * @name on_drag_end
+     * @description drag end event
+     */
+    public void on_drag_end () {
+        this.flag_dragdrop_started = false;
+    }
+
+    /**
      * @name on_press
      * @description the mouse press event captured
      * @param EventButton event the event produced
@@ -547,7 +562,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // this code is to allow the drag'ndrop of files inside the folder window
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
+        bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
+
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag)) {
+            this.select ();
+            this.flag_dragdrop_started = true;
             return false;
         }
 
@@ -834,11 +853,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int y = (int) event.y_root - this.offsety;
 
             // removing parent absolute position due to scroll
-            if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
-                FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
-                x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
-                y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            }
+            // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
+            FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
+            x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            // }
 
             // debug("-------------");
             // debug ("offset(%d,%d)", this.offsetx, this.offsety);

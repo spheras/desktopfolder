@@ -138,14 +138,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.set_property ("skip-taskbar-hint", true);
 
         this.container = new Gtk.Fixed ();
-        if (!(this is DesktopWindow)) {
-            // only panels are scrollable
-            this.scroll = new Gtk.ScrolledWindow (null, null);
-            this.scroll.add (this.container);
-            add (this.scroll);
-        } else {
-            add (this.container);
-        }
+        // if (!(this is DesktopWindow)) {
+        // only panels are scrollable
+        this.scroll = new Gtk.ScrolledWindow (null, null);
+        this.scroll.add (this.container);
+        add (this.scroll);
+        // } else {
+        // add (this.container);
+        // }
 
         // important to load settings 2 times, now and after realized event
         this.reload_settings ();
@@ -474,10 +474,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // this code is to allow the drag'ndrop of files inside the folder window
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool can_drag        = this.manager.get_arrangement ().can_drag ();
+        if (!can_drag) {
+            ItemView selected = this.manager.get_selected_item ();
+            if (selected != null) {
+                control_pressed = selected.is_dragdrop_started ();
+            }
+        }
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
             return false;
         }
-
 
         // This is to allow moving and resizing the panel
         // TODO: Is there a way to make a desktop window resizable and movable?
@@ -811,7 +817,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // debug("initial position:%d,%d",x,y);
         // x = ItemView.RoundToNearestMultiple (x, this.get_sensitivity ()); TODO
         // y = ItemView.RoundToNearestMultiple (y, this.get_sensitivity ()); TODO
-        int margin = ItemView.PADDING_X;
+        int margin = 0; // ItemView.PADDING_X;
         this.container.put (item, x + margin, y);
     }
 
@@ -1203,8 +1209,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             ItemView       selected_item = this.manager.get_selected_item ();
             Gtk.Allocation allocation;
             selected_item.get_allocation (out allocation);
-            int selected_cell_x = allocation.x / (sensitivity + margin);
-            int selected_cell_y = allocation.y / (sensitivity + margin);
+            int selected_cell_x = (allocation.x + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
+            int selected_cell_y = (allocation.y + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
             // debug ("sellected: %d, %d", selected_i, selected_j);
 
 
@@ -1226,14 +1232,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     if (distance_y > distance) {
                         distance = distance_y;
                     }
-                    distance = (distance) / 50;
-                    float alpha = 0.1f;
+                    distance = (distance) / 20;
+                    float alpha = 0.3f;
                     alpha    = alpha - distance;
 
                     if (distance == 0) {
-                        alpha = 0.7f;
+                        alpha = 0f;
                     } else if (cell_x == selected_cell_x || cell_y == selected_cell_y) {
-                        alpha = 0.15f;
+                        alpha = 0.4f;
                     }
 
                     cr.set_source_rgba (1, 1, 1, alpha - this.grid_fade);

@@ -88,5 +88,11 @@ namespace DesktopFolder.DragnDrop {
          */
         public abstract string get_display_target_uri ();
 
+        /**
+         * @name on_drag_end
+         * @description drag finished event
+         */
+        public abstract void on_drag_end ();
+
     }
 }

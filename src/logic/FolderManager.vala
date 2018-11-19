@@ -113,6 +113,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             this.settings.arrangement_type = type;
             this.settings.save ();
             this.arrangement               = FolderArrangement.factory (this.settings.arrangement_type);
+
+            if (this.arrangement.forze_organization ()) {
+                this.organize_panel_items ();
+            }
         }
     }
 
@@ -806,6 +810,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public Gtk.Image get_image () {
         return null as Gtk.Image;
+    }
+
+    public void on_drag_end () {
+        // nothing
     }
 
     // ---------------------------------------------------------------------------------------

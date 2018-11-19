@@ -330,7 +330,6 @@ window decoration{
 
 .df_item{
     border-radius:7px;
-    transition: background 100ms cubic-bezier(0.455, 0.030, 0.515, 0.955);
 }
 
 .df_folder .df_item.df_selected .df_label{
@@ -402,6 +401,8 @@ window decoration{
     font-size: 12px;
     background: rgba(0,0,255,0);
 }
+
+
 
 .df_note_text text{
     background:rgba(0,0,0,0);

@@ -210,8 +210,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         Gtk.Allocation allocation;
         this.view.get_allocation (out allocation);
         // HELP! don't know why these constants?? maybe padding??
-        is.x = allocation.x - ItemView.PADDING_X - ItemView.PADDING_X;
-        is.y = allocation.y - ItemView.PADDING_Y;
+        is.x = allocation.x; // - ItemView.PADDING_X - ItemView.PADDING_X;
+        is.y = allocation.y; // - ItemView.PADDING_Y;
         this.folder.get_settings ().set_item (is);
         this.folder.get_settings ().save ();
     }
@@ -457,6 +457,13 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public Gtk.Image get_image () {
         return this.view.get_image ();
+    }
+
+    /**
+     * @overrided
+     */
+    public void on_drag_end () {
+        this.view.on_drag_end ();
     }
 
     // ---------------------------------------------------------------------------------------
