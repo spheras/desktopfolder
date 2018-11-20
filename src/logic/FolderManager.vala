@@ -504,7 +504,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new file
      * @param int y the y position of the new file
      */
-    public void create_new_text_file (string name, int x, int y) {
+    public string create_new_text_file (int x, int y, string name = "new file") {
+        string path = this.get_absolute_path () + "/" + name;
+
+        string new_name = "";
+
+        File folder = File.new_for_path (path);
+        if (folder.query_exists ()) {
+            new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
+        } else {
+            new_name = name;
+        }
+
         // cancelling the current monitor
         this.monitor.cancel ();
 
@@ -522,6 +533,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
+        return new_name;
     }
 
     /**

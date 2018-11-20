@@ -1080,16 +1080,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new item should be placed
      */
     protected void new_text_file (int x, int y) {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
-        dialog.on_rename.connect ((new_name) => {
-            if (new_name != "") {
-                this.manager.create_new_text_file (new_name, x, y);
-            }
-        });
-        dialog.show_all ();
+        string new_name = this.manager.create_new_text_file (x, y);
+        var item = this.manager.get_item_by_filename (new_name);
+        if (item == null) {
+            stderr.printf ("Error: Couldn't find the newly created folder's item.");
+            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
+            return;
+        } else {
+            ItemView itemview = item.get_view ();
+
+            itemview.start_editing ();
+        }
     }
 
     /**
