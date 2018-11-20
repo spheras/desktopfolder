@@ -1069,7 +1069,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         } else {
             ItemView itemview = item.get_view ();
 
-            itemview.start_editing ();
+            GLib.Timeout.add (50, () => {
+                itemview.start_editing ();
+                return false;
+            });
         }
     }
 
@@ -1088,14 +1091,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             return;
         } else {
             ItemView itemview = item.get_view ();
-
-            itemview.start_editing ();
+            GLib.Timeout.add (50, () => {
+                itemview.start_editing ();
+                return false;
+            });
         }
     }
 
     /**
      * @name new_link
-     * @description create a new linnk item inside this folder
+     * @description create a new link item inside this folder
      * @param int x the x position where the new item should be placed
      * @param int y the y position where the new item should be placed
      * @param bool folder to indicate if we want to select a folder or a file
