@@ -247,6 +247,39 @@ namespace DesktopFolder.Util {
     }
 
     /**
+     * @name make_next_duplicate_name
+     * @description find a new name for the file
+     * @param {string} the base name to check if its repeated
+     * @param {string} the path for the file
+     * @return {string} the base name if it is ok, or a new one if not
+     */
+    public static string make_next_duplicate_name (string basename, string path) {
+        // TODO: Copy elementary's way of doing it
+        string name        = DesktopFolder.Util.sanitize_name (basename);
+        int ext_pos        = name.last_index_of (".");
+        string ext         = "";
+        string name_no_ext = name;
+        if (ext_pos != -1) {
+            ext         = name.substring (ext_pos + 1);
+            name_no_ext = name.replace (ext, "");
+        }
+        string file_to_check = "";
+
+        for (int i = 2; i < 1000000; i++) {
+            file_to_check = name_no_ext + " " + i.to_string () + ext;
+            File file = File.new_for_path (path + file_to_check);
+            if (file.query_exists ()) {
+                continue;
+            } else {
+                break;
+            }
+        }
+
+        debug ("name: " + name + ", ext_pos: " + ext_pos.to_string () + ", ext: " + ext + ", name_no_ext: " + name_no_ext + ", file_to_check: " + file_to_check);
+        return file_to_check;
+    }
+
+    /**
      * @name get_a_no_repeated_file_name
      * @description check if the name is repeated or not
      * @param {string} the base name to check if its repeated

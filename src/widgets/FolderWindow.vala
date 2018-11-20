@@ -1060,17 +1060,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new folder icon should be generated
      */
     protected void new_folder (int x, int y) {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
-        dialog.on_rename.connect ((new_name) => {
-            // creating the folder
-            if (new_name != "") {
-                this.manager.create_new_folder (new_name, x, y);
-            }
-        });
-        dialog.show_all ();
+        string new_name = this.manager.create_new_folder (x, y);
+        var item = this.manager.get_item_by_filename (new_name);
+        if (item == null) {
+            stderr.printf ("Error: Couldn't find the newly created folder's item.");
+            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
+            return;
+        } else {
+            ItemView itemview = item.get_view ();
+
+            itemview.start_editing ();
+        }
     }
 
     /**
