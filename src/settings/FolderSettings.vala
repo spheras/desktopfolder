@@ -455,7 +455,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         List <ItemSettings> all = new List <ItemSettings> ();
         for (int i = 0; i < this.items.length; i++) {
             ItemSettings is = ItemSettings.parse (this.items[i]);
-            var basePath = Environment.get_home_dir () + "/Desktop" + this.name;
+            var basePath = Environment.get_home_dir () + "/Desktop/" + this.name;
             var filepath = basePath + "/" + is.name;
             // debug("checking:"+filepath);
             File f       = File.new_for_path (filepath);
