@@ -81,7 +81,7 @@ namespace DesktopFolder.Dialogs {
             main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
             main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
-            var version_label = new Gtk.Label ("version " + DesktopFolder.VERSION.up ());
+            var version_label = new Gtk.Label ("Version " + DesktopFolder.VERSION.up ());
             version_label.set_size_request (250, -1);
             version_label.xalign = 0;
 
