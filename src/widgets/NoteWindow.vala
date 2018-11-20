@@ -135,6 +135,16 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         // TODO: Does the GTK window have any active signal or css :active state?
         Wnck.Screen screen = Wnck.Screen.get_default ();
         screen.active_window_changed.connect (on_active_change);
+
+        NoteSettings settings = this.manager.get_settings ();
+
+        if (settings.edit_label_on_creation) {
+            GLib.Timeout.add (0, () => {
+                this.label.start_editing ();
+                settings.edit_label_on_creation = false;
+                return false;
+            });
+        }
     }
 
 
@@ -149,7 +159,8 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         header.height_request = DesktopFolder.HEADERBAR_HEIGHT;
         header.has_subtitle   = false;
         this.label            = new DesktopFolder.EditableLabel (manager.get_note_name ());
-        this.label.set_margin_end (15);
+        this.label.set_margin_top (10);
+        this.label.set_margin_end (40);
         this.label.show_popup.connect ((event) => { this.show_popup (event); return true; });
         this.label.get_style_context ().add_class ("title");
         header.set_custom_title (this.label);

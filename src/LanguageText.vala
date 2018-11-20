@@ -214,5 +214,10 @@ namespace DesktopFolder.Lang {
     // force panels to be organized automatically one time
     public const string DESKTOPFOLDER_MENU_SORT_ORGANIZE = _("Force Reorganization");
 
+    // the title of a panel when a new one is created
+    public const string NEWLY_CREATED_PANEL = _("Untitled Panel");
+    // the title of a note when a new one is created
+    public const string NEWLY_CREATED_NOTE = _("New Note");
+
 
 }

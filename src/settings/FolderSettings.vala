@@ -186,6 +186,18 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    private bool _edit_label_on_creation;
+    public bool edit_label_on_creation {
+        get {
+            return _edit_label_on_creation;
+        }
+        set {
+            if (_edit_label_on_creation != value) {
+                _edit_label_on_creation = value; flagChanged = true;
+            }
+        }
+    }
     // default json seralization implementation only support primitive types
 
     private File file;
@@ -218,6 +230,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         this.name             = name;
         this.items            = new string[0];
         this.version          = DesktopFolder.SETTINGS_VERSION;
+        this.edit_label_on_creation = false;
         check_off_screen ();
     }
 
@@ -442,7 +455,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         List <ItemSettings> all = new List <ItemSettings> ();
         for (int i = 0; i < this.items.length; i++) {
             ItemSettings is = ItemSettings.parse (this.items[i]);
-            var basePath = Environment.get_home_dir () + "/Desktop/" + this.name;
+            var basePath = Environment.get_home_dir () + "/Desktop" + this.name;
             var filepath = basePath + "/" + is.name;
             // debug("checking:"+filepath);
             File f       = File.new_for_path (filepath);

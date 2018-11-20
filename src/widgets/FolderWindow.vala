@@ -182,6 +182,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
 
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+
+        FolderSettings settings = this.manager.get_settings ();
+
+        debug (settings.edit_label_on_creation.to_string ());
+        if (settings.edit_label_on_creation) {
+            GLib.Timeout.add (50, () => {
+                this.label.start_editing ();
+                settings.edit_label_on_creation = false;
+                return false;
+            });
+        }
     }
 
     /**
@@ -280,10 +291,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (settings.fgcolor);
 
-        if (this.manager.get_settings ().textshadow) {
+        if (settings.textshadow) {
             this.get_style_context ().add_class ("df_shadow");
         }
-        if (this.manager.get_settings ().textbold) {
+        if (settings.textbold) {
             this.get_style_context ().add_class ("df_bold");
         }
 
