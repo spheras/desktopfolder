@@ -29,6 +29,7 @@ public class DesktopFolderApp : Gtk.Application {
 
     /** schema settings */
     private GLib.Settings settings              = null;
+    private bool single_click                   = false;
     private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
 
     /** List of folder owned by the application */
@@ -113,6 +114,18 @@ public class DesktopFolderApp : Gtk.Application {
 
         // define our settings schema
         settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+        try {
+            // loki -> GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
+            GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/io.elementary.files.gschema.xml");
+            if (f_check_elementary.query_exists ()) {
+                // it seems we can't control an error reading settings!!
+                // loki -> GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
+                GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
+                single_click = elementary_files_settings.get_boolean ("single-click");
+            }
+        } catch (Error error) {
+            // we don't have any files settings, using default config
+        }
 
         // Connect to show-desktopfolder key
         settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
@@ -455,6 +468,15 @@ public class DesktopFolderApp : Gtk.Application {
             }
         }
         return null;
+    }
+
+    /**
+     * @name get_single_click
+     * @description get the single click system setting (fallback is false)
+     * @return bool whether single click is on or not
+     */
+    public bool get_single_click () {
+        return single_click;
     }
 
     /**
