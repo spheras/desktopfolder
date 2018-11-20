@@ -73,7 +73,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 title_entry.width_request = label_allocation.width - 40;
 
                 stack.set_visible_child (title_entry);
-                title_entry.grab_focus_without_selecting ();
+                title_entry.grab_focus ();
             } else {
                 // debug("set editing false");
                 title_entry.text = title_entry.text.strip ();
