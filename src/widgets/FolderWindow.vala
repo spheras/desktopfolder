@@ -870,77 +870,76 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         ItemView selected         = this.manager.get_selected_item ();
 
-        if (event.type == Gdk.EventType.KEY_RELEASE) {
-            if (control_pressed) {
-                if (key == 'c' || key == 'C') {
-                    if (selected != null) {
-                        selected.copy ();
-                        return true;
-                    }
-                } else if (key == 'x' || key == 'X') {
-                    if (selected != null) {
-                        selected.cut ();
-                        return true;
-                    }
-                } else if (key == 'v' || key == 'V') {
-                    this.manager.paste ();
-                }
+        if (event.type == Gdk.EventType.KEY_PRESS && control_pressed && selected != null && (key == 'c' || key == 'C') ) {
+            selected.copy ();
+            return true;
+        }
+
+        if (event.type == Gdk.EventType.KEY_PRESS && control_pressed && selected != null && (key == 'x' || key == 'X') ) {
+            selected.cut ();
+            return true;
+        }
+
+        if (event.type == Gdk.EventType.KEY_PRESS && control_pressed && (key == 'v' || key == 'V') ) {
+            this.manager.paste ();
+        }
+
+        if (event.type == Gdk.EventType.KEY_PRESS && key == DELETE_KEY) {
+            if (selected == null) {
+                this.manager.trash ();
+            } else if (shift_pressed) {
+                selected.delete_dialog ();
             } else {
-                if (key == DELETE_KEY) {
-                    if (selected != null) {
-                        if (shift_pressed) {
-                            selected.delete_dialog ();
-                        } else {
-                            selected.trash ();
-                        }
-                        return true;
-                    } else {
-                        this.manager.trash ();
-                    }
-                } else if (key == F2_KEY) {
-                    if (selected != null) {
-                        selected.start_editing ();
-                        return true;
-                    } else {
-                        this.label.start_editing ();
-                    }
-                } else if (key == ENTER_KEY) {
-                    if (selected != null) {
-                        selected.execute ();
-                        return true;
-                    }
-                }
+                selected.trash ();
             }
-        } else if (event.type == Gdk.EventType.KEY_PRESS) {
-            if (key == ARROW_LEFT_KEY) {
-                // left arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x < b.x;
-                });
-            } else if (key == ARROW_UP_KEY) {
-                // up arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y < b.y;
-                });
-            } else if (key == ARROW_RIGHT_KEY) {
-                // right arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x > b.x;
-                });
-            } else if (key == ARROW_DOWN_KEY) {
-                // down arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y > b.y;
-                });
+            return true;
+        }
+
+        if (event.type == Gdk.EventType.KEY_PRESS && key == F2_KEY) {
+            if (selected != null) {
+                selected.start_editing ();
+                return true;
+            } else {
+                this.label.start_editing ();
             }
+        }
+
+        if (event.type == Gdk.EventType.KEY_PRESS && selected != null && key == ENTER_KEY) {
+            selected.execute ();
+            return true;
+        }
+
+        if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_LEFT_KEY) {
+            // left arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+            }, (a, b) => {
+                return a.x < b.x;
+            });
+        }
+        if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_UP_KEY) {
+            // up arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+            }, (a, b) => {
+                return a.y < b.y;
+            });
+        }
+        if (event.type == Gdk.EventType.KEY_PRESS &&  key == ARROW_RIGHT_KEY) {
+            // right arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+            }, (a, b) => {
+                return a.x > b.x;
+            });
+        }
+        if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_DOWN_KEY) {
+            // down arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+            }, (a, b) => {
+                return a.y > b.y;
+            });
         }
 
         return false;
