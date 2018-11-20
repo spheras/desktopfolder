@@ -135,6 +135,7 @@ namespace DesktopFolder.Dialogs {
                     this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_MANAGED);
                 }
             });
+            arrangement_combo.expand = true;
             general_grid.attach (arrangement_combo, 1, 1, 1, 1);
 
             /*
@@ -161,7 +162,7 @@ namespace DesktopFolder.Dialogs {
             settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
 
             // The interface section
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_INTERFACE), 0, 4, 2, 1);
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_APPEARANCE), 0, 4, 2, 1);
             // Tet shadow
             settings_switch = new SettingsSwitch ("text_shadow");
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5, 1, 1);
@@ -186,44 +187,41 @@ namespace DesktopFolder.Dialogs {
 
             GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
 
-            // PANEL OVER DESKTOP
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 0, 2, 1);
-            Gtk.Label description = new Gtk.Label (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION);
-            description.set_single_line_mode (false);
-            description.wrap = true;
-            description.set_size_request (100, -1);
-            description.set_max_width_chars (50);
-            description.set_line_wrap (true);
-            description.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
-            general_grid.attach (description, 0, 1, 2, 2);
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_GENERAL), 0, 0, 2, 1);
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 3, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 1, 1, 1);
+
             SettingsSwitch settings_switch = new SettingsSwitch ("desktop_panel");
-            general_grid.attach (settings_switch, 1, 3, 1, 1);
+            settings_switch.halign = Gtk.Align.START;
+            settings_switch.margin_end = 8;
+            general_grid.attach (settings_switch, 1, 1, 1, 1);
+
+            var icons_on_desktop_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
+            icons_on_desktop_help.halign = Gtk.Align.START;
+            icons_on_desktop_help.hexpand = true;
+            icons_on_desktop_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION;
+            general_grid.attach (icons_on_desktop_help, 2, 1, 1, 1);
 
             settings_switch.set_active (settings.get_boolean ("desktop-panel"));
             settings_switch.notify["active"].connect (() => {
                 settings.set_boolean ("desktop-panel", !settings.get_boolean ("desktop-panel"));
             });
 
-
-            // RESOLUTION STRATEGY
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 4, 2, 1);
-            description      = new Gtk.Label (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION);
-            description.set_single_line_mode (false);
-            description.wrap = true;
-            description.set_size_request (100, -1);
-            description.set_max_width_chars (50);
-            description.set_line_wrap (true);
-            description.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
-            general_grid.attach (description, 0, 5, 2, 2);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 2, 1, 1);
 
             var strategy_combo = new Gtk.ComboBoxText ();
             strategy_combo.append ("NONE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_NONE);
             strategy_combo.append ("SCALE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE);
             strategy_combo.append ("STORE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_STORE);
             settings.bind ("resolution-strategy", strategy_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
-            general_grid.attach (strategy_combo, 0, 7, 1, 1);
+            strategy_combo.margin_end = 8;
+            general_grid.attach (strategy_combo, 1, 2, 1, 1);
+
+            var resolution_strategy_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
+            resolution_strategy_help.halign = Gtk.Align.START;
+            resolution_strategy_help.hexpand = true;
+            resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
+            general_grid.attach (resolution_strategy_help, 2, 2, 1, 1);
 
             return general_grid;
         }
