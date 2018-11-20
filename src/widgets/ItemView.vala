@@ -391,7 +391,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             single_click = false;
         }
 
-        if (single_click) {
+        if (single_click && !this.flagModified) {
             get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "pointer"));
         }
         return true;
