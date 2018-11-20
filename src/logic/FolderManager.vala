@@ -472,7 +472,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new folder
      * @param int y the y position of the new folder
      */
-    public string create_new_folder (int x, int y, string name = "untitled folder") {
+    public string create_new_folder (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME) {
         string path = this.get_absolute_path () + "/" + name;
 
         string new_name = "";
@@ -504,7 +504,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new file
      * @param int y the y position of the new file
      */
-    public string create_new_text_file (int x, int y, string name = "new file") {
+    public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
         string path = this.get_absolute_path () + "/" + name;
 
         string new_name = "";

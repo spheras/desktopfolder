@@ -79,13 +79,13 @@ namespace DesktopFolder.Lang {
     // desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_FOLDER_MESSAGE         = _("Enter the name");
     // desktopfolder - The default name for the new folder to be created
-    public const string DESKTOPFOLDER_NEW_FOLDER_NAME            = _("new folder");
+    public const string DESKTOPFOLDER_NEW_FOLDER_NAME            = _("untitled folder");
     // desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_TITLE        = _("New Text File");
     // desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE      = _("Enter the name");
     // desktopfolder - The default name for the new text file to be created
-    public const string DESKTOPFOLDER_NEW_TEXT_FILE_NAME         = _("new.txt");
+    public const string DESKTOPFOLDER_NEW_TEXT_FILE_NAME         = _("new file");
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
     public const string DESKTOPFOLDER_DELETE_TOOLTIP             = _("Move to Trash");
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
