@@ -376,6 +376,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private bool on_enter (Gdk.EventCrossing eventCrossing) {
         this.get_style_context ().add_class ("df_item_over");
         // debug("enter item");
+        bool single_click = this.manager.get_folder ().get_application ().get_single_click ();
+
+        if (single_click && !this.flagModified) {
+            get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "pointer"));
+        }
         return true;
     }
 
@@ -484,21 +489,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.manager.get_folder ().get_view ().on_item_moving (false);
 
         if (!this.flagMoved) {
-            bool single_click = false;
-            try {
-                // loki -> GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
-                GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/io.elementary.files.gschema.xml");
-                if (f_check_elementary.query_exists ()) {
-                    // it seems we can't control an error reading settings!!
-                    // loki -> GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
-                    GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
-                    single_click = elementary_files_settings.get_boolean ("single-click");
-                    debug ("single_click: %s", (single_click ? "true" : "false"));
-                }
-            } catch (Error error) {
-                // we don't have any files settings, using default config
-                single_click = false;
-            }
+            bool single_click = this.manager.get_folder ().get_application ().get_single_click ();
 
             if (single_click && event.type == Gdk.EventType.BUTTON_RELEASE && event.button == Gdk.BUTTON_PRIMARY) {
                 on_double_click ();
