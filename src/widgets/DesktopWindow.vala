@@ -69,7 +69,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
      */
     public override void refresh () {
         this.show_all ();
-        if (this.manager.get_type () == typeof (DesktopFolder.DesktopManager) && !this.manager.get_application ().get_desktoppanel_enabled ()) {
+        if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
             debug ("trying to hide");
             this.manager.hide_items ();
         }
