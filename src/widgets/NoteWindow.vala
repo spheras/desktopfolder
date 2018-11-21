@@ -447,47 +447,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         this.menu = new Gtk.Menu ();
 
-        // new submenu
-        Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
-        item_new.show ();
-        menu.append (item_new);
-
-        Gtk.Menu newmenu = new Gtk.Menu ();
-        item_new.set_submenu (newmenu);
-
-        // menu to create a new folder
-        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        item.activate.connect ((item) => {
-            this.new_desktop_folder ();
-        });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new link panel
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        item.activate.connect ((item) => {
-            this.new_link_panel ();
-        });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new note
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        item.activate.connect ((item) => {
-            this.new_note ();
-        });
-        item.show ();
-        newmenu.append (item);
-
-        // menu to create a new photo
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        item.activate.connect ((item) => {
-            this.new_photo ();
-        });
-        item.show ();
-        newmenu.append (item);
-
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
+        Gtk.MenuItem item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().texture == "square_paper");
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
             this.on_texture ("square_paper");
@@ -568,38 +528,6 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         }
         this.manager.get_settings ().save ();
         this.queue_draw ();
-    }
-
-    /**
-     * @name new_photo
-     * @description show a dialog to create a new photo
-     */
-    private void new_photo () {
-        DesktopFolder.Util.create_new_photo (this);
-    }
-
-    /**
-     * @name new_note
-     * @description show a dialog to create a new desktop folder
-     */
-    private void new_note () {
-        DesktopFolder.Util.create_new_note (this);
-    }
-
-    /**
-     * @name new_desktop_folder
-     * @description show a dialog to create a new desktop folder
-     */
-    private void new_desktop_folder () {
-        DesktopFolder.Util.create_new_desktop_folder (this);
-    }
-
-    /**
-     * @name new_link_panel
-     * @description show a dialog to create a new link panel
-     */
-    private void new_link_panel () {
-        DesktopFolder.Util.create_new_link_panel (this);
     }
 
     /**

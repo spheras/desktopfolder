@@ -122,10 +122,12 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
-        newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
-        emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
-        newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
-        newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
+        if (this.manager.get_application ().get_desktoppanel_enabled ()) {
+            newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
+            emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
+            newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
+            newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
+        }
         newpanel_item.activate.connect (this.new_desktop_folder);
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
@@ -168,13 +170,14 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         }
         context_menu.append (new_item);
         new_item.set_submenu (new_submenu);
-
-        new_submenu.append (newfolder_item);
-        new_submenu.append (emptyfile_item);
-        new_submenu.append (new MenuItemSeparator ());
-        new_submenu.append (newlink_item);
-        new_submenu.append (newlinkdir_item);
-        new_submenu.append (new MenuItemSeparator ());
+        if (this.manager.get_application ().get_desktoppanel_enabled ()) {
+            new_submenu.append (newfolder_item);
+            new_submenu.append (emptyfile_item);
+            new_submenu.append (new MenuItemSeparator ());
+            new_submenu.append (newlink_item);
+            new_submenu.append (newlinkdir_item);
+            new_submenu.append (new MenuItemSeparator ());
+        }
         new_submenu.append (newpanel_item);
         new_submenu.append (newlinkpanel_item);
         new_submenu.append (newnote_item);
