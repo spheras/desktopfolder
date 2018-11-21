@@ -386,7 +386,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name refresh
      * @description refresh the window
      */
-    public void refresh () {
+    public virtual void refresh () {
         this.show_all ();
     }
 

@@ -29,7 +29,10 @@ public class DesktopFolderApp : Gtk.Application {
 
     /** schema settings */
     private GLib.Settings settings              = null;
+    private const string SHOW_DESKTOPPANEL_KEY  = "desktop-panel";
     private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
+
+    private bool show_desktoppanel = false;
 
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
@@ -147,9 +150,14 @@ public class DesktopFolderApp : Gtk.Application {
            });
          */
 
+        this.create_fake_desktop ();
+
         // we start creating the folders found at the desktop folder
         this.sync_folders_and_notes ();
 
+        // Connect to desktoppanel key
+        settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
+        on_show_desktoppanel_changed ();
         this.monitor_desktop ();
 
         // Listening to size change events
@@ -165,6 +173,28 @@ public class DesktopFolderApp : Gtk.Application {
         this.volume_monitor.volume_changed.connect ((volume) => {
             this.on_mount_changed ();
         });
+    }
+
+    /**
+     * @name on_show_desktopfolder_changed
+     * @description detect when desktopfolder key is toggled
+     */
+    private void on_show_desktoppanel_changed () {
+        bool show_desktoppanel = settings.get_boolean (SHOW_DESKTOPPANEL_KEY);
+        if (show_desktoppanel) {
+            this.desktop.show_items ();
+        } else {
+            this.desktop.hide_items ();
+        }
+        this.show_desktoppanel = show_desktoppanel;
+    }
+
+    /**
+     * @name on_show_desktopfolder_changed
+     * @description detect when desktopfolder key is toggled
+     */
+    public bool get_desktoppanel_enabled () {
+        return show_desktoppanel;
     }
 
     /**
@@ -230,39 +260,19 @@ public class DesktopFolderApp : Gtk.Application {
      * @name check_fake_desktop
      * @description check if the fake desktop must be showed or not to create it
      */
-    private void check_fake_desktop () {
-        string[]      keys  = settings.list_keys ();
-        bool          found = false;
-        for (int i = 0; i < keys.length; i++) {
-            string key = keys[i];
-            if (key == "desktop-panel") {
-                found = true;
-                break;
-            }
+    private void create_fake_desktop () {
+        this.desktop = new DesktopFolder.DesktopManager (this);
+        for (int i = 0; i < this.folders.length (); i++) {
+            var fm = this.folders.nth (i).data;
+            fm.reopen ();
         }
-        bool desktop_panel = false;
-        if (found) {
-            desktop_panel = settings.get_boolean ("desktop-panel");
+        for (int i = 0; i < this.notes.length (); i++) {
+            var fm = this.notes.nth (i).data;
+            fm.reopen ();
         }
-
-        if (desktop_panel && this.desktop == null) {
-            this.desktop = new DesktopFolder.DesktopManager (this);
-            for (int i = 0; i < this.folders.length (); i++) {
-                var fm = this.folders.nth (i).data;
-                fm.reopen ();
-            }
-            for (int i = 0; i < this.notes.length (); i++) {
-                var fm = this.notes.nth (i).data;
-                fm.reopen ();
-            }
-            for (int i = 0; i < this.photos.length (); i++) {
-                var fm = this.photos.nth (i).data;
-                fm.reopen ();
-            }
-
-        } else if (!desktop_panel && this.desktop != null) {
-            this.desktop.close ();
-            this.desktop = null;
+        for (int i = 0; i < this.photos.length (); i++) {
+            var fm = this.photos.nth (i).data;
+            fm.reopen ();
         }
     }
 
@@ -272,8 +282,6 @@ public class DesktopFolderApp : Gtk.Application {
      */
     private void sync_folders_and_notes () {
         try {
-            check_fake_desktop ();
-
             var base_path  = DesktopFolderApp.get_app_folder ();
             var directory  = File.new_for_path (base_path);
             var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);

@@ -118,6 +118,22 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name show_view
+     * @description show the view
+     */
+    public void show_view () {
+        this.view.show ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the view
+     */
+    public void hide_view () {
+        this.view.hide ();
+    }
+
+    /**
      * @name select
      * @description the item is selected
      */

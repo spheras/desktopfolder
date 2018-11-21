@@ -142,6 +142,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.icon.get_style_context ().add_class ("df_icon");
         this.container.pack_start (this.icon, true, true);
         this.show_all ();
+        //debug (this.manager.get_folder ().get_type ().name ());
+        // if (this.manager.get_folder ().get_type () == typeof (DesktopFolder.DesktopManager) && !this.manager.get_folder ().get_application ().get_desktoppanel_enabled ()) {
+        //     debug ("it's a DesktopFolder.DesktopManager, trying to hide");
+        //     this.hide ();
+        // }
     }
 
     /**
@@ -421,6 +426,22 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     // */
     // public void force_adjust_label () {
     // this.label.title_label.set_label (this.label.title_label.get_text ());
+    // }
+
+    // /**
+    //  * @name show
+    //  * @description show the icon
+    //  */
+    // public void show () {
+    //     this.show ();
+    // }
+
+    // /**
+    //  * @name hide
+    //  * @description hide the icon
+    //  */
+    // public void hide () {
+    //     this.hide ();
     // }
 
     /**

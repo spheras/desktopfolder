@@ -64,6 +64,18 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     }
 
     /**
+     * @name refresh
+     * @description refresh the window
+     */
+    public override void refresh () {
+        this.show_all ();
+        if (this.manager.get_type () == typeof (DesktopFolder.DesktopManager) && !this.manager.get_application ().get_desktoppanel_enabled ()) {
+            debug ("trying to hide");
+            this.manager.hide_items ();
+        }
+    }
+
+    /**
      * @overrided
      */
     protected override void create_headerbar () {

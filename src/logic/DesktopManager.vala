@@ -47,6 +47,28 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     }
 
     /**
+     * @name show_items
+     * @description create the view associated with this manager
+     */
+    public void show_items () {
+        debug ("show_items");
+        foreach (ItemManager item in items) {
+            item.show_view ();
+        }
+    }
+
+    /**
+     * @name hide_items
+     * @description create the view associated with this manager
+     */
+    public override void hide_items () {
+        debug ("hide_items");
+        foreach (ItemManager item in items) {
+            item.hide_view ();
+        }
+    }
+
+    /**
      * @name create_view
      * @description create the view associated with this manager
      * @overrided

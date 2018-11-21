@@ -36,7 +36,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     /** File Monitor of this folder */
     private FileMonitor monitor                  = null;
     /** List of items of this folder */
-    private List <ItemManager> items             = null;
+    protected List <ItemManager> items           = null;
     /** name of the folder */
     private string folder_name                   = null;
     /** drag and drop behaviour for this folder */
@@ -417,6 +417,13 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             }
         }
         return null;
+    }
+
+    /**
+     * @name clear_all
+     * @description clear all the items associated with this folder
+     */
+    public virtual void hide_items () {
     }
 
     /**
