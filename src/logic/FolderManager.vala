@@ -420,8 +420,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
-     * @name clear_all
-     * @description clear all the items associated with this folder
+     * @name show_items
+     * @description shows the items
+     */
+    public virtual void show_items () {
+    }
+
+    /**
+     * @name hide_items
+     * @description hides the items
      */
     public virtual void hide_items () {
     }

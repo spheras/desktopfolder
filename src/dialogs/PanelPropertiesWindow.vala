@@ -185,12 +185,21 @@ namespace DesktopFolder.Dialogs {
             return general_grid;
         }
 
+        /**
+         * @name set_property_page_sensitivity
+         * @description set sensitivity of properties page items
+         */
         private void set_property_page_sensitivity (bool sensitivity) {
             if (this.properties_grid != null) {
                 properties_grid.set_sensitive (sensitivity);
             }
         }
 
+        /**
+         * @name get_general_box
+         * @description build the general section
+         * @return {Gtk.Widget} the built Gtk.Grid widget
+         */
         private Gtk.Widget get_general_box () {
             var general_grid = new Gtk.Grid ();
             general_grid.row_spacing    = 6;

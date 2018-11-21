@@ -64,8 +64,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     }
 
     /**
-     * @name refresh
-     * @description refresh the window
+     * @overrided
      */
     public override void refresh () {
         this.show_all ();
@@ -82,6 +81,9 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         this.set_titlebar (new Gtk.HeaderBar ());
     }
 
+    /**
+     * @overrided
+     */
     protected override void show_popup (Gdk.EventButton event) {
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { // we need the event coordinates for the menu, we need to recreate?!

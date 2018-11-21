@@ -119,7 +119,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
 
     /**
      * @name show_view
-     * @description show the view
+     * @description show the icon
      */
     public void show_view () {
         this.view.show ();
@@ -127,7 +127,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
 
     /**
      * @name hide_view
-     * @description hide the view
+     * @description hide the icon
      */
     public void hide_view () {
         this.view.hide ();

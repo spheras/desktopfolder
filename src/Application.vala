@@ -176,8 +176,8 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name on_show_desktopfolder_changed
-     * @description detect when desktopfolder key is toggled
+     * @name on_show_desktoppanel_changed
+     * @description detect when desktoppanel key is toggled
      */
     private void on_show_desktoppanel_changed () {
         this.show_desktoppanel = settings.get_boolean (SHOW_DESKTOPPANEL_KEY);
@@ -256,8 +256,8 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name check_fake_desktop
-     * @description check if the fake desktop must be showed or not to create it
+     * @name create_fake_desktop
+     * @description create the fake desktop
      */
     private void create_fake_desktop () {
         this.desktop = new DesktopFolder.DesktopManager (this);
