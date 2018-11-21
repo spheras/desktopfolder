@@ -132,7 +132,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
-        openterminal_item.activate.connect (this.open_terminal);
         if (this.manager.get_application ().get_desktoppanel_enabled ()) {
             // sortby submenu ---------
             sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
@@ -155,20 +154,24 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             });
 
             organize_item.activate.connect (this.manager.organize_panel_items);
+
+            // ------------------------
+
+            ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         }
-        // ------------------------
 
-        ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
-        ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
-        ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
+            ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
+            ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
 
+        if (this.manager.get_application ().get_desktoppanel_enabled ()) {
+            openterminal_item.activate.connect (this.open_terminal);
 
-        // Appending (in order)
-        if (cm.can_paste) {
-            var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
-            paste_item.activate.connect (this.manager.paste);
-            context_menu.append (new MenuItemSeparator ());
-            context_menu.append (paste_item);
+            // Appending (in order)
+            if (cm.can_paste) {
+                var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
+                paste_item.activate.connect (this.manager.paste);
+                context_menu.append (paste_item);
+            }
         }
         context_menu.append (new_item);
         new_item.set_submenu (new_submenu);
@@ -199,15 +202,15 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
                 context_menu.append (organize_item);
             }
             // -------------------------
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (textcolor_item);
         }
-
-        context_menu.append (new MenuItemSeparator ());
-
-        context_menu.append (textcolor_item);
         context_menu.append (properties_item);
         context_menu.append (desktop_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (openterminal_item);
+        if (this.manager.get_application ().get_desktoppanel_enabled ()) {
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (openterminal_item);
+        }
         context_menu.show_all ();
         context_menu.popup_at_pointer (null);
     }
