@@ -180,13 +180,12 @@ public class DesktopFolderApp : Gtk.Application {
      * @description detect when desktopfolder key is toggled
      */
     private void on_show_desktoppanel_changed () {
-        bool show_desktoppanel = settings.get_boolean (SHOW_DESKTOPPANEL_KEY);
-        if (show_desktoppanel) {
+        this.show_desktoppanel = settings.get_boolean (SHOW_DESKTOPPANEL_KEY);
+        if (this.show_desktoppanel) {
             this.desktop.show_items ();
         } else {
             this.desktop.hide_items ();
         }
-        this.show_desktoppanel = show_desktoppanel;
     }
 
     /**
