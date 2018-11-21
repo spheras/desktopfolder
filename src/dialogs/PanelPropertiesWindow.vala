@@ -208,12 +208,6 @@ namespace DesktopFolder.Dialogs {
             settings_switch.margin_end = 8;
             general_grid.attach (settings_switch, 1, 1, 1, 1);
 
-            var icons_on_desktop_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
-            icons_on_desktop_help.halign = Gtk.Align.START;
-            icons_on_desktop_help.hexpand = true;
-            icons_on_desktop_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION;
-            general_grid.attach (icons_on_desktop_help, 2, 1, 1, 1);
-
             settings_switch.set_active (settings.get_boolean ("desktop-panel"));
             settings_switch.notify["active"].connect (() => {
                 bool desktop_enabled = settings.get_boolean ("desktop-panel");
