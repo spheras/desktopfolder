@@ -333,7 +333,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     }
 
     /**
-     * @name draw_backgorund
+     * @name draw_background
      * @description draw the note window background intercepting the draw signal
      * @param {Cairo.Context} cr the cairo context
      * @bool @see draw signal
