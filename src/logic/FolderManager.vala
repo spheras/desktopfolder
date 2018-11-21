@@ -120,6 +120,21 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         }
     }
 
+
+    /**
+     * @name get_item_by_filename
+     * @description get item by filename, or null if none
+     * @param string filename to get item for, null if none
+     */
+    public ItemManager ? get_item_by_filename (string name) {
+        foreach (ItemManager item in this.items) {
+            if (item.get_file_name() == name) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     /**
      * @name set_selected_item
      * @description set the selected item
@@ -457,10 +472,20 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new folder
      * @param int y the y position of the new folder
      */
-    public void create_new_folder (string name, int x, int y) {
+    public string create_new_folder (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME) {
+        string path = this.get_absolute_path () + "/" + name;
+
+        string new_name = "";
+
+        File folder = File.new_for_path (path);
+        if (folder.query_exists ()) {
+            new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
+        } else {
+            new_name = name;
+        }
         // cancelling the current monitor
         this.monitor.cancel ();
-        string folder_path = this.get_absolute_path () + "/" + name;
+        string folder_path = this.get_absolute_path () + "/" + new_name;
         DirUtils.create (folder_path, 0755);
 
         this.create_new_folder_inside (folder_path);
@@ -468,6 +493,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.sync_files (x, y);
         // monitoring again
         this.monitor_folder ();
+
+        return new_name;
     }
 
     /**
@@ -477,7 +504,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new file
      * @param int y the y position of the new file
      */
-    public void create_new_text_file (string name, int x, int y) {
+    public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
+        string path = this.get_absolute_path () + "/" + name;
+
+        string new_name = "";
+
+        File folder = File.new_for_path (path);
+        if (folder.query_exists ()) {
+            new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
+        } else {
+            new_name = name;
+        }
+
         // cancelling the current monitor
         this.monitor.cancel ();
 
@@ -495,6 +533,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
+        return new_name;
     }
 
     /**

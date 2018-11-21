@@ -182,6 +182,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
 
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+
+        FolderSettings settings = this.manager.get_settings ();
+
+        debug (settings.edit_label_on_creation.to_string ());
+        if (settings.edit_label_on_creation) {
+            GLib.Timeout.add (50, () => {
+                this.label.start_editing ();
+                settings.edit_label_on_creation = false;
+                return false;
+            });
+        }
     }
 
     /**
@@ -280,10 +291,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (settings.fgcolor);
 
-        if (this.manager.get_settings ().textshadow) {
+        if (settings.textshadow) {
             this.get_style_context ().add_class ("df_shadow");
         }
-        if (this.manager.get_settings ().textbold) {
+        if (settings.textbold) {
             this.get_style_context ().add_class ("df_bold");
         }
 
@@ -1060,17 +1071,20 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new folder icon should be generated
      */
     protected void new_folder (int x, int y) {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
-        dialog.on_rename.connect ((new_name) => {
-            // creating the folder
-            if (new_name != "") {
-                this.manager.create_new_folder (new_name, x, y);
-            }
-        });
-        dialog.show_all ();
+        string new_name = this.manager.create_new_folder (x, y);
+        var item = this.manager.get_item_by_filename (new_name);
+        if (item == null) {
+            stderr.printf ("Error: Couldn't find the newly created folder's item.");
+            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
+            return;
+        } else {
+            ItemView itemview = item.get_view ();
+
+            GLib.Timeout.add (50, () => {
+                itemview.start_editing ();
+                return false;
+            });
+        }
     }
 
     /**
@@ -1080,21 +1094,24 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new item should be placed
      */
     protected void new_text_file (int x, int y) {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
-        dialog.on_rename.connect ((new_name) => {
-            if (new_name != "") {
-                this.manager.create_new_text_file (new_name, x, y);
-            }
-        });
-        dialog.show_all ();
+        string new_name = this.manager.create_new_text_file (x, y);
+        var item = this.manager.get_item_by_filename (new_name);
+        if (item == null) {
+            stderr.printf ("Error: Couldn't find the newly created folder's item.");
+            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
+            return;
+        } else {
+            ItemView itemview = item.get_view ();
+            GLib.Timeout.add (50, () => {
+                itemview.start_editing ();
+                return false;
+            });
+        }
     }
 
     /**
      * @name new_link
-     * @description create a new linnk item inside this folder
+     * @description create a new link item inside this folder
      * @param int x the x position where the new item should be placed
      * @param int y the y position where the new item should be placed
      * @param bool folder to indicate if we want to select a folder or a file

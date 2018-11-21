@@ -119,11 +119,25 @@ public class DesktopFolder.NoteSettings : PositionSettings {
         }
     }
 
+    private bool _edit_label_on_creation;
+    public bool edit_label_on_creation {
+        get {
+            return _edit_label_on_creation;
+        }
+        set {
+            if (_edit_label_on_creation != value) {
+                _edit_label_on_creation = value; flagChanged = true;
+            }
+        }
+    }
+
     private File file;
 
     public NoteSettings (string name) {
         this.x         = 110;
         this.y         = 110;
+        this.w         = 300;
+        this.h         = 300;
         this.bgcolor   = "df_yellow";
         this.fgcolor   = "df_dark";
         this.texture   = "";
