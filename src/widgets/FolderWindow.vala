@@ -864,8 +864,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug ("User is editing!");
             return false;
         }
+        if (event.type != Gdk.EventType.KEY_PRESS) {
+            return false;
+        }
 
-        int key                   = (int) event.keyval;
+        int key = (int) event.keyval;
+
         // debug("event key %d",key);
         const int DELETE_KEY      = 65535;
         const int F2_KEY          = 65471;
@@ -875,27 +879,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         const int ARROW_RIGHT_KEY = 65363;
         const int ARROW_DOWN_KEY  = 65364;
 
-        var  mods                 = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool control_pressed      = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        bool shift_pressed        = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
-
+        var      mods             = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool     control_pressed  = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool     shift_pressed    = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
         ItemView selected         = this.manager.get_selected_item ();
 
-        if (event.type == Gdk.EventType.KEY_PRESS && control_pressed && selected != null && (key == 'c' || key == 'C') ) {
+        if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
             selected.copy ();
             return true;
         }
 
-        if (event.type == Gdk.EventType.KEY_PRESS && control_pressed && selected != null && (key == 'x' || key == 'X') ) {
+        if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
             selected.cut ();
             return true;
         }
 
-        if (event.type == Gdk.EventType.KEY_PRESS && control_pressed && (key == 'v' || key == 'V') ) {
+        if (control_pressed && (key == 'v' || key == 'V')) {
             this.manager.paste ();
         }
 
-        if (event.type == Gdk.EventType.KEY_PRESS && key == DELETE_KEY) {
+        if (key == DELETE_KEY) {
             if (selected == null) {
                 this.manager.trash ();
             } else if (shift_pressed) {
@@ -906,7 +909,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             return true;
         }
 
-        if (event.type == Gdk.EventType.KEY_PRESS && key == F2_KEY) {
+        if (key == F2_KEY) {
             if (selected != null) {
                 selected.start_editing ();
                 return true;
@@ -915,12 +918,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             }
         }
 
-        if (event.type == Gdk.EventType.KEY_PRESS && selected != null && key == ENTER_KEY) {
+        if (selected != null && key == ENTER_KEY) {
             selected.execute ();
             return true;
         }
 
-        if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_LEFT_KEY) {
+        if (key == ARROW_LEFT_KEY) {
             // left arrow pressed
             move_selected_to ((a, b) => {
                 return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
@@ -928,7 +931,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 return a.x < b.x;
             });
         }
-        if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_UP_KEY) {
+        if (key == ARROW_UP_KEY) {
             // up arrow pressed
             move_selected_to ((a, b) => {
                 return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
@@ -936,7 +939,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 return a.y < b.y;
             });
         }
-        if (event.type == Gdk.EventType.KEY_PRESS &&  key == ARROW_RIGHT_KEY) {
+        if (key == ARROW_RIGHT_KEY) {
             // right arrow pressed
             move_selected_to ((a, b) => {
                 return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
@@ -944,7 +947,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 return a.x > b.x;
             });
         }
-        if (event.type == Gdk.EventType.KEY_PRESS && key == ARROW_DOWN_KEY) {
+        if (key == ARROW_DOWN_KEY) {
             // down arrow pressed
             move_selected_to ((a, b) => {
                 return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
@@ -1071,7 +1074,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_folder (int x, int y) {
         string new_name = this.manager.create_new_folder (x, y);
-        var item = this.manager.get_item_by_filename (new_name);
+        var    item     = this.manager.get_item_by_filename (new_name);
         if (item == null) {
             stderr.printf ("Error: Couldn't find the newly created folder's item.");
             Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
@@ -1094,7 +1097,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_text_file (int x, int y) {
         string new_name = this.manager.create_new_text_file (x, y);
-        var item = this.manager.get_item_by_filename (new_name);
+        var    item     = this.manager.get_item_by_filename (new_name);
         if (item == null) {
             stderr.printf ("Error: Couldn't find the newly created folder's item.");
             Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
