@@ -54,6 +54,7 @@ namespace DesktopFolder.Dialogs {
         private Gtk.Stack main_stack;
         private FolderWindow window;
         private FolderManager manager;
+        private Gtk.Widget properties_grid;
 
         public PanelProperties (FolderWindow window) {
             Object (
@@ -78,7 +79,8 @@ namespace DesktopFolder.Dialogs {
             main_stack.margin        = 12;
             main_stack.margin_bottom = 18;
             main_stack.margin_top    = 24;
-            main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
+            this.properties_grid = get_properties_box ();
+            main_stack.add_titled (properties_grid, "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
             main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
             var version_label = new Gtk.Label ("version " + DesktopFolder.VERSION.up ());
@@ -175,7 +177,17 @@ namespace DesktopFolder.Dialogs {
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
+            if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow) && !this.manager.get_application ().get_desktoppanel_enabled ()) {
+                general_grid.set_sensitive (false);
+            }
+
             return general_grid;
+        }
+
+        private void set_property_page_sensitivity (bool sensitivity) {
+            if (this.properties_grid != null) {
+                properties_grid.set_sensitive (sensitivity);
+            }
         }
 
         private Gtk.Widget get_general_box () {
@@ -203,7 +215,11 @@ namespace DesktopFolder.Dialogs {
 
             settings_switch.set_active (settings.get_boolean ("desktop-panel"));
             settings_switch.notify["active"].connect (() => {
-                settings.set_boolean ("desktop-panel", !settings.get_boolean ("desktop-panel"));
+                bool desktop_enabled = settings.get_boolean ("desktop-panel");
+                settings.set_boolean ("desktop-panel", !desktop_enabled);
+                if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow)) {
+                    this.set_property_page_sensitivity (!desktop_enabled);
+                }
             });
 
 
