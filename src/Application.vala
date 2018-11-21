@@ -521,16 +521,16 @@ public class DesktopFolderApp : Gtk.Application {
         int    index    = basename.last_index_of (".", 0);
         if (index > 0) {
             string ext = basename.substring (index + 1);
-            if (ext == DesktopFolder.OLD_NOTE_EXTENSION || ext == DesktopFolder.NEW_NOTE_EXTENSION) {
+            if (event == FileMonitorEvent.CHANGES_DONE_HINT && (ext == DesktopFolder.OLD_NOTE_EXTENSION || ext == DesktopFolder.NEW_NOTE_EXTENSION)) {
                 flagNote = true;
-            } else if (ext == DesktopFolder.OLD_PHOTO_EXTENSION || ext == DesktopFolder.NEW_PHOTO_EXTENSION) {
+            } else if (event == FileMonitorEvent.CHANGES_DONE_HINT && (ext == DesktopFolder.OLD_PHOTO_EXTENSION || ext == DesktopFolder.NEW_PHOTO_EXTENSION)) {
                 flagPhoto = true;
             }
         }
 
         // new content inside
         var file_type = src.query_file_type (FileQueryInfoFlags.NONE);
-        if (event == FileMonitorEvent.CHANGES_DONE_HINT && (flagNote || flagPhoto || file_type == FileType.DIRECTORY || !src.query_exists ())) {
+        if (flagNote || flagPhoto || file_type == FileType.DIRECTORY || !src.query_exists ()) {
             // new directory or removed, we need to synchronize
             debug ("desktop changed, calling sync_folders_and_notes");
             this.sync_folders_and_notes ();
