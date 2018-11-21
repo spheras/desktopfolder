@@ -133,27 +133,29 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
         openterminal_item.activate.connect (this.open_terminal);
+        if (this.manager.get_application ().get_desktoppanel_enabled ()) {
+            // sortby submenu ---------
+            sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
+            sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
+            sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
+            sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
+            sortby_name_item.toggled.connect ((item) => {
+                this.on_sort_by (FolderSort.SORT_BY_NAME);
+            });
+            sortby_size_item.toggled.connect ((item) => {
+                this.on_sort_by (FolderSort.SORT_BY_SIZE);
+            });
+            sortby_type_item.toggled.connect ((item) => {
+                this.on_sort_by (FolderSort.SORT_BY_TYPE);
+            });
+            sortby_reverse_item.toggled.connect ((item) => {
+                this.manager.get_settings ().sort_reverse = !this.manager.get_settings ().sort_reverse;
+                this.manager.get_settings ().save ();
+                this.manager.organize_panel_items ();
+            });
 
-        // sortby submenu ---------
-        sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
-        sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
-        sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
-        sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
-        sortby_name_item.toggled.connect ((item) => {
-            this.on_sort_by (FolderSort.SORT_BY_NAME);
-        });
-        sortby_size_item.toggled.connect ((item) => {
-            this.on_sort_by (FolderSort.SORT_BY_SIZE);
-        });
-        sortby_type_item.toggled.connect ((item) => {
-            this.on_sort_by (FolderSort.SORT_BY_TYPE);
-        });
-        sortby_reverse_item.toggled.connect ((item) => {
-            this.manager.get_settings ().sort_reverse = !this.manager.get_settings ().sort_reverse;
-            this.manager.get_settings ().save ();
-            this.manager.organize_panel_items ();
-        });
-        organize_item.activate.connect (this.manager.organize_panel_items);
+            organize_item.activate.connect (this.manager.organize_panel_items);
+        }
         // ------------------------
 
         ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
@@ -183,19 +185,21 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
 
-        // sortby submenu ---------
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (sortby_item);
-        sortby_item.set_submenu (sortby_submenu);
-        sortby_submenu.append (sortby_name_item);
-        sortby_submenu.append (sortby_size_item);
-        sortby_submenu.append (sortby_type_item);
-        sortby_submenu.append (new MenuItemSeparator ());
-        sortby_submenu.append (sortby_reverse_item);
-        if (this.manager.get_arrangement ().can_organize ()) {
-            context_menu.append (organize_item);
+        if (this.manager.get_application ().get_desktoppanel_enabled ()) {
+            // sortby submenu ---------
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (sortby_item);
+            sortby_item.set_submenu (sortby_submenu);
+            sortby_submenu.append (sortby_name_item);
+            sortby_submenu.append (sortby_size_item);
+            sortby_submenu.append (sortby_type_item);
+            sortby_submenu.append (new MenuItemSeparator ());
+            sortby_submenu.append (sortby_reverse_item);
+            if (this.manager.get_arrangement ().can_organize ()) {
+                context_menu.append (organize_item);
+            }
+            // -------------------------
         }
-        // -------------------------
 
         context_menu.append (new MenuItemSeparator ());
 
