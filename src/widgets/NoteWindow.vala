@@ -139,7 +139,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         NoteSettings settings = this.manager.get_settings ();
 
         if (settings.edit_label_on_creation) {
-            GLib.Timeout.add (0, () => {
+            GLib.Timeout.add (50, () => {
                 this.label.start_editing ();
                 settings.edit_label_on_creation = false;
                 return false;
