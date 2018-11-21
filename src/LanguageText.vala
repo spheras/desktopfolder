@@ -47,13 +47,13 @@ namespace DesktopFolder.Lang {
     // desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_LINK_PANEL            = _("Link Panel");
     // desktopfolder menu - enable/disable lock items
-    public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock Items");
+    public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock items:");
     // desktopfolder menu - enable/disable lock panel
-    public const string DESKTOPFOLDER_MENU_LOCK_PANEL            = _("Lock Panel");
+    public const string DESKTOPFOLDER_MENU_LOCK_PANEL            = _("Lock panel:");
     // desktopfolder menu - enable/disable text shadows
-    public const string DESKTOPFOLDER_MENU_TEXT_SHADOW           = _("Text Shadow");
+    public const string DESKTOPFOLDER_MENU_TEXT_SHADOW           = _("Text shadow:");
     // desktopfolder menu - enable/disable text bolds
-    public const string DESKTOPFOLDER_MENU_TEXT_BOLD             = _("Text Bold");
+    public const string DESKTOPFOLDER_MENU_TEXT_BOLD             = _("Text bold:");
     // desktopfolder menu - create a new Note
     public const string DESKTOPFOLDER_MENU_NEW_NOTE              = _("Note");
     // desktopfolder menu - create a new Folder
@@ -110,12 +110,10 @@ namespace DesktopFolder.Lang {
     public const string NOTE_RENAME_TITLE          = _("Rename Note");
     // Note - Dialog Message to rename the current note
     public const string NOTE_RENAME_MESSAGE        = _("Enter the new name");
-    // Note - Dialog Message to DELETE the current note
-    public const string NOTE_DELETE_MESSAGE        = _("This action will DELETE the Note.\n<b>Are you sure?</b>");
     // Item Menu - Open the file
     public const string ITEM_MENU_OPEN             = _("Open");
     // Item Menu - Execute the file
-    public const string ITEM_MENU_OPEN_WITH        = _("Open with other application");
+    public const string ITEM_MENU_OPEN_WITH        = _("Open With Other Application...");
     // Item Menu - Execute the file
     public const string ITEM_MENU_EXECUTE          = _("Execute");
     // Item Menu - cut the file/folder
@@ -154,8 +152,6 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_PANELLINK_MESSAGE                 = _("Select the destination folder for the Panel");
     // Menu popup option to remove a photo
     public const string PHOTO_MENU_DELETE_PHOTO                         = _("Remove");
-    // Note - Dialog Message to DELETE the current photo
-    public const string PHOTO_DELETE_MESSAGE                            = _("This action will DELETE the Photo.\n<b>Are you sure?</b>");
     // desktopfolder menu - create a new Photo
     public const string DESKTOPFOLDER_MENU_NEW_PHOTO                    = _("Photo");
     // dialog message to select an image file to be shown at the desktop
@@ -163,43 +159,43 @@ namespace DesktopFolder.Lang {
     // desktopfolder menu - create a new empty Text File
     public const string DESKTOPFOLDER_MENU_NEW_SUBMENU                  = _("New");
     // panel properties - Properties section
-    public const string PANELPROPERTIES_PROPERTIES                      = _("Properties");
+    public const string PANELPROPERTIES_PROPERTIES                      = _("This Panel");
     // panel properties - General section
     public const string PANELPROPERTIES_GENERAL                         = _("General");
     // panel properties - Behavior section
     public const string PANELPROPERTIES_BEHAVIOR                        = _("Behavior");
-    // panel properties - Interface section
-    public const string PANELPROPERTIES_INTERFACE                       = _("Interface");
+    // panel properties - Appearance section
+    public const string PANELPROPERTIES_APPEARANCE                      = _("Appearance");
     // panel properties - Close button
     public const string PANELPROPERTIES_CLOSE                           = _("Close");
     // panel properties - Panel over Desktop title
-    public const string PANELPROPERTIES_DESKTOP_PANEL                   = _("Panel Over Desktop");
+    public const string PANELPROPERTIES_DESKTOP_PANEL                   = _("Icons on desktop:");
     // panel properties - Panel over desktop description
-    public const string PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION       = _("Activating this you will have a transparent background panel over your desktop. This change will require relogin into your system.");
+    public const string PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION       = _("This change will require you to log out and in again.");
     // panel properties - Resolution Strategy title
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY             = _("Resolution Strategy");
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY             = _("When changing resolution:");
     // panel properties - Resolution Strategy Description
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION = _("This is how all the widgets behave when a new screen resolution is found, doing nothing, storing and restoring the new resolution positions, or scaling the positions.");
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION = _("This is how panels, notes and photos will resize when you change the screen resolution.");
     // panel properties - Resolution Strategy NONE
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_NONE        = _("None");
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_NONE        = _("Do nothing");
     // panel properties - Resolution Strategy NONE
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE       = _("Scale");
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE       = _("Scale to new resolution");
     // panel properties - Resolution Strategy NONE
-    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_STORE       = _("Store");
+    public const string PANELPROPERTIES_RESOLUTION_STRATEGY_STORE       = _("Store per resolution");
     // change desktop menu
     public const string DESKTOPFOLDER_MENU_CHANGEDESKTOP                = _("Change Wallpaper");
     // open terminal here
-    public const string DESKTOPFOLDER_MENU_OPENTERMINAL                 = _("Open terminal here");
+    public const string DESKTOPFOLDER_MENU_OPENTERMINAL                 = _("Open Terminal Here");
     // open terminal here
-    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL             = _("Open in terminal");
+    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL             = _("Open In Terminal");
     // Items Arrangement Configuration
-    public const string PANELPROPERTIES_ARRANGEMENT                     = _("Items Arrangement");
+    public const string PANELPROPERTIES_ARRANGEMENT                     = _("Icon arrangement:");
     // Free arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_FREE                = _("Free");
     // Grid arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_GRID                = _("Grid");
     // Managed arrangement
-    public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Managed");
+    public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
 
     // sort by submenu
     public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort By");
@@ -212,7 +208,7 @@ namespace DesktopFolder.Lang {
     // sort panel's in reverse
     public const string DESKTOPFOLDER_MENU_SORT_REVERSE  = _("Reverse Order");
     // force panels to be organized automatically one time
-    public const string DESKTOPFOLDER_MENU_SORT_ORGANIZE = _("Force Reorganization");
+    public const string DESKTOPFOLDER_MENU_SORT_ORGANIZE = _("Reorganize Icons");
 
     // the title of a panel when a new one is created
     public const string NEWLY_CREATED_PANEL = _("Untitled Panel");
@@ -221,3 +217,4 @@ namespace DesktopFolder.Lang {
 
 
 }
+
