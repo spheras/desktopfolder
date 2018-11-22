@@ -603,6 +603,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public void close () {
         this.monitor.cancel ();
+        this.application.remove_window (this.view);
         this.view.hide ();
         this.view.close ();
     }
@@ -733,7 +734,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.get_settings ().save ();
 
         // closing
-        //this.application.remove_window (this.view);
+        this.application.remove_window (this.view);
         this.close ();
 
         // reopening
