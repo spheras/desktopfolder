@@ -210,7 +210,7 @@ namespace DesktopFolder.Dialogs {
 
             general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_GENERAL), 0, 0, 2, 1);
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 1, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_ICONS), 0, 1, 1, 1);
 
             SettingsSwitch settings_switch = new SettingsSwitch ("icons-on-desktop");
             settings_switch.halign = Gtk.Align.START;
@@ -228,7 +228,7 @@ namespace DesktopFolder.Dialogs {
 
             // Uncomment the following block when the option to remove DesktopWindow is wanted again
             /*
-            general_grid.attach (new SettingsLabel ("Enable desktop"), 0, 2, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 2, 1, 1);
 
             settings_switch = new SettingsSwitch ("desktop_panel");
             settings_switch.halign = Gtk.Align.START;
