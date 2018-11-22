@@ -226,12 +226,20 @@ namespace DesktopFolder.Dialogs {
                 }
             });
 
+            // Uncomment the following block when the option to remove DesktopWindow is wanted again
+            /*
             general_grid.attach (new SettingsLabel ("Enable desktop"), 0, 2, 1, 1);
 
             settings_switch = new SettingsSwitch ("desktop_panel");
             settings_switch.halign = Gtk.Align.START;
             settings_switch.margin_end = 8;
             general_grid.attach (settings_switch, 1, 2, 1, 1);
+
+            var icons_on_desktop_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
+            icons_on_desktop_help.halign = Gtk.Align.START;
+            icons_on_desktop_help.hexpand = true;
+            icons_on_desktop_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION;
+            general_grid.attach (icons_on_desktop_help, 2, 2, 1, 1);
 
             settings_switch.set_active (settings.get_boolean ("desktop-panel"));
             settings_switch.notify["active"].connect (() => {
@@ -241,6 +249,7 @@ namespace DesktopFolder.Dialogs {
                     this.set_property_page_sensitivity (!desktop_enabled);
                 }
             });
+            */
 
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 3, 1, 1);
 

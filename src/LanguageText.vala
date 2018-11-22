@@ -170,6 +170,8 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_CLOSE                           = _("Close");
     // panel properties - Panel over Desktop title
     public const string PANELPROPERTIES_DESKTOP_PANEL                   = _("Icons on desktop:");
+    // panel properties - Panel over desktop description
+    public const string PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION       = _("This change will require you to log out and in again.");
     // panel properties - Resolution Strategy title
     public const string PANELPROPERTIES_RESOLUTION_STRATEGY             = _("When changing resolution:");
     // panel properties - Resolution Strategy Description

@@ -603,8 +603,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public void close () {
         this.monitor.cancel ();
-        this.application.remove_window (this.view);
         this.view.hide ();
+        this.application.remove_window (this.view);
         this.view.close ();
     }
 

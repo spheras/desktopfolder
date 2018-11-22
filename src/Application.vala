@@ -137,7 +137,13 @@ public class DesktopFolderApp : Gtk.Application {
         on_show_desktopfolder_changed ();
 
         // Connect to desktoppanel key
-        settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
+
+        // This commented out line would allow the setting to be changed on the fly
+        // Commented out because it allows specific conditions where it will currently crash Mutter
+        // This application may also have an unknown bug causing the crash
+        //
+        // settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
+
         on_show_desktoppanel_changed ();
         this.monitor_desktop ();
 
@@ -192,8 +198,8 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name on_show_desktoppanel_changed
-     * @description detect when desktoppanel key is toggled
+     * @name on_show_desktopicons_changed
+     * @description detect when desktopicons key is toggled
      */
     private void on_show_desktopicons_changed () {
         this.show_desktopicons = settings.get_boolean (SHOW_DESKTOPICONS_KEY);
@@ -209,8 +215,8 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name on_show_desktopfolder_changed
-     * @description detect when desktopfolder key is toggled
+     * @name get_desktopicons_enabled
+     * @description detect when desktopicons key is toggled
      */
     public bool get_desktopicons_enabled () {
         return show_desktopicons;
@@ -226,8 +232,10 @@ public class DesktopFolderApp : Gtk.Application {
         if (this.show_desktoppanel) {
             this.create_fake_desktop ();
         } else {
-            this.desktop.close ();
-            this.desktop = null;
+            if (this.desktop != null) {
+                this.desktop.close ();
+                this.desktop = null;
+            }
         }
     }
 
@@ -304,18 +312,7 @@ public class DesktopFolderApp : Gtk.Application {
      */
     private void create_fake_desktop () {
         this.desktop = new DesktopFolder.DesktopManager (this);
-        for (int i = 0; i < this.folders.length (); i++) {
-            var fm = this.folders.nth (i).data;
-            fm.reopen ();
-        }
-        for (int i = 0; i < this.notes.length (); i++) {
-            var fm = this.notes.nth (i).data;
-            fm.reopen ();
-        }
-        for (int i = 0; i < this.photos.length (); i++) {
-            var fm = this.photos.nth (i).data;
-            fm.reopen ();
-        }
+        this.clear_all ();
     }
 
     /**
@@ -598,15 +595,50 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name clear_all
+     * @name clear_folders
      * @description close all the folders launched
      */
-    protected void clear_all () {
+    protected void clear_folders () {
         for (int i = 0; i < this.folders.length (); i++) {
-            DesktopFolder.FolderManager fm = this.folders.nth (i).data;
+            var fm = this.folders.nth (i).data;
             fm.close ();
         }
         this.folders = new List <DesktopFolder.FolderManager> ();
+    }
+
+    /**
+     * @name clear_notes
+     * @description close all the notes launched
+     */
+    protected void clear_notes () {
+        for (int i = 0; i < this.notes.length (); i++) {
+            var fm = this.notes.nth (i).data;
+            fm.close ();
+        }
+        this.notes = new List <DesktopFolder.NoteManager> ();
+    }
+
+    /**
+     * @name clear_photos
+     * @description close all the photos launched
+     */
+    protected void clear_photos () {
+        for (int i = 0; i < this.photos.length (); i++) {
+            var fm = this.photos.nth (i).data;
+            fm.close ();
+        }
+        this.photos = new List <DesktopFolder.PhotoManager> ();
+    }
+
+    /**
+     * @name clear_all
+     * @description close all the windows launched
+     */
+    protected void clear_all () {
+        this.clear_folders ();
+        this.clear_notes ();
+        this.clear_photos ();
+        this.sync_folders_and_notes ();
     }
 
     /**
