@@ -397,7 +397,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name refresh
      * @description refresh the window
      */
-    public void refresh () {
+    public virtual void refresh () {
         this.show_all ();
     }
 
@@ -624,11 +624,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         new_submenu.append (new MenuItemSeparator ());
         new_submenu.append (newlink_item);
         new_submenu.append (newlinkdir_item);
-        new_submenu.append (new MenuItemSeparator ());
-        new_submenu.append (newpanel_item);
-        new_submenu.append (newlinkpanel_item);
-        new_submenu.append (newnote_item);
-        new_submenu.append (newphoto_item);
+        if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
+            new_submenu.append (new MenuItemSeparator ());
+            new_submenu.append (newpanel_item);
+            new_submenu.append (newlinkpanel_item);
+            new_submenu.append (newnote_item);
+            new_submenu.append (newphoto_item);
+        }
 
         // sortby submenu ---------
         context_menu.append (new MenuItemSeparator ());

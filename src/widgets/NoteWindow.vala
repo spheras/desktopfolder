@@ -449,73 +449,58 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
      * @param event EventButton the origin event, needed to position the menu
      */
     private void show_popup (Gdk.EventButton event) {
-        // debug("evento:%f,%f",event.x,event.y);
-        // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
-
-        // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
-        // TODO: Is there a way to make a desktop window resizable and movable?
         this.check_window_type ();
 
         this.menu = new Gtk.Menu ();
 
-        // new submenu
-        Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
-        item_new.show ();
-        menu.append (item_new);
+        if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
+            Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+            menu.append (item_new);
 
-        Gtk.Menu newmenu = new Gtk.Menu ();
-        item_new.set_submenu (newmenu);
+            Gtk.Menu newmenu = new Gtk.Menu ();
+            item_new.set_submenu (newmenu);
 
-        // menu to create a new folder
-        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        item.activate.connect ((item) => {
-            this.new_desktop_folder ();
-        });
-        item.show ();
-        newmenu.append (item);
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            item.activate.connect ((item) => {
+                this.new_desktop_folder ();
+            });
+            newmenu.append (item);
 
-        // menu to create a new link panel
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        item.activate.connect ((item) => {
-            this.new_link_panel ();
-        });
-        item.show ();
-        newmenu.append (item);
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+            item.activate.connect ((item) => {
+                this.new_link_panel ();
+            });
+            newmenu.append (item);
 
-        // menu to create a new note
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        item.activate.connect ((item) => {
-            this.new_note ();
-        });
-        item.show ();
-        newmenu.append (item);
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+            item.activate.connect ((item) => {
+                this.new_note ();
+            });
+            newmenu.append (item);
 
-        // menu to create a new photo
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        item.activate.connect ((item) => {
-            this.new_photo ();
-        });
-        item.show ();
-        newmenu.append (item);
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+            item.activate.connect ((item) => {
+                this.new_photo ();
+            });
+            newmenu.append (item);
 
-        item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
+            menu.append (new MenuItemSeparator ());
+        }
+
+        Gtk.MenuItem item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_PAPER_NOTE);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().texture == "square_paper");
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
             this.on_texture ("square_paper");
         });
-        item.show ();
         menu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+        menu.append (new MenuItemSeparator ());
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_ON_TOP);
         (item as Gtk.CheckMenuItem).set_active (this.manager.get_settings ().on_top);
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
             this.on_toggle_on_top ();
         });
-        item.show ();
         menu.append (item);
 
         item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_ON_BACK);
@@ -523,45 +508,32 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         (item as Gtk.CheckMenuItem).toggled.connect ((item) => {
             this.on_toggle_on_back ();
         });
-        item.show ();
         menu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+        menu.append (new MenuItemSeparator ());
 
-        // option to delete the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_DELETE_NOTE);
         item.activate.connect ((item) => { this.manager.trash (); });
-        item.show ();
         menu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+        menu.append (new MenuItemSeparator ());
 
-        // Option to rename the current folder
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
         item.activate.connect (this.label.start_editing);
-        item.show ();
         menu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+        menu.append (new MenuItemSeparator ());
 
-        // section to change the window head and body colors
         item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
         ((MenuItemColor) item).color_changed.connect (change_head_color);
-        item.show ();
         menu.append (item);
 
         item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
         ((MenuItemColor) item).color_changed.connect (change_body_color);
         ((MenuItemColor) item).custom_changed.connect (change_body_color_custom);
-        item.show ();
         menu.append (item);
 
+        menu.show_all ();
         menu.popup_at_pointer (null);
     }
 
@@ -582,35 +554,32 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     }
 
     /**
-     * @name new_photo
-     * @description show a dialog to create a new photo
-     */
-    private void new_photo () {
-        DesktopFolder.Util.create_new_photo (this);
-    }
-
-    /**
-     * @name new_note
-     * @description show a dialog to create a new desktop folder
-     */
-    private void new_note () {
-        DesktopFolder.Util.create_new_note (this);
-    }
-
-    /**
      * @name new_desktop_folder
-     * @description show a dialog to create a new desktop folder
+     * @description create a new desktop folder
      */
     private void new_desktop_folder () {
         DesktopFolder.Util.create_new_desktop_folder (this);
     }
-
     /**
      * @name new_link_panel
-     * @description show a dialog to create a new link panel
+     * @description create a new link panel
      */
     private void new_link_panel () {
         DesktopFolder.Util.create_new_link_panel (this);
+    }
+    /**
+     * @name new_note
+     * @description create a new note
+     */
+    private void new_note () {
+        DesktopFolder.Util.create_new_note (this);
+    }
+    /**
+     * @name new_photo
+     * @description create a new photo
+     */
+    private void new_photo () {
+        DesktopFolder.Util.create_new_photo (this);
     }
 
     /**

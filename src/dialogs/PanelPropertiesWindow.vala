@@ -54,6 +54,7 @@ namespace DesktopFolder.Dialogs {
         private Gtk.Stack main_stack;
         private FolderWindow window;
         private FolderManager manager;
+        private Gtk.Widget properties_grid;
 
         public PanelProperties (FolderWindow window) {
             Object (
@@ -78,7 +79,8 @@ namespace DesktopFolder.Dialogs {
             main_stack.margin        = 12;
             main_stack.margin_bottom = 18;
             main_stack.margin_top    = 24;
-            main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
+            this.properties_grid = get_properties_box ();
+            main_stack.add_titled (properties_grid, "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
             main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
             var version_label = new Gtk.Label ("Version " + DesktopFolder.VERSION.up ());
@@ -176,9 +178,28 @@ namespace DesktopFolder.Dialogs {
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
+            if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow) && (!this.manager.get_application ().get_desktoppanel_enabled () || !this.manager.get_application ().get_desktopicons_enabled ())) {
+                general_grid.set_sensitive (false);
+            }
+
             return general_grid;
         }
 
+        /**
+         * @name set_property_page_sensitivity
+         * @description set sensitivity of properties page items
+         */
+        private void set_property_page_sensitivity (bool sensitivity) {
+            if (this.properties_grid != null) {
+                properties_grid.set_sensitive (sensitivity);
+            }
+        }
+
+        /**
+         * @name get_general_box
+         * @description build the general section
+         * @return {Gtk.Widget} the built Gtk.Grid widget
+         */
         private Gtk.Widget get_general_box () {
             var general_grid = new Gtk.Grid ();
             general_grid.row_spacing    = 6;
@@ -189,25 +210,48 @@ namespace DesktopFolder.Dialogs {
 
             general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_GENERAL), 0, 0, 2, 1);
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 1, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_ICONS), 0, 1, 1, 1);
 
-            SettingsSwitch settings_switch = new SettingsSwitch ("desktop_panel");
+            SettingsSwitch settings_switch = new SettingsSwitch ("icons-on-desktop");
             settings_switch.halign = Gtk.Align.START;
             settings_switch.margin_end = 8;
             general_grid.attach (settings_switch, 1, 1, 1, 1);
+
+            settings_switch.set_active (settings.get_boolean ("icons-on-desktop"));
+            settings_switch.notify["active"].connect (() => {
+                bool desktopicons_enabled = settings.get_boolean ("icons-on-desktop");
+                settings.set_boolean ("icons-on-desktop", !desktopicons_enabled);
+                if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow)) {
+                    this.set_property_page_sensitivity (!desktopicons_enabled);
+                }
+            });
+
+            // Uncomment the following block when the option to remove DesktopWindow is wanted again
+            /*
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 2, 1, 1);
+
+            settings_switch = new SettingsSwitch ("desktop_panel");
+            settings_switch.halign = Gtk.Align.START;
+            settings_switch.margin_end = 8;
+            general_grid.attach (settings_switch, 1, 2, 1, 1);
 
             var icons_on_desktop_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
             icons_on_desktop_help.halign = Gtk.Align.START;
             icons_on_desktop_help.hexpand = true;
             icons_on_desktop_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION;
-            general_grid.attach (icons_on_desktop_help, 2, 1, 1, 1);
+            general_grid.attach (icons_on_desktop_help, 2, 2, 1, 1);
 
             settings_switch.set_active (settings.get_boolean ("desktop-panel"));
             settings_switch.notify["active"].connect (() => {
-                settings.set_boolean ("desktop-panel", !settings.get_boolean ("desktop-panel"));
+                bool desktop_enabled = settings.get_boolean ("desktop-panel");
+                settings.set_boolean ("desktop-panel", !desktop_enabled);
+                if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow)) {
+                    this.set_property_page_sensitivity (!desktop_enabled);
+                }
             });
+            */
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 2, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 3, 1, 1);
 
             var strategy_combo = new Gtk.ComboBoxText ();
             strategy_combo.append ("NONE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_NONE);
@@ -215,13 +259,13 @@ namespace DesktopFolder.Dialogs {
             strategy_combo.append ("STORE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_STORE);
             settings.bind ("resolution-strategy", strategy_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
             strategy_combo.margin_end = 8;
-            general_grid.attach (strategy_combo, 1, 2, 1, 1);
+            general_grid.attach (strategy_combo, 1, 3, 1, 1);
 
             var resolution_strategy_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
             resolution_strategy_help.halign = Gtk.Align.START;
             resolution_strategy_help.hexpand = true;
             resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
-            general_grid.attach (resolution_strategy_help, 2, 2, 1, 1);
+            general_grid.attach (resolution_strategy_help, 2, 3, 1, 1);
 
             return general_grid;
         }

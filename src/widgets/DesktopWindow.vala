@@ -66,10 +66,24 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     /**
      * @overrided
      */
+    public override void refresh () {
+        this.show_all ();
+        if (!this.manager.get_application ().get_desktopicons_enabled ()) {
+            debug ("trying to hide");
+            this.manager.hide_items ();
+        }
+    }
+
+    /**
+     * @overrided
+     */
     protected override void create_headerbar () {
         this.set_titlebar (new Gtk.HeaderBar ());
     }
 
+    /**
+     * @overrided
+     */
     protected override void show_popup (Gdk.EventButton event) {
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { // we need the event coordinates for the menu, we need to recreate?!
@@ -110,85 +124,95 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
-        newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
-        emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
-        newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
-        newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
+            emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
+            newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
+            newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
+        }
         newpanel_item.activate.connect (this.new_desktop_folder);
         newlinkpanel_item.activate.connect (this.new_link_panel);
         newnote_item.activate.connect (this.new_note);
         newphoto_item.activate.connect (this.new_photo);
-        openterminal_item.activate.connect (this.open_terminal);
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            // sortby submenu ---------
+            sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
+            sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
+            sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
+            sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
+            sortby_name_item.toggled.connect ((item) => {
+                this.on_sort_by (FolderSort.SORT_BY_NAME);
+            });
+            sortby_size_item.toggled.connect ((item) => {
+                this.on_sort_by (FolderSort.SORT_BY_SIZE);
+            });
+            sortby_type_item.toggled.connect ((item) => {
+                this.on_sort_by (FolderSort.SORT_BY_TYPE);
+            });
+            sortby_reverse_item.toggled.connect ((item) => {
+                this.manager.get_settings ().sort_reverse = !this.manager.get_settings ().sort_reverse;
+                this.manager.get_settings ().save ();
+                this.manager.organize_panel_items ();
+            });
 
-        // sortby submenu ---------
-        sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
-        sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
-        sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
-        sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
-        sortby_name_item.toggled.connect ((item) => {
-            this.on_sort_by (FolderSort.SORT_BY_NAME);
-        });
-        sortby_size_item.toggled.connect ((item) => {
-            this.on_sort_by (FolderSort.SORT_BY_SIZE);
-        });
-        sortby_type_item.toggled.connect ((item) => {
-            this.on_sort_by (FolderSort.SORT_BY_TYPE);
-        });
-        sortby_reverse_item.toggled.connect ((item) => {
-            this.manager.get_settings ().sort_reverse = !this.manager.get_settings ().sort_reverse;
-            this.manager.get_settings ().save ();
-            this.manager.organize_panel_items ();
-        });
-        organize_item.activate.connect (this.manager.organize_panel_items);
-        // ------------------------
+            organize_item.activate.connect (this.manager.organize_panel_items);
 
-        ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
-        ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
-        ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
+            // ------------------------
 
+            ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
+        }
 
-        // Appending (in order)
-        if (cm.can_paste) {
-            var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
-            paste_item.activate.connect (this.manager.paste);
-            context_menu.append (new MenuItemSeparator ());
-            context_menu.append (paste_item);
+            ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
+            ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
+
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            openterminal_item.activate.connect (this.open_terminal);
+
+            // Appending (in order)
+            if (cm.can_paste) {
+                var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
+                paste_item.activate.connect (this.manager.paste);
+                context_menu.append (paste_item);
+            }
         }
         context_menu.append (new_item);
         new_item.set_submenu (new_submenu);
-
-        new_submenu.append (newfolder_item);
-        new_submenu.append (emptyfile_item);
-        new_submenu.append (new MenuItemSeparator ());
-        new_submenu.append (newlink_item);
-        new_submenu.append (newlinkdir_item);
-        new_submenu.append (new MenuItemSeparator ());
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            new_submenu.append (newfolder_item);
+            new_submenu.append (emptyfile_item);
+            new_submenu.append (new MenuItemSeparator ());
+            new_submenu.append (newlink_item);
+            new_submenu.append (newlinkdir_item);
+            new_submenu.append (new MenuItemSeparator ());
+        }
         new_submenu.append (newpanel_item);
         new_submenu.append (newlinkpanel_item);
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
 
-        // sortby submenu ---------
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (sortby_item);
-        sortby_item.set_submenu (sortby_submenu);
-        sortby_submenu.append (sortby_name_item);
-        sortby_submenu.append (sortby_size_item);
-        sortby_submenu.append (sortby_type_item);
-        sortby_submenu.append (new MenuItemSeparator ());
-        sortby_submenu.append (sortby_reverse_item);
-        if (this.manager.get_arrangement ().can_organize ()) {
-            context_menu.append (organize_item);
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            // sortby submenu ---------
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (sortby_item);
+            sortby_item.set_submenu (sortby_submenu);
+            sortby_submenu.append (sortby_name_item);
+            sortby_submenu.append (sortby_size_item);
+            sortby_submenu.append (sortby_type_item);
+            sortby_submenu.append (new MenuItemSeparator ());
+            sortby_submenu.append (sortby_reverse_item);
+            if (this.manager.get_arrangement ().can_organize ()) {
+                context_menu.append (organize_item);
+            }
+            // -------------------------
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (textcolor_item);
         }
-        // -------------------------
-
-        context_menu.append (new MenuItemSeparator ());
-
-        context_menu.append (textcolor_item);
         context_menu.append (properties_item);
         context_menu.append (desktop_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (openterminal_item);
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (openterminal_item);
+        }
         context_menu.show_all ();
         context_menu.popup_at_pointer (null);
     }
