@@ -106,7 +106,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.add (this.container);
     }
 
-
     /**
      * @name create_headerbar
      * @description create the header bar
@@ -478,9 +477,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
            return true;
          */
-
         // if the icon wasnt moved, maybe we must execute it
         // depending if the files preferences single-click was activated
+
+        this.flag_dragdrop_started = false;
 
         // Change cursor
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "default"));
