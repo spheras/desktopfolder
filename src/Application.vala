@@ -145,7 +145,6 @@ public class DesktopFolderApp : Gtk.Application {
         // settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
 
         on_show_desktoppanel_changed ();
-        this.monitor_desktop ();
 
         settings.changed[SHOW_DESKTOPICONS_KEY].connect (on_show_desktopicons_changed);
         on_show_desktopicons_changed ();
@@ -181,6 +180,7 @@ public class DesktopFolderApp : Gtk.Application {
 
         // we start creating the folders found at the desktop folder
         this.sync_folders_and_notes ();
+        this.monitor_desktop_folder ();
 
         // Listening to size change events
         Gdk.Screen.get_default ().size_changed.connect (this.on_screen_size_changed);
@@ -529,10 +529,10 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name monitor_desktop
+     * @name monitor_desktop_folder
      * @description monitor the desktop folder
      */
-    private void monitor_desktop () {
+    private void monitor_desktop_folder () {
         try {
             if (this.monitor != null) {
                 // if we have an existing monitor, we cancel it before to monitor again
