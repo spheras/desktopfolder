@@ -549,6 +549,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         var emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
         var newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
         var newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
         // sortby submenu -----------
@@ -571,6 +575,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
         newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
         newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
+        newpanel_item.activate.connect (this.new_desktop_folder);
+        newlinkpanel_item.activate.connect (this.new_link_panel);
+        newnote_item.activate.connect (this.new_note);
+        newphoto_item.activate.connect (this.new_photo);
         openterminal_item.activate.connect (this.open_terminal);
 
         // sortby submenu ---------
@@ -616,6 +624,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         new_submenu.append (new MenuItemSeparator ());
         new_submenu.append (newlink_item);
         new_submenu.append (newlinkdir_item);
+        if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
+            new_submenu.append (new MenuItemSeparator ());
+            new_submenu.append (newpanel_item);
+            new_submenu.append (newlinkpanel_item);
+            new_submenu.append (newnote_item);
+            new_submenu.append (newphoto_item);
+        }
 
         // sortby submenu ---------
         context_menu.append (new MenuItemSeparator ());

@@ -290,33 +290,55 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @param event EventButton the origin event, needed to position the menu
      */
     private void show_popup (Gdk.EventButton event) {
-        // debug("evento:%f,%f",event.x,event.y);
-        // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
-
-        // Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
-        // TODO exists a way to make resizable and moveable a dock window?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
 
         this.menu = new Gtk.Menu ();
 
-        // option to delete the current folder
+        if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
+            Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+            menu.append (item_new);
+
+            Gtk.Menu newmenu = new Gtk.Menu ();
+            item_new.set_submenu (newmenu);
+
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            item.activate.connect ((item) => {
+                this.new_desktop_folder ();
+            });
+            newmenu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+            item.activate.connect ((item) => {
+                this.new_link_panel ();
+            });
+            newmenu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+            item.activate.connect ((item) => {
+                this.new_note ();
+            });
+            newmenu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+            item.activate.connect ((item) => {
+                this.new_photo ();
+            });
+            newmenu.append (item);
+
+            menu.append (new MenuItemSeparator ());
+        }
+
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
         item.activate.connect ((item) => { this.manager.delete (); });
-        item.show ();
         menu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+        menu.append (new MenuItemSeparator ());
 
         item = new MenuItemColor (FIXO_TAGS_COLORS, this, null);
         ((MenuItemColor) item).color_changed.connect (change_fixo_color);
-        item.show ();
         menu.append (item);
 
-        // }
-
-        // finally we show the popup
+        menu.show_all ();
         menu.popup_at_pointer (null);
     }
 
@@ -330,6 +352,35 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         // reseting fixo images
         this.fixoPixbuf = null;
         this.queue_draw ();
+    }
+
+    /**
+     * @name new_desktop_folder
+     * @description create a new desktop folder
+     */
+    private void new_desktop_folder () {
+        DesktopFolder.Util.create_new_desktop_folder (this);
+    }
+    /**
+     * @name new_link_panel
+     * @description create a new link panel
+     */
+    private void new_link_panel () {
+        DesktopFolder.Util.create_new_link_panel (this);
+    }
+    /**
+     * @name new_note
+     * @description create a new note
+     */
+    private void new_note () {
+        DesktopFolder.Util.create_new_note (this);
+    }
+    /**
+     * @name new_photo
+     * @description create a new photo
+     */
+    private void new_photo () {
+        DesktopFolder.Util.create_new_photo (this);
     }
 
     /**
