@@ -80,8 +80,8 @@ namespace DesktopFolder.Util {
         GLib.Cancellable ? cancellable = null, FileOperationAction ? listener = null) throws GLib.Error {
         GLib.FileType src_type = src.query_file_type (GLib.FileQueryInfoFlags.NONE, cancellable);
 
-        string src_path  = src.get_path ();
-        string dest_path = dest.get_path ();
+        string src_path        = src.get_path ();
+        string dest_path       = dest.get_path ();
 
         if (src_type == GLib.FileType.DIRECTORY) {
             dest.make_directory (cancellable);
@@ -105,7 +105,7 @@ namespace DesktopFolder.Util {
             GLib.File real_dest = dest;
             if (src_path == dest_path) {
                 string basename = dest.get_basename ();
-                string dirname = dest.get_path ().replace (basename, "");
+                string dirname  = dest.get_path ().replace (basename, "");
                 real_dest = GLib.File.new_for_path (dirname + make_next_duplicate_name (basename, dirname));
             }
 
@@ -211,19 +211,20 @@ namespace DesktopFolder.Util {
         string name = sanitize_name (make_next_duplicate_name (DesktopFolder.Lang.NEWLY_CREATED_PANEL, DesktopFolderApp.get_app_folder () + "/"));
 
         // cancelling the current monitor
-        string folder_name = DesktopFolderApp.get_app_folder () + "/" + name;
+        string folder_name              = DesktopFolderApp.get_app_folder () + "/" + name;
         DirUtils.create (folder_name, 0755);
-        File file = File.new_for_path (folder_name + "/.desktopfolder");
+        File file                       = File.new_for_path (folder_name + "/.desktopfolder");
         DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (name);
 
         // lets put the panel at the mouse place
         var device = Gtk.get_current_event_device ();
-        int x = 0;
-        int y = 0;
+        int x      = 0;
+        int y      = 0;
         window.get_window ().get_device_position (device, out x, out y, null);
-        fs.x = x;
-        fs.y = y;
+        fs.x                      = x;
+        fs.y                      = y;
         fs.edit_label_on_creation = true;
+        fs.arrangement_type       = get_default_arrangement_setting ();
 
         fs.save_to_file (file);
     }
@@ -238,7 +239,7 @@ namespace DesktopFolder.Util {
     public static string make_next_duplicate_name (string basename, string path) {
         // TODO: Copy elementary's way of doing it
         string name        = DesktopFolder.Util.sanitize_name (basename);
-        int ext_pos        = name.last_index_of (".");
+        int    ext_pos     = name.last_index_of (".");
         string ext         = "";
         string name_no_ext = name;
         if (ext_pos != -1) {
@@ -258,7 +259,7 @@ namespace DesktopFolder.Util {
             }
         }
 
-        //debug ("name: " + name + ", ext_pos: " + ext_pos.to_string () + ", ext: " + ext + ", name_no_ext: " + name_no_ext + ", file_to_check: " + file_to_check);
+        // debug ("name: " + name + ", ext_pos: " + ext_pos.to_string () + ", ext: " + ext + ", name_no_ext: " + name_no_ext + ", file_to_check: " + file_to_check);
         return new_filename;
     }
 
@@ -284,6 +285,7 @@ namespace DesktopFolder.Util {
             File linkdest                   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
             File settings_file              = File.new_for_path (folderpath + "/.desktopfolder");
             DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (foldername);
+            fs.arrangement_type = get_default_arrangement_setting ();
             fs.save_to_file (settings_file);
 
             debug ("creating settings at: %s", folderpath + "/.desktopfolder");
@@ -310,22 +312,45 @@ namespace DesktopFolder.Util {
     }
 
     /**
+     * @name get_default_arrangement_setting
+     * @description return the global default arragament for new panels
+     */
+    private int get_default_arrangement_setting () {
+        GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+        string[]      keys     = settings.list_keys ();
+        bool          found    = false;
+        for (int i = 0; i < keys.length; i++) {
+            string key = keys[i];
+            if (key == "default-arrangement") {
+                found = true;
+                break;
+            }
+        }
+        int default_arrangement = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        if (found) {
+            default_arrangement = (int) settings.get_enum ("default-arrangement");
+        }
+        debug ("default_arrangement: %d", default_arrangement);
+        return default_arrangement;
+    }
+
+    /**
      * @name create_new_note
      * @description create a new note inside the desktop
      * @param {Gtk.Window} window the parent window to show the dialog
      */
     public static void create_new_note (Gtk.Window window) {
         string newly_created_note = DesktopFolder.Lang.NEWLY_CREATED_NOTE;
-        string name = sanitize_name (make_next_duplicate_name (newly_created_note + "." + DesktopFolder.NEW_NOTE_EXTENSION, DesktopFolderApp.get_app_folder () + "/"));
+        string name               = sanitize_name (make_next_duplicate_name (newly_created_note + "." + DesktopFolder.NEW_NOTE_EXTENSION, DesktopFolderApp.get_app_folder () + "/"));
 
-        string path = DesktopFolderApp.get_app_folder () + "/" + name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
-        File file = File.new_for_path (path);
-        NoteSettings ns = new NoteSettings (name);
+        string       path         = DesktopFolderApp.get_app_folder () + "/" + name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
+        File         file         = File.new_for_path (path);
+        NoteSettings ns           = new NoteSettings (name);
 
         // lets put the note at the mouse place
         var device = Gtk.get_current_event_device ();
-        int x = 0;
-        int y = 0;
+        int x      = 0;
+        int y      = 0;
         window.get_window ().get_device_position (device, out x, out y, null);
         ns.x = x;
         ns.y = y;

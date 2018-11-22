@@ -5,6 +5,11 @@
         <value value="1" nick="SCALE"/>
         <value value="2" nick="STORE"/>
     </enum>
+    <enum id="arrangement">
+        <value value="1" nick="FREE"/>
+        <value value="2" nick="GRID"/>
+        <value value="3" nick="MANAGED"/>
+    </enum>
 
   <schema path="/com/github/spheras/desktopfolder/"
   id="com.github.spheras.desktopfolder"
@@ -23,6 +28,11 @@
       <default>'STORE'</default>
       <summary>Resolution Change Strategy</summary>
       <description>How the widgets should be adapted to different screen resolutions</description>
+    </key>
+    <key name="default-arrangement" enum="arrangement">
+      <default>'FREE'</default>
+      <summary>Default Panel Arrangement</summary>
+      <description>Define whats the default arrangement strategy for panels</description>
     </key>
     <key name="show-desktopfolder" type="b">
       <default>true</default>

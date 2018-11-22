@@ -198,6 +198,11 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_ARRANGEMENT_GRID                = _("Grid");
     // Managed arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
+    // Default Panel Management
+    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default Arrangement:");
+    // panel properties - Default Panel Management Description
+    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT_DESCRIPTION = _("Select the Default Arrangement Method for New Panels");
+
 
     // sort by submenu
     public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort By");
@@ -212,9 +217,8 @@ namespace DesktopFolder.Lang {
     // force panels to be organized automatically one time
     public const string DESKTOPFOLDER_MENU_SORT_ORGANIZE = _("Reorganize Icons");
     // the title of a panel when a new one is created
-    public const string NEWLY_CREATED_PANEL = _("Untitled Panel");
+    public const string NEWLY_CREATED_PANEL              = _("Untitled Panel");
     // the title of a note when a new one is created
-    public const string NEWLY_CREATED_NOTE = _("New Note");
+    public const string NEWLY_CREATED_NOTE               = _("New Note");
 
 }
-
