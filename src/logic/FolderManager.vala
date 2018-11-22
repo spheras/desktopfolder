@@ -61,16 +61,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // First we create a Folder Window above the desktop
         this.application = application;
         this.create_view ();
-        this.application.add_window (this.view);
-        this.view.show ();
 
-        // trying to put it in front of the rest
-        this.view.set_keep_below (false);
-        this.view.set_keep_above (true);
-        this.view.present ();
-        this.view.set_keep_above (false);
-        this.view.set_keep_below (true);
-        // ---------------------------------------
+        this.try_to_order_at_top ();
 
         // let's sync the files found at this folder
         GLib.Idle.add_full (GLib.Priority.LOW, () => {
@@ -83,6 +75,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.monitor_folder ();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
+        this.view.show_all ();
     }
 
     /**
@@ -91,6 +84,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     protected virtual void create_view () {
         this.view = new DesktopFolder.FolderWindow (this);
+        this.application.add_window (this.view);
     }
 
     /**
@@ -300,6 +294,14 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             return true;
         }
         return false;
+    }
+
+    protected void try_to_order_at_top () {
+        this.view.set_keep_below (false);
+        this.view.set_keep_above (true);
+        this.view.present ();
+        this.view.set_keep_above (false);
+        this.view.set_keep_below (true);
     }
 
     /**
@@ -601,6 +603,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public void close () {
         this.monitor.cancel ();
+        this.view.hide ();
         this.view.close ();
     }
 
@@ -730,23 +733,19 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.get_settings ().save ();
 
         // closing
-        this.application.remove_window (this.view);
-        this.view.close ();
-        // reopening
-        this.view = new FolderWindow (this);
-        this.application.add_window (this.view);
-        this.view.show ();
+        //this.application.remove_window (this.view);
+        this.close ();
 
-        // trying to put it in front of the rest
-        this.view.set_keep_below (false);
-        this.view.set_keep_above (true);
-        this.view.present ();
-        this.view.set_keep_above (false);
-        this.view.set_keep_below (true);
-        // ---------------------------------------
+        // reopening
+        this.create_view ();
+
+        this.try_to_order_at_top ();
+
 
         // let's sync the files found at this folder
         this.sync_files (0, 0);
+
+        this.monitor_folder ();
 
         this.view.show_all ();
     }

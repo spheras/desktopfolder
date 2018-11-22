@@ -31,9 +31,11 @@ public class DesktopFolderApp : Gtk.Application {
     private GLib.Settings settings              = null;
     private bool single_click                   = false;
     private const string SHOW_DESKTOPPANEL_KEY  = "desktop-panel";
+    private const string SHOW_DESKTOPICONS_KEY  = "icons-on-desktop";
     private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
 
     private bool show_desktoppanel = false;
+    private bool show_desktopicons = false;
 
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
@@ -134,6 +136,14 @@ public class DesktopFolderApp : Gtk.Application {
         settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
         on_show_desktopfolder_changed ();
 
+        // Connect to desktoppanel key
+        settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
+        on_show_desktoppanel_changed ();
+        this.monitor_desktop ();
+
+        settings.changed[SHOW_DESKTOPICONS_KEY].connect (on_show_desktopicons_changed);
+        on_show_desktopicons_changed ();
+
         create_shortcut ();
 
         // we need the app folder (desktop folder)
@@ -163,15 +173,8 @@ public class DesktopFolderApp : Gtk.Application {
            });
          */
 
-        this.create_fake_desktop ();
-
         // we start creating the folders found at the desktop folder
         this.sync_folders_and_notes ();
-
-        // Connect to desktoppanel key
-        settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
-        on_show_desktoppanel_changed ();
-        this.monitor_desktop ();
 
         // Listening to size change events
         Gdk.Screen.get_default ().size_changed.connect (this.on_screen_size_changed);
@@ -192,12 +195,39 @@ public class DesktopFolderApp : Gtk.Application {
      * @name on_show_desktoppanel_changed
      * @description detect when desktoppanel key is toggled
      */
+    private void on_show_desktopicons_changed () {
+        this.show_desktopicons = settings.get_boolean (SHOW_DESKTOPICONS_KEY);
+        debug (@"called, show_desktoppanel: $(this.show_desktoppanel), show_desktopicons: $show_desktopicons");
+        if (this.show_desktoppanel) {
+            if (this.show_desktopicons) {
+                this.desktop.show_items ();
+            } else {
+                debug ("calling hide_items");
+                this.desktop.hide_items ();
+            }
+        }
+    }
+
+    /**
+     * @name on_show_desktopfolder_changed
+     * @description detect when desktopfolder key is toggled
+     */
+    public bool get_desktopicons_enabled () {
+        return show_desktopicons;
+    }
+
+    /**
+     * @name on_show_desktoppanel_changed
+     * @description detect when desktoppanel key is toggled
+     */
     private void on_show_desktoppanel_changed () {
         this.show_desktoppanel = settings.get_boolean (SHOW_DESKTOPPANEL_KEY);
+        debug (@"show_desktoppanel: $(this.show_desktoppanel)");
         if (this.show_desktoppanel) {
-            this.desktop.show_items ();
+            this.create_fake_desktop ();
         } else {
-            this.desktop.hide_items ();
+            this.desktop.close ();
+            this.desktop = null;
         }
     }
 

@@ -178,7 +178,7 @@ namespace DesktopFolder.Dialogs {
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
-            if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow) && !this.manager.get_application ().get_desktoppanel_enabled ()) {
+            if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow) && (!this.manager.get_application ().get_desktoppanel_enabled () || !this.manager.get_application ().get_desktopicons_enabled ())) {
                 general_grid.set_sensitive (false);
             }
 
@@ -212,10 +212,26 @@ namespace DesktopFolder.Dialogs {
 
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 1, 1, 1);
 
-            SettingsSwitch settings_switch = new SettingsSwitch ("desktop_panel");
+            SettingsSwitch settings_switch = new SettingsSwitch ("icons-on-desktop");
             settings_switch.halign = Gtk.Align.START;
             settings_switch.margin_end = 8;
             general_grid.attach (settings_switch, 1, 1, 1, 1);
+
+            settings_switch.set_active (settings.get_boolean ("icons-on-desktop"));
+            settings_switch.notify["active"].connect (() => {
+                bool desktopicons_enabled = settings.get_boolean ("icons-on-desktop");
+                settings.set_boolean ("icons-on-desktop", !desktopicons_enabled);
+                if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow)) {
+                    this.set_property_page_sensitivity (!desktopicons_enabled);
+                }
+            });
+
+            general_grid.attach (new SettingsLabel ("Enable desktop"), 0, 2, 1, 1);
+
+            settings_switch = new SettingsSwitch ("desktop_panel");
+            settings_switch.halign = Gtk.Align.START;
+            settings_switch.margin_end = 8;
+            general_grid.attach (settings_switch, 1, 2, 1, 1);
 
             settings_switch.set_active (settings.get_boolean ("desktop-panel"));
             settings_switch.notify["active"].connect (() => {
@@ -226,7 +242,7 @@ namespace DesktopFolder.Dialogs {
                 }
             });
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 2, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 3, 1, 1);
 
             var strategy_combo = new Gtk.ComboBoxText ();
             strategy_combo.append ("NONE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_NONE);
@@ -234,13 +250,13 @@ namespace DesktopFolder.Dialogs {
             strategy_combo.append ("STORE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_STORE);
             settings.bind ("resolution-strategy", strategy_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
             strategy_combo.margin_end = 8;
-            general_grid.attach (strategy_combo, 1, 2, 1, 1);
+            general_grid.attach (strategy_combo, 1, 3, 1, 1);
 
             var resolution_strategy_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
             resolution_strategy_help.halign = Gtk.Align.START;
             resolution_strategy_help.hexpand = true;
             resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
-            general_grid.attach (resolution_strategy_help, 2, 2, 1, 1);
+            general_grid.attach (resolution_strategy_help, 2, 3, 1, 1);
 
             return general_grid;
         }

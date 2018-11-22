@@ -60,8 +60,9 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      * @overrided
      */
     public override void hide_items () {
-        // debug ("hide_items");
+        debug ("hide_items");
         foreach (ItemManager item in items) {
+            debug (@"hiding item $(item.get_file_name ())");
             item.hide_view ();
         }
     }
