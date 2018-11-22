@@ -182,6 +182,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
 
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
+
+        FolderSettings settings = this.manager.get_settings ();
+
+        debug (settings.edit_label_on_creation.to_string ());
+        if (settings.edit_label_on_creation) {
+            GLib.Timeout.add (50, () => {
+                this.label.start_editing ();
+                settings.edit_label_on_creation = false;
+                return false;
+            });
+        }
     }
 
     /**
@@ -280,10 +291,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
         this.get_style_context ().add_class (settings.fgcolor);
 
-        if (this.manager.get_settings ().textshadow) {
+        if (settings.textshadow) {
             this.get_style_context ().add_class ("df_shadow");
         }
-        if (this.manager.get_settings ().textbold) {
+        if (settings.textbold) {
             this.get_style_context ().add_class ("df_bold");
         }
 
@@ -840,8 +851,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug ("User is editing!");
             return false;
         }
+        if (event.type != Gdk.EventType.KEY_PRESS) {
+            return false;
+        }
 
-        int key                   = (int) event.keyval;
+        int key = (int) event.keyval;
+
         // debug("event key %d",key);
         const int DELETE_KEY      = 65535;
         const int F2_KEY          = 65471;
@@ -851,83 +866,81 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         const int ARROW_RIGHT_KEY = 65363;
         const int ARROW_DOWN_KEY  = 65364;
 
-        var  mods                 = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool control_pressed      = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        bool shift_pressed        = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
-
+        var      mods             = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool     control_pressed  = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool     shift_pressed    = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
         ItemView selected         = this.manager.get_selected_item ();
 
-        if (event.type == Gdk.EventType.KEY_RELEASE) {
-            if (control_pressed) {
-                if (key == 'c' || key == 'C') {
-                    if (selected != null) {
-                        selected.copy ();
-                        return true;
-                    }
-                } else if (key == 'x' || key == 'X') {
-                    if (selected != null) {
-                        selected.cut ();
-                        return true;
-                    }
-                } else if (key == 'v' || key == 'V') {
-                    this.manager.paste ();
-                }
+        if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
+            selected.copy ();
+            return true;
+        }
+
+        if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
+            selected.cut ();
+            return true;
+        }
+
+        if (control_pressed && (key == 'v' || key == 'V')) {
+            this.manager.paste ();
+        }
+
+        if (key == DELETE_KEY) {
+            if (selected == null) {
+                this.manager.trash ();
+            } else if (shift_pressed) {
+                selected.delete_dialog ();
             } else {
-                if (key == DELETE_KEY) {
-                    if (selected != null) {
-                        if (shift_pressed) {
-                            selected.delete_dialog ();
-                        } else {
-                            selected.trash ();
-                        }
-                        return true;
-                    } else {
-                        this.manager.trash ();
-                    }
-                } else if (key == F2_KEY) {
-                    if (selected != null) {
-                        selected.start_editing ();
-                        return true;
-                    } else {
-                        this.label.start_editing ();
-                    }
-                } else if (key == ENTER_KEY) {
-                    if (selected != null) {
-                        selected.execute ();
-                        return true;
-                    }
-                }
+                selected.trash ();
             }
-        } else if (event.type == Gdk.EventType.KEY_PRESS) {
-            if (key == ARROW_LEFT_KEY) {
-                // left arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x < b.x;
-                });
-            } else if (key == ARROW_UP_KEY) {
-                // up arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y < b.y;
-                });
-            } else if (key == ARROW_RIGHT_KEY) {
-                // right arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x > b.x;
-                });
-            } else if (key == ARROW_DOWN_KEY) {
-                // down arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y > b.y;
-                });
+            return true;
+        }
+
+        if (key == F2_KEY) {
+            if (selected != null) {
+                selected.start_editing ();
+                return true;
+            } else {
+                this.label.start_editing ();
             }
+        }
+
+        if (selected != null && key == ENTER_KEY) {
+            selected.execute ();
+            return true;
+        }
+
+        if (key == ARROW_LEFT_KEY) {
+            // left arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+            }, (a, b) => {
+                return a.x < b.x;
+            });
+        }
+        if (key == ARROW_UP_KEY) {
+            // up arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+            }, (a, b) => {
+                return a.y < b.y;
+            });
+        }
+        if (key == ARROW_RIGHT_KEY) {
+            // right arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+            }, (a, b) => {
+                return a.x > b.x;
+            });
+        }
+        if (key == ARROW_DOWN_KEY) {
+            // down arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+            }, (a, b) => {
+                return a.y > b.y;
+            });
         }
 
         return false;
@@ -1047,17 +1060,20 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new folder icon should be generated
      */
     protected void new_folder (int x, int y) {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_MESSAGE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME);
-        dialog.on_rename.connect ((new_name) => {
-            // creating the folder
-            if (new_name != "") {
-                this.manager.create_new_folder (new_name, x, y);
-            }
-        });
-        dialog.show_all ();
+        string new_name = this.manager.create_new_folder (x, y);
+        var    item     = this.manager.get_item_by_filename (new_name);
+        if (item == null) {
+            stderr.printf ("Error: Couldn't find the newly created folder's item.");
+            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
+            return;
+        } else {
+            ItemView itemview = item.get_view ();
+
+            GLib.Timeout.add (50, () => {
+                itemview.start_editing ();
+                return false;
+            });
+        }
     }
 
     /**
@@ -1067,21 +1083,24 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param int y the y position where the new item should be placed
      */
     protected void new_text_file (int x, int y) {
-        RenameDialog dialog = new RenameDialog (this,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE,
-                DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME);
-        dialog.on_rename.connect ((new_name) => {
-            if (new_name != "") {
-                this.manager.create_new_text_file (new_name, x, y);
-            }
-        });
-        dialog.show_all ();
+        string new_name = this.manager.create_new_text_file (x, y);
+        var    item     = this.manager.get_item_by_filename (new_name);
+        if (item == null) {
+            stderr.printf ("Error: Couldn't find the newly created folder's item.");
+            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
+            return;
+        } else {
+            ItemView itemview = item.get_view ();
+            GLib.Timeout.add (50, () => {
+                itemview.start_editing ();
+                return false;
+            });
+        }
     }
 
     /**
      * @name new_link
-     * @description create a new linnk item inside this folder
+     * @description create a new link item inside this folder
      * @param int x the x position where the new item should be placed
      * @param int y the y position where the new item should be placed
      * @param bool folder to indicate if we want to select a folder or a file
