@@ -542,7 +542,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
         // we create the text file with a touch command
         try {
-            var command = "touch \"" + this.get_absolute_path () + "/" + name + "\"";
+            var command = "touch \"" + this.get_absolute_path () + "/" + new_name + "\"";
             var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
             appinfo.launch_uris (null, null);
 

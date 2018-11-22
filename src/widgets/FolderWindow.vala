@@ -185,7 +185,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         FolderSettings settings = this.manager.get_settings ();
 
-        debug (settings.edit_label_on_creation.to_string ());
+        // debug (settings.edit_label_on_creation.to_string ());
         if (settings.edit_label_on_creation) {
             GLib.Timeout.add (50, () => {
                 this.label.start_editing ();

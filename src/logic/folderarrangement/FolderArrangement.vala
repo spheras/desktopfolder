@@ -111,7 +111,7 @@ public interface DesktopFolder.FolderArrangement : Object {
 
             // saving settings for the new position
             ItemSettings is = item.get_folder ().get_settings ().get_item (item.get_file_name ());
-            is.x            = cursor_x - ItemView.PADDING_X;
+            is.x            = cursor_x;
             is.y            = cursor_y;
             item.get_folder ().get_settings ().set_item (is);
             item.get_folder ().get_settings ().save ();
