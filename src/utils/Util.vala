@@ -238,7 +238,11 @@ namespace DesktopFolder.Util {
      */
     public static string make_next_duplicate_name (string basename, string path) {
         // TODO: Copy elementary's way of doing it
-        string name        = DesktopFolder.Util.sanitize_name (basename);
+        string new_path = sanitize_name (path);
+        if (!new_path.has_suffix ("/")) {
+            new_path += "/";
+        }
+        string name        = sanitize_name (basename);
         int    ext_pos     = name.last_index_of (".");
         string ext         = "";
         string name_no_ext = name;
@@ -247,14 +251,13 @@ namespace DesktopFolder.Util {
             name_no_ext = name.replace (ext, "");
             name_no_ext = name_no_ext.strip ();
         }
+
         string new_filename = "";
 
         for (int i = 2; i < 1000000; i++) {
-            new_filename = name_no_ext + " " + i.to_string ();
-            File file = File.new_for_path (path + new_filename + ext);
-            if (file.query_exists ()) {
-                continue;
-            } else {
+            new_filename = @"$name_no_ext $i";
+            File file = File.new_for_path (new_path + new_filename + ext);
+            if (!file.query_exists ()) {
                 break;
             }
         }

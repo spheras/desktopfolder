@@ -526,12 +526,12 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int y the y position of the new file
      */
     public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
-        string path     = this.get_absolute_path () + "/" + name;
+        string path = this.get_absolute_path () + "/" + name;
 
         string new_name = "";
 
-        File folder     = File.new_for_path (path);
-        if (folder.query_exists ()) {
+        File file = File.new_for_path (path);
+        if (file.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
             new_name = name;
