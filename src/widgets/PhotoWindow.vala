@@ -292,7 +292,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     private void show_popup (Gdk.EventButton event) {
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
 
-        this.menu = new Gtk.Menu ();
+        this.menu      = new Gtk.Menu ();
 
         if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
             Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
@@ -361,6 +361,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     private void new_desktop_folder () {
         DesktopFolder.Util.create_new_desktop_folder (this);
     }
+
     /**
      * @name new_link_panel
      * @description create a new link panel
@@ -368,6 +369,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     private void new_link_panel () {
         DesktopFolder.Util.create_new_link_panel (this);
     }
+
     /**
      * @name new_note
      * @description create a new note
@@ -375,6 +377,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     private void new_note () {
         DesktopFolder.Util.create_new_note (this);
     }
+
     /**
      * @name new_photo
      * @description create a new photo

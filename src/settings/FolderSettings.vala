@@ -215,21 +215,21 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @description reset the properties
      */
     public void reset () {
-        this.x                = 100;
-        this.y                = 100;
-        this.w                = 300;
-        this.h                = 300;
-        this.bgcolor          = "df_black";
-        this.fgcolor          = "df_light";
-        this.textbold         = true;
-        this.textshadow       = true;
-        this.align_to_grid    = false;
-        this.lockitems        = false;
-        this.lockpanel        = false;
-        this.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_FREE;
-        this.name             = name;
-        this.items            = new string[0];
-        this.version          = DesktopFolder.SETTINGS_VERSION;
+        this.x                      = 100;
+        this.y                      = 100;
+        this.w                      = 300;
+        this.h                      = 300;
+        this.bgcolor                = "df_black";
+        this.fgcolor                = "df_light";
+        this.textbold               = true;
+        this.textshadow             = true;
+        this.align_to_grid          = false;
+        this.lockitems              = false;
+        this.lockpanel              = false;
+        this.arrangement_type       = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        this.name                   = name;
+        this.items                  = new string[0];
+        this.version                = DesktopFolder.SETTINGS_VERSION;
         this.edit_label_on_creation = false;
         check_off_screen ();
     }

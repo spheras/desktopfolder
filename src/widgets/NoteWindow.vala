@@ -560,6 +560,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private void new_desktop_folder () {
         DesktopFolder.Util.create_new_desktop_folder (this);
     }
+
     /**
      * @name new_link_panel
      * @description create a new link panel
@@ -567,6 +568,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private void new_link_panel () {
         DesktopFolder.Util.create_new_link_panel (this);
     }
+
     /**
      * @name new_note
      * @description create a new note
@@ -574,6 +576,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
     private void new_note () {
         DesktopFolder.Util.create_new_note (this);
     }
+
     /**
      * @name new_photo
      * @description create a new photo

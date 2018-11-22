@@ -34,8 +34,8 @@ public class DesktopFolderApp : Gtk.Application {
     private const string SHOW_DESKTOPICONS_KEY  = "icons-on-desktop";
     private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
 
-    private bool show_desktoppanel = false;
-    private bool show_desktopicons = false;
+    private bool show_desktoppanel              = false;
+    private bool show_desktopicons              = false;
 
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
@@ -558,15 +558,15 @@ public class DesktopFolderApp : Gtk.Application {
     private void desktop_changed (GLib.File src, GLib.File ? dest, FileMonitorEvent event) {
         // string src_path = "";
         // if (src == null) {
-        //     src_path = "null";
+        // src_path = "null";
         // } else {
-        //     src_path = src.get_path ().to_string ();
+        // src_path = src.get_path ().to_string ();
         // }
         // string dest_path = "";
         // if (dest == null) {
-        //     dest_path = "null";
+        // dest_path = "null";
         // } else {
-        //     dest_path = dest.get_path ().to_string ();
+        // dest_path = dest.get_path ().to_string ();
         // }
         // debug ("src: " + src_path + " dest: " + dest_path + " event: " + event.to_string ());
 

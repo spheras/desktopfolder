@@ -162,8 +162,8 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             ((MenuItemColor) textcolor_item).color_changed.connect (change_head_color);
         }
 
-            ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
-            ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
+        ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
+        ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
 
         if (this.manager.get_application ().get_desktopicons_enabled ()) {
             openterminal_item.activate.connect (this.open_terminal);

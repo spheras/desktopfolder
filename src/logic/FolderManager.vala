@@ -114,7 +114,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         }
     }
 
-
     /**
      * @name get_item_by_filename
      * @description get item by filename, or null if none
@@ -122,7 +121,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public ItemManager ? get_item_by_filename (string name) {
         foreach (ItemManager item in this.items) {
-            if (item.get_file_name() == name) {
+            if (item.get_file_name () == name) {
                 return item;
             }
         }
@@ -495,11 +494,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int y the y position of the new folder
      */
     public string create_new_folder (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME) {
-        string path = this.get_absolute_path () + "/" + name;
+        string path     = this.get_absolute_path () + "/" + name;
 
         string new_name = "";
 
-        File folder = File.new_for_path (path);
+        File folder     = File.new_for_path (path);
         if (folder.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
@@ -527,11 +526,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int y the y position of the new file
      */
     public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
-        string path = this.get_absolute_path () + "/" + name;
+        string path     = this.get_absolute_path () + "/" + name;
 
         string new_name = "";
 
-        File folder = File.new_for_path (path);
+        File folder     = File.new_for_path (path);
         if (folder.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
