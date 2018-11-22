@@ -440,14 +440,20 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @name show_items
      * @description shows the items
      */
-    public virtual void show_items () {
+    public void show_items () {
+        foreach (ItemManager item in items) {
+            item.show_view ();
+        }
     }
 
     /**
      * @name hide_items
      * @description hides the items
      */
-    public virtual void hide_items () {
+    public void hide_items () {
+        foreach (ItemManager item in items) {
+            item.hide_view ();
+        }
     }
 
     /**
