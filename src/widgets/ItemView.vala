@@ -480,6 +480,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // if the icon wasnt moved, maybe we must execute it
         // depending if the files preferences single-click was activated
 
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+
         this.flag_dragdrop_started = false;
 
         // Change cursor
@@ -491,7 +494,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         if (!this.flagMoved) {
             bool single_click = this.manager.get_folder ().get_application ().get_single_click ();
 
-            if (single_click && event.type == Gdk.EventType.BUTTON_RELEASE && event.button == Gdk.BUTTON_PRIMARY) {
+            if (single_click && !control_pressed && event.type == Gdk.EventType.BUTTON_RELEASE && event.button == Gdk.BUTTON_PRIMARY) {
                 on_double_click ();
             }
         } else {
