@@ -316,14 +316,16 @@ namespace DesktopFolder.DragnDrop {
             GLib.Callback ?                done_callback,
             Gtk.Widget ?                   done_callback_data) {
 
-            // debug("Util-copy_move");
             if (target_dir.query_exists ()) {
                 for (int i = 0; files != null && i < files.length (); i++) {
                     File f = files.nth (i).data;
                     if (f.query_exists ()) {
 
                         string path = f.get_path ();
-                        // debug(f.get_path());
+                        string new_name = f.get_basename ();
+                        string target_path = target_dir.get_path ();
+                        string link_to = DesktopFolder.Lang.LINK_TO;
+
                         if ((path.has_prefix ("/usr/local/share/applications/") || path.has_prefix ("/usr/share/applications/")) && path.has_suffix (".desktop")) {
                             // we don't move user desktop launchers
                             if (action == Gdk.DragAction.MOVE) {
@@ -331,33 +333,53 @@ namespace DesktopFolder.DragnDrop {
                             }
                         }
 
+                        debug (@"$action, $(f.get_parent ().get_path ()) -> $target_path");
+
+                        if (f.get_parent ().equal(target_dir)) {
+                            // create a link instead
+                            if (action == Gdk.DragAction.MOVE) {
+                                action = Gdk.DragAction.LINK;
+                            }
+                            string link_to_without_var = link_to.replace ("$FILE_NAME", "");
+                            link_to_without_var = link_to_without_var.strip ();
+
+                            if (new_name.contains (link_to_without_var)) {
+                                new_name = new_name.replace (link_to_without_var, "").strip ();
+                            }
+
+                            new_name = link_to.replace ("$FILE_NAME", new_name).strip ();
+
+                            var link_file = File.new_for_path (@"$target_path/$new_name");
+                            if (link_file.query_exists ()) {
+                                new_name = DesktopFolder.Util.make_next_duplicate_name (new_name, target_path);
+                            }
+                        }
+
                         if (action == Gdk.DragAction.COPY) {
-                            // debug("copying "+f.get_path()+" to " + target_dir.get_path());
-                            File final_target               = File.new_for_path (target_dir.get_path () + "/" + f.get_basename ());
+                            File final_target               = File.new_for_path (target_path + "/" + f.get_basename ());
 
                             DesktopFolder.ProgressDialog pd = new DesktopFolder.ProgressDialog (DesktopFolder.Lang.DRAGNDROP_FILE_OPERATIONS, (Gtk.Window)parent_view);
                             GLib.Cancellable cancellable    = pd.start ();
 
                             try {
-
                                 new Thread <int> .try ("DesktopFolder File Operation", () => {
-                                        try {
-                                            DesktopFolder.Util.copy_recursive (f,
-                                            final_target,
-                                            GLib.FileCopyFlags.NONE,
-                                            cancellable,
-                                            (file) => {
-                                                string message = DesktopFolder.Lang.DRAGNDROP_COPYING;
-                                                message = message + " " + file.get_path ();
-                                                pd.show_action (message);
-                                            });
-                                        } catch (Error e) {
-                                            cancellable.cancel ();
-                                            stderr.printf ("Error: %s\n", e.message);
-                                        }
-                                        pd.stop ();
-                                        return 0;
-                                    });
+                                    try {
+                                        DesktopFolder.Util.copy_recursive (f,
+                                        final_target,
+                                        GLib.FileCopyFlags.NONE,
+                                        cancellable,
+                                        (file) => {
+                                            string message = DesktopFolder.Lang.DRAGNDROP_COPYING;
+                                            message = message + " " + file.get_path ();
+                                            pd.show_action (message);
+                                        });
+                                    } catch (Error e) {
+                                        cancellable.cancel ();
+                                        stderr.printf ("Error: %s\n", e.message);
+                                    }
+                                    pd.stop ();
+                                    return 0;
+                                });
 
                                 if (done_callback != null)
                                     done_callback ();
@@ -369,8 +391,7 @@ namespace DesktopFolder.DragnDrop {
                             }
                         } else if (action == Gdk.DragAction.MOVE) {
                             try {
-                                // debug("moving "+f.get_path()+" to " + target_dir.get_path());
-                                File final_target = File.new_for_path (target_dir.get_path () + "/" + f.get_basename ());
+                                File final_target = File.new_for_path (target_path + "/" + f.get_basename ());
                                 f.move (final_target, FileCopyFlags.NONE, null, null);
                                 if (done_callback != null)
                                     done_callback ();
@@ -379,12 +400,12 @@ namespace DesktopFolder.DragnDrop {
                             }
                         } else if (action == Gdk.DragAction.LINK) {
                             try {
-                                var name    = f.get_basename ();
-                                var command = "ln -s \"" + f.get_path () + "\" \"" + target_dir.get_path () + "/" + name + "\"";
-                                // debug("linking: %s", command);
-                                // debug("command: %s"+command);
-                                var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-                                appinfo.launch_uris (null, null);
+                                var target_file = File.new_for_path (@"$target_path/$new_name");
+                                if (!target_file.query_exists ()) {
+                                    var command = @"ln -s \"$(f.get_path ())\" \"$target_path/$new_name\"";
+                                    var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+                                    appinfo.launch_uris (null, null);
+                                }
                             } catch (Error error) {
                                 stderr.printf ("Error: %s\n", error.message);
                             }

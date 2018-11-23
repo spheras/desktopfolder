@@ -218,5 +218,7 @@ namespace DesktopFolder.Lang {
     public const string NEWLY_CREATED_PANEL              = _("Untitled Panel");
     // the title of a note when a new one is created
     public const string NEWLY_CREATED_NOTE               = _("New Note");
+    /// Please keep $FILE_NAME, it will be replaced by it's value
+    public const string LINK_TO                          = _("Link to $FILE_NAME");
 
 }
