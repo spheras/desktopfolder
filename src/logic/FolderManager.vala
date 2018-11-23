@@ -108,7 +108,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             this.settings.save ();
             this.arrangement               = FolderArrangement.factory (this.settings.arrangement_type);
 
-            if (this.arrangement.force_organization ()) {
+            if (this.arrangement.forze_organization ()) {
                 this.organize_panel_items ();
             }
         }
@@ -248,9 +248,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             } else {
                 // somehthing changed.. created or removed
                 this.sync_files (0, 0);
-                if (this.arrangement.force_organization ()) {
-                    this.organize_panel_items ();
-                }
             }
 
         }
@@ -360,8 +357,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     newItemsToPosition.append (file_name);
                 } else {
                     // lets check if the item already exists
-                    ItemManager oldItemManager = pop_item_from_list (file_name, ref oldItems);
+                    ItemManager oldItemManager = popItemFromList (file_name, ref oldItems);
                     if (oldItemManager != null) {
+                        oldItemManager.set_file (file);
                         this.items.append (oldItemManager);
                     } else {
                         ItemManager item = new ItemManager (file_name, file, this);
@@ -422,13 +420,13 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
-     * @name pop_item_from_list
+     * @name popItemFromList
      * @description try to ind an item in a item list by the file get_name
      * @param string file_name the file name of the item
      * @param List<ItemManager> the list to search inside (reference)
      * @return ItemManager the itemmanager found, or null if none match
      */
-    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
+    private ItemManager ? popItemFromList (string file_name, ref List <ItemManager> items) {
         foreach (ItemManager item in items) {
             if (item.get_file_name () == file_name) {
                 items.remove (item);
@@ -529,11 +527,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int y the y position of the new file
      */
     public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
-        string path = this.get_absolute_path () + "/" + name;
+        string path     = this.get_absolute_path () + "/" + name;
 
         string new_name = "";
 
-        File file = File.new_for_path (path);
+        File file       = File.new_for_path (path);
         if (file.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {

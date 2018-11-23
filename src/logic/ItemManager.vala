@@ -57,6 +57,15 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name set_file
+     * @description set the file of the item
+     * @param Glib.File file the file associated with the item
+     */
+    public void set_file (File file) {
+        this.file = file;
+    }
+
+    /**
      * @name is_selected
      * @description check if the item is selected or not
      * @return bool true->the item is selected

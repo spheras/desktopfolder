@@ -55,11 +55,11 @@ public interface DesktopFolder.FolderArrangement : Object {
     public abstract bool can_organize ();
 
     /**
-     * @name force_organization
-     * @description indicates whether the arrangement must force the organization when the panel is resized
-     * @return bool true->yes, force, othwerise false
+     * @name forze_organization
+     * @description indicates whether the arrangement must foze the organization when the panel is resized
+     * @return bool true->yes, forze, othwerise false
      */
-    public abstract bool force_organization ();
+    public abstract bool forze_organization ();
 
     /**
      * Factory method to obtain an arragement type

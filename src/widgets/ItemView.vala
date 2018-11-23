@@ -557,7 +557,6 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
-        bool locked       = this.manager.get_folder ().are_items_locked ();
 
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
             this.select ();
@@ -673,7 +672,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         item.show ();
         menu.append (item);
 
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_TRASH);
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
         item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
