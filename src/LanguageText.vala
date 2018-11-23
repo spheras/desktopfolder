@@ -203,7 +203,7 @@ namespace DesktopFolder.Lang {
 
 
     // sort by submenu
-    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort By");
+    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort by");
     // sort panel's items by name
     public const string DESKTOPFOLDER_MENU_SORT_BY_NAME  = _("Name");
     // sort panel's items by size
