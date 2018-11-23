@@ -236,9 +236,8 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             if (this.manager.get_arrangement ().can_organize ()) {
                 context_menu.append (organize_item);
             }
-            // -------------------------
+            context_menu.append (new MenuItemSeparator ());
         }
-        context_menu.append (new MenuItemSeparator ());
         context_menu.append (desktop_item);
         context_menu.append (new MenuItemSeparator ());
         context_menu.append (show_desktop_item);
