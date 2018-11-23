@@ -45,6 +45,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     private FolderArrangement arrangement        = null;
     // the last selected item
     private ItemView selected_item               = null;
+    private int previous_x                       = 0;
+    private int previous_y                       = 0;
 
 
     /**
@@ -75,7 +77,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.monitor_folder ();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
-        this.view.show_all ();
     }
 
     /**
@@ -457,15 +458,28 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
     /**
      * @name show_view
-     * @description show or hide the view
-     * @param bool whether to show the view or not
+     * @description show the folder
      */
-    public virtual void show_view (bool show) {
-        if (show) {
-            this.view.show_all ();
-        } else {
+    public virtual void show_view () {
+        // setting opacity to stop the folder window flashing at startup
+        this.view.opacity = 1;
+        this.view.show_all ();
+        this.view.fade_in ();
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the folder
+     */
+    public virtual void hide_view () {
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            // ditto
+            this.view.opacity = 0;
             this.view.hide ();
-        }
+            return false;
+        });
     }
 
     /**

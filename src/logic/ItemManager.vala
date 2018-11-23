@@ -122,15 +122,19 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description show the icon
      */
     public void show_view () {
-        this.view.show ();
+        this.view.show_all ();
+        this.view.fade_in ();
     }
-
     /**
      * @name hide_view
      * @description hide the icon
      */
     public void hide_view () {
-        this.view.hide ();
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            this.view.hide ();
+            return false;
+        });
     }
 
     /**

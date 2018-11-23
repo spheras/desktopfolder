@@ -75,6 +75,16 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     /**
      * @overrided
      */
+    public override void reload_settings () {
+        base.reload_settings ();
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+        this.opacity = 1;
+    }
+
+    /**
+     * @overrided
+     */
     public override void refresh () {
         var app = this.manager.get_application ();
         if (app.get_desktop_visibility () && app.get_desktopicons_enabled ()) {

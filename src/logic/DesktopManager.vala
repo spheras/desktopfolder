@@ -80,18 +80,20 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
 
     /**
      * @name show_view
-     * @description show or hide the view
-     * @param bool whether to show the view or not
+     * @description show the items on the desktop
+     * @override
      */
-    public override void show_view (bool show) {
-        debug (@"show_view $show");
-        if (show) {
-            debug ("showing");
-            this.show_items ();
-        } else {
-            debug ("hiding");
-            this.hide_items ();
-        }
+    public override void show_view () {
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the items on the desktop
+     * @override
+     */
+    public override void hide_view () {
+        this.hide_items ();
     }
 
 

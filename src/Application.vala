@@ -37,7 +37,7 @@ public class DesktopFolderApp : Gtk.Application {
     private bool show_desktoppanel              = false;
     private bool show_desktopicons              = false;
 
-    private bool desktop_visible                = true;
+    private bool desktop_visible                = false;
     private bool first_hide                     = false;
 
     /** List of folder owned by the application */
@@ -201,6 +201,11 @@ public class DesktopFolderApp : Gtk.Application {
         this.volume_monitor.volume_changed.connect ((volume) => {
             this.on_mount_changed ();
         });
+
+        Timeout.add (1000, () => {
+            this.toggle_desktop_visibility ();
+            return false;
+        });
     }
 
     /**
@@ -289,14 +294,14 @@ public class DesktopFolderApp : Gtk.Application {
         if (this.desktop != null) {
             this.desktop.on_screen_size_changed (screen);
         }
-        for (int i = 0; i < this.folders.length (); i++) {
-            this.folders.nth_data (i).on_screen_size_changed (screen);
+        foreach (var folder in folders) {
+            folder.on_screen_size_changed (screen);
         }
-        for (int i = 0; i < this.notes.length (); i++) {
-            this.notes.nth_data (i).on_screen_size_changed (screen);
+        foreach (var note in notes) {
+            note.on_screen_size_changed (screen);
         }
-        for (int i = 0; i < this.photos.length (); i++) {
-            this.photos.nth_data (i).on_screen_size_changed (screen);
+        foreach (var photo in photos) {
+            photo.on_screen_size_changed (screen);
         }
     }
 
@@ -614,20 +619,34 @@ public class DesktopFolderApp : Gtk.Application {
      */
     public void toggle_desktop_visibility () {
         this.desktop_visible = !this.desktop_visible;
+        debug (@"desktop_visible is now $(this.desktop_visible)");
         if (!this.desktop_visible && first_hide) {
             //var notification = new Notification ("Desktop hidden");
             //notification.set_body ("Double click on the desktop to show it again");
             //send_notification(null, notification);
         }
-        this.desktop.show_view (this.desktop_visible);
-        foreach (var folder in folders) {
-            folder.show_view (this.desktop_visible);
-        }
-        foreach (var note in notes) {
-            note.show_view (this.desktop_visible);
-        }
-        foreach (var photo in photos) {
-            photo.show_view (this.desktop_visible);
+        if (this.desktop_visible) {
+            this.desktop.show_view ();
+            foreach (var folder in folders) {
+                folder.show_view ();
+            }
+            foreach (var note in notes) {
+                note.show_view ();
+            }
+            foreach (var photo in photos) {
+                photo.show_view ();
+            }
+        } else {
+            this.desktop.hide_view ();
+            foreach (var folder in folders) {
+                folder.hide_view ();
+            }
+            foreach (var note in notes) {
+                note.hide_view ();
+            }
+            foreach (var photo in photos) {
+                photo.hide_view ();
+            }
         }
     }
 
