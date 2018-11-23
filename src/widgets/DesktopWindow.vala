@@ -205,6 +205,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
                 var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
                 paste_item.activate.connect (this.manager.paste);
                 context_menu.append (paste_item);
+                context_menu.append (new MenuItemSeparator ());
             }
         }
         context_menu.append (new_item);
@@ -221,10 +222,10 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         new_submenu.append (newlinkpanel_item);
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
+        context_menu.append (new MenuItemSeparator ());
 
         if (show_icon_options) {
             // sortby submenu ---------
-            context_menu.append (new MenuItemSeparator ());
             context_menu.append (sortby_item);
             sortby_item.set_submenu (sortby_submenu);
             sortby_submenu.append (sortby_name_item);
