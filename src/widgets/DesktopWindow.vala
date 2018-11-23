@@ -173,6 +173,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
                 var paste_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_PASTE);
                 paste_item.activate.connect (this.manager.paste);
                 context_menu.append (paste_item);
+                context_menu.append (new MenuItemSeparator ());
             }
         }
         context_menu.append (new_item);
