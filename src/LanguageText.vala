@@ -199,9 +199,7 @@ namespace DesktopFolder.Lang {
     // Managed arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
     // Default Panel Management
-    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default Arrangement:");
-    // panel properties - Default Panel Management Description
-    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT_DESCRIPTION = _("Select the Default Arrangement Method for New Panels");
+    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default icon arrangement:");
 
 
     // sort by submenu
