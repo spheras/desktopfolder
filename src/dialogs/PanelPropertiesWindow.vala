@@ -156,31 +156,25 @@ namespace DesktopFolder.Dialogs {
             general_grid.attach (settings_switch, 1, 2, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().lockitems);
             settings_switch.notify["active"].connect (this.window.on_toggle_lockitems);
-
-            int top_offset = -1;
-
-            if (this.window.get_type () != typeof (DesktopFolder.DesktopWindow)) {
-                top_offset = 0;
-                // lock panel
-                general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
-                settings_switch = new SettingsSwitch ("lock_panel");
-                general_grid.attach (settings_switch, 1, 3, 1, 1);
-                settings_switch.set_active (this.manager.get_settings ().lockpanel);
-                settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
-            }
+            // lock panel
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
+            settings_switch = new SettingsSwitch ("lock_panel");
+            general_grid.attach (settings_switch, 1, 3, 1, 1);
+            settings_switch.set_active (this.manager.get_settings ().lockpanel);
+            settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
 
             // The interface section
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_APPEARANCE), 0, 4 + top_offset, 2, 1);
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_APPEARANCE), 0, 4, 2, 1);
             // Tet shadow
             settings_switch = new SettingsSwitch ("text_shadow");
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5 + top_offset, 1, 1);
-            general_grid.attach (settings_switch, 1, 5 + top_offset, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5, 1, 1);
+            general_grid.attach (settings_switch, 1, 5, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().textshadow);
             settings_switch.notify["active"].connect (this.window.on_toggle_shadow);
             // text bold
             settings_switch = new SettingsSwitch ("text_bold");
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6 + top_offset, 1, 1);
-            general_grid.attach (settings_switch, 1, 6 + top_offset, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6, 1, 1);
+            general_grid.attach (settings_switch, 1, 6, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
@@ -273,6 +267,8 @@ namespace DesktopFolder.Dialogs {
             resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
             general_grid.attach (resolution_strategy_help, 2, 3, 1, 1);
 
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 3, 1, 1);
+
             // DEFAULT Panel Arrangement
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT), 0, 4, 1, 1);
             var arrangement_combo = new Gtk.ComboBoxText ();
@@ -282,6 +278,12 @@ namespace DesktopFolder.Dialogs {
             settings.bind ("default-arrangement", arrangement_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
             arrangement_combo.margin_end = 8;
             general_grid.attach (arrangement_combo, 1, 4, 1, 1);
+
+            var arrangement_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
+            arrangement_help.halign       = Gtk.Align.START;
+            arrangement_help.hexpand      = true;
+            arrangement_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT_DESCRIPTION;
+            general_grid.attach (arrangement_help, 2, 4, 1, 1);
 
             return general_grid;
         }
