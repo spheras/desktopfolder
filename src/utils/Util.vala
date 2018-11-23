@@ -156,7 +156,7 @@ namespace DesktopFolder.Util {
      * @param {Gtk.Window} window the parent window to show the dialog
      * @description show a dialog to create a new photo
      */
-    public static void create_new_photo (Gtk.Window window) {
+    public static void create_new_photo (Gtk.Window window, int x, int y) {
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             DesktopFolder.Lang.PHOTO_SELECT_PHOTO_MESSAGE, window,
             Gtk.FileChooserAction.OPEN,
@@ -188,6 +188,8 @@ namespace DesktopFolder.Util {
                 new Gdk.Pixbuf.from_file (photo_path);
 
                 PhotoSettings ps   = new PhotoSettings (photo_path, window.get_window ());
+                              ps.x = x;
+                              ps.y = y;
                 string        path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
                 File          file = File.new_for_path (path);
                 if (file.query_exists ()) {
@@ -207,7 +209,7 @@ namespace DesktopFolder.Util {
      * @description Create a new panel on the desktop
      * @param {Gtk.Window} window The parent window to show the dialog
      */
-    public static void create_new_desktop_folder (Gtk.Window window) {
+    public static void create_new_desktop_folder (Gtk.Window window, int x, int y) {
         string name = sanitize_name (make_next_duplicate_name (DesktopFolder.Lang.NEWLY_CREATED_PANEL, DesktopFolderApp.get_app_folder () + "/"));
 
         // cancelling the current monitor
@@ -216,11 +218,6 @@ namespace DesktopFolder.Util {
         File file                       = File.new_for_path (folder_name + "/.desktopfolder");
         DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (name);
 
-        // lets put the panel at the mouse place
-        var device = Gtk.get_current_event_device ();
-        int x      = 0;
-        int y      = 0;
-        window.get_window ().get_device_position (device, out x, out y, null);
         fs.x                      = x;
         fs.y                      = y;
         fs.edit_label_on_creation = true;
@@ -271,7 +268,7 @@ namespace DesktopFolder.Util {
      * @description create a new link panel to a folder (this means a link panel)
      * @param {Gtk.Window} window the parent window to show the dialog
      */
-    public static void create_new_link_panel (Gtk.Window window) {
+    public static void create_new_link_panel (Gtk.Window window, int x, int y) {
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             DesktopFolder.Lang.DESKTOPFOLDER_PANELLINK_MESSAGE, window, Gtk.FileChooserAction.OPEN,
             DesktopFolder.Lang.DIALOG_CANCEL,
@@ -287,8 +284,12 @@ namespace DesktopFolder.Util {
             var  foldername                 = Path.get_basename (folderpath);
             File linkdest                   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
             File settings_file              = File.new_for_path (folderpath + "/.desktopfolder");
-            DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (foldername);
+
+            var fs = new FolderSettings (foldername);
+            fs.x = x;
+            fs.y = y;
             fs.arrangement_type = get_default_arrangement_setting ();
+
             fs.save_to_file (settings_file);
 
             debug ("creating settings at: %s", folderpath + "/.desktopfolder");
@@ -342,7 +343,7 @@ namespace DesktopFolder.Util {
      * @description create a new note inside the desktop
      * @param {Gtk.Window} window the parent window to show the dialog
      */
-    public static void create_new_note (Gtk.Window window) {
+    public static void create_new_note (Gtk.Window window, int x, int y) {
         string newly_created_note = DesktopFolder.Lang.NEWLY_CREATED_NOTE;
         string name               = sanitize_name (make_next_duplicate_name (newly_created_note + "." + DesktopFolder.NEW_NOTE_EXTENSION, DesktopFolderApp.get_app_folder () + "/"));
 
@@ -350,11 +351,6 @@ namespace DesktopFolder.Util {
         File         file         = File.new_for_path (path);
         NoteSettings ns           = new NoteSettings (name);
 
-        // lets put the note at the mouse place
-        var device = Gtk.get_current_event_device ();
-        int x      = 0;
-        int y      = 0;
-        window.get_window ().get_device_position (device, out x, out y, null);
         ns.x = x;
         ns.y = y;
 

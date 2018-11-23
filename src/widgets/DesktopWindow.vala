@@ -130,10 +130,10 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
             newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
         }
-        newpanel_item.activate.connect (this.new_desktop_folder);
-        newlinkpanel_item.activate.connect (this.new_link_panel);
-        newnote_item.activate.connect (this.new_note);
-        newphoto_item.activate.connect (this.new_photo);
+        newpanel_item.activate.connect (() => { this.new_desktop_folder ((int) event.x, (int) event.y); });
+        newlinkpanel_item.activate.connect (() => { this.new_link_panel ((int) event.x, (int) event.y); });
+        newnote_item.activate.connect (() => { this.new_note ((int) event.x, (int) event.y); });
+        newphoto_item.activate.connect (() => { this.new_photo ((int) event.x, (int) event.y); });
         if (this.manager.get_application ().get_desktopicons_enabled ()) {
             // sortby submenu ---------
             sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
