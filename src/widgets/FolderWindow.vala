@@ -428,7 +428,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
             this.manager.set_new_shape (x, y, w, h);
 
-            if (this.manager.get_arrangement ().forze_organization ()) {
+            if (this.manager.get_arrangement ().force_organization ()) {
                 this.manager.organize_panel_items ();
             }
         }
