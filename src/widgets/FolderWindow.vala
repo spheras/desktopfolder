@@ -553,6 +553,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                         this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
                     }
                 }
+            }else{
+              return true;
             }
         }
         return false;
