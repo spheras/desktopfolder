@@ -47,7 +47,7 @@ namespace DesktopFolder.Lang {
     // desktopfolder menu - create a new Desktop-Folder Pane
     public const string DESKTOPFOLDER_MENU_LINK_PANEL            = _("Link Panel");
     // desktopfolder menu - enable/disable lock items
-    public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock items:");
+    public const string DESKTOPFOLDER_MENU_LOCK_ITEMS            = _("Lock icons:");
     // desktopfolder menu - enable/disable lock panel
     public const string DESKTOPFOLDER_MENU_LOCK_PANEL            = _("Lock panel:");
     // desktopfolder menu - enable/disable text shadows
@@ -66,24 +66,8 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER = _("Move Panel to Trash");
     // desktopfolder menu - past from clipboard to the desktop-folder
     public const string DESKTOPFOLDER_MENU_PASTE                 = _("Paste");
-    // desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
-    public const string DESKTOPFOLDER_NEW                        = _("New Panel");
-    // desktopfolder - Dialog Message to rename the current Desktop-Folder
-    public const string DESKTOPFOLDER_RENAME_MESSAGE             = _("Enter the new name");
-    // desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-    public const string DESKTOPFOLDER_ENTER_TITLE                = _("New Panel");
-    // desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-    public const string DESKTOPFOLDER_ENTER_NAME                 = _("Enter the name");
-    // desktopfolder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
-    public const string DESKTOPFOLDER_NEW_FOLDER_TITLE           = _("New Folder");
-    // desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
-    public const string DESKTOPFOLDER_NEW_FOLDER_MESSAGE         = _("Enter the name");
     // desktopfolder - The default name for the new folder to be created
     public const string DESKTOPFOLDER_NEW_FOLDER_NAME            = _("untitled folder");
-    // desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
-    public const string DESKTOPFOLDER_NEW_TEXT_FILE_TITLE        = _("New Text File");
-    // desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
-    public const string DESKTOPFOLDER_NEW_TEXT_FILE_MESSAGE      = _("Enter the name");
     // desktopfolder - The default name for the new text file to be created
     public const string DESKTOPFOLDER_NEW_TEXT_FILE_NAME         = _("new file");
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
@@ -91,10 +75,6 @@ namespace DesktopFolder.Lang {
     // desktopfolder - The message to confirm the deletion of a Desktop Folder
     public const string DESKTOPFOLDER_PROPERTIES_TOOLTIP         = _("Properties");
     // desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-    public const string NOTE_ENTER_TITLE                         = _("New Note");
-    // desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-    public const string NOTE_ENTER_NAME                          = _("Enter the name");
-    // desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
     public const string NOTE_NEW                   = _("New Note");
     // Note - popup option to set the paper texture or not
     public const string NOTE_MENU_PAPER_NOTE       = _("Paper Texture");
@@ -106,10 +86,6 @@ namespace DesktopFolder.Lang {
     public const string NOTE_MENU_RENAME_NOTE      = _("Rename Note");
     // Menu popup option to delete the note
     public const string NOTE_MENU_DELETE_NOTE      = _("Move to Trash");
-    // Note - Dialog Title Message to rename the current note
-    public const string NOTE_RENAME_TITLE          = _("Rename Note");
-    // Note - Dialog Message to rename the current note
-    public const string NOTE_RENAME_MESSAGE        = _("Enter the new name");
     // Item Menu - Open the file
     public const string ITEM_MENU_OPEN             = _("Open");
     // Item Menu - Execute the file
@@ -122,6 +98,8 @@ namespace DesktopFolder.Lang {
     public const string ITEM_MENU_COPY             = _("Copy");
     // Item Menu - rename the file/folder
     public const string ITEM_MENU_RENAME           = _("Rename");
+    // Item Menu - trash the file/folder
+    public const string ITEM_MENU_TRASH            = _("Move to Trash");
     // Item Menu - delete the file/folder
     public const string ITEM_MENU_DELETE           = _("Delete");
     // Item Menu - change icon
@@ -134,10 +112,6 @@ namespace DesktopFolder.Lang {
     public const string ITEM_DELETE_LINK_MESSAGE   = _("This action will DELETE the link (just the link).\n<b>Are you sure?</b>");
     // Item - Change icon dialog message to select an image file
     public const string ITEM_CHANGEICON_MESSAGE    = _("Select the image icon to be used.");
-    // Item - Rename Dialog Title
-    public const string ITEM_RENAME_TITLE          = _("Rename Item");
-    // Item - Rename Dialog Message
-    public const string ITEM_RENAME_MESSAGE        = _("Enter the new name");
     // Name of the first desktop-folder panel, when no panels found
     public const string APP_FIRST_PANEL            = _("My First Panel");
     // Hint to show desktop shortcut
@@ -199,13 +173,11 @@ namespace DesktopFolder.Lang {
     // Managed arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
     // Default Panel Management
-    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default Arrangement:");
-    // panel properties - Default Panel Management Description
-    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT_DESCRIPTION = _("Select the Default Arrangement Method for New Panels");
+    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default icon arrangement:");
 
 
     // sort by submenu
-    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort By");
+    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort by");
     // sort panel's items by name
     public const string DESKTOPFOLDER_MENU_SORT_BY_NAME  = _("Name");
     // sort panel's items by size
@@ -220,5 +192,7 @@ namespace DesktopFolder.Lang {
     public const string NEWLY_CREATED_PANEL              = _("Untitled Panel");
     // the title of a note when a new one is created
     public const string NEWLY_CREATED_NOTE               = _("New Note");
+    /// Please keep $FILE_NAME, it will be replaced by it's value
+    public const string LINK_TO                          = _("Link to $FILE_NAME");
 
 }
