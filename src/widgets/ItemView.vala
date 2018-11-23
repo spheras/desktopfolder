@@ -557,8 +557,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
+        bool locked       = this.manager.get_folder ().are_items_locked ();
 
-        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag)) {
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || !locked)) {
             this.select ();
             this.flag_dragdrop_started = true;
             return false;
