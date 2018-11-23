@@ -428,7 +428,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param List<ItemManager> the list to search inside (reference)
      * @return ItemManager the itemmanager found, or null if none match
      */
-    private ItemManager ? popItemFromList (string file_name, ref List <ItemManager> items) {
+    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
         foreach (var item in items) {
             if (item.get_file_name () == file_name) {
                 items.remove (item);
