@@ -575,10 +575,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
         newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
         newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
-        newpanel_item.activate.connect (this.new_desktop_folder);
-        newlinkpanel_item.activate.connect (this.new_link_panel);
-        newnote_item.activate.connect (this.new_note);
-        newphoto_item.activate.connect (this.new_photo);
+        newpanel_item.activate.connect (() => {this.new_desktop_folder ((int) event.x, (int) event.y); });
+        newlinkpanel_item.activate.connect (() => {this.new_link_panel ((int) event.x, (int) event.y); });
+        newnote_item.activate.connect  (() => {this.new_note ((int) event.x, (int) event.y); });
+        newphoto_item.activate.connect  (() => {this.new_photo ((int) event.x, (int) event.y); });
         openterminal_item.activate.connect (this.open_terminal);
 
         // sortby submenu ---------
@@ -1029,34 +1029,34 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
     /**
      * @name new_desktop_folder
-     * @description show a dialog to create a new desktop folder
+     * @description create a new desktop folder
      */
-    protected void new_desktop_folder () {
-        DesktopFolder.Util.create_new_desktop_folder (this);
+    protected void new_desktop_folder (int x, int y) {
+        DesktopFolder.Util.create_new_desktop_folder (this, x, y);
     }
 
     /**
      * @name new_link_panel
-     * @description show a dialog to create a new link panel
+     * @description create a new link panel
      */
-    protected void new_link_panel () {
-        DesktopFolder.Util.create_new_link_panel (this);
+    protected void new_link_panel (int x, int y) {
+        DesktopFolder.Util.create_new_link_panel (this, x, y);
     }
 
     /*
      * @name new_note
-     * @description show a dialog to create a new note
+     * @description create a new note
      */
-    protected void new_note () {
-        DesktopFolder.Util.create_new_note (this);
+    protected void new_note (int x, int y) {
+        DesktopFolder.Util.create_new_note (this, x, y);
     }
 
     /**
      * @name new_photo
-     * @description show a dialog to create a new photo
+     * @description create a new photo
      */
-    protected void new_photo () {
-        DesktopFolder.Util.create_new_photo (this);
+    protected void new_photo (int x, int y) {
+        DesktopFolder.Util.create_new_photo (this, x, y);
     }
 
     /**
