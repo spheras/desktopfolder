@@ -277,12 +277,6 @@ namespace DesktopFolder.Dialogs {
             arrangement_combo.margin_end = 8;
             general_grid.attach (arrangement_combo, 1, 4, 1, 1);
 
-            var arrangement_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
-            arrangement_help.halign       = Gtk.Align.START;
-            arrangement_help.hexpand      = true;
-            arrangement_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT_DESCRIPTION;
-            general_grid.attach (arrangement_help, 2, 4, 1, 1);
-
             return general_grid;
         }
 
