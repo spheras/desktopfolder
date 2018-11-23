@@ -559,7 +559,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
         bool locked       = this.manager.get_folder ().are_items_locked ();
 
-        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || !locked)) {
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
             this.select ();
             this.flag_dragdrop_started = true;
             return false;
