@@ -45,8 +45,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     private FolderArrangement arrangement        = null;
     // the last selected item
     private ItemView selected_item               = null;
-    private int previous_x                       = 0;
-    private int previous_y                       = 0;
 
 
     /**
