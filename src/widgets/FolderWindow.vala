@@ -430,6 +430,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     public virtual void refresh () {
         if (this.manager.get_application ().get_desktop_visibility ()) {
             this.show_all ();
+            this.manager.quick_show_items ();
         }
     }
 

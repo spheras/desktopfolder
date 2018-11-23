@@ -437,6 +437,24 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name quick_show_items
+     * @description shows the items
+     */
+    public void quick_show_items () {
+        // TODO Make this less messy
+        foreach (var item in items) {
+            item.get_view ().show_all ();
+            item.get_view ().get_style_context ().remove_class ("df_fadingwindow");
+            item.get_view ().get_style_context ().remove_class ("df_fadeout");
+            item.get_view ().get_style_context ().add_class ("df_fadein");
+            Timeout.add (20, () => {
+                item.get_view ().get_style_context ().add_class ("df_fadingwindow");
+                return false;
+            });
+        }
+    }
+
+    /**
      * @name show_items
      * @description shows the items
      */
