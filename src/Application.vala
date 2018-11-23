@@ -38,7 +38,6 @@ public class DesktopFolderApp : Gtk.Application {
     private bool show_desktopicons              = false;
 
     private bool desktop_visible                = false;
-    private bool first_hide                     = false;
 
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
@@ -135,8 +134,6 @@ public class DesktopFolderApp : Gtk.Application {
         } catch (Error error) {
             // we don't have any files settings, using default config
         }
-
-        first_hide = settings.get_boolean ("first-time-hiding-desktop");
 
         // Connect to show-desktopfolder key
         settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
@@ -620,11 +617,6 @@ public class DesktopFolderApp : Gtk.Application {
     public void toggle_desktop_visibility () {
         this.desktop_visible = !this.desktop_visible;
         debug (@"desktop_visible is now $(this.desktop_visible)");
-        if (!this.desktop_visible && first_hide) {
-            //var notification = new Notification ("Desktop hidden");
-            //notification.set_body ("Double click on the desktop to show it again");
-            //send_notification(null, notification);
-        }
         if (this.desktop_visible) {
             this.desktop.show_view ();
             foreach (var folder in folders) {

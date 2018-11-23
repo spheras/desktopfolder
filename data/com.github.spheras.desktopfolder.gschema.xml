@@ -24,11 +24,6 @@
       <summary>Desktop Panel over Desktop</summary>
       <description>Desktop Transparent Panel to allow desktop interaction</description>
     </key>
-    <key name="first-time-hiding-desktop" type="b">
-      <default>true</default>
-      <summary>First Time Hiding Desktop</summary>
-      <description>If the user hasn't tried to hide the desktop by double clicking it yet</description>
-    </key>
     <key name="resolution-strategy" enum="resolution-strategy">
       <default>'STORE'</default>
       <summary>Resolution Change Strategy</summary>
