@@ -42,7 +42,7 @@ public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
         return true;
     }
 
-    public bool force_organization () {
+    public bool forze_organization () {
         return false;
     }
 

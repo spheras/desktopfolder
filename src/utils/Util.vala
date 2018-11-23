@@ -81,32 +81,32 @@ namespace DesktopFolder.Util {
         GLib.FileType src_type = src.query_file_type (GLib.FileQueryInfoFlags.NONE, cancellable);
 
         string src_path        = src.get_path ();
-
-        GLib.File real_dest = dest;
-        if (src_path == real_dest.get_path ()) {
-            string basename = dest.get_basename ();
-            string dirname  = dest.get_path ().replace (basename, "");
-            real_dest = GLib.File.new_for_path (dirname + make_next_duplicate_name (basename, dirname));
-        }
+        string dest_path       = dest.get_path ();
 
         if (src_type == GLib.FileType.DIRECTORY) {
-            real_dest.make_directory (cancellable);
-            src.copy_attributes (real_dest, flags, cancellable);
+            dest.make_directory (cancellable);
+            src.copy_attributes (dest, flags, cancellable);
 
             GLib.FileEnumerator enumerator = src.enumerate_children (GLib.FileAttribute.STANDARD_NAME, GLib.FileQueryInfoFlags.NONE, cancellable);
             for (GLib.FileInfo ? info = enumerator.next_file (cancellable); info != null; info = enumerator.next_file (cancellable)) {
                 copy_recursive (
                     GLib.File.new_for_path (GLib.Path.build_filename (src_path, info.get_name ())),
-                    GLib.File.new_for_path (GLib.Path.build_filename (real_dest.get_path (), info.get_name ())),
+                    GLib.File.new_for_path (GLib.Path.build_filename (dest_path, info.get_name ())),
                     flags,
                     cancellable, listener
                 );
             }
         } else if (src_type == GLib.FileType.REGULAR) {
             if (listener != null) {
-                listener (real_dest);
+                listener (dest);
             } else {
-                debug ("copying %s", real_dest.get_basename ());
+                debug ("copying %s", dest.get_basename ());
+            }
+            GLib.File real_dest = dest;
+            if (src_path == dest_path) {
+                string basename = dest.get_basename ();
+                string dirname  = dest.get_path ().replace (basename, "");
+                real_dest = GLib.File.new_for_path (dirname + make_next_duplicate_name (basename, dirname));
             }
 
             src.copy (real_dest, flags, cancellable);
@@ -247,19 +247,6 @@ namespace DesktopFolder.Util {
             ext         = name.substring (ext_pos);
             name_no_ext = name.replace (ext, "");
             name_no_ext = name_no_ext.strip ();
-        }
-        try {
-            var regex = new Regex ("([ ]+[0-9]+)$");
-            MatchInfo matchinfo;
-            if (regex.match(name_no_ext, 0, out matchinfo)) {
-                int startpos = 0;
-                int endpos = 0;
-                matchinfo.fetch_pos (0, out startpos, out endpos);
-                string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
-                name_no_ext = name_no_ext.splice ((long) startpos, (long) endpos);
-            }
-        } catch (Error e) {
-            debug (@"Error: $(e.message)");
         }
 
         string new_filename = "";
