@@ -83,7 +83,7 @@ namespace DesktopFolder.Util {
         string src_path        = src.get_path ();
 
         GLib.File real_dest = dest;
-        if (src_path == dest_path) {
+        if (src_path == real_dest.get_path ()) {
             string basename = dest.get_basename ();
             string dirname  = dest.get_path ().replace (basename, "");
             real_dest = GLib.File.new_for_path (dirname + make_next_duplicate_name (basename, dirname));

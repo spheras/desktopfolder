@@ -122,6 +122,8 @@ namespace DesktopFolder.Lang {
     public const string ITEM_MENU_COPY             = _("Copy");
     // Item Menu - rename the file/folder
     public const string ITEM_MENU_RENAME           = _("Rename");
+    // Item Menu - trash the file/folder
+    public const string ITEM_MENU_TRASH            = _("Move to Trash");
     // Item Menu - delete the file/folder
     public const string ITEM_MENU_DELETE           = _("Delete");
     // Item Menu - change icon

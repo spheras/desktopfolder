@@ -673,7 +673,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         item.show ();
         menu.append (item);
 
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_TRASH);
         item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
