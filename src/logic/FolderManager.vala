@@ -247,9 +247,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             } else {
                 // somehthing changed.. created or removed
                 this.sync_files (0, 0);
-                if (this.arrangement.force_organization ()) {
-                    this.organize_panel_items ();
-                }
             }
 
         }
@@ -406,6 +403,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
             this.settings.save ();
             this.view.refresh ();
+            if (this.arrangement.force_organization ()) {
+                this.organize_panel_items ();
+            }
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
