@@ -189,10 +189,10 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         new_submenu.append (newlinkpanel_item);
         new_submenu.append (newnote_item);
         new_submenu.append (newphoto_item);
+        context_menu.append (new MenuItemSeparator ());
 
         if (this.manager.get_application ().get_desktopicons_enabled ()) {
             // sortby submenu ---------
-            context_menu.append (new MenuItemSeparator ());
             context_menu.append (sortby_item);
             sortby_item.set_submenu (sortby_submenu);
             sortby_submenu.append (sortby_name_item);
@@ -203,11 +203,15 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             if (this.manager.get_arrangement ().can_organize ()) {
                 context_menu.append (organize_item);
             }
-            // -------------------------
             context_menu.append (new MenuItemSeparator ());
-            context_menu.append (textcolor_item);
         }
         context_menu.append (properties_item);
+        context_menu.append (new MenuItemSeparator ());
+
+        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+            context_menu.append (textcolor_item);
+            context_menu.append (new MenuItemSeparator ());
+        }
         context_menu.append (desktop_item);
         if (this.manager.get_application ().get_desktopicons_enabled ()) {
             context_menu.append (new MenuItemSeparator ());
