@@ -125,6 +125,24 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name fade_in
+     * @description fade the view in. does not call show
+     */
+    public void fade_in () {
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+    }
+
+    /**
+     * @name fade_out
+     * @description fade the view out. does not call hide
+     */
+    public void fade_out () {
+        this.get_style_context ().remove_class ("df_fadein");
+        this.get_style_context ().add_class ("df_fadeout");
+    }
+
+    /**
      * @name move_to
      * @description move the window to other position
      */
@@ -172,6 +190,17 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         this.get_style_context ().add_class ("df_photo");
         this.get_style_context ().add_class ("df_transparent");
         this.get_style_context ().add_class ("df_headless");
+
+        this.get_style_context ().add_class ("df_fadingwindow");
+        if (this.manager.get_application ().get_desktop_visibility ()) {
+            this.get_style_context ().add_class ("df_fadein");
+            // setting opacity to stop the folder window flashing at startup
+            this.opacity = 1;
+        } else {
+            this.get_style_context ().add_class ("df_fadeout");
+            // ditto
+            this.opacity = 0;
+        }
     }
 
     /**

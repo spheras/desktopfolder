@@ -101,6 +101,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         }
 
         this.name                      = manager.get_application ().get_next_id ();
+        this.get_style_context ().add_class ("df_fadeout");
+
         this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
         this.trash_button.has_tooltip  = true;
         this.trash_button.tooltip_text = DesktopFolder.Lang.DESKTOPFOLDER_DELETE_TOOLTIP;
@@ -238,6 +240,24 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name fade_in
+     * @description fade the view in. does not call show
+     */
+    public void fade_in () {
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+    }
+
+    /**
+     * @name fade_out
+     * @description fade the view out. does not call hide
+     */
+    public void fade_out () {
+        this.get_style_context ().remove_class ("df_fadein");
+        this.get_style_context ().add_class ("df_fadeout");
+    }
+
+    /**
      * @name move_to
      * @description move the window to other position
      */
@@ -260,7 +280,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @name reload_settings
      * @description reload the window style in general
      */
-    public void reload_settings () {
+    public virtual void reload_settings () {
         FolderSettings settings = this.manager.get_settings ();
         if (settings.w > 0) {
             // applying existing position and size configuration
@@ -269,14 +289,24 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug ("Moving '%s' to (%d,%d), Resizing to (%d,%d)", this.manager.get_folder_name (), settings.x, settings.y, settings.w, settings.h);
         }
         List <unowned string> classes = this.get_style_context ().list_classes ();
-        for (int i = 0; i < classes.length (); i++) {
-            string class = classes.nth_data (i);
+        foreach (string class in classes) {
             if (class.has_prefix ("df_")) {
                 this.get_style_context ().remove_class (class);
             }
         }
         // we set a class to this window to manage the css
         this.get_style_context ().add_class ("df_folder");
+
+        this.get_style_context ().add_class ("df_fadingwindow");
+        if (this.manager.get_application ().get_desktop_visibility ()) {
+            this.get_style_context ().add_class ("df_fadein");
+            // setting opacity to stop the folder window flashing at startup
+            this.opacity = 1;
+        } else {
+            this.get_style_context ().add_class ("df_fadeout");
+            // ditto
+            this.opacity = 0;
+        }
 
         // applying existing colors configuration
         if (settings.bgcolor.has_prefix ("rgb")) {
@@ -398,7 +428,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description refresh the window
      */
     public virtual void refresh () {
-        this.show_all ();
+        if (this.manager.get_application ().get_desktop_visibility ()) {
+            this.show_all ();
+            this.manager.quick_show_items ();
+        }
     }
 
     /**
@@ -477,7 +510,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description press event captured. The Window should show the popup on right button
      * @return bool @see widget on_press signal
      */
-    private bool on_press (Gdk.EventButton event) {
+    protected virtual bool on_press (Gdk.EventButton event) {
         // debug("on_press folderwindow");
         // Needed to exit focus from title when editting
         this.activate_focus ();

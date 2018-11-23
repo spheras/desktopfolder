@@ -195,4 +195,7 @@ namespace DesktopFolder.Lang {
     /// Please keep $FILE_NAME, it will be replaced by it's value
     public const string LINK_TO                          = _("Link to $FILE_NAME");
 
+    public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP  = _("Show Desktop");
+    public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP  = _("Hide Desktop");
+
 }

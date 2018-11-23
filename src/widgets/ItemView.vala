@@ -82,6 +82,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // class for this widget
         this.get_style_context ().add_class ("df_item");
 
+        this.get_style_context ().add_class ("df_fadingwindow");
+        this.get_style_context ().add_class ("df_fadeout");
+
         // we connect the enter and leave events
         this.enter_notify_event.connect (this.on_enter);
         this.leave_notify_event.connect (this.on_leave);
@@ -94,16 +97,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.container.margin = 0;
         this.container.set_size_request (DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-        try {
-            this.refresh_icon ();
-            string slabel = this.get_correct_label (this.manager.get_file_name ());
-            this.create_label (slabel);
-        } catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog ("Error", e.message);
-        }
+        this.refresh_icon ();
+        string slabel = this.get_correct_label (this.manager.get_file_name ());
+        this.create_label (slabel);
 
         this.add (this.container);
+
     }
 
     /**
@@ -111,18 +110,33 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description create the header bar
      */
     protected virtual void create_label (string slabel) {
-        // debug ("Create label for %s", this.manager.get_file_name ());
+        try {
+            // debug ("Create label for %s", this.manager.get_file_name ());
 
-        this.label = new DesktopFolder.EditableLabel (slabel);
-        this.container.pack_end (label, true, true, 0);
-        this.check_ellipse ();
+            this.label = new DesktopFolder.EditableLabel (slabel);
+            this.container.pack_end (label, true, true, 0);
+            this.check_ellipse ();
 
-        label.changed.connect ((new_name) => {
-            if (this.manager.rename (new_name + this.hidden_extension)) {
-                label.text = new_name;
-                this.check_ellipse ();
-            }
-        });
+            label.changed.connect ((new_name) => {
+                if (this.manager.rename (new_name + this.hidden_extension)) {
+                    label.text = new_name;
+                    this.check_ellipse ();
+                }
+            });
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
+    }
+
+    /**
+     * @name refresh
+     * @description refresh the window
+     */
+    public void refresh () {
+        if (this.manager.get_folder ().get_application ().get_desktop_visibility ()) {
+            this.show_all ();
+        }
     }
 
     /**
@@ -130,17 +144,22 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description force to refresh the icon imagen shown
      */
     public void refresh_icon () {
-        Gtk.Image newImage = this.calculate_icon ();
+        try {
+            Gtk.Image newImage = this.calculate_icon ();
 
-        if (this.icon != null) {
-            this.container.remove (this.icon);
+            if (this.icon != null) {
+                this.container.remove (this.icon);
+            }
+
+            this.icon = newImage;
+            this.icon.set_size_request (ICON_WIDTH, ICON_WIDTH);
+            this.icon.get_style_context ().add_class ("df_icon");
+            this.container.pack_start (this.icon, true, true);
+            this.refresh ();
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
         }
-
-        this.icon = newImage;
-        this.icon.set_size_request (ICON_WIDTH, ICON_WIDTH);
-        this.icon.get_style_context ().add_class ("df_icon");
-        this.container.pack_start (this.icon, true, true);
-        this.show_all ();
     }
 
     /**
@@ -455,6 +474,24 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     public bool is_selected () {
         return this.manager.is_selected ();
+    }
+
+    /**
+     * @name fade_in
+     * @description fade the view in. does not call show
+     */
+    public void fade_in () {
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+    }
+
+    /**
+     * @name fade_out
+     * @description fade the view out. does not call hide
+     */
+    public void fade_out () {
+        this.get_style_context ().remove_class ("df_fadein");
+        this.get_style_context ().add_class ("df_fadeout");
     }
 
     /**

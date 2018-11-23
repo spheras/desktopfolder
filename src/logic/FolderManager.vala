@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public errordomain FolderManagerIOError {
+protected errordomain FolderManagerIOError {
     FILE_EXISTS,
     MOVE_ERROR
 }
@@ -75,7 +75,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.monitor_folder ();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
-        this.view.show_all ();
     }
 
     /**
@@ -429,8 +428,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param List<ItemManager> the list to search inside (reference)
      * @return ItemManager the itemmanager found, or null if none match
      */
-    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
-        foreach (ItemManager item in items) {
+    private ItemManager ? popItemFromList (string file_name, ref List <ItemManager> items) {
+        foreach (var item in items) {
             if (item.get_file_name () == file_name) {
                 items.remove (item);
                 return item;
@@ -440,11 +439,29 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name quick_show_items
+     * @description shows the items
+     */
+    public void quick_show_items () {
+        // TODO Make this less messy
+        foreach (var item in items) {
+            item.get_view ().show_all ();
+            item.get_view ().get_style_context ().remove_class ("df_fadingwindow");
+            item.get_view ().get_style_context ().remove_class ("df_fadeout");
+            item.get_view ().get_style_context ().add_class ("df_fadein");
+            Timeout.add (20, () => {
+                item.get_view ().get_style_context ().add_class ("df_fadingwindow");
+                return false;
+            });
+        }
+    }
+
+    /**
      * @name show_items
      * @description shows the items
      */
-    public void show_items () {
-        foreach (ItemManager item in items) {
+    public virtual void show_items () {
+        foreach (var item in items) {
             item.show_view ();
         }
     }
@@ -453,10 +470,36 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @name hide_items
      * @description hides the items
      */
-    public void hide_items () {
-        foreach (ItemManager item in items) {
+    public virtual void hide_items () {
+        foreach (var item in items) {
             item.hide_view ();
         }
+    }
+
+    /**
+     * @name show_view
+     * @description show the folder
+     */
+    public virtual void show_view () {
+        // setting opacity to stop the folder window flashing at startup
+        this.view.opacity = 1;
+        this.view.show_all ();
+        this.view.fade_in ();
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the folder
+     */
+    public virtual void hide_view () {
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            // ditto
+            this.view.opacity = 0;
+            this.view.hide ();
+            return false;
+        });
     }
 
     /**

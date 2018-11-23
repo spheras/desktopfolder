@@ -38,6 +38,15 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         return true;
     }
 
+    protected override bool on_press (Gdk.EventButton event) {
+        if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
+            debug ("toggling desktop visiblity");
+            base.get_manager ().get_application ().toggle_desktop_visibility ();
+        }
+        base.on_press (event);
+        return true;
+    }
+
     /**
      * @name move_to
      * @description move the window to other position
@@ -66,9 +75,22 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     /**
      * @overrided
      */
+    public override void reload_settings () {
+        base.reload_settings ();
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+        this.opacity = 1;
+    }
+
+    /**
+     * @overrided
+     */
     public override void refresh () {
-        this.show_all ();
-        if (!this.manager.get_application ().get_desktopicons_enabled ()) {
+        var app = this.manager.get_application ();
+        if (app.get_desktop_visibility () && app.get_desktopicons_enabled ()) {
+            debug ("refresh, icons enabled and desktop visibility = true");
+            this.show_all ();
+        } else {
             debug ("trying to hide");
             this.manager.hide_items ();
         }
@@ -91,6 +113,8 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         // Forcing desktop mode to avoid minimization in certain extreme cases without on_press signal!
         // TODO: Is there a way to make a desktop window resizable and movable?
 
+        bool show_icon_options = this.manager.get_application ().get_desktoppanel_enabled () && this.manager.get_application ().get_desktopicons_enabled () && this.manager.get_application ().get_desktop_visibility ();
+
         this.type_hint    = Gdk.WindowTypeHint.DESKTOP;
         this.context_menu = new Gtk.Menu ();
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
@@ -109,6 +133,12 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
         var properties_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP);
         var desktop_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_CHANGEDESKTOP);
+        Gtk.MenuItem show_desktop_item;
+        if (this.manager.get_application ().get_desktop_visibility ()) {
+            show_desktop_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_HIDE_DESKTOP);
+        } else {
+            show_desktop_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SHOW_DESKTOP);
+        }
         var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
         // sortby submenu -----------
@@ -124,7 +154,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+        if (show_icon_options) {
             newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });
             emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
             newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
@@ -134,7 +164,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         newlinkpanel_item.activate.connect (() => { this.new_link_panel ((int) event.x, (int) event.y); });
         newnote_item.activate.connect (() => { this.new_note ((int) event.x, (int) event.y); });
         newphoto_item.activate.connect (() => { this.new_photo ((int) event.x, (int) event.y); });
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+        if (show_icon_options) {
             // sortby submenu ---------
             sortby_name_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_NAME);
             sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
@@ -165,7 +195,9 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         ((Gtk.MenuItem)properties_item).activate.connect (this.show_properties_dialog);
         ((Gtk.MenuItem)desktop_item).activate.connect (this.show_desktop_dialog);
 
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+        ((Gtk.MenuItem)show_desktop_item).activate.connect (this.manager.get_application ().toggle_desktop_visibility);
+
+        if (show_icon_options) {
             openterminal_item.activate.connect (this.open_terminal);
 
             // Appending (in order)
@@ -178,7 +210,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         }
         context_menu.append (new_item);
         new_item.set_submenu (new_submenu);
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+        if (show_icon_options) {
             new_submenu.append (newfolder_item);
             new_submenu.append (emptyfile_item);
             new_submenu.append (new MenuItemSeparator ());
@@ -192,7 +224,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         new_submenu.append (newphoto_item);
         context_menu.append (new MenuItemSeparator ());
 
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+        if (show_icon_options) {
             // sortby submenu ---------
             context_menu.append (sortby_item);
             sortby_item.set_submenu (sortby_submenu);
@@ -204,17 +236,17 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             if (this.manager.get_arrangement ().can_organize ()) {
                 context_menu.append (organize_item);
             }
-            context_menu.append (new MenuItemSeparator ());
+            // -------------------------
         }
-        context_menu.append (properties_item);
         context_menu.append (new MenuItemSeparator ());
-
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
-            context_menu.append (textcolor_item);
-            context_menu.append (new MenuItemSeparator ());
-        }
         context_menu.append (desktop_item);
-        if (this.manager.get_application ().get_desktopicons_enabled ()) {
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (show_desktop_item);
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (properties_item);
+        if (show_icon_options) {
+            context_menu.append (new MenuItemSeparator ());
+            context_menu.append (textcolor_item);
             context_menu.append (new MenuItemSeparator ());
             context_menu.append (openterminal_item);
         }

@@ -37,6 +37,8 @@ public class DesktopFolderApp : Gtk.Application {
     private bool show_desktoppanel              = false;
     private bool show_desktopicons              = false;
 
+    private bool desktop_visible                = false;
+
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
@@ -196,6 +198,11 @@ public class DesktopFolderApp : Gtk.Application {
         this.volume_monitor.volume_changed.connect ((volume) => {
             this.on_mount_changed ();
         });
+
+        Timeout.add (500, () => {// 1000
+            this.toggle_desktop_visibility ();
+            return false;
+        });
     }
 
     /**
@@ -284,14 +291,14 @@ public class DesktopFolderApp : Gtk.Application {
         if (this.desktop != null) {
             this.desktop.on_screen_size_changed (screen);
         }
-        for (int i = 0; i < this.folders.length (); i++) {
-            this.folders.nth_data (i).on_screen_size_changed (screen);
+        foreach (var folder in folders) {
+            folder.on_screen_size_changed (screen);
         }
-        for (int i = 0; i < this.notes.length (); i++) {
-            this.notes.nth_data (i).on_screen_size_changed (screen);
+        foreach (var note in notes) {
+            note.on_screen_size_changed (screen);
         }
-        for (int i = 0; i < this.photos.length (); i++) {
-            this.photos.nth_data (i).on_screen_size_changed (screen);
+        foreach (var photo in photos) {
+            photo.on_screen_size_changed (screen);
         }
     }
 
@@ -596,13 +603,52 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
+     * @name get_desktop_visibility
+     * @description show or hide the desktop
+     */
+    public bool get_desktop_visibility () {
+        return this.desktop_visible;
+    }
+
+    /**
+     * @name toggle_desktop_visiblity
+     * @description show or hide the desktop
+     */
+    public void toggle_desktop_visibility () {
+        this.desktop_visible = !this.desktop_visible;
+        debug (@"desktop_visible is now $(this.desktop_visible)");
+        if (this.desktop_visible) {
+            this.desktop.show_view ();
+            foreach (var folder in folders) {
+                folder.show_view ();
+            }
+            foreach (var note in notes) {
+                note.show_view ();
+            }
+            foreach (var photo in photos) {
+                photo.show_view ();
+            }
+        } else {
+            this.desktop.hide_view ();
+            foreach (var folder in folders) {
+                folder.hide_view ();
+            }
+            foreach (var note in notes) {
+                note.hide_view ();
+            }
+            foreach (var photo in photos) {
+                photo.hide_view ();
+            }
+        }
+    }
+
+    /**
      * @name clear_folders
      * @description close all the folders launched
      */
     protected void clear_folders () {
-        for (int i = 0; i < this.folders.length (); i++) {
-            var fm = this.folders.nth (i).data;
-            fm.close ();
+        foreach (var folder in folders) {
+            folder.close ();
         }
         this.folders = new List <DesktopFolder.FolderManager> ();
     }
@@ -612,9 +658,8 @@ public class DesktopFolderApp : Gtk.Application {
      * @description close all the notes launched
      */
     protected void clear_notes () {
-        for (int i = 0; i < this.notes.length (); i++) {
-            var fm = this.notes.nth (i).data;
-            fm.close ();
+        foreach (var note in notes) {
+            note.close ();
         }
         this.notes = new List <DesktopFolder.NoteManager> ();
     }
@@ -624,9 +669,8 @@ public class DesktopFolderApp : Gtk.Application {
      * @description close all the photos launched
      */
     protected void clear_photos () {
-        for (int i = 0; i < this.photos.length (); i++) {
-            var fm = this.photos.nth (i).data;
-            fm.close ();
+        foreach (var photo in photos) {
+            photo.close ();
         }
         this.photos = new List <DesktopFolder.PhotoManager> ();
     }

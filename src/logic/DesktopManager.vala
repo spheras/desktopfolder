@@ -56,6 +56,49 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     }
 
     /**
+     * @name show_items
+     * @description shows the items
+     */
+    public override void show_items () {
+        debug (@"show_items $(this.get_application ().get_desktop_visibility ())");
+        if (this.get_application ().get_desktop_visibility ()) {
+            debug ("showing items");
+            base.show_items ();
+            base.view.refresh ();
+        }
+    }
+
+    /**
+     * @name hide_items
+     * @description hides the items
+     */
+    public override void hide_items () {
+        debug (@"hide_items $(this.get_application ().get_desktop_visibility ())");
+        debug ("hiding items");
+        base.hide_items ();
+    }
+
+    /**
+     * @name show_view
+     * @description show the items on the desktop
+     * @override
+     */
+    public override void show_view () {
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the items on the desktop
+     * @override
+     */
+    public override void hide_view () {
+        this.hide_items ();
+    }
+
+
+
+    /**
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
