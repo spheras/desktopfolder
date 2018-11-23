@@ -135,6 +135,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     public void refresh () {
         if (this.manager.get_folder ().get_application ().get_desktop_visibility ()) {
+            this.fade_in();
             this.show_all ();
         }
     }
