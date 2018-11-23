@@ -267,8 +267,6 @@ namespace DesktopFolder.Dialogs {
             resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
             general_grid.attach (resolution_strategy_help, 2, 3, 1, 1);
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 3, 1, 1);
-
             // DEFAULT Panel Arrangement
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT), 0, 4, 1, 1);
             var arrangement_combo = new Gtk.ComboBoxText ();
