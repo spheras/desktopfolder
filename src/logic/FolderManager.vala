@@ -108,7 +108,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             this.settings.save ();
             this.arrangement               = FolderArrangement.factory (this.settings.arrangement_type);
 
-            if (this.arrangement.forze_organization ()) {
+            if (this.arrangement.force_organization ()) {
                 this.organize_panel_items ();
             }
         }
@@ -248,6 +248,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             } else {
                 // somehthing changed.. created or removed
                 this.sync_files (0, 0);
+                if (this.arrangement.force_organization ()) {
+                    this.organize_panel_items ();
+                }
             }
 
         }
@@ -357,7 +360,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     newItemsToPosition.append (file_name);
                 } else {
                     // lets check if the item already exists
-                    ItemManager oldItemManager = popItemFromList (file_name, ref oldItems);
+                    ItemManager oldItemManager = pop_item_from_list (file_name, ref oldItems);
                     if (oldItemManager != null) {
                         oldItemManager.set_file (file);
                         this.items.append (oldItemManager);
@@ -420,13 +423,13 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
-     * @name popItemFromList
+     * @name pop_item_from_list
      * @description try to ind an item in a item list by the file get_name
      * @param string file_name the file name of the item
      * @param List<ItemManager> the list to search inside (reference)
      * @return ItemManager the itemmanager found, or null if none match
      */
-    private ItemManager ? popItemFromList (string file_name, ref List <ItemManager> items) {
+    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
         foreach (ItemManager item in items) {
             if (item.get_file_name () == file_name) {
                 items.remove (item);

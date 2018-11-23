@@ -122,6 +122,8 @@ namespace DesktopFolder.Lang {
     public const string ITEM_MENU_COPY             = _("Copy");
     // Item Menu - rename the file/folder
     public const string ITEM_MENU_RENAME           = _("Rename");
+    // Item Menu - trash the file/folder
+    public const string ITEM_MENU_TRASH            = _("Move to Trash");
     // Item Menu - delete the file/folder
     public const string ITEM_MENU_DELETE           = _("Delete");
     // Item Menu - change icon
@@ -199,13 +201,11 @@ namespace DesktopFolder.Lang {
     // Managed arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
     // Default Panel Management
-    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default Arrangement:");
-    // panel properties - Default Panel Management Description
-    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT_DESCRIPTION = _("Select the Default Arrangement Method for New Panels");
+    public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default icon arrangement:");
 
 
     // sort by submenu
-    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort By");
+    public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort by");
     // sort panel's items by name
     public const string DESKTOPFOLDER_MENU_SORT_BY_NAME  = _("Name");
     // sort panel's items by size
@@ -220,5 +220,7 @@ namespace DesktopFolder.Lang {
     public const string NEWLY_CREATED_PANEL              = _("Untitled Panel");
     // the title of a note when a new one is created
     public const string NEWLY_CREATED_NOTE               = _("New Note");
+    /// Please keep $FILE_NAME, it will be replaced by it's value
+    public const string LINK_TO                          = _("Link to $FILE_NAME");
 
 }
