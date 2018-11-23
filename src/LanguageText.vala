@@ -221,4 +221,7 @@ namespace DesktopFolder.Lang {
     // the title of a note when a new one is created
     public const string NEWLY_CREATED_NOTE               = _("New Note");
 
+    public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP  = _("Show Desktop");
+    public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP  = _("Hide Desktop");
+
 }

@@ -175,6 +175,19 @@ public class DesktopFolder.NoteManager : Object {
     }
 
     /**
+     * @name show_view
+     * @description show or hide the view
+     * @param bool whether to show the view or not
+     */
+    public void show_view (bool show) {
+        if (show) {
+            this.view.show_all ();
+        } else {
+            this.view.hide ();
+        }
+    }
+
+    /**
      * @name get_file
      * @description return the Glib.File associated
      * @return File the file associated

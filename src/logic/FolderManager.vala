@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public errordomain FolderManagerIOError {
+protected errordomain FolderManagerIOError {
     FILE_EXISTS,
     MOVE_ERROR
 }
@@ -426,7 +426,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @return ItemManager the itemmanager found, or null if none match
      */
     private ItemManager ? popItemFromList (string file_name, ref List <ItemManager> items) {
-        foreach (ItemManager item in items) {
+        foreach (var item in items) {
             if (item.get_file_name () == file_name) {
                 items.remove (item);
                 return item;
@@ -439,8 +439,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @name show_items
      * @description shows the items
      */
-    public void show_items () {
-        foreach (ItemManager item in items) {
+    public virtual void show_items () {
+        foreach (var item in items) {
             item.show_view ();
         }
     }
@@ -449,9 +449,22 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @name hide_items
      * @description hides the items
      */
-    public void hide_items () {
-        foreach (ItemManager item in items) {
+    public virtual void hide_items () {
+        foreach (var item in items) {
             item.hide_view ();
+        }
+    }
+
+    /**
+     * @name show_view
+     * @description show or hide the view
+     * @param bool whether to show the view or not
+     */
+    public virtual void show_view (bool show) {
+        if (show) {
+            this.view.show_all ();
+        } else {
+            this.view.hide ();
         }
     }
 

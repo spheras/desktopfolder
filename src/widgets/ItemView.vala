@@ -140,7 +140,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.icon.set_size_request (ICON_WIDTH, ICON_WIDTH);
         this.icon.get_style_context ().add_class ("df_icon");
         this.container.pack_start (this.icon, true, true);
-        this.show_all ();
+        if (this.manager.get_folder ().get_application ().get_desktop_visibility ()) {
+            debug ("refresh_icon and desktop visibility = true");
+            this.show_all ();
+        }
     }
 
     /**

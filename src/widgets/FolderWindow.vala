@@ -398,7 +398,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description refresh the window
      */
     public virtual void refresh () {
-        this.show_all ();
+        if (this.manager.get_application ().get_desktop_visibility ()) {
+            this.show_all ();
+        }
     }
 
     /**
@@ -477,7 +479,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description press event captured. The Window should show the popup on right button
      * @return bool @see widget on_press signal
      */
-    private bool on_press (Gdk.EventButton event) {
+    protected virtual bool on_press (Gdk.EventButton event) {
         // debug("on_press folderwindow");
         // Needed to exit focus from title when editting
         this.activate_focus ();

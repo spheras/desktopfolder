@@ -37,6 +37,9 @@ public class DesktopFolderApp : Gtk.Application {
     private bool show_desktoppanel              = false;
     private bool show_desktopicons              = false;
 
+    private bool desktop_visible                = true;
+    private bool first_hide                     = false;
+
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
     private List <DesktopFolder.FolderManager> folders = new List <DesktopFolder.FolderManager> ();
@@ -132,6 +135,8 @@ public class DesktopFolderApp : Gtk.Application {
         } catch (Error error) {
             // we don't have any files settings, using default config
         }
+
+        first_hide = settings.get_boolean ("first-time-hiding-desktop");
 
         // Connect to show-desktopfolder key
         settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
@@ -596,13 +601,43 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
+     * @name get_desktop_visibility
+     * @description show or hide the desktop
+     */
+    public bool get_desktop_visibility () {
+        return this.desktop_visible;
+    }
+
+    /**
+     * @name toggle_desktop_visiblity
+     * @description show or hide the desktop
+     */
+    public void toggle_desktop_visibility () {
+        this.desktop_visible = !this.desktop_visible;
+        if (!this.desktop_visible && first_hide) {
+            //var notification = new Notification ("Desktop hidden");
+            //notification.set_body ("Double click on the desktop to show it again");
+            //send_notification(null, notification);
+        }
+        this.desktop.show_view (this.desktop_visible);
+        foreach (var folder in folders) {
+            folder.show_view (this.desktop_visible);
+        }
+        foreach (var note in notes) {
+            note.show_view (this.desktop_visible);
+        }
+        foreach (var photo in photos) {
+            photo.show_view (this.desktop_visible);
+        }
+    }
+
+    /**
      * @name clear_folders
      * @description close all the folders launched
      */
     protected void clear_folders () {
-        for (int i = 0; i < this.folders.length (); i++) {
-            var fm = this.folders.nth (i).data;
-            fm.close ();
+        foreach (var folder in folders) {
+            folder.close ();
         }
         this.folders = new List <DesktopFolder.FolderManager> ();
     }
@@ -612,9 +647,8 @@ public class DesktopFolderApp : Gtk.Application {
      * @description close all the notes launched
      */
     protected void clear_notes () {
-        for (int i = 0; i < this.notes.length (); i++) {
-            var fm = this.notes.nth (i).data;
-            fm.close ();
+        foreach (var note in notes) {
+            note.close ();
         }
         this.notes = new List <DesktopFolder.NoteManager> ();
     }
@@ -624,9 +658,8 @@ public class DesktopFolderApp : Gtk.Application {
      * @description close all the photos launched
      */
     protected void clear_photos () {
-        for (int i = 0; i < this.photos.length (); i++) {
-            var fm = this.photos.nth (i).data;
-            fm.close ();
+        foreach (var photo in photos) {
+            photo.close ();
         }
         this.photos = new List <DesktopFolder.PhotoManager> ();
     }
