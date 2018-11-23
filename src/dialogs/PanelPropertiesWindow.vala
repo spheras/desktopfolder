@@ -156,25 +156,31 @@ namespace DesktopFolder.Dialogs {
             general_grid.attach (settings_switch, 1, 2, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().lockitems);
             settings_switch.notify["active"].connect (this.window.on_toggle_lockitems);
-            // lock panel
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
-            settings_switch = new SettingsSwitch ("lock_panel");
-            general_grid.attach (settings_switch, 1, 3, 1, 1);
-            settings_switch.set_active (this.manager.get_settings ().lockpanel);
-            settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
+
+            int top_offset = -1;
+
+            if (this.window.get_type () != typeof (DesktopFolder.DesktopWindow)) {
+                top_offset = 0;
+                // lock panel
+                general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
+                settings_switch = new SettingsSwitch ("lock_panel");
+                general_grid.attach (settings_switch, 1, 3, 1, 1);
+                settings_switch.set_active (this.manager.get_settings ().lockpanel);
+                settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
+            }
 
             // The interface section
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_APPEARANCE), 0, 4, 2, 1);
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_APPEARANCE), 0, 4 + top_offset, 2, 1);
             // Tet shadow
             settings_switch = new SettingsSwitch ("text_shadow");
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5, 1, 1);
-            general_grid.attach (settings_switch, 1, 5, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5 + top_offset, 1, 1);
+            general_grid.attach (settings_switch, 1, 5 + top_offset, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().textshadow);
             settings_switch.notify["active"].connect (this.window.on_toggle_shadow);
             // text bold
             settings_switch = new SettingsSwitch ("text_bold");
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6, 1, 1);
-            general_grid.attach (settings_switch, 1, 6, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6 + top_offset, 1, 1);
+            general_grid.attach (settings_switch, 1, 6 + top_offset, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
