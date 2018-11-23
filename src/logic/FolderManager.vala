@@ -359,6 +359,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     // lets check if the item already exists
                     ItemManager oldItemManager = popItemFromList (file_name, ref oldItems);
                     if (oldItemManager != null) {
+                        oldItemManager.set_file (file);
                         this.items.append (oldItemManager);
                     } else {
                         ItemManager item = new ItemManager (file_name, file, this);
@@ -526,11 +527,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int y the y position of the new file
      */
     public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
-        string path = this.get_absolute_path () + "/" + name;
+        string path     = this.get_absolute_path () + "/" + name;
 
         string new_name = "";
 
-        File file = File.new_for_path (path);
+        File file       = File.new_for_path (path);
         if (file.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
