@@ -30,7 +30,7 @@
       <description>How the widgets should be adapted to different screen resolutions</description>
     </key>
     <key name="default-arrangement" enum="arrangement">
-      <default>'FREE'</default>
+      <default>'GRID'</default>
       <summary>Default Panel Arrangement</summary>
       <description>Define whats the default arrangement strategy for panels</description>
     </key>
