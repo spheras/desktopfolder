@@ -106,15 +106,15 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         }
 
         Gdk.Rectangle boundingbox = DesktopFolder.Util.get_desktop_bounding_box ();
-        debug("bounding box result: %d,%d -- %d,%d",boundingbox.x,boundingbox.y,boundingbox.width,boundingbox.height);
+        debug ("bounding box result: %d,%d -- %d,%d", boundingbox.x, boundingbox.y, boundingbox.width, boundingbox.height);
 
         this.get_view ().move (0, 0); // (-12, -10);
         int w = boundingbox.width; // deprecated -> screen.get_width (); // + 25;
         int h = boundingbox.height; // deprecated -> screen.get_height (); // + 25;
         this.get_view ().resize (w, h);
         this.get_view ().set_default_size (w, h);
-        this.get_view().height_request=h;
-        this.get_view().width_request=w;
+        this.get_view ().height_request = h;
+        this.get_view ().width_request  = w;
 
         debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", -12, -10, w, h);
     }
