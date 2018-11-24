@@ -324,6 +324,7 @@ namespace DesktopFolder.DragnDrop {
                         string path        = f.get_path ();
                         string new_name    = f.get_basename ();
                         string target_path = target_dir.get_path ();
+                        // string link_to     = DesktopFolder.Lang.LINK_TO;
 
                         if ((path.has_prefix ("/usr/local/share/applications/") || path.has_prefix ("/usr/share/applications/")) && path.has_suffix (".desktop")) {
                             // we don't move user desktop launchers
