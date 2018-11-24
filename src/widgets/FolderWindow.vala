@@ -1244,7 +1244,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int container_height = this.container.get_allocated_height ();
             int window_width     = this.get_allocated_width ();
             int window_height    = this.get_allocated_height ();
-
+            //debug("drawing (%d,%d) (%d,%d)",container_width,container_height,window_width,window_height);
             int width            = (container_width > window_width ? container_width : window_width);
             int height           = (container_height > window_height ? container_height : window_height);
 
