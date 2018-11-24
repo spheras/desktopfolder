@@ -186,7 +186,7 @@ namespace DesktopFolder.Dialogs {
 
             // the items padding
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING), 0, 7 + top_offset, 1, 1);
-            var scale = new Gtk.Scale.with_range (Gtk.Orientation.HORIZONTAL, 0, 50, 1);
+            var scale = new Gtk.SpinButton.with_range (0, 50, 1);
             scale.set_value (this.manager.get_settings ().arrangement_padding);
             scale.value_changed.connect (() => {
                 this.manager.get_settings ().arrangement_padding = (int) scale.get_value ();
@@ -300,12 +300,11 @@ namespace DesktopFolder.Dialogs {
 
             // DEFAULT Panel Arrangement
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING_DEFAULT), 0, 6, 1, 1);
-            var scale = new Gtk.Scale.with_range (Gtk.Orientation.HORIZONTAL, 0, 50, 1);
+            var scale = new Gtk.SpinButton.with_range (0, 50, 1);
             scale.set_value (settings.get_int ("default-arrangement-padding"));
             scale.value_changed.connect (() => {
                 settings.set_int ("default-arrangement-padding", (int) scale.get_value ());
             });
-            scale.margin_right = 6;
             general_grid.attach (scale, 1, 6, 1, 1);
 
             return general_grid;
