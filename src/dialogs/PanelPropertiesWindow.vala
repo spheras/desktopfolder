@@ -286,24 +286,27 @@ namespace DesktopFolder.Dialogs {
             resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
             general_grid.attach (resolution_strategy_help, 2, 3, 1, 1);
 
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_ICONS), 0, 4, 2, 1);
+
             // DEFAULT Panel Arrangement
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT), 0, 4, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT), 0, 5, 1, 1);
             var arrangement_combo = new Gtk.ComboBoxText ();
             arrangement_combo.append ("FREE", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_FREE);
             arrangement_combo.append ("GRID", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_GRID);
             arrangement_combo.append ("MANAGED", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_MANAGED);
             settings.bind ("default-arrangement", arrangement_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
             arrangement_combo.margin_end = 8;
-            general_grid.attach (arrangement_combo, 1, 4, 1, 1);
+            general_grid.attach (arrangement_combo, 1, 5, 1, 1);
 
             // DEFAULT Panel Arrangement
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING), 0, 5, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING_DEFAULT), 0, 6, 1, 1);
             var scale = new Gtk.Scale.with_range (Gtk.Orientation.HORIZONTAL, 0, 50, 1);
             scale.set_value (settings.get_int ("default-arrangement-padding"));
             scale.value_changed.connect (() => {
                 settings.set_int ("default-arrangement-padding", (int) scale.get_value ());
             });
-            general_grid.attach (scale, 1, 5, 1, 1);
+            scale.margin_right = 6;
+            general_grid.attach (scale, 1, 6, 1, 1);
 
             return general_grid;
         }
