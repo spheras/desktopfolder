@@ -175,7 +175,7 @@ namespace DesktopFolder.Lang {
     // Default Panel Management
     public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default icon arrangement:");
     // Default Panel Arrangement Padding for Items
-    public const string PANELPROPERTIES_ARRANGEMENT_PADDING             = _("Default Arrangement Padding for Items:");
+    public const string PANELPROPERTIES_ARRANGEMENT_PADDING             = _("Grid spacing:");
 
     // sort by submenu
     public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort by");
