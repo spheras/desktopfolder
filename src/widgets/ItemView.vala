@@ -587,7 +587,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     private bool on_press (Gdk.EventButton event) {
         // debug("press:%i",(int)event.button);
-
+        manager.get_folder().get_view().present();
         // Change cursor to closed hand
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "grabbing"));
 
