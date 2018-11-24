@@ -96,8 +96,6 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         this.hide_items ();
     }
 
-
-
     /**
      * @name on_screen_size_changed
      * @description detecting screen size changes

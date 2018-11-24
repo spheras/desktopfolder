@@ -321,10 +321,10 @@ namespace DesktopFolder.DragnDrop {
                     File f = files.nth (i).data;
                     if (f.query_exists ()) {
 
-                        string path = f.get_path ();
-                        string new_name = f.get_basename ();
+                        string path        = f.get_path ();
+                        string new_name    = f.get_basename ();
                         string target_path = target_dir.get_path ();
-                        string link_to = DesktopFolder.Lang.LINK_TO;
+                        string link_to     = DesktopFolder.Lang.LINK_TO;
 
                         if ((path.has_prefix ("/usr/local/share/applications/") || path.has_prefix ("/usr/share/applications/")) && path.has_suffix (".desktop")) {
                             // we don't move user desktop launchers
@@ -335,7 +335,7 @@ namespace DesktopFolder.DragnDrop {
 
                         debug (@"$action, $(f.get_parent ().get_path ()) -> $target_path");
 
-                        if (f.get_parent ().equal(target_dir)) {
+                        if (f.get_parent ().equal (target_dir)) {
                             // create a link instead
                             if (action == Gdk.DragAction.MOVE) {
                                 action = Gdk.DragAction.LINK;
@@ -363,23 +363,23 @@ namespace DesktopFolder.DragnDrop {
 
                             try {
                                 new Thread <int> .try ("DesktopFolder File Operation", () => {
-                                    try {
-                                        DesktopFolder.Util.copy_recursive (f,
-                                        final_target,
-                                        GLib.FileCopyFlags.NONE,
-                                        cancellable,
-                                        (file) => {
-                                            string message = DesktopFolder.Lang.DRAGNDROP_COPYING;
-                                            message = message + " " + file.get_path ();
-                                            pd.show_action (message);
-                                        });
-                                    } catch (Error e) {
-                                        cancellable.cancel ();
-                                        stderr.printf ("Error: %s\n", e.message);
-                                    }
-                                    pd.stop ();
-                                    return 0;
-                                });
+                                        try {
+                                            DesktopFolder.Util.copy_recursive (f,
+                                            final_target,
+                                            GLib.FileCopyFlags.NONE,
+                                            cancellable,
+                                            (file) => {
+                                                string message = DesktopFolder.Lang.DRAGNDROP_COPYING;
+                                                message = message + " " + file.get_path ();
+                                                pd.show_action (message);
+                                            });
+                                        } catch (Error e) {
+                                            cancellable.cancel ();
+                                            stderr.printf ("Error: %s\n", e.message);
+                                        }
+                                        pd.stop ();
+                                        return 0;
+                                    });
 
                                 if (done_callback != null)
                                     done_callback ();

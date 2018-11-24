@@ -199,7 +199,7 @@ public class DesktopFolderApp : Gtk.Application {
             this.on_mount_changed ();
         });
 
-        Timeout.add (500, () => {// 1000
+        Timeout.add (500, () => { // 1000
             this.toggle_desktop_visibility ();
             return false;
         });

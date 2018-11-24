@@ -174,7 +174,8 @@ namespace DesktopFolder.Lang {
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
     // Default Panel Management
     public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default icon arrangement:");
-
+    // Default Panel Arrangement Padding for Items
+    public const string PANELPROPERTIES_ARRANGEMENT_PADDING             = _("Default Arrangement Padding for Items:");
 
     // sort by submenu
     public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort by");
@@ -193,9 +194,9 @@ namespace DesktopFolder.Lang {
     // the title of a note when a new one is created
     public const string NEWLY_CREATED_NOTE               = _("New Note");
     /// Please keep $FILE_NAME, it will be replaced by it's value
-    public const string LINK_TO                          = _("Link to $FILE_NAME");
+    public const string LINK_TO = _("Link to $FILE_NAME");
 
-    public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP  = _("Show Desktop");
-    public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP  = _("Hide Desktop");
+    public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP = _("Show Desktop");
+    public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP = _("Hide Desktop");
 
 }

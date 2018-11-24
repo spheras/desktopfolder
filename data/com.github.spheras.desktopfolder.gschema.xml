@@ -34,6 +34,11 @@
       <summary>Default Panel Arrangement</summary>
       <description>Define whats the default arrangement strategy for panels</description>
     </key>
+    <key name="default-arrangement-padding" type="i">
+      <default>10</default>
+      <summary>Default Arrangement Padding</summary>
+      <description>The Default Arrangement Padding Between Items</description>
+    </key>
     <key name="show-desktopfolder" type="b">
       <default>true</default>
       <summary>Have DesktopFolder handle the desktop</summary>

@@ -39,7 +39,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     }
 
     protected override bool on_press (Gdk.EventButton event) {
-      this.present();
+        this.present ();
         if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             debug ("toggling desktop visiblity");
             base.get_manager ().get_application ().toggle_desktop_visibility ();
@@ -121,19 +121,19 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         Clipboard.ClipboardManager cm = Clipboard.ClipboardManager.get_for_display ();
 
         // Creating items (please try and keep these in the same order as appended to the menu)
-        var new_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+        var new_item                   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
 
-        var new_submenu       = new Gtk.Menu ();
-        var newfolder_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
-        var emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
-        var newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
-        var newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
-        var newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        var newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        var newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        var newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        var properties_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP);
-        var desktop_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_CHANGEDESKTOP);
+        var          new_submenu       = new Gtk.Menu ();
+        var          newfolder_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER);
+        var          emptyfile_item    = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_EMPTY_FILE);
+        var          newlink_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FILE_LINK);
+        var          newlinkdir_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_FOLDER_LINK);
+        var          newpanel_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+        var          newlinkpanel_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+        var          newnote_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+        var          newphoto_item     = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+        var          properties_item   = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_PROPERTIES_TOOLTIP);
+        var          desktop_item      = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_CHANGEDESKTOP);
         Gtk.MenuItem show_desktop_item;
         if (this.manager.get_application ().get_desktop_visibility ()) {
             show_desktop_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_HIDE_DESKTOP);

@@ -135,7 +135,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     public void refresh () {
         if (this.manager.get_folder ().get_application ().get_desktop_visibility ()) {
-            this.fade_in();
+            this.fade_in ();
             this.show_all ();
         }
     }
@@ -545,8 +545,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
             FolderArrangement arrangement = this.manager.get_folder ().get_arrangement ();
             int sensitivity               = arrangement.get_sensitivity ();
-            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity);
-            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity);
+            int padding = this.manager.get_folder ().get_settings ().arrangement_padding;
+            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity + padding);
+            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity + padding);
 
             if (this.manager.get_folder ().get_arrangement ().have_margin ()) {
                 Gtk.Allocation title_allocation;
@@ -587,7 +588,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     private bool on_press (Gdk.EventButton event) {
         // debug("press:%i",(int)event.button);
-        manager.get_folder().get_view().present();
+        manager.get_folder ().get_view ().present ();
         // Change cursor to closed hand
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "grabbing"));
 
@@ -595,7 +596,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
-        bool locked       = this.manager.get_folder ().are_items_locked ();
+        bool locked          = this.manager.get_folder ().are_items_locked ();
 
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
             this.select ();

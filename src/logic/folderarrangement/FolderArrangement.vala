@@ -20,7 +20,7 @@
  * Folder Arragement Interface
  */
 public interface DesktopFolder.FolderArrangement : Object {
-    public static int ARRANGEMENT_PADDING      = 0;
+    public static int DEFAULT_PADDING          = 10;
 
     public static int ARRANGEMENT_TYPE_FREE    = 1;
     public static int ARRANGEMENT_TYPE_GRID    = 2;
@@ -102,6 +102,7 @@ public interface DesktopFolder.FolderArrangement : Object {
         // cursors pixel
         int cursor_x = left_margin;
         int cursor_y = 0;
+        int padding  = parent_window.get_manager ().get_settings ().arrangement_padding;
 
         for (int i = 0; i < items.length (); i++) {
             ItemManager item = items.nth_data (i);
@@ -117,11 +118,11 @@ public interface DesktopFolder.FolderArrangement : Object {
             item.get_folder ().get_settings ().save ();
 
             // moving the cursor
-            cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + ARRANGEMENT_PADDING;
+            cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
             if (cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + left_margin > width) {
                 // we need to move to the next rows
                 cursor_x = left_margin;
-                cursor_y = cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH + ARRANGEMENT_PADDING;
+                cursor_y = cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
             }
         }
     }

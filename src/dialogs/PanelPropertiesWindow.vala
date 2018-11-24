@@ -184,6 +184,19 @@ namespace DesktopFolder.Dialogs {
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
 
+            // the items padding
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING), 0, 7 + top_offset, 1, 1);
+            var scale = new Gtk.Scale.with_range (Gtk.Orientation.HORIZONTAL, 0, 50, 1);
+            scale.set_value (this.manager.get_settings ().arrangement_padding);
+            scale.value_changed.connect (() => {
+                this.manager.get_settings ().arrangement_padding = (int) scale.get_value ();
+                if (this.manager.get_arrangement ().force_organization ()) {
+                    this.manager.organize_panel_items ();
+                }
+            });
+            general_grid.attach (scale, 1, 7 + top_offset, 1, 1);
+
+
             if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow) && (!this.manager.get_application ().get_desktoppanel_enabled () || !this.manager.get_application ().get_desktopicons_enabled ())) {
                 general_grid.set_sensitive (false);
             }
@@ -282,6 +295,15 @@ namespace DesktopFolder.Dialogs {
             settings.bind ("default-arrangement", arrangement_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
             arrangement_combo.margin_end = 8;
             general_grid.attach (arrangement_combo, 1, 4, 1, 1);
+
+            // DEFAULT Panel Arrangement
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING), 0, 5, 1, 1);
+            var scale = new Gtk.Scale.with_range (Gtk.Orientation.HORIZONTAL, 0, 50, 1);
+            scale.set_value (settings.get_int ("default-arrangement-padding"));
+            scale.value_changed.connect (() => {
+                settings.set_int ("default-arrangement-padding", (int) scale.get_value ());
+            });
+            general_grid.attach (scale, 1, 5, 1, 1);
 
             return general_grid;
         }

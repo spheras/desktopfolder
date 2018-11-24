@@ -100,7 +100,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.set_transient_for (desktop_manager.get_view ());
         }
 
-        this.name                      = manager.get_application ().get_next_id ();
+        this.name = manager.get_application ().get_next_id ();
         this.get_style_context ().add_class ("df_fadeout");
 
         this.trash_button              = new Gtk.Button.from_icon_name ("edit-delete-symbolic");
@@ -553,8 +553,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                         this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
                     }
                 }
-            }else{
-              return true;
+            } else {
+                return true;
             }
         }
         return false;
@@ -610,10 +610,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         emptyfile_item.activate.connect (() => { this.new_text_file ((int) event.x, (int) event.y); });
         newlink_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, false); });
         newlinkdir_item.activate.connect (() => { this.new_link ((int) event.x, (int) event.y, true); });
-        newpanel_item.activate.connect (() => {this.new_desktop_folder ((int) event.x, (int) event.y); });
-        newlinkpanel_item.activate.connect (() => {this.new_link_panel ((int) event.x, (int) event.y); });
-        newnote_item.activate.connect  (() => {this.new_note ((int) event.x, (int) event.y); });
-        newphoto_item.activate.connect  (() => {this.new_photo ((int) event.x, (int) event.y); });
+        newpanel_item.activate.connect (() => { this.new_desktop_folder ((int) event.x, (int) event.y); });
+        newlinkpanel_item.activate.connect (() => { this.new_link_panel ((int) event.x, (int) event.y); });
+        newnote_item.activate.connect (() => { this.new_note ((int) event.x, (int) event.y); });
+        newphoto_item.activate.connect (() => { this.new_photo ((int) event.x, (int) event.y); });
         openterminal_item.activate.connect (this.open_terminal);
 
         // sortby submenu ---------
@@ -1269,8 +1269,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int left_padding             = title_allocation.x;
             int top_padding              = title_allocation.y;
             int header                   = title_allocation.height + top_padding;
-            int margin                   = FolderArrangement.ARRANGEMENT_PADDING;
-            int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity () - margin;
+            int margin                   = this.manager.get_settings ().arrangement_padding;
+            int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity ();
 
             ItemView       selected_item = this.manager.get_selected_item ();
             Gtk.Allocation allocation;

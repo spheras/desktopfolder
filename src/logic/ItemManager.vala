@@ -134,6 +134,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         this.view.show_all ();
         this.view.fade_in ();
     }
+
     /**
      * @name hide_view
      * @description hide the icon

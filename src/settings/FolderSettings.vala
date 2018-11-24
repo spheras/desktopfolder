@@ -123,6 +123,18 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         }
     }
 
+    private int _arrangement_padding;
+    public int arrangement_padding {
+        get {
+            return _arrangement_padding;
+        }
+        set {
+            if (_arrangement_padding != value) {
+                _arrangement_padding = value; flagChanged = true;
+            }
+        }
+    }
+
     private int _sort_by_type;
     public int sort_by_type {
         get {
@@ -226,6 +238,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         this.align_to_grid          = false;
         this.lockitems              = false;
         this.lockpanel              = false;
+        this.arrangement_padding    = FolderArrangement.DEFAULT_PADDING;
         this.arrangement_type       = FolderArrangement.ARRANGEMENT_TYPE_FREE;
         this.name                   = name;
         this.items                  = new string[0];

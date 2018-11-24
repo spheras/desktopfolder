@@ -82,7 +82,7 @@ namespace DesktopFolder.Util {
 
         string src_path        = src.get_path ();
 
-        GLib.File real_dest = dest;
+        GLib.File real_dest    = dest;
         if (src_path == real_dest.get_path ()) {
             string basename = dest.get_basename ();
             string dirname  = dest.get_path ().replace (basename, "");
@@ -187,11 +187,11 @@ namespace DesktopFolder.Util {
                 // Check if the image is valid
                 new Gdk.Pixbuf.from_file (photo_path);
 
-                PhotoSettings ps   = new PhotoSettings (photo_path, window.get_window ());
-                              ps.x = x;
-                              ps.y = y;
-                string        path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
-                File          file = File.new_for_path (path);
+                PhotoSettings ps = new PhotoSettings (photo_path, window.get_window ());
+                ps.x = x;
+                ps.y = y;
+                string path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
+                File   file = File.new_for_path (path);
                 if (file.query_exists ()) {
                     debug ("Photo already exists, not creating.");
                 } else {
@@ -249,11 +249,11 @@ namespace DesktopFolder.Util {
             name_no_ext = name_no_ext.strip ();
         }
         try {
-            var regex = new Regex ("([ ]+[0-9]+)$");
+            var       regex = new Regex ("([ ]+[0-9]+)$");
             MatchInfo matchinfo;
-            if (regex.match(name_no_ext, 0, out matchinfo)) {
-                int startpos = 0;
-                int endpos = 0;
+            if (regex.match (name_no_ext, 0, out matchinfo)) {
+                int startpos        = 0;
+                int endpos          = 0;
                 matchinfo.fetch_pos (0, out startpos, out endpos);
                 string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
                 name_no_ext = name_no_ext.splice ((long) startpos, (long) endpos);
@@ -293,14 +293,14 @@ namespace DesktopFolder.Util {
 
         // Process response:
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
-            var  folderpath                 = chooser.get_filename ();
-            var  foldername                 = Path.get_basename (folderpath);
-            File linkdest                   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
-            File settings_file              = File.new_for_path (folderpath + "/.desktopfolder");
+            var  folderpath    = chooser.get_filename ();
+            var  foldername    = Path.get_basename (folderpath);
+            File linkdest      = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
+            File settings_file = File.new_for_path (folderpath + "/.desktopfolder");
 
-            var fs = new FolderSettings (foldername);
-            fs.x = x;
-            fs.y = y;
+            var fs             = new FolderSettings (foldername);
+            fs.x                = x;
+            fs.y                = y;
             fs.arrangement_type = get_default_arrangement_setting ();
 
             fs.save_to_file (settings_file);
