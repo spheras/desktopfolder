@@ -83,6 +83,7 @@ namespace DesktopFolder.Util {
         string src_path        = src.get_path ();
 
         GLib.File real_dest    = dest;
+
         if (src_path == real_dest.get_path ()) {
             string basename = dest.get_basename ();
             string dirname  = dest.get_path ().replace (basename, "");
@@ -255,7 +256,7 @@ namespace DesktopFolder.Util {
                 int startpos        = 0;
                 int endpos          = 0;
                 matchinfo.fetch_pos (0, out startpos, out endpos);
-                string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
+                //string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
                 name_no_ext = name_no_ext.splice ((long) startpos, (long) endpos);
             }
         } catch (Error e) {

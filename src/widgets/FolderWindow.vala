@@ -1051,7 +1051,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description return the selected item
      * @return ItemView return the selected item at the desktop folder, or null if none selected
      */
-    private ItemView find_selected_item () {
+    public ItemView find_selected_item () {
         var children = this.container.get_children ();
         for (int i = 0; i < children.length (); i++) {
             ItemView element = (ItemView) children.nth_data (i);
