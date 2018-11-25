@@ -65,11 +65,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.try_to_order_at_top ();
 
         // let's sync the files found at this folder
-        GLib.Idle.add_full (GLib.Priority.LOW, () => {
-            this.sync_files (0, 0);
-            return false;
-        });
-
+        this.sync_files (0, 0);
 
         // finally, we start monitoring the folder
         this.monitor_folder ();

@@ -173,9 +173,13 @@ namespace DesktopFolder.Lang {
     // Managed arrangement
     public const string PANELPROPERTIES_ARRANGEMENT_MANAGED             = _("Let app manage");
     // Default Panel Management
+    public const string PANELPROPERTIES_ICONS                           = _("Icons");
+    // Default Panel Management
     public const string PANELPROPERTIES_ARRANGEMENT_DEFAULT             = _("Default icon arrangement:");
     // Default Panel Arrangement Padding for Items
-    public const string PANELPROPERTIES_ARRANGEMENT_PADDING             = _("Default Arrangement Padding for Items:");
+    public const string PANELPROPERTIES_ARRANGEMENT_PADDING             = _("Icon spacing:");
+    // Default Panel Arrangement Padding for Items
+    public const string PANELPROPERTIES_ARRANGEMENT_PADDING_DEFAULT     = _("Default icon spacing:");
 
     // sort by submenu
     public const string DESKTOPFOLDER_MENU_SORT_BY       = _("Sort by");
