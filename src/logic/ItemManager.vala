@@ -279,6 +279,12 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             );
     }
 
+    public void show_info (string filepath) {
+        string fname = get_file_name();
+        string fpath = get_absolute_path ();
+        new DesktopFolder.Dialogs.ShowInfo(fpath, fname);
+    }
+    
     /**
      * @name get_view
      * @description return the view of this manager
