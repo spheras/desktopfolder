@@ -27,8 +27,8 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
      */
     public DesktopWindow (FolderManager manager) {
         base (manager);
-        this.scroll.get_vscrollbar().visible=false;
-        this.scroll.get_hscrollbar().visible=false;
+        this.scroll.get_vscrollbar ().visible = false;
+        this.scroll.get_hscrollbar ().visible = false;
     }
 
     /**

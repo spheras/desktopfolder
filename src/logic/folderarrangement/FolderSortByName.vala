@@ -32,7 +32,7 @@ public class DesktopFolder.FolderSortByName : Object, FolderSort {
             } else {
                 string afn = a.get_file_name ();
                 string bfn = b.get_file_name ();
-                return (asc) ? afn.ascii_casecmp(bfn) : bfn.ascii_casecmp(afn);
+                return (asc) ? afn.ascii_casecmp (bfn) : bfn.ascii_casecmp (afn);
             }
         });
     }

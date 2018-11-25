@@ -253,10 +253,10 @@ namespace DesktopFolder.Util {
             var       regex = new Regex ("([ ]+[0-9]+)$");
             MatchInfo matchinfo;
             if (regex.match (name_no_ext, 0, out matchinfo)) {
-                int startpos        = 0;
-                int endpos          = 0;
+                int startpos = 0;
+                int endpos   = 0;
                 matchinfo.fetch_pos (0, out startpos, out endpos);
-                //string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
+                // string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
                 name_no_ext = name_no_ext.splice ((long) startpos, (long) endpos);
             }
         } catch (Error e) {

@@ -336,7 +336,7 @@ namespace DesktopFolder.DragnDrop {
                         debug (@"$action, $(f.get_parent ().get_path ()) -> $target_path");
 
                         /* @aljelly, we are having problems with this code (lot of links created)
-                        if (f.get_parent ().equal (target_dir)) {
+                           if (f.get_parent ().equal (target_dir)) {
                             // create a link instead
                             if (action == Gdk.DragAction.MOVE) {
                                 action = Gdk.DragAction.LINK;
@@ -354,8 +354,8 @@ namespace DesktopFolder.DragnDrop {
                             if (link_file.query_exists ()) {
                                 new_name = DesktopFolder.Util.make_next_duplicate_name (new_name, target_path);
                             }
-                        }
-                        */
+                           }
+                         */
 
                         if (action == Gdk.DragAction.COPY) {
                             File final_target               = File.new_for_path (target_path + "/" + f.get_basename ());
