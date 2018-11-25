@@ -61,7 +61,16 @@ src = [
        'src/logic/NoteManager.vala',
        'src/logic/PhotoManager.vala',
        'src/dialogs/ProgressDialog.vala',
-       'src/dialogs/PanelPropertiesWindow.vala'
+       'src/dialogs/PanelPropertiesWindow.vala',
+       'src/logic/folderarrangement/FolderArrangement.vala',
+       'src/logic/folderarrangement/FolderArrangementFree.vala',
+       'src/logic/folderarrangement/FolderArrangementGrid.vala',
+       'src/logic/folderarrangement/FolderArrangementManaged.vala',
+       'src/logic/folderarrangement/FolderSort.vala',
+       'src/logic/folderarrangement/FolderSortByName.vala',
+       'src/logic/folderarrangement/FolderSortBySize.vala',
+       'src/logic/folderarrangement/FolderSortByType.vala',
+       'src/logic/folderarrangement/FolderGrid.vala'
       ]
 
 exename = get_option('exename')

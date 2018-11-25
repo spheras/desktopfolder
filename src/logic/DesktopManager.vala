@@ -56,6 +56,47 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     }
 
     /**
+     * @name show_items
+     * @description shows the items
+     */
+    public override void show_items () {
+        debug (@"show_items $(this.get_application ().get_desktop_visibility ())");
+        if (this.get_application ().get_desktop_visibility ()) {
+            debug ("showing items");
+            base.show_items ();
+            base.view.refresh ();
+        }
+    }
+
+    /**
+     * @name hide_items
+     * @description hides the items
+     */
+    public override void hide_items () {
+        debug (@"hide_items $(this.get_application ().get_desktop_visibility ())");
+        debug ("hiding items");
+        base.hide_items ();
+    }
+
+    /**
+     * @name show_view
+     * @description show the items on the desktop
+     * @override
+     */
+    public override void show_view () {
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the items on the desktop
+     * @override
+     */
+    public override void hide_view () {
+        this.hide_items ();
+    }
+
+    /**
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
@@ -65,13 +106,15 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         }
 
         Gdk.Rectangle boundingbox = DesktopFolder.Util.get_desktop_bounding_box ();
-        // debug("bounding box result: %d,%d -- %d,%d",boundingbox.x,boundingbox.y,boundingbox.width,boundingbox.height);
+        debug ("bounding box result: %d,%d -- %d,%d", boundingbox.x, boundingbox.y, boundingbox.width, boundingbox.height);
 
         this.get_view ().move (0, 0); // (-12, -10);
         int w = boundingbox.width; // deprecated -> screen.get_width (); // + 25;
         int h = boundingbox.height; // deprecated -> screen.get_height (); // + 25;
         this.get_view ().resize (w, h);
         this.get_view ().set_default_size (w, h);
+        this.get_view ().height_request = h;
+        this.get_view ().width_request  = w;
 
         debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", -12, -10, w, h);
     }

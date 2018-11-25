@@ -74,7 +74,7 @@ public class DesktopFolder.PhotoManager : Object {
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
-    public virtual void on_screen_size_changed (Gdk.Screen screen) {
+    public void on_screen_size_changed (Gdk.Screen screen) {
         this.settings.calculate_current_position ();
         this.view.reload_settings ();
     }
@@ -147,6 +147,31 @@ public class DesktopFolder.PhotoManager : Object {
      */
     public PhotoWindow get_view () {
         return this.view;
+    }
+
+    /**
+     * @name show_view
+     * @description show the folder
+     */
+    public void show_view () {
+        // setting opacity to stop the folder window flashing at startup
+        this.view.opacity = 1;
+        this.view.show_all ();
+        this.view.fade_in ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the folder
+     */
+    public void hide_view () {
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            // ditto
+            this.view.opacity = 0;
+            this.view.hide ();
+            return false;
+        });
     }
 
     /**

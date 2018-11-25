@@ -57,6 +57,15 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name set_file
+     * @description set the file of the item
+     * @param Glib.File file the file associated with the item
+     */
+    public void set_file (File file) {
+        this.file = file;
+    }
+
+    /**
      * @name is_selected
      * @description check if the item is selected or not
      * @return bool true->the item is selected
@@ -118,11 +127,33 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name show_view
+     * @description show the icon
+     */
+    public void show_view () {
+        this.view.show_all ();
+        this.view.fade_in ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the icon
+     */
+    public void hide_view () {
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            this.view.hide ();
+            return false;
+        });
+    }
+
+    /**
      * @name select
      * @description the item is selected
      */
     public void select () {
         this.selected = true;
+        this.get_folder ().set_selected_item (this.view);
     }
 
     /**
@@ -131,6 +162,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void unselect () {
         this.selected = false;
+        this.get_folder ().set_selected_item (null);
     }
 
     /**
@@ -176,7 +208,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             FileUtils.rename (old_path, new_path);
             this.file = File.new_for_path (new_path);
 
-            return false;
+            return true;
         } catch (Error e) {
             // we can't rename, undoing
             this.file_name  = old_name;
@@ -208,8 +240,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         Gtk.Allocation allocation;
         this.view.get_allocation (out allocation);
         // HELP! don't know why these constants?? maybe padding??
-        is.x = allocation.x - ItemView.PADDING_X - ItemView.PADDING_X;
-        is.y = allocation.y - ItemView.PADDING_Y;
+        is.x = allocation.x; // - ItemView.PADDING_X - ItemView.PADDING_X;
+        is.y = allocation.y; // - ItemView.PADDING_Y;
         this.folder.get_settings ().set_item (is);
         this.folder.get_settings ().save ();
     }
@@ -227,6 +259,11 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         return false;
     }
 
+    /**
+     * @name open_in_terminal
+     * @description open the folder item in a terminal (it is only called by folder items, see popup)
+     * @param string path the path of the folder to open
+     */
     public void open_in_terminal (string path) {
         try {
             Environment.set_current_dir (path);
@@ -274,9 +311,16 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             file_content_type = "Unknown";
         }
         // open dialog
-        var dialog = new DesktopFolder.Dialogs.OpenWith (
+        new DesktopFolder.Dialogs.OpenWith (
             file_content_type, filepath
-            );
+        );
+    }
+
+    public void show_info (string filepath) {
+        // show file / folder info
+        string fname = get_file_name();
+        string fpath = get_absolute_path ();
+        new DesktopFolder.Dialogs.ShowInfo(fpath, fname);
     }
 
     /**
@@ -450,6 +494,13 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public Gtk.Image get_image () {
         return this.view.get_image ();
+    }
+
+    /**
+     * @overrided
+     */
+    public void on_drag_end () {
+        this.view.on_drag_end ();
     }
 
     // ---------------------------------------------------------------------------------------

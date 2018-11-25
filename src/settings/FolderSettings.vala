@@ -97,6 +97,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    // @deprecated since version 4
     private bool _align_to_grid;
     public bool align_to_grid {
         get {
@@ -108,6 +110,55 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    private int _arrangement_type;
+    public int arrangement_type {
+        get {
+            return _arrangement_type;
+        }
+        set {
+            if (_arrangement_type != value) {
+                _arrangement_type = value; flagChanged = true;
+            }
+        }
+    }
+
+    private int _arrangement_padding;
+    public int arrangement_padding {
+        get {
+            return _arrangement_padding;
+        }
+        set {
+            if (_arrangement_padding != value) {
+                _arrangement_padding = value; flagChanged = true;
+            }
+        }
+    }
+
+    private int _sort_by_type;
+    public int sort_by_type {
+        get {
+            return _sort_by_type;
+        }
+        set {
+            if (_sort_by_type != value) {
+                _sort_by_type = value; flagChanged = true;
+            }
+        }
+    }
+
+    private bool _sort_reverse;
+    public bool sort_reverse {
+        get {
+            return _sort_reverse;
+        }
+        set {
+            if (_sort_reverse != value) {
+                _sort_reverse = value; flagChanged = true;
+            }
+        }
+    }
+
     private string[] _items = new string[0];
     public string[] items {
         get {
@@ -147,6 +198,18 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    private bool _edit_label_on_creation;
+    public bool edit_label_on_creation {
+        get {
+            return _edit_label_on_creation;
+        }
+        set {
+            if (_edit_label_on_creation != value) {
+                _edit_label_on_creation = value; flagChanged = true;
+            }
+        }
+    }
     // default json seralization implementation only support primitive types
 
     private File file;
@@ -164,70 +227,24 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @description reset the properties
      */
     public void reset () {
-        this.x             = 100;
-        this.y             = 100;
-        this.w             = 300;
-        this.h             = 300;
-        this.bgcolor       = "df_black";
-        this.fgcolor       = "df_light";
-        this.textbold      = true;
-        this.textshadow    = true;
-        this.align_to_grid = false;
-        this.lockitems     = false;
-        this.lockpanel     = false;
-        this.name          = name;
-        this.items         = new string[0];
-        this.version       = DesktopFolder.SETTINGS_VERSION;
+        this.x                      = 100;
+        this.y                      = 100;
+        this.w                      = 300;
+        this.h                      = 300;
+        this.bgcolor                = "df_black";
+        this.fgcolor                = "df_light";
+        this.textbold               = true;
+        this.textshadow             = true;
+        this.align_to_grid          = false;
+        this.lockitems              = false;
+        this.lockpanel              = false;
+        this.arrangement_padding    = FolderArrangement.DEFAULT_PADDING;
+        this.arrangement_type       = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        this.name                   = name;
+        this.items                  = new string[0];
+        this.version                = DesktopFolder.SETTINGS_VERSION;
+        this.edit_label_on_creation = false;
         check_off_screen ();
-    }
-
-    /**
-     * @name build_cell_structure
-     * @description build an array describing the cell structure inside the panel.
-     * This map is useful to try to structure and align all the items inside the panel
-     * @return {ItemSettings[,]} multiarray[rows][cols] with the ItemSettings inside, null are empty places
-     */
-    public ItemSettings[, ] build_cell_structure () {
-        // first, we parse all the items we have so far
-        List <ItemSettings> all = new List <ItemSettings> ();
-        for (int i = 0; i < this.items.length; i++) {
-            ItemSettings is = ItemSettings.parse (this.items[i]);
-            all.append (is);
-        }
-
-        // we create a cell structure of allowed items
-        ItemSettings[, ] cells = new ItemSettings[this.w / DesktopFolder.ICON_DEFAULT_WIDTH, this.h / DesktopFolder.ICON_DEFAULT_WIDTH];
-
-        // now, ordering current items in the structure to see gaps
-        for (int i = 0; i < all.length (); i++) {
-            ItemSettings item = all.nth_data (i);
-            cells[(int) (item.x / DesktopFolder.ICON_DEFAULT_WIDTH), (int) (item.y / DesktopFolder.ICON_DEFAULT_WIDTH)] = item;
-        }
-
-        return cells;
-    }
-
-    /**
-     * @name get_next_gap
-     * @description find a gap inside the current structure and put there the item
-     * @param {ItemSettings[,]} cell_structure the current cell structure to search gaps (obtained from build_cell_structure)
-     * @param {ItemSettings} item the item we want to put inside the current structure, we need to find a gap there
-     * @return {Gdk.Point} the point where it was inserted
-     */
-    public Gdk.Point get_next_gap (ItemSettings[, ] cell_structure, ItemSettings item) {
-        for (int row = 0; row < cell_structure.length[0]; row++) {
-            for (int col = 0; col < cell_structure.length[1]; col++) {
-                if (cell_structure[row, col] == null) {
-                    cell_structure[row, col] = item;
-                    Gdk.Point point = Gdk.Point ();
-                    point.y = row * DesktopFolder.ICON_DEFAULT_WIDTH;
-                    point.x = col * DesktopFolder.ICON_DEFAULT_WIDTH;
-                    return point;
-                }
-            }
-        }
-
-        return Gdk.Point ();
     }
 
     /**
@@ -415,6 +432,14 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
             if (existent.fgcolor.length > 0 && !existent.fgcolor.has_prefix ("df_")) {
                 existent.fgcolor = "df_" + existent.fgcolor;
+            }
+
+            // align_to_grid is deprecated from version 4
+            if (existent.align_to_grid == true) {
+                existent.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_GRID;
+                existent.align_to_grid    = false;
+            } else if (existent.arrangement_type == 0) {
+                existent.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_FREE;
             }
 
             // regression for on top and back

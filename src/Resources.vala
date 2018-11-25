@@ -39,5 +39,5 @@ namespace DesktopFolder {
     public const string PANEL_BLACKLIST_FILE  = ".nopanel";
     public const int    HEADERBAR_HEIGHT      = 34;
 
-    public const int SETTINGS_VERSION         = 3;
+    public const int SETTINGS_VERSION         = 4;
 }
