@@ -48,7 +48,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      */
     public signal void on_stop_editing ();
 
-    private Gtk.Label title_label { private set; public get; }
+    public Gtk.Label title_label { private set; public get; }
     private Gtk.Entry title_entry;
     private Gtk.Stack stack;
 

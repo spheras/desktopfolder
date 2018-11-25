@@ -615,9 +615,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
                 // debug("offset:%i,%i",this.offsetx,this.offsety);
                 // plus distance from pointer to edge of widget
-
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
+
+                //if it was grabed the title_label, the event position (y) need to be recalculated
+                if(event.window==this.label.title_label.get_window()){
+                  int my_x=0;
+                  int my_y=0;
+                    this.translate_coordinates(this.label.title_label,(int)event.x,(int)event.y,out my_x,out my_y);
+                    this.offsety-=my_y;
+                }
 
                 // maxx, maxy both relative to the parent
                 // note that we're rounding down now so that these max values don't get
