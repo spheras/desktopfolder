@@ -193,5 +193,31 @@ namespace DesktopFolder.Lang {
     // open terminal here
     public const string DESKTOPFOLDER_MENU_OPENTERMINAL                 = _("Open terminal here");
     // open terminal here
-    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL                 = _("Open in terminal");
+    public const string DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL             = _("Open in terminal");
+    // file properties window - properties
+    public const string ITEM_PROPSWINDOW_SHOW_FILEINFO                  = _("Properties");
+    // file properties window - file name
+    public const string ITEM_PROPSWINDOW_SHOW_FILENAME                  = _("Name");
+    // file properties window - file type
+    public const string ITEM_PROPSWINDOW_SHOW_CONTENTTYPE               = _("Type");
+    // file properties window - file location
+    public const string ITEM_PROPSWINDOW_SHOW_LOCATION                  = _("Location");
+    // file properties window - link target
+    public const string ITEM_PROPSWINDOW_SHOW_TARGET                    = _("Target");
+    // file properties window - property value is unknown
+    public const string ITEM_PROPSWINDOW_UNKNOWN                        = _("Unknown");
+    // file properties window - property value - number of items
+    public const string ITEM_PROPSWINDOW_N_ITEMS                        = _("items");
+    // file properties window - content
+    public const string ITEM_PROPSWINDOW_CONTENT                        = _("Content");
+    // file properties window - total folder size
+    public const string ITEM_PROPSWINDOW_TOTALSIZE                      = _("Total size");
+    // file properties window - file size
+    public const string ITEM_PROPSWINDOW_FILESIZE                       = _("File size");
+    // file properties window - file is executable?
+    public const string ITEM_PROPSWINDOW_ALLOWEXECUTE                   = _("Allow execution");
+    // file properties window - last time used
+    public const string ITEM_PROPSWINDOW_LASTUSED                       = _("Used");
+    // file properties window - last time modified
+    public const string ITEM_PROPSWINDOW_LASTMODIFIED                   = _("Modified");
 }

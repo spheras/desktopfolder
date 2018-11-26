@@ -644,6 +644,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
         // }
 
+        item = new MenuItemSeparator ();
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_FILEINFO);
+        string info_path = this.manager.get_absolute_path ();
+        item.activate.connect ((item) => { this.manager.show_info (info_path); });
+        item.show ();
+        menu.append (item);
+
         // only add open-folder-in-terminal to menu if the item is a folder
         if (this.manager.is_folder ()) {
             item = new MenuItemSeparator ();
