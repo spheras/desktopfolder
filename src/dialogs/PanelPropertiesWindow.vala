@@ -226,7 +226,12 @@ namespace DesktopFolder.Dialogs {
             // get file icon, fallback to icon name "unknown" on error (which exists!)
             string icon_name = "unknown";
             try {
-                icon_name = general_info.get_icon ().to_string().split(" ")[3];
+                string[] icondata = general_info.get_icon ().to_string().split(" ");
+                int len_icons = icondata.length;
+                icon_name = icondata[len_icons - 1];
+                if (len_icons >= 4) {
+                    icon_name = icondata[3];
+                }
                 print ("%s\n", icon_name);
             }
             catch (Error error) {
