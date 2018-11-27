@@ -585,9 +585,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
         // we create the text file with a touch command
         try {
-            var command = "touch \"" + this.get_absolute_path () + "/" + new_name + "\"";
-            var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-            appinfo.launch_uris (null, null);
+            file = File.new_for_path(this.get_absolute_path () + "/" + new_name);
+            file.create(FileCreateFlags.NONE);
 
             // forcing the sync of the files as a new folder has been created
             this.sync_files (x, y);
