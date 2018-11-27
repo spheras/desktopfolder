@@ -550,9 +550,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity + padding);
 
             if (this.manager.get_folder ().get_arrangement ().have_margin ()) {
-                Gtk.Allocation title_allocation;
-                this.manager.get_folder ().get_view ().get_titlebar ().get_allocation (out title_allocation);
-                x = x + title_allocation.x; // header bar left margin
+                x = x + FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
             }
 
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();

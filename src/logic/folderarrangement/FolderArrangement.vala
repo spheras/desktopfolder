@@ -21,7 +21,7 @@
  */
 public interface DesktopFolder.FolderArrangement : Object {
     public static int DEFAULT_PADDING          = 10;
-
+    public static int DEFAULT_EXTERNAL_MARGIN=10;
     public static int ARRANGEMENT_TYPE_FREE    = 1;
     public static int ARRANGEMENT_TYPE_GRID    = 2;
     public static int ARRANGEMENT_TYPE_MANAGED = 3;
@@ -90,14 +90,10 @@ public interface DesktopFolder.FolderArrangement : Object {
         FolderSort folder_sort = FolderSort.factory (sort_by_type);
         folder_sort.sort (ref items, asc);
 
-        // getting the header panel
-        Gtk.Allocation title_allocation;
-        parent_window.get_titlebar ().get_allocation (out title_allocation);
-
         // window width
         int width       = parent_window.get_manager ().get_settings ().w;
         // left margin to start the grid
-        int left_margin = title_allocation.x;
+        int left_margin = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
 
         // cursors pixel
         int cursor_x = left_margin;

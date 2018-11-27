@@ -1266,8 +1266,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug("panel: width:%d height:%d",width,height);
             // debug("header: x:%d y:%d width:%d height:%d",title_allocation.x,title_allocation.y,title_allocation.width,title_allocation.height);
 
-            int left_padding             = title_allocation.x;
-            int top_padding              = title_allocation.y;
+            int left_padding             = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+            int top_padding              = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
             int header                   = title_allocation.height + top_padding;
             int margin                   = this.manager.get_settings ().arrangement_padding;
             int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity ();

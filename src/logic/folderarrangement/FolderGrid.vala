@@ -59,9 +59,7 @@ public class DesktopFolder.FolderGrid <T> {
      */
     public Gdk.Point get_next_gap (FolderWindow parent_window, T item) {
         // getting the header panel
-        Gtk.Allocation title_allocation;
-        parent_window.get_titlebar ().get_allocation (out title_allocation);
-        int margin = title_allocation.x;
+        int margin = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
 
         for (int irow = 0; irow < this.rows.length (); irow++) {
             FolderGridRow row = this.rows.nth_data (irow);
@@ -105,9 +103,7 @@ public class DesktopFolder.FolderGrid <T> {
         }
 
         // getting the header panel
-        Gtk.Allocation title_allocation;
-        parent_window.get_titlebar ().get_allocation (out title_allocation);
-        int margin     = title_allocation.x;
+        int margin     = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
         width = width - margin - margin; // removing margin
         int total_cols = width / DesktopFolder.ICON_DEFAULT_WIDTH;
 
