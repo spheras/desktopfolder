@@ -44,6 +44,8 @@ src = [
        'src/utils/dragndrop/DndView.vala',
        'src/utils/dragndrop/DndBehaviour.vala',
        'src/utils/RenameDialog.vala',
+       'src/utils/animation/GtkAnimation.vala',
+       'src/utils/animation/Fx.vala',
        'src/utils/EditableLabel.vala',
        'src/widgets/DesktopWindow.vala',
        'src/widgets/FolderWindow.vala',

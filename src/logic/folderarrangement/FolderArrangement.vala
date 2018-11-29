@@ -21,7 +21,7 @@
  */
 public interface DesktopFolder.FolderArrangement : Object {
     public static int DEFAULT_PADDING          = 10;
-    public static int DEFAULT_EXTERNAL_MARGIN=10;
+    public static int DEFAULT_EXTERNAL_MARGIN  = 10;
     public static int ARRANGEMENT_TYPE_FREE    = 1;
     public static int ARRANGEMENT_TYPE_GRID    = 2;
     public static int ARRANGEMENT_TYPE_MANAGED = 3;
@@ -60,6 +60,29 @@ public interface DesktopFolder.FolderArrangement : Object {
      * @return bool true->yes, force, othwerise false
      */
     public abstract bool force_organization ();
+
+    /**
+     * @name start_drag
+     * @description a itemview has started being dragged into the arrangement
+     * @param {ItemView} view the view that is being dragged
+     */
+    public abstract void start_drag (ItemView view);
+
+    /**
+     * @name motion_drag
+     * @description a itemview is being moved (the started was notified previously)
+     * @param {int} x the x new position
+     * @param {int} y the y new position
+     */
+    public abstract void motion_drag (int x, int y);
+
+    /**
+     * @name end_drag
+     * @description the item drag was finished
+     */
+    public abstract void end_drag ();
+
+
 
     /**
      * Factory method to obtain an arragement type
@@ -104,7 +127,12 @@ public interface DesktopFolder.FolderArrangement : Object {
             ItemManager item = items.nth_data (i);
 
             // moving in the view to the correct position
-            parent_window.move_item (item.get_view (), cursor_x, cursor_y);
+            // parent_window.move_item (item.get_view (), cursor_x, cursor_y);
+            Gdk.Point px = Gdk.Point ();
+            px.x = cursor_x;
+            px.y = cursor_y;
+            UtilGtkAnimation.animate_move (item.get_view (), px, 500, UtilFx.AnimationMode.EASE_IN_BACK);
+
 
             // saving settings for the new position
             ItemSettings is = item.get_folder ().get_settings ().get_item (item.get_file_name ());

@@ -1315,6 +1315,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                     cr.fill ();
 
                     cr.rectangle (i - hscroll, j - vscroll, sensitivity, sensitivity);
+                    cr.set_line_width (1);
+                    // debug("cell (%d,%d) - (%d,%d)",cell_x,cell_y,init_item_cell.x, init_item_cell.y);
                     cr.set_source_rgba (1, 1, 1, alpha + 0.1 - this.grid_fade);
                     if (distance == 0) {
                         cr.set_dash (null, 0);
@@ -1322,8 +1324,36 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                         cr.set_dash ({ 1 }, 0);
                     }
                     cr.stroke ();
+
                 }
             }
+
+            // drawing the initial cell a bit different
+            if (((FolderArrangementGrid) this.manager.get_arrangement ()).is_dragging ()) {
+                Gdk.Point     init_item_cell    = ((FolderArrangementGrid) this.manager.get_arrangement ()).get_init_item_cell ();
+                var           init_cell_i_start = left_padding + DesktopFolder.ItemView.PADDING_X + (sensitivity + margin) * init_item_cell.x;
+                var           init_cell_j_start = header + (sensitivity + margin) * init_item_cell.y;
+                Gdk.Rectangle init_cell_rect    = Gdk.Rectangle ();
+                init_cell_rect.x      = (int) (init_cell_i_start - hscroll);
+                init_cell_rect.y      = (int) (init_cell_j_start - vscroll);
+                init_cell_rect.width  = sensitivity;
+                init_cell_rect.height = sensitivity;
+                // first, filling the cell
+                Util.cairo_rounded_rectangle (cr, init_cell_rect.x, init_cell_rect.y, init_cell_rect.width, init_cell_rect.height, 5);
+                cr.set_source_rgba (1, 1, 1, 0.1f - this.grid_fade);
+                cr.fill ();
+
+                // second, stroking the cell
+                Util.cairo_rounded_rectangle (cr, init_cell_rect.x, init_cell_rect.y, init_cell_rect.width, init_cell_rect.height, 5);
+                cr.set_source_rgba (1, 1, 1, 0.4f - this.grid_fade);
+                // cr.set_dash ({10, 5, 10, 5, 10, 5, 20, 5}, 0);
+                cr.set_dash (null, 0);
+                cr.set_line_width (3);
+                cr.stroke ();
+
+            }
+
+
 
             cr.reset_clip ();
         }

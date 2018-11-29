@@ -414,13 +414,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.get_style_context ().remove_class ("df_item_over");
 
         if (this.flagModified) {
-            Gtk.Allocation allocation;
-            this.get_allocation (out allocation);
-            // HELP! don't know why these constants?? maybe padding??
-            int x = allocation.x; // - PADDING_X;
-            int y = allocation.y; // - PADDING_Y;
-
-            this.manager.save_position (x, y);
+            this.manager.save_current_position ();
             this.flagModified = false;
         }
         // debug("leave item");
@@ -556,9 +550,24 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
             ((FolderWindow) window).move_item (this, x, y);
 
+            // notifying to the arrangement
+            this.manager.get_folder ().get_arrangement ().end_drag ();
+            ItemSettings my_settings = this.manager.get_settings ();
+            my_settings.x = x;
+            my_settings.y = y;
+            this.manager.save_settings (my_settings);
         }
 
         return false;
+    }
+
+    /**
+     * @name get_manager
+     * @description return the manager of this view
+     * @return {ItemManager} the manager
+     */
+    public ItemManager get_manager () {
+        return this.manager;
     }
 
     /**
@@ -616,13 +625,16 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
 
-                //if it was grabed the title_label, the event position (y) need to be recalculated
-                if(event.window==this.label.title_label.get_window()){
-                  int my_x=0;
-                  int my_y=0;
-                    this.translate_coordinates(this.label.title_label,(int)event.x,(int)event.y,out my_x,out my_y);
-                    this.offsety-=my_y;
+                // if it was grabed the title_label, the event position (y) need to be recalculated
+                if (event.window == this.label.title_label.get_window ()) {
+                    int my_x = 0;
+                    int my_y = 0;
+                    this.translate_coordinates (this.label.title_label, (int) event.x, (int) event.y, out my_x, out my_y);
+                    this.offsety -= my_y;
                 }
+
+                // creating a map of the current grid structure
+                this.manager.get_folder ().get_arrangement ().start_drag (this);
 
                 // maxx, maxy both relative to the parent
                 // note that we're rounding down now so that these max values don't get
@@ -915,6 +927,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
                 FolderWindow window = this.manager.get_folder ().get_view ();
                 window.move_item (this, x + PADDING_X, y);
+
+                // notifying to the arrangement
+                this.manager.get_folder ().get_arrangement ().motion_drag (x + PADDING_X, y);
             }
             return true;
         } else {

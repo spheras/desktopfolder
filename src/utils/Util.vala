@@ -432,6 +432,27 @@ namespace DesktopFolder.Util {
     }
 
     /**
+     * Adds a closed sub-path rounded rectangle of the given size and border radius to the current path
+     * at position (x, y) in user-space coordinates.
+     *
+     * @param cr a {@link Cairo.Context}
+     * @param x the X coordinate of the top left corner of the rounded rectangle
+     * @param y the Y coordinate to the top left corner of the rounded rectangle
+     * @param width the width of the rounded rectangle
+     * @param height the height of the rounded rectangle
+     * @param radius the border radius of the rounded rectangle
+     */
+    public static void cairo_rounded_rectangle (Cairo.Context cr, double x, double y, double width, double height, double radius) {
+
+        cr.move_to (x + radius, y);
+        cr.arc (x + width - radius, y + radius, radius, Math.PI * 1.5, Math.PI * 2);
+        cr.arc (x + width - radius, y + height - radius, radius, 0, Math.PI * 0.5);
+        cr.arc (x + radius, y + height - radius, radius, Math.PI * 0.5, Math.PI);
+        cr.arc (x + radius, y + radius, radius, Math.PI, Math.PI * 1.5);
+        cr.close_path ();
+    }
+
+    /**
      * @name blur_image_surface
      * @description Performs a simple 2D Gaussian blur of radius @radius on surface @surface.
      */

@@ -42,4 +42,16 @@ public class DesktopFolder.FolderArrangementFree : Object, FolderArrangement {
         return false;
     }
 
+    public void start_drag (ItemView view) {
+        // nothing
+    }
+
+    public void motion_drag (int x, int y) {
+        // nothing
+    }
+
+    public void end_drag () {
+        // nothing
+    }
+
 }

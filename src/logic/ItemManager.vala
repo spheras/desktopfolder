@@ -187,6 +187,16 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name save_settings
+     * @description save the settings for the item
+     * @param {ItemSettings} is the new settings
+     */
+    public void save_settings (ItemSettings is) {
+        this.folder.get_settings ().set_item (is);
+        this.folder.get_settings ().save ();
+    }
+
+    /**
      * @name rename
      * @description rename the current item (file or folder)
      * @param new_name string the new name for this item
@@ -231,10 +241,8 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     /**
      * @name save_position
      * @description save a new position for the item icon at the folder settings
-     * @param int x the x position
-     * @param int y the y position
      */
-    public void save_position (int x, int y) {
+    public void save_current_position () {
         // the settings need to be modified
         ItemSettings is = this.folder.get_settings ().get_item (this.file_name);
         Gtk.Allocation allocation;
