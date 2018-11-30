@@ -285,6 +285,7 @@ namespace DesktopFolder.Dialogs {
         private Gtk.Stack main_stack;
         private FolderWindow window;
         private FolderManager manager;
+        private Gtk.Widget properties_grid;
 
         public PanelProperties (FolderWindow window) {
             Object (
@@ -309,10 +310,11 @@ namespace DesktopFolder.Dialogs {
             main_stack.margin        = 12;
             main_stack.margin_bottom = 18;
             main_stack.margin_top    = 24;
-            main_stack.add_titled (get_properties_box (), "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
+            this.properties_grid     = get_properties_box ();
+            main_stack.add_titled (properties_grid, "properties", DesktopFolder.Lang.PANELPROPERTIES_PROPERTIES);
             main_stack.add_titled (get_general_box (), "general", DesktopFolder.Lang.PANELPROPERTIES_GENERAL);
 
-            var version_label = new Gtk.Label ("version " + DesktopFolder.VERSION.up ());
+            var version_label = new Gtk.Label ("Version " + DesktopFolder.VERSION.up ());
             version_label.set_size_request (250, -1);
             version_label.xalign = 0;
 
@@ -350,43 +352,104 @@ namespace DesktopFolder.Dialogs {
 
             // The behavior section
             general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_BEHAVIOR), 0, 0, 2, 1);
-            // align to grid
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID), 0, 1, 1, 1);
-            SettingsSwitch settings_switch = new SettingsSwitch ("align_to_grid");
-            general_grid.attach (settings_switch, 1, 1, 1, 1);
-            settings_switch.set_active (this.manager.get_settings ().align_to_grid);
-            settings_switch.notify["active"].connect (this.window.on_toggle_align_to_grid);
+
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT), 0, 1, 1, 1);
+            var arrangement_combo = new Gtk.ComboBoxText ();
+            arrangement_combo.append ("FREE", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_FREE);
+            arrangement_combo.append ("GRID", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_GRID);
+            arrangement_combo.append ("MANAGED", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_MANAGED);
+            arrangement_combo.active = this.manager.get_settings ().arrangement_type - 1;
+            arrangement_combo.changed.connect (() => {
+                if (arrangement_combo.get_active_id () == "FREE") {
+                    this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_FREE);
+                } else if (arrangement_combo.get_active_id () == "GRID") {
+                    this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_GRID);
+                } else {
+                    this.manager.on_arrange_change (FolderArrangement.ARRANGEMENT_TYPE_MANAGED);
+                }
+            });
+            arrangement_combo.expand = true;
+            general_grid.attach (arrangement_combo, 1, 1, 1, 1);
+
+            /*
+               // align to grid
+               general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_ALIGN_TO_GRID), 0, 1, 1, 1);
+               SettingsSwitch settings_switch = new SettingsSwitch ("align_to_grid");
+               settings_switch.set_active (this.manager.get_settings ().align_to_grid);
+               general_grid.attach (settings_switch, 1, 1, 1, 1);
+               settings_switch.notify["active"].connect (this.window.on_toggle_align_to_grid);
+             */
+
+
             // lock items
             general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_ITEMS), 0, 2, 1, 1);
-            settings_switch = new SettingsSwitch ("lock_items");
+            SettingsSwitch settings_switch = new SettingsSwitch ("lock_items");
             general_grid.attach (settings_switch, 1, 2, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().lockitems);
             settings_switch.notify["active"].connect (this.window.on_toggle_lockitems);
-            // lock panel
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
-            settings_switch = new SettingsSwitch ("lock_panel");
-            general_grid.attach (settings_switch, 1, 3, 1, 1);
-            settings_switch.set_active (this.manager.get_settings ().lockpanel);
-            settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
+
+            int top_offset = -1;
+
+            if (this.window.get_type () != typeof (DesktopFolder.DesktopWindow)) {
+                top_offset = 0;
+                // lock panel
+                general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LOCK_PANEL), 0, 3, 1, 1);
+                settings_switch = new SettingsSwitch ("lock_panel");
+                general_grid.attach (settings_switch, 1, 3, 1, 1);
+                settings_switch.set_active (this.manager.get_settings ().lockpanel);
+                settings_switch.notify["active"].connect (this.window.on_toggle_lockpanel);
+            }
 
             // The interface section
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_INTERFACE), 0, 4, 2, 1);
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_APPEARANCE), 0, 4 + top_offset, 2, 1);
             // Tet shadow
             settings_switch = new SettingsSwitch ("text_shadow");
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5, 1, 1);
-            general_grid.attach (settings_switch, 1, 5, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_SHADOW), 0, 5 + top_offset, 1, 1);
+            general_grid.attach (settings_switch, 1, 5 + top_offset, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().textshadow);
             settings_switch.notify["active"].connect (this.window.on_toggle_shadow);
             // text bold
             settings_switch = new SettingsSwitch ("text_bold");
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6, 1, 1);
-            general_grid.attach (settings_switch, 1, 6, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.DESKTOPFOLDER_MENU_TEXT_BOLD), 0, 6 + top_offset, 1, 1);
+            general_grid.attach (settings_switch, 1, 6 + top_offset, 1, 1);
             settings_switch.set_active (this.manager.get_settings ().textbold);
             settings_switch.notify["active"].connect (this.window.on_toggle_bold);
+
+            // the items padding
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING), 0, 7 + top_offset, 1, 1);
+            var scale = new Gtk.SpinButton.with_range (0, 50, 1);
+            scale.set_value (this.manager.get_settings ().arrangement_padding);
+            scale.value_changed.connect (() => {
+                this.manager.get_settings ().arrangement_padding = (int) scale.get_value ();
+                if (this.manager.get_arrangement ().force_organization ()) {
+                    this.manager.organize_panel_items ();
+                }
+            });
+            general_grid.attach (scale, 1, 7 + top_offset, 1, 1);
+
+
+            if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow) && (!this.manager.get_application ().get_desktoppanel_enabled () || !this.manager.get_application ().get_desktopicons_enabled ())) {
+                general_grid.set_sensitive (false);
+            }
 
             return general_grid;
         }
 
+        /**
+         * @name set_property_page_sensitivity
+         * @description set sensitivity of properties page items
+         */
+        private void set_property_page_sensitivity (bool sensitivity) {
+            if (this.properties_grid != null) {
+                properties_grid.set_sensitive (sensitivity);
+            }
+        }
+
+        /**
+         * @name get_general_box
+         * @description build the general section
+         * @return {Gtk.Widget} the built Gtk.Grid widget
+         */
         private Gtk.Widget get_general_box () {
             var general_grid = new Gtk.Grid ();
             general_grid.row_spacing    = 6;
@@ -395,44 +458,85 @@ namespace DesktopFolder.Dialogs {
 
             GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
 
-            // PANEL OVER DESKTOP
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 0, 2, 1);
-            Gtk.Label description = new Gtk.Label (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION);
-            description.set_single_line_mode (false);
-            description.wrap = true;
-            description.set_size_request (100, -1);
-            description.set_max_width_chars (50);
-            description.set_line_wrap (true);
-            description.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
-            general_grid.attach (description, 0, 1, 2, 2);
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_GENERAL), 0, 0, 2, 1);
 
-            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 3, 1, 1);
-            SettingsSwitch settings_switch = new SettingsSwitch ("desktop_panel");
-            general_grid.attach (settings_switch, 1, 3, 1, 1);
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_ICONS), 0, 1, 1, 1);
 
-            settings_switch.set_active (settings.get_boolean ("desktop-panel"));
+            SettingsSwitch settings_switch = new SettingsSwitch ("icons-on-desktop");
+            settings_switch.halign     = Gtk.Align.START;
+            settings_switch.margin_end = 8;
+            general_grid.attach (settings_switch, 1, 1, 1, 1);
+
+            settings_switch.set_active (settings.get_boolean ("icons-on-desktop"));
             settings_switch.notify["active"].connect (() => {
-                settings.set_boolean ("desktop-panel", !settings.get_boolean ("desktop-panel"));
+                bool desktopicons_enabled = settings.get_boolean ("icons-on-desktop");
+                settings.set_boolean ("icons-on-desktop", !desktopicons_enabled);
+                if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow)) {
+                    this.set_property_page_sensitivity (!desktopicons_enabled);
+                }
             });
 
+            // Uncomment the following block when the option to remove DesktopWindow is wanted again
+            /*
+               general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL), 0, 2, 1, 1);
 
-            // RESOLUTION STRATEGY
-            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 4, 2, 1);
-            description      = new Gtk.Label (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION);
-            description.set_single_line_mode (false);
-            description.wrap = true;
-            description.set_size_request (100, -1);
-            description.set_max_width_chars (50);
-            description.set_line_wrap (true);
-            description.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
-            general_grid.attach (description, 0, 5, 2, 2);
+               settings_switch = new SettingsSwitch ("desktop_panel");
+               settings_switch.halign = Gtk.Align.START;
+               settings_switch.margin_end = 8;
+               general_grid.attach (settings_switch, 1, 2, 1, 1);
+
+               var icons_on_desktop_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
+               icons_on_desktop_help.halign = Gtk.Align.START;
+               icons_on_desktop_help.hexpand = true;
+               icons_on_desktop_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_DESKTOP_PANEL_DESCRIPTION;
+               general_grid.attach (icons_on_desktop_help, 2, 2, 1, 1);
+
+               settings_switch.set_active (settings.get_boolean ("desktop-panel"));
+               settings_switch.notify["active"].connect (() => {
+                bool desktop_enabled = settings.get_boolean ("desktop-panel");
+                settings.set_boolean ("desktop-panel", !desktop_enabled);
+                if (this.window.get_type () == typeof (DesktopFolder.DesktopWindow)) {
+                    this.set_property_page_sensitivity (!desktop_enabled);
+                }
+               });
+             */
+
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY), 0, 3, 1, 1);
 
             var strategy_combo = new Gtk.ComboBoxText ();
             strategy_combo.append ("NONE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_NONE);
             strategy_combo.append ("SCALE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_SCALE);
             strategy_combo.append ("STORE", DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_STORE);
             settings.bind ("resolution-strategy", strategy_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
-            general_grid.attach (strategy_combo, 0, 7, 1, 1);
+            strategy_combo.margin_end = 8;
+            general_grid.attach (strategy_combo, 1, 3, 1, 1);
+
+            var resolution_strategy_help = new Gtk.Image.from_icon_name ("help-info-symbolic", Gtk.IconSize.BUTTON);
+            resolution_strategy_help.halign       = Gtk.Align.START;
+            resolution_strategy_help.hexpand      = true;
+            resolution_strategy_help.tooltip_text = DesktopFolder.Lang.PANELPROPERTIES_RESOLUTION_STRATEGY_DESCRIPTION;
+            general_grid.attach (resolution_strategy_help, 2, 3, 1, 1);
+
+            general_grid.attach (new SettingsHeader (DesktopFolder.Lang.PANELPROPERTIES_ICONS), 0, 4, 2, 1);
+
+            // DEFAULT Panel Arrangement
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_DEFAULT), 0, 5, 1, 1);
+            var arrangement_combo = new Gtk.ComboBoxText ();
+            arrangement_combo.append ("FREE", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_FREE);
+            arrangement_combo.append ("GRID", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_GRID);
+            arrangement_combo.append ("MANAGED", DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_MANAGED);
+            settings.bind ("default-arrangement", arrangement_combo, "active-id", GLib.SettingsBindFlags.DEFAULT);
+            arrangement_combo.margin_end = 8;
+            general_grid.attach (arrangement_combo, 1, 5, 1, 1);
+
+            // DEFAULT Panel Arrangement
+            general_grid.attach (new SettingsLabel (DesktopFolder.Lang.PANELPROPERTIES_ARRANGEMENT_PADDING_DEFAULT), 0, 6, 1, 1);
+            var scale = new Gtk.SpinButton.with_range (0, 50, 1);
+            scale.set_value (settings.get_int ("default-arrangement-padding"));
+            scale.value_changed.connect (() => {
+                settings.set_int ("default-arrangement-padding", (int) scale.get_value ());
+            });
+            general_grid.attach (scale, 1, 6, 1, 1);
 
             return general_grid;
         }

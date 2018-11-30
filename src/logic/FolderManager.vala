@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public errordomain FolderManagerIOError {
+protected errordomain FolderManagerIOError {
     FILE_EXISTS,
     MOVE_ERROR
 }
@@ -36,11 +36,16 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     /** File Monitor of this folder */
     private FileMonitor monitor                  = null;
     /** List of items of this folder */
-    private List <ItemManager> items             = null;
+    protected List <ItemManager> items           = null;
     /** name of the folder */
     private string folder_name                   = null;
     /** drag and drop behaviour for this folder */
     private DragnDrop.DndBehaviour dnd_behaviour = null;
+    /** the arrangement for this folder manager */
+    private FolderArrangement arrangement        = null;
+    // the last selected item
+    private ItemView selected_item               = null;
+
 
     /**
      * @constructor
@@ -56,23 +61,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // First we create a Folder Window above the desktop
         this.application = application;
         this.create_view ();
-        this.application.add_window (this.view);
-        this.view.show ();
 
-        // trying to put it in front of the rest
-        this.view.set_keep_below (false);
-        this.view.set_keep_above (true);
-        this.view.present ();
-        this.view.set_keep_above (false);
-        this.view.set_keep_below (true);
-        // ---------------------------------------
+        this.try_to_order_at_top ();
 
         // let's sync the files found at this folder
-        GLib.Idle.add_full (GLib.Priority.LOW, () => {
-            this.sync_files (0, 0);
-            return false;
-        });
-
+        this.sync_files (0, 0);
 
         // finally, we start monitoring the folder
         this.monitor_folder ();
@@ -86,6 +79,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     protected virtual void create_view () {
         this.view = new DesktopFolder.FolderWindow (this);
+        this.application.add_window (this.view);
     }
 
     /**
@@ -98,6 +92,55 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         debug ("reloading settings");
         this.view.reload_settings ();
     }
+
+    /**
+     * @name on_arrange_change
+     * @description arrange type changed for the panel
+     */
+    public void on_arrange_change (int type) {
+        if (this.settings.arrangement_type != type) {
+            this.settings.arrangement_type = type;
+            this.settings.save ();
+            this.arrangement               = FolderArrangement.factory (this.settings.arrangement_type);
+
+            if (this.arrangement.force_organization ()) {
+                this.organize_panel_items ();
+            }
+        }
+    }
+
+    /**
+     * @name get_item_by_filename
+     * @description get item by filename, or null if none
+     * @param string filename to get item for, null if none
+     */
+    public ItemManager ? get_item_by_filename (string name) {
+        foreach (ItemManager item in this.items) {
+            if (item.get_file_name () == name) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @name set_selected_item
+     * @description set the selected item
+     * @param ItemView selected the new selected item
+     */
+    public void set_selected_item (ItemView ? selected) {
+        this.selected_item = selected;
+    }
+
+    /**
+     * @name get_selected_item
+     * @description return the current selected item, or null if none
+     * @return ItemView the current selected item, null if none
+     */
+    public ItemView ? get_selected_item () {
+        return this.selected_item;
+    }
+
 
     /**
      * @name are_items_locked
@@ -130,6 +173,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         }
 
         this.settings.calculate_current_position ();
+
+        // creating the Manager
+        this.arrangement = FolderArrangement.factory (this.settings.arrangement_type);
     }
 
     /**
@@ -221,6 +267,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
     }
 
     /**
+     * @name get_arrangement
+     * @description return the current arrangement for the panel's items
+     * @return FolderArrangement the current arrangement class
+     */
+    public FolderArrangement get_arrangement () {
+        return this.arrangement;
+    }
+
+    /**
      * @name skip_file
      * @description to check if the folder manager should skip the file and not take into account
      */
@@ -235,6 +290,14 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         return false;
     }
 
+    protected void try_to_order_at_top () {
+        this.view.set_keep_below (false);
+        this.view.set_keep_above (true);
+        this.view.present ();
+        this.view.set_keep_above (false);
+        this.view.set_keep_below (true);
+    }
+
     /**
      * @name sync_files
      * @description sync all the files contained at the folder this manager refers to
@@ -245,16 +308,24 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         // debug ("syncingfiles for folder %s, %d, %d", this.get_folder_name (), x, y);
         try {
             this.load_folder_settings ();
-            this.clear_all ();
-            string base_path = this.get_absolute_path ();
-            File   directory = this.get_file ();
+
+            // the current list must be refreshed, copying in an old list
+            List <ItemManager> oldItems = new List <ItemManager>();
+            this.items.foreach ((entry) => { oldItems.append (entry); }) ;
+            this.items = new List <ItemManager>();
+
+            // list of new file names recently created that need to find a valid position
+            List <string> newItemsToPosition = new List <string>();
+
+            string base_path                 = this.get_absolute_path ();
+            File   directory                 = this.get_file ();
 
             // listing all the files inside this folder
             var      enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
             FileInfo file_info;
 
             // list of gaps to put new items without a custom position
-            ItemSettings[, ] gaps = null;
+            FolderGrid <ItemSettings> grid = null;
 
             while ((file_info = enumerator.next_file ()) != null) {
                 string file_name = file_info.get_name ();
@@ -278,35 +349,153 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                 // we try to get the settings for this item
                 ItemSettings is = this.settings.get_item (file_name);
                 if (is == null) {
-                    // we need to create one empty
-                    is = new ItemSettings ();
-                    if (x == 0 && y == 0) {
-                        if (gaps == null) {
-                            // building the structure to see current gaps
-                            gaps = this.settings.build_cell_structure ();
-                        }
-                        Gdk.Point pos = this.settings.get_next_gap (gaps, is);
-                        is.x = pos.x;
-                        is.y = pos.y;
+                    newItemsToPosition.append (file_name);
+                } else {
+                    // lets check if the item already exists
+                    ItemManager oldItemManager = pop_item_from_list (file_name, ref oldItems);
+                    if (oldItemManager != null) {
+                        oldItemManager.set_file (file);
+                        this.items.append (oldItemManager);
                     } else {
-                        is.x = x;
-                        is.y = y;
+                        ItemManager item = new ItemManager (file_name, file, this);
+                        this.items.append (item);
+                        this.view.add_item (item.get_view (), is.x, is.y);
                     }
-                    is.name = file_name;
-                    this.settings.add_item (is);
+
                 }
 
+            }
+
+            // removing old entries, now no exist
+            oldItems.foreach ((entry) => {
+                this.view.remove_item (entry.get_view ());
+            }) ;
+
+            // last, there are new items that need to be positioned in a valid place
+            newItemsToPosition.foreach ((file_name) => {
+                File file = File.new_for_commandline_arg (base_path + "/" + file_name);
+                // we need to create one empty
+                ItemSettings is = new ItemSettings ();
+                if (x == 0 && y == 0) {
+                    // no desired position for the item, lets calculate a good position
+                    if (grid == null) {
+                        // building the structure to see current gaps
+                        grid = FolderGrid.build_grid_structure (this.view);
+                        // grid.print();
+                    }
+                    Gdk.Point pos = grid.get_next_gap (this.view, is);
+                    is.x = pos.x;
+                    is.y = pos.y;
+                } else {
+                    is.x = x;
+                    is.y = y;
+                }
+                is.name = file_name;
+                this.settings.add_item (is);
                 ItemManager item = new ItemManager (file_name, file, this);
                 this.items.append (item);
-
                 this.view.add_item (item.get_view (), is.x, is.y);
-            }
+            }) ;
+
             this.settings.save ();
             this.view.refresh ();
+            if (this.arrangement.force_organization ()) {
+                this.organize_panel_items ();
+            }
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
+    }
+
+    /**
+     * @name organize_panel_items
+     * @description the panel try to organize all the items over the panel. This is asked manually by the user.
+     */
+    public void organize_panel_items () {
+        bool asc = !this.settings.sort_reverse;
+        FolderArrangement.organize_items (this.view, ref this.items, this.settings.sort_by_type, asc);
+    }
+
+    /**
+     * @name pop_item_from_list
+     * @description try to ind an item in a item list by the file get_name
+     * @param string file_name the file name of the item
+     * @param List<ItemManager> the list to search inside (reference)
+     * @return ItemManager the itemmanager found, or null if none match
+     */
+    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
+        foreach (var item in items) {
+            if (item.get_file_name () == file_name) {
+                items.remove (item);
+                return item;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @name quick_show_items
+     * @description shows the items
+     */
+    public void quick_show_items () {
+        // TODO Make this less messy
+        foreach (var item in items) {
+            item.get_view ().show_all ();
+            item.get_view ().get_style_context ().remove_class ("df_fadingwindow");
+            item.get_view ().get_style_context ().remove_class ("df_fadeout");
+            item.get_view ().get_style_context ().add_class ("df_fadein");
+            Timeout.add (20, () => {
+                item.get_view ().get_style_context ().add_class ("df_fadingwindow");
+                return false;
+            });
+        }
+    }
+
+    /**
+     * @name show_items
+     * @description shows the items
+     */
+    public virtual void show_items () {
+        foreach (var item in items) {
+            item.show_view ();
+        }
+    }
+
+    /**
+     * @name hide_items
+     * @description hides the items
+     */
+    public virtual void hide_items () {
+        foreach (var item in items) {
+            item.hide_view ();
+        }
+    }
+
+    /**
+     * @name show_view
+     * @description show the folder
+     */
+    public virtual void show_view () {
+        // setting opacity to stop the folder window flashing at startup
+        this.view.opacity = 1;
+        this.view.show_all ();
+        this.view.fade_in ();
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the folder
+     */
+    public virtual void hide_view () {
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            // ditto
+            this.view.opacity = 0;
+            this.view.hide ();
+            return false;
+        });
     }
 
     /**
@@ -347,10 +536,20 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new folder
      * @param int y the y position of the new folder
      */
-    public void create_new_folder (string name, int x, int y) {
+    public string create_new_folder (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME) {
+        string path     = this.get_absolute_path () + "/" + name;
+
+        string new_name = "";
+
+        File folder     = File.new_for_path (path);
+        if (folder.query_exists ()) {
+            new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
+        } else {
+            new_name = name;
+        }
         // cancelling the current monitor
         this.monitor.cancel ();
-        string folder_path = this.get_absolute_path () + "/" + name;
+        string folder_path = this.get_absolute_path () + "/" + new_name;
         DirUtils.create (folder_path, 0755);
 
         this.create_new_folder_inside (folder_path);
@@ -358,6 +557,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.sync_files (x, y);
         // monitoring again
         this.monitor_folder ();
+
+        return new_name;
     }
 
     /**
@@ -367,15 +568,25 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      * @param int x the x position of the new file
      * @param int y the y position of the new file
      */
-    public void create_new_text_file (string name, int x, int y) {
+    public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
+        string path     = this.get_absolute_path () + "/" + name;
+
+        string new_name = "";
+
+        File file       = File.new_for_path (path);
+        if (file.query_exists ()) {
+            new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
+        } else {
+            new_name = name;
+        }
+
         // cancelling the current monitor
         this.monitor.cancel ();
 
         // we create the text file with a touch command
         try {
-            var command = "touch \"" + this.get_absolute_path () + "/" + name + "\"";
-            var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-            appinfo.launch_uris (null, null);
+            file = File.new_for_path (this.get_absolute_path () + "/" + new_name);
+            file.create (FileCreateFlags.NONE);
 
             // forcing the sync of the files as a new folder has been created
             this.sync_files (x, y);
@@ -385,6 +596,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
+        return new_name;
     }
 
     /**
@@ -438,6 +650,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public void close () {
         this.monitor.cancel ();
+        this.view.hide ();
+        this.application.remove_window (this.view);
         this.view.close ();
     }
 
@@ -568,22 +782,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
 
         // closing
         this.application.remove_window (this.view);
-        this.view.close ();
-        // reopening
-        this.view = new FolderWindow (this);
-        this.application.add_window (this.view);
-        this.view.show ();
+        this.close ();
 
-        // trying to put it in front of the rest
-        this.view.set_keep_below (false);
-        this.view.set_keep_above (true);
-        this.view.present ();
-        this.view.set_keep_above (false);
-        this.view.set_keep_below (true);
-        // ---------------------------------------
+        // reopening
+        this.create_view ();
+
+        this.try_to_order_at_top ();
+
 
         // let's sync the files found at this folder
         this.sync_files (0, 0);
+
+        this.monitor_folder ();
 
         this.view.show_all ();
     }
@@ -711,6 +921,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public Gtk.Image get_image () {
         return null as Gtk.Image;
+    }
+
+    public void on_drag_end () {
+        // nothing
     }
 
     // ---------------------------------------------------------------------------------------

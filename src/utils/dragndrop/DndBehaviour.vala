@@ -149,6 +149,7 @@ namespace DesktopFolder.DragnDrop {
             current_actions          = Gdk.DragAction.DEFAULT;
             drag_has_begun           = false;
             drop_occurred            = false;
+            this.view.on_drag_end ();
         }
 
         public unowned GLib.List <File> get_selected_files () {

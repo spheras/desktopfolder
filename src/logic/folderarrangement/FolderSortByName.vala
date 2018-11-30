@@ -15,17 +15,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace DesktopFolder.Clipboard {
-    /**
-     * @interface ClipboardFile
-     * @description this interface represents a file that can be managed by the ClipboardManager
-     */
-    public interface ClipboardFile : DragnDrop.DndView {
-        /**
-         * @name delete
-         * @description this signal should be launched when the file is being deleted
-         */
-        public signal void on_delete ();
+/**
+ * @class
+ * Sort By File Name
+ */
+public class DesktopFolder.FolderSortByName : Object, FolderSort {
 
+    public void sort (ref List <ItemManager> items, bool asc) {
+        items.sort_with_data ((a, b) => {
+            if (a.is_folder () != b.is_folder ()) {
+                if (a.is_folder ()) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {
+                string afn = a.get_file_name ();
+                string bfn = b.get_file_name ();
+                return (asc) ? afn.ascii_casecmp (bfn) : bfn.ascii_casecmp (afn);
+            }
+        });
     }
+
 }
