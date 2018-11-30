@@ -79,28 +79,38 @@ namespace DesktopFolder.Util {
     public bool copy_recursive (GLib.File src, GLib.File dest, GLib.FileCopyFlags flags = GLib.FileCopyFlags.NONE,
         GLib.Cancellable ? cancellable = null, FileOperationAction ? listener = null) throws GLib.Error {
         GLib.FileType src_type = src.query_file_type (GLib.FileQueryInfoFlags.NONE, cancellable);
-        if (src_type == GLib.FileType.DIRECTORY) {
-            dest.make_directory (cancellable);
-            src.copy_attributes (dest, flags, cancellable);
 
-            string src_path                = src.get_path ();
-            string dest_path               = dest.get_path ();
+        string src_path        = src.get_path ();
+
+        GLib.File real_dest    = dest;
+
+        if (src_path == real_dest.get_path ()) {
+            string basename = dest.get_basename ();
+            string dirname  = dest.get_path ().replace (basename, "");
+            real_dest = GLib.File.new_for_path (dirname + make_next_duplicate_name (basename, dirname));
+        }
+
+        if (src_type == GLib.FileType.DIRECTORY) {
+            real_dest.make_directory (cancellable);
+            src.copy_attributes (real_dest, flags, cancellable);
+
             GLib.FileEnumerator enumerator = src.enumerate_children (GLib.FileAttribute.STANDARD_NAME, GLib.FileQueryInfoFlags.NONE, cancellable);
             for (GLib.FileInfo ? info = enumerator.next_file (cancellable); info != null; info = enumerator.next_file (cancellable)) {
                 copy_recursive (
                     GLib.File.new_for_path (GLib.Path.build_filename (src_path, info.get_name ())),
-                    GLib.File.new_for_path (GLib.Path.build_filename (dest_path, info.get_name ())),
+                    GLib.File.new_for_path (GLib.Path.build_filename (real_dest.get_path (), info.get_name ())),
                     flags,
                     cancellable, listener
                 );
             }
         } else if (src_type == GLib.FileType.REGULAR) {
             if (listener != null) {
-                listener (dest);
+                listener (real_dest);
             } else {
-                debug ("copying %s", dest.get_basename ());
+                debug ("copying %s", real_dest.get_basename ());
             }
-            src.copy (dest, flags, cancellable);
+
+            src.copy (real_dest, flags, cancellable);
         }
 
         return true;
@@ -147,7 +157,7 @@ namespace DesktopFolder.Util {
      * @param {Gtk.Window} window the parent window to show the dialog
      * @description show a dialog to create a new photo
      */
-    public static void create_new_photo (Gtk.Window window) {
+    public static void create_new_photo (Gtk.Window window, int x, int y) {
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             DesktopFolder.Lang.PHOTO_SELECT_PHOTO_MESSAGE, window,
             Gtk.FileChooserAction.OPEN,
@@ -178,9 +188,11 @@ namespace DesktopFolder.Util {
                 // Check if the image is valid
                 new Gdk.Pixbuf.from_file (photo_path);
 
-                PhotoSettings ps   = new PhotoSettings (photo_path, window.get_window ());
-                string        path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
-                File          file = File.new_for_path (path);
+                PhotoSettings ps = new PhotoSettings (photo_path, window.get_window ());
+                ps.x = x;
+                ps.y = y;
+                string path = DesktopFolderApp.get_app_folder () + "/" + ps.name + "." + DesktopFolder.NEW_PHOTO_EXTENSION;
+                File   file = File.new_for_path (path);
                 if (file.query_exists ()) {
                     debug ("Photo already exists, not creating.");
                 } else {
@@ -195,76 +207,74 @@ namespace DesktopFolder.Util {
 
     /**
      * @name create_new_desktop_folder
-     * @description create a new folder inside the desktop
-     * @param {Gtk.Window} window the parent window to show the dialog
+     * @description Create a new panel on the desktop
+     * @param {Gtk.Window} window The parent window to show the dialog
      */
-    public static void create_new_desktop_folder (Gtk.Window window) {
-        string name = get_a_no_repeated_file_name (DesktopFolder.Lang.DESKTOPFOLDER_NEW, null);
-        create_new_desktop_folder_name (window, name);
+    public static void create_new_desktop_folder (Gtk.Window window, int x, int y) {
+        string name = sanitize_name (make_next_duplicate_name (DesktopFolder.Lang.NEWLY_CREATED_PANEL, DesktopFolderApp.get_app_folder () + "/"));
+
+        // cancelling the current monitor
+        string folder_name              = DesktopFolderApp.get_app_folder () + "/" + name;
+        DirUtils.create (folder_name, 0755);
+        File file                       = File.new_for_path (folder_name + "/.desktopfolder");
+        DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (name);
+
+        fs.x                      = x;
+        fs.y                      = y;
+        fs.edit_label_on_creation = true;
+        fs.arrangement_type       = get_default_arrangement_setting ();
+
+        fs.save_to_file (file);
     }
 
     /**
-     * @name create_new_desktop_folder
-     * @description create a new folder inside the desktop
-     * @param {Gtk.Window} window the parent window to show the dialog
+     * @name make_next_duplicate_name
+     * @description Find a new name for the file
+     * @param {string} The base name to check if there's a duplicate
+     * @param {string} The path for the file
+     * @return {string} Either the original basename (if there wasn't a duplicate) or a new basename
      */
-    public static void create_new_desktop_folder_name (Gtk.Window window, string name) {
-        RenameDialog dialog = new RenameDialog (window,
-                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_TITLE,
-                DesktopFolder.Lang.DESKTOPFOLDER_ENTER_NAME,
-                name);
-        dialog.on_rename.connect ((new_name) => {
-            string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
-            string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name;
-            File folder = File.new_for_path (path);
-            ExecuteAfterError eae = (w) => {
-                DesktopFolder.Util.create_new_desktop_folder (w);
-            };
-
-            if (!DesktopFolder.Util.check_name (sanitized_name)) {
-                DesktopFolder.Util.show_invalid_name_error_dialog (window, new_name);
-            } else if (folder.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Panel"), eae);
-            } else {
-                // cancelling the current monitor
-                string folder_name = DesktopFolderApp.get_app_folder () + "/" + new_name;
-                DirUtils.create (folder_name, 0755);
-                File file = File.new_for_path (folder_name + "/.desktopfolder");
-                DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (new_name);
-
-                // lets put the panel at the mouse place
-                var device = Gtk.get_current_event_device ();
-                int x = 0;
-                int y = 0;
-                window.get_window ().get_device_position (device, out x, out y, null);
-                fs.x = x;
-                fs.y = y;
-
-                fs.save_to_file (file);
+    public static string make_next_duplicate_name (string basename, string path) {
+        // TODO: Copy elementary's way of doing it
+        string new_path = sanitize_name (path);
+        if (!new_path.has_suffix ("/")) {
+            new_path += "/";
+        }
+        string name        = sanitize_name (basename);
+        int    ext_pos     = name.last_index_of (".");
+        string ext         = "";
+        string name_no_ext = name;
+        if (ext_pos != -1) {
+            ext         = name.substring (ext_pos);
+            name_no_ext = name.replace (ext, "");
+            name_no_ext = name_no_ext.strip ();
+        }
+        try {
+            var       regex = new Regex ("([ ]+[0-9]+)$");
+            MatchInfo matchinfo;
+            if (regex.match (name_no_ext, 0, out matchinfo)) {
+                int startpos = 0;
+                int endpos   = 0;
+                matchinfo.fetch_pos (0, out startpos, out endpos);
+                // string regex_output = name_no_ext.slice ((long) startpos, (long) endpos);
+                name_no_ext = name_no_ext.splice ((long) startpos, (long) endpos);
             }
-        });
-        dialog.show_all ();
-    }
+        } catch (Error e) {
+            debug (@"Error: $(e.message)");
+        }
 
-    /**
-     * @name get_a_no_repeated_file_name
-     * @description check if the name is repeated or not
-     * @param {string} the base name to check if its repeated
-     * @param {string} the extension for the file
-     * @return {string} the base name if it is ok, or a new one if not
-     */
-    public static string get_a_no_repeated_file_name (string base_name, string ? extension) {
-        string sanitized_name = DesktopFolder.Util.sanitize_name (base_name);
-        string path           = DesktopFolderApp.get_app_folder () + "/" + sanitized_name;
-        if (extension != null) {
-            path = path + "." + extension;
+        string new_filename = "";
+
+        for (int i = 2; i < 1000000; i++) {
+            new_filename = @"$name_no_ext $i";
+            File file = File.new_for_path (new_path + new_filename + ext);
+            if (!file.query_exists ()) {
+                break;
+            }
         }
-        File folder = File.new_for_path (path);
-        if (folder.query_exists ()) {
-            return get_a_no_repeated_file_name (base_name + "_2", extension);
-        } else {
-            return base_name;
-        }
+
+        // debug ("name: " + name + ", ext_pos: " + ext_pos.to_string () + ", ext: " + ext + ", name_no_ext: " + name_no_ext + ", file_to_check: " + file_to_check);
+        return new_filename;
     }
 
     /**
@@ -272,7 +282,7 @@ namespace DesktopFolder.Util {
      * @description create a new link panel to a folder (this means a link panel)
      * @param {Gtk.Window} window the parent window to show the dialog
      */
-    public static void create_new_link_panel (Gtk.Window window) {
+    public static void create_new_link_panel (Gtk.Window window, int x, int y) {
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             DesktopFolder.Lang.DESKTOPFOLDER_PANELLINK_MESSAGE, window, Gtk.FileChooserAction.OPEN,
             DesktopFolder.Lang.DIALOG_CANCEL,
@@ -284,13 +294,17 @@ namespace DesktopFolder.Util {
 
         // Process response:
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
-            var  folderpath                 = chooser.get_filename ();
-            var  foldername                 = Path.get_basename (folderpath);
-            File linkdest                   = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
-            File settings_file              = File.new_for_path (folderpath + "/.desktopfolder");
-            DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (foldername);
-            fs.save_to_file (settings_file);
+            var  folderpath    = chooser.get_filename ();
+            var  foldername    = Path.get_basename (folderpath);
+            File linkdest      = File.new_for_path (DesktopFolderApp.get_app_folder () + "/" + foldername);
+            File settings_file = File.new_for_path (folderpath + "/.desktopfolder");
 
+            var fs             = new FolderSettings (foldername);
+            fs.x                = x;
+            fs.y                = y;
+            fs.arrangement_type = get_default_arrangement_setting ();
+
+            fs.save_to_file (settings_file);
 
             debug ("creating settings at: %s", folderpath + "/.desktopfolder");
             debug ("file:%s", folderpath);
@@ -316,54 +330,47 @@ namespace DesktopFolder.Util {
     }
 
     /**
+     * @name get_default_arrangement_setting
+     * @description return the global default arragament for new panels
+     */
+    private int get_default_arrangement_setting () {
+        GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+        string[]      keys     = settings.list_keys ();
+        bool          found    = false;
+        for (int i = 0; i < keys.length; i++) {
+            string key = keys[i];
+            if (key == "default-arrangement") {
+                found = true;
+                break;
+            }
+        }
+        int default_arrangement = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        if (found) {
+            default_arrangement = (int) settings.get_enum ("default-arrangement");
+        }
+        debug ("default_arrangement: %d", default_arrangement);
+        return default_arrangement;
+    }
+
+    /**
      * @name create_new_note
      * @description create a new note inside the desktop
      * @param {Gtk.Window} window the parent window to show the dialog
      */
-    public static void create_new_note (Gtk.Window window) {
-        string name = get_a_no_repeated_file_name (DesktopFolder.Lang.NOTE_NEW, DesktopFolder.NEW_NOTE_EXTENSION);
-        create_new_note_name (window, name);
-    }
+    public static void create_new_note (Gtk.Window window, int x, int y) {
+        string newly_created_note = DesktopFolder.Lang.NEWLY_CREATED_NOTE;
+        string name               = sanitize_name (make_next_duplicate_name (newly_created_note + "." + DesktopFolder.NEW_NOTE_EXTENSION, DesktopFolderApp.get_app_folder () + "/"));
 
-    /**
-     * @name create_new_note_name
-     * @description create a new note inside the desktop
-     * @param {Gtk.Window} window the parent window to show the dialog
-     * @param {string} name the name for the note
-     */
-    public static void create_new_note_name (Gtk.Window window, string name) {
-        RenameDialog dialog = new RenameDialog (window,
-                DesktopFolder.Lang.NOTE_ENTER_TITLE,
-                DesktopFolder.Lang.NOTE_ENTER_NAME,
-                name);
-        dialog.on_rename.connect ((new_name) => {
-            string sanitized_name = DesktopFolder.Util.sanitize_name (new_name);
-            string path = DesktopFolderApp.get_app_folder () + "/" + sanitized_name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
-            File file = File.new_for_path (path);
+        string       path         = DesktopFolderApp.get_app_folder () + "/" + name + "." + DesktopFolder.NEW_NOTE_EXTENSION;
+        File         file         = File.new_for_path (path);
+        NoteSettings ns           = new NoteSettings (name);
 
-            ExecuteAfterError eae = (w) => {
-                DesktopFolder.Util.create_new_note (w);
-            };
+        ns.x = x;
+        ns.y = y;
 
-            if (!DesktopFolder.Util.check_name (sanitized_name)) {
-                DesktopFolder.Util.show_invalid_name_error_dialog (window, sanitized_name);
-            } else if (file.query_exists ()) {
-                DesktopFolder.Util.show_file_exists_error_dialog (window, sanitized_name, _("Note"), eae);
-            } else {
-                NoteSettings ns = new NoteSettings (sanitized_name);
+        ns.edit_label_on_creation = true;
 
-                // lets put the note at the mouse place
-                var device = Gtk.get_current_event_device ();
-                int x = 0;
-                int y = 0;
-                window.get_window ().get_device_position (device, out x, out y, null);
-                ns.x = x;
-                ns.y = y;
-
-                ns.save_to_file (file);
-            }
-        });
-        dialog.show_all ();
+        ns.save_to_file (file);
     }
 
     private static string sanitize_name (string new_name) {
@@ -422,6 +429,27 @@ namespace DesktopFolder.Util {
         dialog.set_deletable (false);
         dialog.use_markup = true;
         dialog.show ();
+    }
+
+    /**
+     * Adds a closed sub-path rounded rectangle of the given size and border radius to the current path
+     * at position (x, y) in user-space coordinates.
+     *
+     * @param cr a {@link Cairo.Context}
+     * @param x the X coordinate of the top left corner of the rounded rectangle
+     * @param y the Y coordinate to the top left corner of the rounded rectangle
+     * @param width the width of the rounded rectangle
+     * @param height the height of the rounded rectangle
+     * @param radius the border radius of the rounded rectangle
+     */
+    public static void cairo_rounded_rectangle (Cairo.Context cr, double x, double y, double width, double height, double radius) {
+
+        cr.move_to (x + radius, y);
+        cr.arc (x + width - radius, y + radius, radius, Math.PI * 1.5, Math.PI * 2);
+        cr.arc (x + width - radius, y + height - radius, radius, 0, Math.PI * 0.5);
+        cr.arc (x + radius, y + height - radius, radius, Math.PI * 0.5, Math.PI);
+        cr.arc (x + radius, y + radius, radius, Math.PI, Math.PI * 1.5);
+        cr.close_path ();
     }
 
     /**

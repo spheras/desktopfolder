@@ -15,17 +15,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace DesktopFolder.Clipboard {
-    /**
-     * @interface ClipboardFile
-     * @description this interface represents a file that can be managed by the ClipboardManager
-     */
-    public interface ClipboardFile : DragnDrop.DndView {
-        /**
-         * @name delete
-         * @description this signal should be launched when the file is being deleted
-         */
-        public signal void on_delete ();
+/**
+ * @class
+ * Managed Arragement for Panels - User can't move icons.. all of them
+ * are managed by the sytem
+ */
+public class DesktopFolder.FolderArrangementManaged : Object, FolderArrangement {
 
+    public bool have_margin () {
+        return true;
     }
+
+    public bool can_drag () {
+        return false;
+    }
+
+    public int get_sensitivity () {
+        return -1;
+    }
+
+    public bool can_organize () {
+        return false;
+    }
+
+    public bool force_organization () {
+        return true;
+    }
+
+    public void start_drag (ItemView view) {
+        // nothing
+    }
+
+    public void motion_drag (int x, int y) {
+        // nothing
+    }
+
+    public void end_drag () {
+        // nothing
+    }
+
 }
