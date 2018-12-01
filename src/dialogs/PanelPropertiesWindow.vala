@@ -30,39 +30,39 @@ namespace DesktopFolder.Dialogs {
         private File file;
         FileInfo general_info;
 
-        public ShowInfo(string fpath, string fname) {
+        public ShowInfo (string fpath, string fname) {
 
             // general
             this.filepath = fpath;
-            this.file = File.new_for_commandline_arg(this.filepath ); 
-            general_info = this.file.query_info ("*", FileQueryInfoFlags.NONE);
+            this.file     = File.new_for_commandline_arg (this.filepath);
+            general_info  = this.file.query_info ("*", FileQueryInfoFlags.NONE);
             // essential info we need to decide on the gui elements
-            bool is_a_link = FileUtils.test (this.filepath , FileTest.IS_SYMLINK);
-            bool is_a_folder = FileUtils.test (this.filepath , FileTest.IS_DIR);
+            bool is_a_link   = FileUtils.test (this.filepath, FileTest.IS_SYMLINK);
+            bool is_a_folder = FileUtils.test (this.filepath, FileTest.IS_DIR);
             // window props
-            this.set_title(DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_FILEINFO);
-            this.set_modal(true);
+            this.set_title (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_FILEINFO);
+            this.set_modal (true);
             this.set_default_size (400, 200);
             // get file icon & maingrid
-            Gtk.Image fileicon = get_fileicon();
-            var maingrid = new Gtk.Grid();
-            maingrid.attach(fileicon, 1, 1, 1, 2);
-            maingrid.set_column_spacing(20);
-            maingrid.set_row_spacing(10);
-            maingrid.attach(new Gtk.Label(""), 0, 0, 1, 1);
-            maingrid.attach(new Gtk.Label(""), 100, 100, 1, 1);
+            Gtk.Image fileicon = get_fileicon ();
+            var       maingrid = new Gtk.Grid ();
+            maingrid.attach (fileicon, 1, 1, 1, 2);
+            maingrid.set_column_spacing (20);
+            maingrid.set_row_spacing (10);
+            maingrid.attach (new Gtk.Label (""), 0, 0, 1, 1);
+            maingrid.attach (new Gtk.Label (""), 100, 100, 1, 1);
             // name
-            var name_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_FILENAME.concat(":"));
-            var name_value = new Gtk.Label(fname);
+            var name_label        = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_FILENAME.concat (":"));
+            var name_value        = new Gtk.Label (fname);
             // location
-            string location = filepath.replace("/" + fname, "");
-            var location_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_LOCATION.concat(":"));
-            var location_value = new Gtk.Label(location);
+            string location       = filepath.replace ("/" + fname, "");
+            var    location_label = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_LOCATION.concat (":"));
+            var    location_value = new Gtk.Label (location);
             // content type
-            var content_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_CONTENTTYPE.concat(":"));
-            var content_value = new Gtk.Label("");
+            var content_label     = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_CONTENTTYPE.concat (":"));
+            var content_value     = new Gtk.Label ("");
 
-            Gtk.Label[] labels = {
+            Gtk.Label[] labels    = {
                 name_label, location_label, content_label
             };
 
@@ -71,84 +71,82 @@ namespace DesktopFolder.Dialogs {
             };
 
             // content type & fill in gui, depending on type
-            string content = get_filetype();
+            string content = get_filetype ();
             if (is_a_link) {
                 content = "inode/symlink"; // overrule possibly different output from get_filetype()
-                var target_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_TARGET.concat(":"));
+                var target_label    = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_TARGET.concat (":"));
                 labels += target_label;
-                string target = general_info.get_symlink_target ();
-                var target_value = new Gtk.Label(target);
+                string target       = general_info.get_symlink_target ();
+                var    target_value = new Gtk.Label (target);
                 values += target_value;
-            }
-            else if (is_a_folder) {
+            } else if (is_a_folder) {
                 // get n-files
-                int64[] folderdata = get_folderdata();
+                int64[] folderdata      = get_folderdata ();
                 // labels / values
-                var n_items_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_CONTENT.concat(":"));
+                var n_items_label       = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_CONTENT.concat (":"));
                 labels += n_items_label;
-                var total_size_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_TOTALSIZE.concat(":"));
+                var total_size_label    = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_TOTALSIZE.concat (":"));
                 labels += total_size_label;
-                string n_items = folderdata[0].to_string().concat(" ", DesktopFolder.Lang.ITEM_PROPSWINDOW_N_ITEMS);
-                var n_items_value = new Gtk.Label(n_items);
+                string n_items          = folderdata[0].to_string ().concat (" ", DesktopFolder.Lang.ITEM_PROPSWINDOW_N_ITEMS);
+                var    n_items_value    = new Gtk.Label (n_items);
                 values += n_items_value;
-                string totalsize = get_readablesize(folderdata[1]);
-                var total_size_value = new Gtk.Label(totalsize);
+                string totalsize        = get_readablesize (folderdata[1]);
+                var    total_size_value = new Gtk.Label (totalsize);
                 values += total_size_value;
                 if (folderdata[0] == -1) {
-                    n_items_value.set_text("?");
-                    total_size_value.set_text("?");
+                    n_items_value.set_text ("?");
+                    total_size_value.set_text ("?");
                 }
-            }
-            else {
-                var filesize_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_FILESIZE.concat(":"));
+            } else {
+                var filesize_label    = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_FILESIZE.concat (":"));
                 labels += filesize_label;
-                string filesize = get_readablesize(general_info.get_size());
-                var filesize_value = new Gtk.Label(filesize);
+                string filesize       = get_readablesize (general_info.get_size ());
+                var    filesize_value = new Gtk.Label (filesize);
                 values += filesize_value;
                 // executable, unfortunately, we cannot add it to attach-list; its not a Label
-                maingrid.attach(new Gtk.Label(""), 1, 10, 1, 1);
-                var executable_label = new Gtk.Label(DesktopFolder.Lang.ITEM_MENU_EXECUTE.concat(":"));
-                maingrid.attach(executable_label, 2, 11, 1, 1);
-                var executable_value = new Gtk.CheckButton.with_label(DesktopFolder.Lang.ITEM_PROPSWINDOW_ALLOWEXECUTE);
-                bool isexec = FileUtils.test (this.filepath, FileTest.IS_EXECUTABLE);
-                executable_value.set_active(isexec);
-                maingrid.attach(executable_value, 3, 11, 1, 1);
-                executable_value.toggled.connect(toggle_executable);
+                maingrid.attach (new Gtk.Label (""), 1, 10, 1, 1);
+                var executable_label  = new Gtk.Label (DesktopFolder.Lang.ITEM_MENU_EXECUTE.concat (":"));
+                maingrid.attach (executable_label, 2, 11, 1, 1);
+                var  executable_value = new Gtk.CheckButton.with_label (DesktopFolder.Lang.ITEM_PROPSWINDOW_ALLOWEXECUTE);
+                bool isexec           = FileUtils.test (this.filepath, FileTest.IS_EXECUTABLE);
+                executable_value.set_active (isexec);
+                maingrid.attach (executable_value, 3, 11, 1, 1);
+                executable_value.toggled.connect (toggle_executable);
             }
 
-            content_value.set_text(content);
+            content_value.set_text (content);
             // separate acces/modify time
-            labels += new Gtk.Label("");
-            values += new Gtk.Label("");
-            string[] timedata = get_filetime();            
+            labels += new Gtk.Label ("");
+            values += new Gtk.Label ("");
+            string[] timedata = get_filetime ();
             if (!is_a_folder) {
-                var last_accessed_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_LASTUSED.concat(":"));
+                var last_accessed_label = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_LASTUSED.concat (":"));
                 labels += last_accessed_label;
-                var last_accessed_value = new Gtk.Label(timedata[0]);
+                var last_accessed_value = new Gtk.Label (timedata[0]);
                 values += last_accessed_value;
             }
-            var last_modified_label = new Gtk.Label(DesktopFolder.Lang.ITEM_PROPSWINDOW_LASTMODIFIED.concat(":"));
+            var last_modified_label = new Gtk.Label (DesktopFolder.Lang.ITEM_PROPSWINDOW_LASTMODIFIED.concat (":"));
             labels += last_modified_label;
-            var last_modified_value = new Gtk.Label(timedata[1]);
+            var last_modified_value = new Gtk.Label (timedata[1]);
             values += last_modified_value;
-            int labelpos = 1;
+            int labelpos            = 1;
             foreach (Gtk.Label l in labels) {
-                l.set_xalign(0);
-                maingrid.attach(l, 2, labelpos, 1, 1);
+                l.set_xalign (0);
+                maingrid.attach (l, 2, labelpos, 1, 1);
                 labelpos += 1;
             }
             int valuepos = 1;
             foreach (Gtk.Label l in values) {
-                l.set_xalign(0);
-                l.set_ellipsize(Pango.EllipsizeMode.END);
-                l.set_selectable(true);
-                maingrid.attach(l, 3, valuepos, 1, 1);
+                l.set_xalign (0);
+                l.set_ellipsize (Pango.EllipsizeMode.END);
+                l.set_selectable (true);
+                maingrid.attach (l, 3, valuepos, 1, 1);
                 valuepos += 1;
             }
 
-            this.add(maingrid);
-            maingrid.show_all();
-            this.show_all();
+            this.add (maingrid);
+            maingrid.show_all ();
+            this.show_all ();
         }
 
         public string get_readablesize (int64 bytes) {
@@ -156,27 +154,23 @@ namespace DesktopFolder.Dialogs {
             string unit;
             double size;
             if (bytes >= 1000000000000) {
-                size = bytes/1000000000000.0;
+                size = bytes / 1000000000000.0;
                 unit = "TB";
-            }
-            else if (bytes >= 1000000000) {
-                size = bytes/1000000000.0;
+            } else if (bytes >= 1000000000) {
+                size = bytes / 1000000000.0;
                 unit = "GB";
-            }
-            else if (bytes >= 1000000) {
-                size = bytes/1000000.0;
+            } else if (bytes >= 1000000) {
+                size = bytes / 1000000.0;
                 unit = "MB";
-            }
-            else if (bytes >= 1000) {
-                size = bytes/1000.0;
+            } else if (bytes >= 1000) {
+                size = bytes / 1000.0;
                 unit = "kB";
-            }
-            else {
+            } else {
                 size = bytes;
                 unit = "byte";
             }
             // prevent silly .0 if first decimal is 0
-            return "%.1f".printf(size).replace(".0", "").replace(",0", "").concat(" ", unit);
+            return "%.1f".printf (size).replace (".0", "").replace (",0", "").concat (" ", unit);
         }
 
         private int64[] get_folderdata () {
@@ -184,40 +178,40 @@ namespace DesktopFolder.Dialogs {
             string cmd = "find \"" + this.filepath + "\"";
             string output;
             try {
-                GLib.Process.spawn_command_line_sync(cmd, out output);
-                string[] all_lines = output.split("\n");
-                string[] real_files = all_lines[1:all_lines.length -1];
-                int64 totalsize = 0;
+                GLib.Process.spawn_command_line_sync (cmd, out output);
+                string[] all_lines  = output.split ("\n");
+                string[] real_files = all_lines[1 : all_lines.length - 1];
+                int64    totalsize  = 0;
                 foreach (string l in real_files) {
-                    File file = File.new_for_path(l);
-                    int64 size = file.query_info ("*", FileQueryInfoFlags.NONE).get_size();
+                    File  file = File.new_for_path (l);
+                    int64 size = file.query_info ("*", FileQueryInfoFlags.NONE).get_size ();
                     totalsize += size;
                 }
                 int lines = real_files.length;
-                return {lines, totalsize};
-            } 
-            catch (SpawnError e) {
-                return {-1, -1};
+                return { lines, totalsize };
+            } catch (SpawnError e) {
+                return { -1, -1 };
             }
         }
 
         private string[] get_filetime () {
-            int64 last_edit = (int64) general_info.get_attribute_uint64(FileAttribute.TIME_MODIFIED);
-            int64 last_access = (int64) general_info.get_attribute_uint64(FileAttribute.TIME_ACCESS);
+            int64 last_edit   = (int64) general_info.get_attribute_uint64 (FileAttribute.TIME_MODIFIED);
+            int64 last_access = (int64) general_info.get_attribute_uint64 (FileAttribute.TIME_ACCESS);
             return {
-                new DateTime.from_unix_local(last_access).to_string(), 
-                new DateTime.from_unix_local(last_edit).to_string()
+                       new DateTime.from_unix_local (last_access).to_string (),
+                       new DateTime.from_unix_local (last_edit).to_string ()
             };
         }
 
         private void toggle_executable (Gtk.ToggleButton button) {
-            bool ex = button.get_active();
+            bool   ex  = button.get_active ();
             string cmd = "chmod +x \"" + this.filepath + "\"";
-            if (!ex) {cmd = "chmod -x \"" + this.filepath + "\"";}
-            try {
-                Process.spawn_command_line_async(cmd);
+            if (!ex) {
+                cmd = "chmod -x \"" + this.filepath + "\"";
             }
-            catch (SpawnError e) {
+            try {
+                Process.spawn_command_line_async (cmd);
+            } catch (SpawnError e) {
                 // nothing to be done
             }
         }
@@ -226,32 +220,31 @@ namespace DesktopFolder.Dialogs {
             // get file icon, fallback to icon name "unknown" on error (which exists!)
             string icon_name = "unknown";
             try {
-                string[] icondata = general_info.get_icon ().to_string().split(" ");
-                int len_icons = icondata.length;
+                string[] icondata  = general_info.get_icon ().to_string ().split (" ");
+                int      len_icons = icondata.length;
                 icon_name = icondata[len_icons - 1];
                 if (len_icons >= 4) {
                     icon_name = icondata[3];
                 }
                 print ("%s\n", icon_name);
-            }
-            catch (Error error) {
+            } catch (Error error) {
                 print ("Error: %s\n", error.message);
             }
-            Gtk.Image fileicon = new Gtk.Image.from_icon_name(icon_name, Gtk.IconSize.DIALOG);
+            Gtk.Image fileicon = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG);
             return fileicon;
         }
 
         private string get_filetype () {
             string ftype = DesktopFolder.Lang.ITEM_PROPSWINDOW_UNKNOWN;
             try {
-                ftype = general_info.get_content_type();
+                ftype = general_info.get_content_type ();
                 print ("%s\n", ftype);
-            }
-            catch (Error error) {
+            } catch (Error error) {
                 print ("Error: %s\n", error.message);
             }
             return ftype;
         }
+
     }
 
     public class OpenWith : Gtk.AppChooserDialog  {

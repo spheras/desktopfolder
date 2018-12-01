@@ -68,9 +68,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 title_entry.text = title_label.label;
 
                 // trying to get the same size as label
-                Gtk.Allocation label_allocation;
-                title_label.get_allocation (out label_allocation);
-                title_entry.width_request = label_allocation.width - 40;
+                this.update_entry_width ();
 
                 stack.set_visible_child (title_entry);
                 title_entry.grab_focus ();
@@ -174,11 +172,9 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
-        stdout.printf("EditableLabel on_key, event: %s \n ", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
+        // debug ("EditableLabel on_key, event: %s", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
         int key = (int) event.keyval;
-        stdout.printf("EditableLabel event key %d\n", key);
-        stdout.printf("textlength: %u width_request %d\n", title_entry.get_text_length(), title_entry.width_request);
-        stdout.flush();
+        // debug ("EditableLabel event key %d", key);
 
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
@@ -192,22 +188,29 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         } else if (key == ESCAPE_KEY) {
             this.undo_changes ();
             this.stop_editing ();
-
         } else {
-          int new_width = title_entry.get_text_length() * 9;
-          Gtk.Allocation label_allocation;
-          title_label.get_allocation (out label_allocation);
-          if (new_width > label_allocation.width){
-            title_entry.width_request = label_allocation.width;
-          }else if (new_width < label_allocation.width - 40) {
-            title_entry.width_request = label_allocation.width - 40;
-          }else{
-            title_entry.width_request = new_width;
-          }
-
+            this.update_entry_width ();
         }
 
         return true;
+    }
+
+    /**
+     * Updates Entry width to fit its content
+     */
+    private void update_entry_width () {
+        int width, height;
+        title_entry.get_layout ().get_size (out width, out height);
+        width = (width / Pango.SCALE) + 5;
+
+        Gtk.Allocation label_allocation;
+        title_label.get_allocation (out label_allocation);
+
+        if (width > label_allocation.width) {
+            title_entry.width_request = label_allocation.width;
+        } else {
+            title_entry.width_request = width;
+        }
     }
 
     /**
