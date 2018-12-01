@@ -174,9 +174,11 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
-        // debug ("EditableLabel on_key, event: %s", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
+        stdout.printf("EditableLabel on_key, event: %s \n ", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
         int key = (int) event.keyval;
-        // debug ("EditableLabel event key %d", key);
+        stdout.printf("EditableLabel event key %d\n", key);
+        stdout.printf("textlength: %u width_request %d\n", title_entry.get_text_length(), title_entry.width_request);
+        stdout.flush();
 
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
@@ -190,6 +192,19 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         } else if (key == ESCAPE_KEY) {
             this.undo_changes ();
             this.stop_editing ();
+
+        } else {
+          int new_width = title_entry.get_text_length() * 9;
+          Gtk.Allocation label_allocation;
+          title_label.get_allocation (out label_allocation);
+          if (new_width > label_allocation.width){
+            title_entry.width_request = label_allocation.width;
+          }else if (new_width < label_allocation.width - 40) {
+            title_entry.width_request = label_allocation.width - 40;
+          }else{
+            title_entry.width_request = new_width;
+          }
+
         }
 
         return true;
