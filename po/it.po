@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-15 09:14+0000\n"
+"POT-Creation-Date: 2018-11-30 23:31+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
 "Last-Translator: David Mohammed <fossfreedom@ubuntu.com>, 2018\n"
 "Language-Team: Italian (https://www.transifex.com/ubuntu-budgie/teams/72251/it/)\n"
@@ -21,17 +21,15 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. desktopfolder menu - create a new Note
-#: src/logic/NoteManager.vala:269 src/LanguageText.vala:60
-#: src/utils/Util.vala:351
-msgid "Note"
-msgstr "Nota"
-
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:463 src/LanguageText.vala:46
-#: src/utils/Util.vala:227
+#: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
 msgid "Panel"
 msgstr "Pannello"
+
+#. desktopfolder menu - create a new Note
+#: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
+msgid "Note"
+msgstr "Nota"
 
 #. Application Description
 #: src/LanguageText.vala:20
@@ -107,197 +105,143 @@ msgstr "Annulla"
 msgid "Link Panel"
 msgstr "Collegamento al pannello"
 
-#. desktopfolder menu - enable/disable alignment to grid
-#: src/LanguageText.vala:50
-msgid "Align to Grid"
-msgstr "Allinea alla griglia"
-
 #. desktopfolder menu - enable/disable lock items
-#: src/LanguageText.vala:52
-msgid "Lock Items"
-msgstr "Blocca elemento"
+#: src/LanguageText.vala:50
+msgid "Lock icons:"
+msgstr ""
 
 #. desktopfolder menu - enable/disable lock panel
-#: src/LanguageText.vala:54
-msgid "Lock Panel"
-msgstr "Blocca il Panello"
+#: src/LanguageText.vala:52
+msgid "Lock panel:"
+msgstr ""
 
 #. desktopfolder menu - enable/disable text shadows
-#: src/LanguageText.vala:56
-msgid "Text Shadow"
-msgstr "Ombra del testo"
+#: src/LanguageText.vala:54
+msgid "Text shadow:"
+msgstr ""
 
 #. desktopfolder menu - enable/disable text bolds
-#: src/LanguageText.vala:58
-msgid "Text Bold"
-msgstr "Testo in grassetto"
+#: src/LanguageText.vala:56
+msgid "Text bold:"
+msgstr ""
 
 #. desktopfolder menu - create a new Folder
-#: src/LanguageText.vala:62
+#: src/LanguageText.vala:60
 msgid "Folder"
 msgstr "Cartella"
 
 #. desktopfolder menu - create a new empty Text File
-#: src/LanguageText.vala:64
+#: src/LanguageText.vala:62
 msgid "Empty File"
 msgstr "File vuoto"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
-#: src/LanguageText.vala:66
+#: src/LanguageText.vala:64
 msgid "Rename Panel"
 msgstr "Rinomina Panello"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
-#: src/LanguageText.vala:68
+#: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
 msgstr "Sposta il pannello nel Cestino"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
-#: src/LanguageText.vala:70
+#: src/LanguageText.vala:68
 msgid "Paste"
 msgstr "Incolla"
 
-#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new
-#. name
-#. desktopfolder - Title for a Dialog Text to ask the new name for the
-#. Desktop-Folder
-#: src/LanguageText.vala:72 src/LanguageText.vala:76
-msgid "New Panel"
-msgstr "Nuovo Panello"
-
-#. desktopfolder - Dialog Message to rename the current Desktop-Folder
-#. Note - Dialog Message to rename the current note
-#. Item - Rename Dialog Message
-#: src/LanguageText.vala:74 src/LanguageText.vala:114
-#: src/LanguageText.vala:144
-msgid "Enter the new name"
-msgstr "Inserisci il nuovo nome"
-
-#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for a folder inside a
-#. Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for a text file inside a
-#. Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:78 src/LanguageText.vala:82 src/LanguageText.vala:88
-#: src/LanguageText.vala:98
-msgid "Enter the name"
-msgstr "Inserisci il nome"
-
-#. desktopfolder - Title for Dialog to ask the new name for a folder inside a
-#. Desktop-Folder
-#: src/LanguageText.vala:80
-msgid "New Folder"
-msgstr "Nuova Cartella"
-
 #. desktopfolder - The default name for the new folder to be created
-#: src/LanguageText.vala:84
-msgid "new folder"
-msgstr "nuova cartella"
-
-#. desktopfolder - Dialog Title to ask the new name for a text file inside a
-#. Desktop-Folder
-#: src/LanguageText.vala:86
-msgid "New Text File"
-msgstr "Nuovo File di Testo"
+#: src/LanguageText.vala:70
+msgid "untitled folder"
+msgstr ""
 
 #. desktopfolder - The default name for the new text file to be created
-#: src/LanguageText.vala:90
-msgid "new.txt"
-msgstr "nuovo.txt"
+#: src/LanguageText.vala:72
+msgid "new file"
+msgstr ""
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
-#: src/LanguageText.vala:92 src/LanguageText.vala:110
+#. Item Menu - trash the file/folder
+#: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
 msgstr "Sposta nel Cestino"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
-#. panel properties - Properties section
-#: src/LanguageText.vala:94 src/LanguageText.vala:168
+#. file properties window - properties
+#: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
 msgstr "Proprietà"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
-#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new
-#. name
-#: src/LanguageText.vala:96 src/LanguageText.vala:100
+#. the title of a note when a new one is created
+#: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
 msgstr "Nuova Nota"
 
 #. Note - popup option to set the paper texture or not
-#: src/LanguageText.vala:102
+#: src/LanguageText.vala:80
 msgid "Paper Texture"
 msgstr "Texture della carta"
 
 #. Note - popup option to set allways on top or not
-#: src/LanguageText.vala:104
+#: src/LanguageText.vala:82
 msgid "Always on top"
 msgstr "Sempre sopra"
 
 #. Note - popup option to set allways on back or not
-#: src/LanguageText.vala:106
+#: src/LanguageText.vala:84
 msgid "Always on back"
 msgstr "Sempre dietro"
 
 #. Menu popup option to rename the note
-#. Note - Dialog Title Message to rename the current note
-#: src/LanguageText.vala:108 src/LanguageText.vala:112
+#: src/LanguageText.vala:86
 msgid "Rename Note"
 msgstr "Rinomina la nota"
 
-#. Note - Dialog Message to DELETE the current note
-#: src/LanguageText.vala:116
-msgid ""
-"This action will DELETE the Note.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-"Questa azione ELIMINERÀ la nota.\n"
-"<b>Sei sicuro?</b>"
-
 #. Item Menu - Open the file
-#: src/LanguageText.vala:118
+#: src/LanguageText.vala:90
 msgid "Open"
 msgstr "Apri"
 
 #. Item Menu - Execute the file
-#: src/LanguageText.vala:120
-msgid "Open with other application"
+#: src/LanguageText.vala:92
+msgid "Open With Other Application..."
 msgstr ""
 
 #. Item Menu - Execute the file
-#: src/LanguageText.vala:122
+#: src/LanguageText.vala:94
 msgid "Execute"
 msgstr "Esegui"
 
 #. Item Menu - cut the file/folder
-#: src/LanguageText.vala:124
+#: src/LanguageText.vala:96
 msgid "Cut"
 msgstr "Taglia"
 
 #. Item Menu - copy the file/folder
-#: src/LanguageText.vala:126
+#: src/LanguageText.vala:98
 msgid "Copy"
 msgstr "Copia"
 
 #. Item Menu - rename the file/folder
-#: src/LanguageText.vala:128
+#: src/LanguageText.vala:100
 msgid "Rename"
 msgstr "Rinomina"
 
 #. Item Menu - delete the file/folder
-#: src/LanguageText.vala:130
+#: src/LanguageText.vala:104
 msgid "Delete"
 msgstr "Elimina"
 
 #. Item Menu - change icon
-#: src/LanguageText.vala:132
+#: src/LanguageText.vala:106
 msgid "Change Icon"
 msgstr "Cambia icona"
 
 #. Item - Delete Folder Item Dialog message
-#: src/LanguageText.vala:134
+#: src/LanguageText.vala:108
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
@@ -306,7 +250,7 @@ msgstr ""
 "<b>Sei sicuro?</b>"
 
 #. Item - Delete File Item Dialog message
-#: src/LanguageText.vala:136
+#: src/LanguageText.vala:110
 msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
@@ -315,7 +259,7 @@ msgstr ""
 "<b>Sei sicuro?</b>"
 
 #. Item - Delete File Link Dialog message
-#: src/LanguageText.vala:138
+#: src/LanguageText.vala:112
 msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
@@ -324,161 +268,296 @@ msgstr ""
 "<b>Sei sicuro?</b>"
 
 #. Item - Change icon dialog message to select an image file
-#: src/LanguageText.vala:140
+#: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
 msgstr "Seleziona l'icona da utilizzare."
 
-#. Item - Rename Dialog Title
-#: src/LanguageText.vala:142
-msgid "Rename Item"
-msgstr "Rinomina elemento"
-
 #. Name of the first desktop-folder panel, when no panels found
-#: src/LanguageText.vala:146
+#: src/LanguageText.vala:116
 msgid "My First Panel"
 msgstr "Il mio primo pannello"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
-#: src/LanguageText.vala:150
+#: src/LanguageText.vala:120
 msgid "Link to File"
 msgstr "Collegamento ad un file"
 
 #. Menu option to create a link to a folder
-#: src/LanguageText.vala:152
+#: src/LanguageText.vala:122
 msgid "Link to Folder"
 msgstr "Collegamento ad una cartella"
 
 #. Dialog message to create a new link
-#: src/LanguageText.vala:154
+#: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
 msgstr "Seleziona il file/la cartella di destinazione del collegamento"
 
 #. Dialog message to create a new link panel
-#: src/LanguageText.vala:156
+#: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
 msgstr "Seleziona la cartella di destinazione per il Pannello"
 
 #. Menu popup option to remove a photo
-#: src/LanguageText.vala:158
+#: src/LanguageText.vala:128
 msgid "Remove"
 msgstr "Elimina"
 
-#. Note - Dialog Message to DELETE the current photo
-#: src/LanguageText.vala:160
-msgid ""
-"This action will DELETE the Photo.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-"Questa azione ELIMINERÀ la Foto.\n"
-"<b>Sei sicuro?</b>\""
-
 #. desktopfolder menu - create a new Photo
-#: src/LanguageText.vala:162
+#: src/LanguageText.vala:130
 msgid "Photo"
 msgstr "Foto"
 
 #. dialog message to select an image file to be shown at the desktop
-#: src/LanguageText.vala:164
+#: src/LanguageText.vala:132
 msgid "Select the picture to show"
 msgstr "Seleziona l'immagine da mostrare"
 
 #. desktopfolder menu - create a new empty Text File
-#: src/LanguageText.vala:166
+#: src/LanguageText.vala:134
 msgid "New"
 msgstr "Nuovo"
 
+#. panel properties - Properties section
+#: src/LanguageText.vala:136
+msgid "This Panel"
+msgstr ""
+
 #. panel properties - General section
-#: src/LanguageText.vala:170
+#: src/LanguageText.vala:138
 msgid "General"
 msgstr "Generale"
 
 #. panel properties - Behavior section
-#: src/LanguageText.vala:172
+#: src/LanguageText.vala:140
 msgid "Behavior"
 msgstr "Comportamento"
 
-#. panel properties - Interface section
-#: src/LanguageText.vala:174
-msgid "Interface"
-msgstr "Interfaccia"
+#. panel properties - Appearance section
+#: src/LanguageText.vala:142
+msgid "Appearance"
+msgstr ""
 
 #. panel properties - Close button
-#: src/LanguageText.vala:176
+#: src/LanguageText.vala:144
 msgid "Close"
 msgstr "Chiudi"
 
 #. panel properties - Panel over Desktop title
-#: src/LanguageText.vala:178
-msgid "Panel Over Desktop"
-msgstr "Panello sopra la Scrivania"
+#: src/LanguageText.vala:146
+msgid "Icons on desktop:"
+msgstr ""
+
+#. panel properties - Panel over Desktop title
+#: src/LanguageText.vala:148
+msgid "Enable desktop:"
+msgstr ""
 
 #. panel properties - Panel over desktop description
-#: src/LanguageText.vala:180
-msgid ""
-"Activating this you will have a transparent background panel over your "
-"desktop. This change will require relogin into your system."
+#: src/LanguageText.vala:150
+msgid "This change will require you to log out and in again"
 msgstr ""
-"Attivando questa opzione verrà creato un pannello con sfondo trasparente "
-"sulla tua Scrivania. Per questo cambiamento è necessario un nuovo accesso al"
-" sistema."
 
 #. panel properties - Resolution Strategy title
-#: src/LanguageText.vala:182
-msgid "Resolution Strategy"
-msgstr "Scelta della risoluzione"
+#: src/LanguageText.vala:152
+msgid "When changing resolution:"
+msgstr ""
 
 #. panel properties - Resolution Strategy Description
-#: src/LanguageText.vala:184
+#: src/LanguageText.vala:154
 msgid ""
-"This is how all the widgets behave when a new screen resolution is found, "
-"doing nothing, storing and restoring the new resolution positions, or "
-"scaling the positions."
+"This is how panels, notes and photos will resize when you change the screen "
+"resolution"
 msgstr ""
-"Questa configurazione determina il comportamento in caso di una nuova "
-"risoluzione dello schermo: nessuna azione, mantenere e ripristinare le "
-"posizioni della nuova risoluzione, oppure scalare in base al posizionamento."
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:186
-msgid "None"
-msgstr "Nessuno"
+#: src/LanguageText.vala:156
+msgid "Do nothing"
+msgstr ""
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:188
-msgid "Scale"
-msgstr "Scala"
+#: src/LanguageText.vala:158
+msgid "Scale to new resolution"
+msgstr ""
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:190
-msgid "Store"
-msgstr "Mantieni"
+#: src/LanguageText.vala:160
+msgid "Store per resolution"
+msgstr ""
 
 #. change desktop menu
-#: src/LanguageText.vala:192
+#: src/LanguageText.vala:162
 msgid "Change Wallpaper"
 msgstr "Cambia Sfondo"
 
 #. open terminal here
-#: src/LanguageText.vala:194
-msgid "Open terminal here"
+#: src/LanguageText.vala:164
+msgid "Open Terminal Here"
 msgstr ""
 
 #. open terminal here
-#: src/LanguageText.vala:196
+#: src/LanguageText.vala:166
 msgid "Open in terminal"
 msgstr ""
 
-#: src/utils/Util.vala:390 src/utils/Util.vala:413
+#. file properties window - file name
+#. sort panel's items by name
+#: src/LanguageText.vala:170 src/LanguageText.vala:213
+msgid "Name"
+msgstr ""
+
+#. file properties window - file type
+#. sort panel's items by file type
+#: src/LanguageText.vala:172 src/LanguageText.vala:217
+msgid "Type"
+msgstr ""
+
+#. file properties window - file location
+#: src/LanguageText.vala:174
+msgid "Location"
+msgstr ""
+
+#. file properties window - link target
+#: src/LanguageText.vala:176
+msgid "Target"
+msgstr ""
+
+#. file properties window - property value is unknown
+#: src/LanguageText.vala:178
+msgid "Unknown"
+msgstr ""
+
+#. file properties window - property value - number of items
+#: src/LanguageText.vala:180
+msgid "items"
+msgstr ""
+
+#. file properties window - content
+#: src/LanguageText.vala:182
+msgid "Content"
+msgstr ""
+
+#. file properties window - total folder size
+#: src/LanguageText.vala:184
+msgid "Total size"
+msgstr ""
+
+#. file properties window - file size
+#: src/LanguageText.vala:186
+msgid "File size"
+msgstr ""
+
+#. file properties window - file is executable?
+#: src/LanguageText.vala:188
+msgid "Allow execution"
+msgstr ""
+
+#. file properties window - last time used
+#: src/LanguageText.vala:190
+msgid "Used"
+msgstr ""
+
+#. file properties window - last time modified
+#: src/LanguageText.vala:192
+msgid "Modified"
+msgstr ""
+
+#. Items Arrangement Configuration
+#: src/LanguageText.vala:194
+msgid "Icon arrangement:"
+msgstr ""
+
+#. Free arrangement
+#: src/LanguageText.vala:196
+msgid "Free"
+msgstr ""
+
+#. Grid arrangement
+#: src/LanguageText.vala:198
+msgid "Grid"
+msgstr ""
+
+#. Managed arrangement
+#: src/LanguageText.vala:200
+msgid "Let app manage"
+msgstr ""
+
+#. Default Panel Management
+#: src/LanguageText.vala:202
+msgid "Icons"
+msgstr ""
+
+#. Default Panel Management
+#: src/LanguageText.vala:204
+msgid "Default icon arrangement:"
+msgstr ""
+
+#. Default Panel Arrangement Padding for Items
+#: src/LanguageText.vala:206
+msgid "Icon spacing:"
+msgstr ""
+
+#. Default Panel Arrangement Padding for Items
+#: src/LanguageText.vala:208
+msgid "Default icon spacing:"
+msgstr ""
+
+#. sort by submenu
+#: src/LanguageText.vala:211
+msgid "Sort by"
+msgstr ""
+
+#. sort panel's items by size
+#: src/LanguageText.vala:215
+msgid "Size"
+msgstr ""
+
+#. sort panel's in reverse
+#: src/LanguageText.vala:219
+msgid "Reverse Order"
+msgstr ""
+
+#. force panels to be organized automatically one time
+#: src/LanguageText.vala:221
+msgid "Reorganize Icons"
+msgstr ""
+
+#. the title of a panel when a new one is created
+#: src/LanguageText.vala:223
+msgid "Untitled Panel"
+msgstr ""
+
+#. / Please keep $FILE_NAME, it will be replaced by it's value
+#: src/LanguageText.vala:227
+msgid "Link to $FILE_NAME"
+msgstr ""
+
+#: src/LanguageText.vala:229
+msgid "Show Desktop"
+msgstr ""
+
+#: src/LanguageText.vala:230
+msgid "Hide Desktop"
+msgstr ""
+
+#: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
 msgstr ""
 
-#: src/utils/Util.vala:392
+#: src/utils/Util.vala:399
 msgid " already exists."
 msgstr ""
 
-#: src/utils/Util.vala:415
+#: src/utils/Util.vala:422
 msgid "Name is invalid."
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+msgid "Desktop Folder"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.desktop.in.h:2
+msgid "Organize your desktop with panels, notes and photos"
 msgstr ""
