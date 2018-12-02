@@ -68,9 +68,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 title_entry.text = title_label.label;
 
                 // trying to get the same size as label
-                Gtk.Allocation label_allocation;
-                title_label.get_allocation (out label_allocation);
-                title_entry.width_request = label_allocation.width - 40;
+                this.update_entry_width ();
 
                 stack.set_visible_child (title_entry);
                 title_entry.grab_focus ();
@@ -190,9 +188,29 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
         } else if (key == ESCAPE_KEY) {
             this.undo_changes ();
             this.stop_editing ();
+        } else {
+            this.update_entry_width ();
         }
 
         return true;
+    }
+
+    /**
+     * Updates Entry width to fit its content
+     */
+    private void update_entry_width () {
+        int width, height;
+        title_entry.get_layout ().get_size (out width, out height);
+        width = (width / Pango.SCALE) + 5;
+
+        Gtk.Allocation label_allocation;
+        title_label.get_allocation (out label_allocation);
+
+        if (width > label_allocation.width) {
+            title_entry.width_request = label_allocation.width;
+        } else {
+            title_entry.width_request = width;
+        }
     }
 
     /**
