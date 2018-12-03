@@ -229,4 +229,7 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP = _("Show Desktop");
     public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP = _("Hide Desktop");
 
+    // folder name under the Home folder which will host the desktopfolder icons/folders etc
+    public const string DESKTOPFOLDER_DESKTOP_FOLDER    = _("Desktop");
+
 }

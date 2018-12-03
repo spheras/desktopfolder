@@ -302,8 +302,7 @@ public class DesktopFolderApp : Gtk.Application {
         }
     }
 
-    /** the desktop folder name */
-    public static string desktop_folder_name = "Desktop";
+    private static string desktop_folder_name = "";
 
     /**
      * @name get_app_folder
@@ -311,7 +310,43 @@ public class DesktopFolderApp : Gtk.Application {
      * @return string the absolute path directory
      */
     public static string get_app_folder () {
-        return Environment.get_home_dir () + "/" + DesktopFolderApp.desktop_folder_name;
+        return DesktopFolderApp.desktop_folder_name;
+    }
+
+    /**
+     * @name set_app_folder
+     * @description define the full path to the desktop folder
+     * This is either calculated according to the environment DesktopFolder
+     * is running in - or defined explicitly via the desktop folder name passed
+     * as its argument
+     */
+    public static void set_app_folder (string folder_name = "") {
+        string homedir = Environment.get_home_dir ();
+        if (folder_name != "") {
+            desktop_folder_name = homedir + "/" + folder_name;
+            return;
+        }
+
+        string output;
+        string cmd = "xdg-user-dir DESKTOP";
+
+        try {
+            Process.spawn_command_line_sync (cmd, out output);
+
+            string[] all_lines = output.split ("\n");
+
+            if (all_lines.length != 2) {
+                stderr.printf ("Error: cmd %s returned %d values", cmd, all_lines.length);
+            } else if (all_lines[0] != homedir) {
+                desktop_folder_name = all_lines[0];
+                return;
+            }
+        } catch (SpawnError e) {
+            stderr.printf ("Error: cannot execute cmd: %s - %s", cmd, e.message);
+        }
+
+        // ultimate fallback
+        desktop_folder_name = homedir + "/" + DesktopFolder.Lang.DESKTOPFOLDER_DESKTOP_FOLDER;
     }
 
     /**
@@ -700,7 +735,9 @@ public class DesktopFolderApp : Gtk.Application {
         } else {
             var app = new DesktopFolderApp ();
             if (args.length > 1) {
-                DesktopFolderApp.desktop_folder_name = args[1];
+                DesktopFolderApp.set_app_folder (args[1]);
+            } else {
+                DesktopFolderApp.set_app_folder ();
             }
             return app.run ();
         }
