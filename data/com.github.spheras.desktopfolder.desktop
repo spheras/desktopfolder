@@ -1,10 +1,25 @@
 [Desktop Entry]
 Name=Desktop Folder
+Name[ca]=Carpeta de l'escriptori
+Name[da]=Skrivebordsmappe
+Name[de_DE]=Desktop-Ordner 
+Name[en_GB]=Desktop Folder
+Name[es]=Carpeta de escritorio
+Name[ja]=デスクトップフォルダー
 Name[lt]=Darbalaukio aplankas
+Name[pl]=Folder Pulpitu
+Name[pt_BR]=Pasta da Área de Trabalho
 Comment=Organize your desktop with panels, notes and photos
-Comment[lt]=Tvarkyti savo darbalaukį aplanko polangių pagalba
-Comment[es]=Administra tu escritorio con paneles
+Comment[ca]=Organitzeu l'escriptori amb plafons, notes i fotografies.
+Comment[da]=Organiser dit skrivebord med paneler, noter og billeder
+Comment[de_DE]=Organisiere deine Arbeitsoberfläche mit Leisten, Notizen und Fotos
+Comment[en_GB]=Organise your desktop with panels, notes and photos
+Comment[es]=Organice el escritorio con paneles, notas y fotos
 Comment[fr]=Gérez votre Desktop avec des Panneaux
+Comment[ja]=デスクトップをパネル・ノート・写真で整理します
+Comment[lt]=Tvarkyti savo darbalaukį aplanko polangių pagalba
+Comment[pl]=Zarządzaj pulpitem za pomocą paneli, notatek i obrazów
+Comment[pt_BR]=Organize sua área de trabalho com painéis, notas e fotos
 Exec=com.github.spheras.desktopfolder
 Icon=com.github.spheras.desktopfolder
 Keywords=desktop;folder;file;organize;

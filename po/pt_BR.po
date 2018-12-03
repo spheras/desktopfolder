@@ -4,7 +4,9 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# David Mohammed <fossfreedom@ubuntu.com>, 2018
+# Rainer Bode <rainer.uwe.bode@gmail.com>, 2018
+# Italo Penaforte <italo.penaforte@gmail.com>, 2018
+# Willian Eduardo <willianeduardot@gmail.com>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -13,23 +15,23 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-30 23:31+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: David Mohammed <fossfreedom@ubuntu.com>, 2018\n"
-"Language-Team: Serbian (https://www.transifex.com/ubuntu-budgie/teams/72251/sr/)\n"
+"Last-Translator: Willian Eduardo <willianeduardot@gmail.com>, 2018\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/ubuntu-budgie/teams/72251/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sr\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Панел"
+msgstr "Painel"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
 msgid "Note"
-msgstr "Белешка"
+msgstr "Anotação"
 
 #. Application Description
 #: src/LanguageText.vala:20
@@ -37,73 +39,73 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Оживите Ваше минималистичко десктоп окружење \n"
-"Организујте датотеке на Вашем десктопу користећи Панеле."
+"Volte para a vida de sua área de trabalho minimalista\n"
+"  Organize arquivos em sua área de trabalho usando painéis."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_У реду"
+msgstr "_Certo"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
 msgid "_Cancel"
-msgstr "_Одустани"
+msgstr "_Cancelar"
 
 #. Generic Dialog Select Button
 #: src/LanguageText.vala:26
 msgid "_Select"
-msgstr "_Изабери"
+msgstr "_Selecionar"
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "Клипборд је празан,није могуће налепити"
+msgstr "Não há nada na área de transferência para colar"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "Не можете превући ову датотеку"
+msgstr "impossível soltar o arquivo"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
 msgid "Invalid file name provided"
-msgstr "Неисправан назив датотеке"
+msgstr "Nome do arquivo inválido"
 
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr "Операције Датотеком"
+msgstr "Operações de arquivos"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
 msgid "Copying"
-msgstr "Умножавање"
+msgstr "Copiando"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Умножи Овде"
+msgstr "Copiar aqui"
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Премести Овде"
+msgstr "Mover aqui"
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Направи симболичку везу овде"
+msgstr "Link aqui"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
 msgid "Cancel"
-msgstr "Одустани"
+msgstr "Cancelar"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Симболички Панел"
+msgstr "Link Paínel"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
@@ -128,27 +130,27 @@ msgstr ""
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
 msgid "Folder"
-msgstr "Фолдер"
+msgstr "Pasta"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:62
 msgid "Empty File"
-msgstr "Празна Датотека"
+msgstr "Arquivo Vazio"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Преименуј Панел"
+msgstr "Renomear Paínel"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Премести Панел у смеће"
+msgstr "Mover o painel para o lixo"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
 msgid "Paste"
-msgstr "Налепи"
+msgstr "Colar"
 
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
@@ -165,45 +167,45 @@ msgstr ""
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Премести у смеће"
+msgstr "Mover para lixeira"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
 #: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr "Својства"
+msgstr "Propriedades"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Нова Белешка"
+msgstr "Nova anotação"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr "Текстура Папира"
+msgstr "Textura de papel"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
 msgid "Always on top"
-msgstr "Увек изнад"
+msgstr "Sempre no topo"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr "Увек испод"
+msgstr "Sempre em baixo"
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Преименуј Белешку"
+msgstr "Renomear Nota"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
 msgid "Open"
-msgstr "Отвори"
+msgstr "Abrir"
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
@@ -213,32 +215,32 @@ msgstr ""
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
 msgid "Execute"
-msgstr "Покрени"
+msgstr "Executar"
 
 #. Item Menu - cut the file/folder
 #: src/LanguageText.vala:96
 msgid "Cut"
-msgstr "Исеци"
+msgstr "Cortar"
 
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:98
 msgid "Copy"
-msgstr "Умножи"
+msgstr "Copiar"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:100
 msgid "Rename"
-msgstr "Преименуј"
+msgstr "Renomear"
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:104
 msgid "Delete"
-msgstr "Избриши"
+msgstr "Apagar"
 
 #. Item Menu - change icon
 #: src/LanguageText.vala:106
 msgid "Change Icon"
-msgstr "Промени Иконицу"
+msgstr "Mudar Ícone "
 
 #. Item - Delete Folder Item Dialog message
 #: src/LanguageText.vala:108
@@ -246,8 +248,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Овом акцијом ћете ОБРИСАТИ фолдер и све унутар њега.\n"
-"<b>Да ли сте сигурни?</b>"
+"Está ação irá APAGAR a pasta e TUDO que contém nela.\n"
+"<b>Tem certeza?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -255,8 +257,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Овом акцијом ћете ОБРИСАТИ датотеку.\n"
-"<b>Да ли сте сигурни?</b>"
+"Está ação irá APAGAR o arquivo.\n"
+"<b>Tem certeza?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -264,60 +266,60 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Овом акцијом ћете УКЛОНИТИ симболичку везу (само везу,не оригиналну датотеку).\n"
-"<b>Да ли сте сигурни?</b>"
+"Esta ação irá DELETAR o link (apenas o link).\n"
+"<b>Tem certeza? </b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr "Изаберите слику иконице коју желите."
+msgstr "Selecione o ícone da imagem a ser usado."
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "Мој Први Панел"
+msgstr "Meu Primeiro Painel"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Симболичка веза до Датотеке"
+msgstr "Link para Arquivo"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Симболичка веза до Фолдера"
+msgstr "Link para Pasta"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Изаберите дестинациони фолдер/датотеку симболичке везе"
+msgstr "Selecione o arquivo / pasta de destino do link"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Изаберите дестинациони фолдер/датотеку Панела"
+msgstr "Selecione a pasta de destino para o painel"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
 msgid "Remove"
-msgstr "Уклони"
+msgstr "Remover"
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Фотографија"
+msgstr "Foto"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Изаберите Фотографију за приказ"
+msgstr "Selecione a foto para mostrar"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
 msgid "New"
-msgstr "Нови"
+msgstr "Novo"
 
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
@@ -327,12 +329,12 @@ msgstr ""
 #. panel properties - General section
 #: src/LanguageText.vala:138
 msgid "General"
-msgstr "Опште"
+msgstr "Geral"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:140
 msgid "Behavior"
-msgstr "Понашање"
+msgstr "Comportamento"
 
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
@@ -342,7 +344,7 @@ msgstr ""
 #. panel properties - Close button
 #: src/LanguageText.vala:144
 msgid "Close"
-msgstr "Затвори"
+msgstr "Fechar"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
@@ -389,7 +391,7 @@ msgstr ""
 #. change desktop menu
 #: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr "Промените позадину"
+msgstr "Mudar papel de parede"
 
 #. open terminal here
 #: src/LanguageText.vala:164
@@ -399,7 +401,7 @@ msgstr ""
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr ""
+msgstr "Abrir no terminal"
 
 #. file properties window - file name
 #. sort panel's items by name
@@ -544,20 +546,20 @@ msgstr ""
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr ""
+msgstr "Não foi possível criar \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr ""
+msgstr "já existe."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr ""
+msgstr "Nome é inválido."
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:1
 msgid "Desktop Folder"
-msgstr ""
+msgstr "Pasta da Área de Trabalho"
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:2
 msgid "Organize your desktop with panels, notes and photos"
-msgstr ""
+msgstr "Organize sua área de trabalho com painéis, notas e fotos"
