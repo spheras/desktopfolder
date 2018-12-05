@@ -145,7 +145,7 @@ public class DesktopFolder.FolderGrid <T> {
      * @param FolderWindow parent_window the parent panel in which the items are placed
      * @return {Gdk.Point} the x,y point to draw the item
      */
-    public Gdk.Point get_next_gap (FolderWindow parent_window, T item) {
+    public Gdk.Point get_next_gap (FolderWindow parent_window, T item, int padding) {
         // getting the header panel
         int margin = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
 
@@ -155,8 +155,8 @@ public class DesktopFolder.FolderGrid <T> {
                 if (row.cols[icol] == null) {
                     row.cols[icol] = item;
                     Gdk.Point point = Gdk.Point ();
-                    point.y        = irow * DesktopFolder.ICON_DEFAULT_WIDTH;
-                    point.x        = margin + (icol * DesktopFolder.ICON_DEFAULT_WIDTH);
+                    point.y        = (irow * DesktopFolder.ICON_DEFAULT_WIDTH)+(irow*padding);
+                    point.x        = margin + (icol * DesktopFolder.ICON_DEFAULT_WIDTH)+(icol*padding);
                     return point;
                 }
             }
@@ -167,8 +167,8 @@ public class DesktopFolder.FolderGrid <T> {
         this.util_create_row (last_row);
         this.rows.nth_data (last_row).cols[0] = item;
         Gdk.Point point = Gdk.Point ();
-        point.y = last_row * DesktopFolder.ICON_DEFAULT_WIDTH;
-        point.x = 0;
+        point.y = (last_row * DesktopFolder.ICON_DEFAULT_WIDTH)+(last_row*padding);
+        point.x = margin;
         return point;
     }
 

@@ -390,7 +390,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
                         grid = FolderGrid.build_grid_structure (this.view);
                         // grid.print();
                     }
-                    Gdk.Point pos = grid.get_next_gap (this.view, is);
+                    Gdk.Point pos = grid.get_next_gap (this.view, is, this.get_settings ().arrangement_padding);
                     is.x = pos.x;
                     is.y = pos.y;
                 } else {
