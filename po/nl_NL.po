@@ -6,6 +6,7 @@
 # Translators:
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Jacob Vlijm <vlijm@planet.nl>, 2018
+# Rients Bootsma <rainmachine@hotmail.com>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-30 23:31+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Jacob Vlijm <vlijm@planet.nl>, 2018\n"
+"Last-Translator: Rients Bootsma <rainmachine@hotmail.com>, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/ubuntu-budgie/teams/72251/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Paneel"
+msgstr "Venster"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
@@ -109,22 +110,22 @@ msgstr "Verwijzingspaneel"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr ""
+msgstr "Vergrendel pictogrammen:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr ""
+msgstr "Vergrendel venster:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr ""
+msgstr "Tekst schaduw:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Tekst vetgedrukt:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -139,12 +140,12 @@ msgstr "Leeg bestand"
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Paneelnaam wijzigen"
+msgstr "Vesnternaam wijzigen"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Paneel verplaatsen naar prullenbak"
+msgstr "Venster verplaatsen naar prullenbak"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
@@ -154,12 +155,12 @@ msgstr "Plakken"
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr ""
+msgstr "naamloze map"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr ""
+msgstr "nieuw bestand"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
@@ -276,7 +277,7 @@ msgstr "Kies het te gebruiken pictogram."
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "Mijn eerste paneel"
+msgstr "Mijn eerste venster"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
@@ -298,7 +299,7 @@ msgstr "Kies de bestemmingsmap of het bestemmingsbestand van de verwijzing"
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Kies de bestemmingsmap van het paneel"
+msgstr "Kies de bestemmingsmap van het venster"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
@@ -308,12 +309,12 @@ msgstr "Verwijderen"
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Foto"
+msgstr "Afbeelding"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Kies de tonen afbeelding"
+msgstr "Kies de te tonen afbeelding"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
@@ -323,7 +324,7 @@ msgstr "Nieuw"
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr ""
+msgstr "Dit Venster"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
@@ -338,7 +339,7 @@ msgstr "Gedrag"
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr ""
+msgstr "Uiterlijk"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
@@ -348,22 +349,22 @@ msgstr "Sluiten"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr ""
+msgstr "Iconen op bureaublad:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr ""
+msgstr "Activeer bureaublad:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr ""
+msgstr "Deze aanpassing vereist u om uit te loggen en opnieuw in te loggen"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr ""
+msgstr "Wanneer resolutie aangepast:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -371,21 +372,23 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
+"Dit is hoe vensters, notities en afbeeldingen zullen schalen wanneer u de "
+"scherm resolutie aanpast"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr ""
+msgstr "Niet aanpassen"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr ""
+msgstr "Schalen naar nieuwe resolutie"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "Opslaan op resolutie"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -395,12 +398,12 @@ msgstr "Verander achtergrond"
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Open terminal hier"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr ""
+msgstr "Open in terminal"
 
 #. file properties window - file name
 #. sort panel's items by name
@@ -412,7 +415,7 @@ msgstr "Naam"
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
@@ -432,133 +435,133 @@ msgstr "Onbekend"
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr ""
+msgstr "items"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr ""
+msgstr "Inhoud"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr ""
+msgstr "Totale grootte"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr ""
+msgstr "Bestand grootte"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr ""
+msgstr "Uitvoeren toestaan"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr ""
+msgstr "Gebruikt"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr ""
+msgstr "Aangepast"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr ""
+msgstr "Pictogram rangschikking:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr ""
+msgstr "Gratis"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr ""
+msgstr "Rooster"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr ""
+msgstr "Laat app beheren"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr ""
+msgstr "Pictogrammen"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Standaard pictogram rangschikking:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr ""
+msgstr "Pictogram ruimte:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr ""
+msgstr "Standaard pictogram ruimte:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr ""
+msgstr "Sorteer op"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr ""
+msgstr "Omgekeerde Volgorde"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr ""
+msgstr "Reorganiseer Pictogrammen"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr ""
+msgstr "Naamloos Venster"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr ""
+msgstr "Link naar $FILE_NAME"
 
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr ""
+msgstr "Toon Bureaublad"
 
 #: src/LanguageText.vala:230
 msgid "Hide Desktop"
-msgstr ""
+msgstr "Verberg Bureaublad"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr ""
+msgstr "Kan \"%'s\" niet maken"
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr ""
+msgstr "bestaat al"
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr ""
+msgstr "Naam is ongeldig"
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:1
 msgid "Desktop Folder"
-msgstr ""
+msgstr "Bureaublad Map"
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:2
 msgid "Organize your desktop with panels, notes and photos"
-msgstr ""
+msgstr "Beheer uw bureaublad met vensters, notities en afbeeldingen"
