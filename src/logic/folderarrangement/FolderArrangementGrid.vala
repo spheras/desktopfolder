@@ -104,7 +104,7 @@ public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
     public void motion_drag (int x, int y) {
         // we get the cell at pixel x,y
         Gdk.Point cell_at_xy = this.drag_grid.get_cell (SENSITIVITY_WITH_GRID, this.drag_padding, x, y);
-        // debug ("motion_drag - cell(%d,%d)", cell_at_xy.x, cell_at_xy.y);
+         //debug ("motion_drag - cell(%d,%d)", cell_at_xy.x, cell_at_xy.y);
 
         // the drag item settings
         ItemSettings drag_item_settings = this.drag_item.get_manager ().get_settings ();

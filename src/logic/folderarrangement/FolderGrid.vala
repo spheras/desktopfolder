@@ -102,6 +102,13 @@ public class DesktopFolder.FolderGrid <T> {
         var point  = Gdk.Point ();
         point.x = cell_x;
         point.y = cell_y;
+
+        if(point.x<0){
+          point.x=0;
+        }
+        if(point.y<0){
+          point.y=0;
+        }
         return point;
     }
 
