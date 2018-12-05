@@ -7,6 +7,7 @@
 # Rainer Bode <rainer.uwe.bode@gmail.com>, 2018
 # Italo Penaforte <italo.penaforte@gmail.com>, 2018
 # Willian Eduardo <willianeduardot@gmail.com>, 2018
+# Rainer Bode <rainer.uwe@hotmail.com>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-30 23:31+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Willian Eduardo <willianeduardot@gmail.com>, 2018\n"
+"Last-Translator: Rainer Bode <rainer.uwe@hotmail.com>, 2018\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/ubuntu-budgie/teams/72251/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,22 +111,22 @@ msgstr "Link Paínel"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr ""
+msgstr "Bloquear ícones "
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr ""
+msgstr "Bloquear painel "
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr ""
+msgstr "Sombra do texto"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Texto negrito: "
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -155,12 +156,12 @@ msgstr "Colar"
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr ""
+msgstr "Pasta sem título "
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr ""
+msgstr "Novo arquivo "
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
@@ -210,7 +211,7 @@ msgstr "Abrir"
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "Abrir com outro aplicativo..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
@@ -324,7 +325,7 @@ msgstr "Novo"
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr ""
+msgstr "Este painel"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
@@ -339,7 +340,7 @@ msgstr "Comportamento"
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr ""
+msgstr "Aparência "
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
@@ -349,22 +350,22 @@ msgstr "Fechar"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr ""
+msgstr "Ícones na área de trabalho: "
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr ""
+msgstr "Ativar área de trabalho: "
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr ""
+msgstr "Este mudança requer que você faça logout in login novamente"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr ""
+msgstr "Ao mudar a resolução:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -372,21 +373,23 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
+"Assim os painéis, anotações e fotos vão mudar de tamanho quando você altera "
+"a resolução da tela"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr ""
+msgstr "Fazer nada "
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr ""
+msgstr "Adaptar à nova resolução"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "Gravar por resolução "
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -396,7 +399,7 @@ msgstr "Mudar papel de parede"
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Abrir  Terminal Aqui "
 
 #. open terminal here
 #: src/LanguageText.vala:166
@@ -407,141 +410,141 @@ msgstr "Abrir no terminal"
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr ""
+msgstr "Nome "
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr ""
+msgstr "Tipo "
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr ""
+msgstr "Local "
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr ""
+msgstr "Destino "
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido "
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr ""
+msgstr "Itens "
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr ""
+msgstr "Conteúdo "
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr ""
+msgstr "Tamanho total "
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr ""
+msgstr "Tamanho do arquivo "
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr ""
+msgstr "Permitir execução "
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr ""
+msgstr "Usado "
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr ""
+msgstr "Modificado "
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr ""
+msgstr "Alinhamento dos ícones: "
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr ""
+msgstr "Livre "
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr ""
+msgstr "Grade "
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr ""
+msgstr "Deixar o aplicativo decidir "
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr ""
+msgstr "Ícones "
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Alinhamento padrão dos ícones "
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr ""
+msgstr "Espaçamento dos ícones "
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr ""
+msgstr "Espaçamento padrão dos ícones "
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr ""
+msgstr "Organizar por"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr ""
+msgstr "Tamanho "
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr ""
+msgstr "Ordem reversa "
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr ""
+msgstr "Reorganizar ícones "
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr ""
+msgstr "Painel sem título "
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr ""
+msgstr "Link para $FILE_NAME "
 
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr ""
+msgstr "Mostrar área de trabalho "
 
 #: src/LanguageText.vala:230
 msgid "Hide Desktop"
-msgstr ""
+msgstr "Esconder área de trabalho "
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
