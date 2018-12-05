@@ -47,6 +47,13 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     }
 
     /**
+     * @overrided
+     */
+    public override int get_parent_default_arrangement_orientation_setting () {
+        return FolderSettings.ARRANGEMENT_ORIENTATION_VERTICAL;
+    }
+
+    /**
      * @name create_view
      * @description create the view associated with this manager
      * @overrided

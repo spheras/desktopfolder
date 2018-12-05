@@ -32,10 +32,10 @@ namespace DesktopFolder.Dialogs {
 
         public ShowInfo (string fpath, string fname) {
             try {
-              // general
+                // general
                 this.filepath = fpath;
                 this.file     = File.new_for_commandline_arg (this.filepath);
-                general_info = this.file.query_info ("*", FileQueryInfoFlags.NONE);
+                general_info  = this.file.query_info ("*", FileQueryInfoFlags.NONE);
                 // essential info we need to decide on the gui elements
                 bool is_a_link   = FileUtils.test (this.filepath, FileTest.IS_SYMLINK);
                 bool is_a_folder = FileUtils.test (this.filepath, FileTest.IS_DIR);

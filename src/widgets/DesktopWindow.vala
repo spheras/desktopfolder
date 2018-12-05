@@ -145,13 +145,14 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var openterminal_item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPENTERMINAL);
 
         // sortby submenu -----------
-        var sortby_item         = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY);
-        var sortby_submenu      = new Gtk.Menu ();
-        var sortby_name_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_NAME);
-        var sortby_size_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_SIZE);
-        var sortby_type_item    = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_TYPE);
-        var sortby_reverse_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_REVERSE);
-        var organize_item       = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_ORGANIZE);
+        var sortby_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY);
+        var sortby_submenu       = new Gtk.Menu ();
+        var sortby_name_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_NAME);
+        var sortby_size_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_SIZE);
+        var sortby_type_item     = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_BY_TYPE);
+        var sortby_reverse_item  = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_REVERSE);
+        var sortby_vertical_item = new Gtk.CheckMenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_VERTICAL);
+        var organize_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_ORGANIZE);
         // ----------------------------
 
         var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
@@ -173,6 +174,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             sortby_size_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_SIZE);
             sortby_type_item.set_active (this.manager.get_settings ().sort_by_type == FolderSort.SORT_BY_TYPE);
             sortby_reverse_item.set_active (this.manager.get_settings ().sort_reverse == true);
+            sortby_vertical_item.set_active (this.manager.is_vertical_arragement ());
             sortby_name_item.toggled.connect ((item) => {
                 this.on_sort_by (FolderSort.SORT_BY_NAME);
             });
@@ -187,7 +189,15 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
                 this.manager.get_settings ().save ();
                 this.manager.organize_panel_items ();
             });
-
+            sortby_vertical_item.toggled.connect ((item) => {
+                if (this.manager.is_vertical_arragement ()) {
+                    this.manager.get_settings ().arrangement_orientation = FolderSettings.ARRANGEMENT_ORIENTATION_HORIZONTAL;
+                } else {
+                    this.manager.get_settings ().arrangement_orientation = FolderSettings.ARRANGEMENT_ORIENTATION_VERTICAL;
+                }
+                this.manager.get_settings ().save ();
+                this.manager.organize_panel_items ();
+            });
             organize_item.activate.connect (this.manager.organize_panel_items);
 
             // ------------------------
@@ -236,6 +246,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             sortby_submenu.append (sortby_type_item);
             sortby_submenu.append (new MenuItemSeparator ());
             sortby_submenu.append (sortby_reverse_item);
+            sortby_submenu.append (sortby_vertical_item);
             if (this.manager.get_arrangement ().can_organize ()) {
                 context_menu.append (organize_item);
             }
