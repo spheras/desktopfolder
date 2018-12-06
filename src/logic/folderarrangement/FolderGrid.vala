@@ -1,14 +1,18 @@
 public class DesktopFolder.FolderGrid <T> {
     public List <FolderGridRow <T> > rows;
     public int total_cols = 0;
+    public int total_rows = 0;
 
     /**
      * Constructor
      * @param int total_cols the total cols for the grid (grid can grow rows but not columns)
      */
-    public FolderGrid (int total_cols) {
+    public FolderGrid (int total_cols, int total_rows) {
         this.rows       = new List <FolderGridRow>();
         this.total_cols = total_cols;
+        this.total_rows = total_rows;
+        this.util_create_row (total_rows - 1);
+        debug ("creando una grid de %d filas y %d columnas", total_rows, total_cols);
     }
 
     public void print () {
@@ -143,31 +147,55 @@ public class DesktopFolder.FolderGrid <T> {
      * @name get_next_gap
      * @description find a gap inside the current structure and put there the item
      * @param FolderWindow parent_window the parent panel in which the items are placed
+     * @param T item the item to put at the gap position
+     * @param int padding the padding between cells
+     * @param {bool} vertically if the sort orientation is vertically or not
      * @return {Gdk.Point} the x,y point to draw the item
      */
-    public Gdk.Point get_next_gap (FolderWindow parent_window, T item, int padding) {
+    public Gdk.Point get_next_gap (FolderWindow parent_window, T item, int padding, bool vertically) {
         // getting the header panel
         int margin = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
 
-        for (int irow = 0; irow < this.rows.length (); irow++) {
-            FolderGridRow row = this.rows.nth_data (irow);
-            for (int icol = 0; icol < row.cols.length; icol++) {
-                if (row.cols[icol] == null) {
-                    row.cols[icol] = item;
-                    Gdk.Point point = Gdk.Point ();
-                    point.y        = (irow * DesktopFolder.ICON_DEFAULT_WIDTH)+(irow*padding);
-                    point.x        = margin + (icol * DesktopFolder.ICON_DEFAULT_WIDTH)+(icol*padding);
-                    return point;
+        if (vertically) {
+            if (this.rows.length () > 0) {
+                FolderGridRow first_row = this.rows.nth_data (0);
+                for (int icol = 0; icol < first_row.cols.length; icol++) {
+                    for (int irow = 0; irow < this.rows.length (); irow++) {
+                        FolderGridRow row = this.rows.nth_data (irow);
+                        debug ("mirando fila:%d columna:%d", irow, icol);
+                        if (row.cols[icol] == null) {
+                            debug ("este es nulo");
+                            row.cols[icol] = item;
+                            Gdk.Point point = Gdk.Point ();
+                            point.y        = (irow * DesktopFolder.ICON_DEFAULT_WIDTH) + (irow * padding);
+                            point.x        = margin + (icol * DesktopFolder.ICON_DEFAULT_WIDTH) + (icol * padding);
+                            return point;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int irow = 0; irow < this.rows.length (); irow++) {
+                FolderGridRow row = this.rows.nth_data (irow);
+                for (int icol = 0; icol < row.cols.length; icol++) {
+                    if (row.cols[icol] == null) {
+                        row.cols[icol] = item;
+                        Gdk.Point point = Gdk.Point ();
+                        point.y        = (irow * DesktopFolder.ICON_DEFAULT_WIDTH) + (irow * padding);
+                        point.x        = margin + (icol * DesktopFolder.ICON_DEFAULT_WIDTH) + (icol * padding);
+                        return point;
+                    }
                 }
             }
         }
+
 
         // no gap found, lets create a new row
         int last_row = (int) this.rows.length ();
         this.util_create_row (last_row);
         this.rows.nth_data (last_row).cols[0] = item;
         Gdk.Point point = Gdk.Point ();
-        point.y = (last_row * DesktopFolder.ICON_DEFAULT_WIDTH)+(last_row*padding);
+        point.y = (last_row * DesktopFolder.ICON_DEFAULT_WIDTH) + (last_row * padding);
         point.x = margin;
         return point;
     }
@@ -177,11 +205,14 @@ public class DesktopFolder.FolderGrid <T> {
      * @description build an array describing the grid structure inside the panel.
      * This map is useful to try to structure and align all the items inside the panel
      * @param FolderWindow parent_window the parent panel in which the items are placed
+     * @param {int} padding the internal padding for elements
+     * @param {ItemSettings} lookin_for_item (optiona) the item we are trying to look in the structure (in case there are various items in the same cell, the looked one is prefered)
      * @return List with the ItemSettings inside, null are empty places
      */
-    public static FolderGrid build_grid_structure (FolderWindow parent_window, ItemSettings ? looking_for_item = null) {
+    public static FolderGrid build_grid_structure (FolderWindow parent_window, int padding, ItemSettings ? looking_for_item = null) {
         FolderSettings settings = parent_window.get_manager ().get_settings ();
         int width               = settings.w;
+        int height              = settings.h;
 
         // getting all the items defined
         List <ItemSettings> items = new List <ItemSettings> ();
@@ -190,14 +221,20 @@ public class DesktopFolder.FolderGrid <T> {
             items.append (is);
         }
 
-        // getting the header panel
-        int margin     = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
-        width = width - margin - margin; // removing margin
-        int total_cols = width / DesktopFolder.ICON_DEFAULT_WIDTH;
+        int margin = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+
+        Gtk.Allocation title_allocation;
+        parent_window.get_titlebar ().get_allocation (out title_allocation);
+        int header = title_allocation.height + margin;
+
+        width  = width - margin - margin; // removing margin
+        height = height - header;
+        int total_cols = width / (DesktopFolder.ICON_DEFAULT_WIDTH + padding);
+        int total_rows = height / (DesktopFolder.ICON_DEFAULT_WIDTH + padding);
 
         // we create a cell structure of allowed items, it is a list of rows,
         // inside each row is an array with all the columns
-        FolderGrid <ItemSettings> grid = new FolderGrid <ItemSettings> (total_cols);
+        FolderGrid <ItemSettings> grid = new FolderGrid <ItemSettings> (total_cols, total_rows);
 
         // now, ordering current items in the structure to see gaps
         for (int i = 0; i < items.length (); i++) {
@@ -205,8 +242,8 @@ public class DesktopFolder.FolderGrid <T> {
             int          x    = item.x;
             int          y    = item.y;
 
-            int row           = (int) (y / DesktopFolder.ICON_DEFAULT_WIDTH);
-            int col           = (int) (x / DesktopFolder.ICON_DEFAULT_WIDTH);
+            int row           = (int) (y / (DesktopFolder.ICON_DEFAULT_WIDTH + padding));
+            int col           = (int) (x / (DesktopFolder.ICON_DEFAULT_WIDTH + padding));
 
             if (row < 0) {
                 row = 0;

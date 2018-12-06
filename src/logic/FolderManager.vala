@@ -387,10 +387,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
                     // no desired position for the item, lets calculate a good position
                     if (grid == null) {
                         // building the structure to see current gaps
-                        grid = FolderGrid.build_grid_structure (this.view);
-                        // grid.print();
+                        grid = FolderGrid.build_grid_structure (this.view, this.get_settings ().arrangement_padding);
+                        grid.print ();
                     }
-                    Gdk.Point pos = grid.get_next_gap (this.view, is, this.get_settings ().arrangement_padding);
+                    Gdk.Point pos = grid.get_next_gap (this.view, is, this.get_settings ().arrangement_padding, this.is_vertical_arragement ());
                     is.x = pos.x;
                     is.y = pos.y;
                 } else {
