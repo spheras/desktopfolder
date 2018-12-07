@@ -67,9 +67,9 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
      * @description shows the items
      */
     public override void show_items () {
-        debug (@"show_items $(this.get_application ().get_desktop_visibility ())");
+        // debug (@"show_items $(this.get_application ().get_desktop_visibility ())");
         if (this.get_application ().get_desktop_visibility ()) {
-            debug ("showing items");
+            // debug ("showing items");
             base.show_items ();
             base.view.refresh ();
         }

@@ -12,7 +12,6 @@ public class DesktopFolder.FolderGrid <T> {
         this.total_cols = total_cols;
         this.total_rows = total_rows;
         this.util_create_row (total_rows - 1);
-        debug ("creando una grid de %d filas y %d columnas", total_rows, total_cols);
     }
 
     public void print () {
@@ -162,9 +161,7 @@ public class DesktopFolder.FolderGrid <T> {
                 for (int icol = 0; icol < first_row.cols.length; icol++) {
                     for (int irow = 0; irow < this.rows.length (); irow++) {
                         FolderGridRow row = this.rows.nth_data (irow);
-                        debug ("mirando fila:%d columna:%d", irow, icol);
                         if (row.cols[icol] == null) {
-                            debug ("este es nulo");
                             row.cols[icol] = item;
                             Gdk.Point point = Gdk.Point ();
                             point.y        = (irow * DesktopFolder.ICON_DEFAULT_WIDTH) + (irow * padding);

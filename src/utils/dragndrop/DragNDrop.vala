@@ -326,7 +326,10 @@ namespace DesktopFolder.DragnDrop {
                         string target_path = target_dir.get_path ();
                         // string link_to     = DesktopFolder.Lang.LINK_TO;
 
-                        if ((path.has_prefix ("/usr/local/share/applications/") || path.has_prefix ("/usr/share/applications/")) && path.has_suffix (".desktop")) {
+                        if ((path.has_prefix ("/usr/local/share/applications/") ||
+                            path.has_prefix ("/usr/share/") ||
+                            path.contains ("/.local/share/applications/")) &&
+                            path.has_suffix (".desktop")) {
                             // we don't move user desktop launchers
                             if (action == Gdk.DragAction.MOVE) {
                                 action = Gdk.DragAction.COPY;
@@ -334,28 +337,6 @@ namespace DesktopFolder.DragnDrop {
                         }
 
                         debug (@"$action, $(f.get_parent ().get_path ()) -> $target_path");
-
-                        /* @aljelly, we are having problems with this code (lot of links created)
-                           if (f.get_parent ().equal (target_dir)) {
-                            // create a link instead
-                            if (action == Gdk.DragAction.MOVE) {
-                                action = Gdk.DragAction.LINK;
-                            }
-                            string link_to_without_var = link_to.replace ("$FILE_NAME", "");
-                            link_to_without_var = link_to_without_var.strip ();
-
-                            if (new_name.contains (link_to_without_var)) {
-                                new_name = new_name.replace (link_to_without_var, "").strip ();
-                            }
-
-                            new_name = link_to.replace ("$FILE_NAME", new_name).strip ();
-
-                            var link_file = File.new_for_path (@"$target_path/$new_name");
-                            if (link_file.query_exists ()) {
-                                new_name = DesktopFolder.Util.make_next_duplicate_name (new_name, target_path);
-                            }
-                           }
-                         */
 
                         if (action == Gdk.DragAction.COPY) {
                             File final_target               = File.new_for_path (target_path + "/" + f.get_basename ());

@@ -231,7 +231,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
             // we ignore the settings file changes
         } else {
             // debug ("%s - Change Detected", this.get_folder_name ());
-            if (dest != null && src.query_exists () && dest.query_exists ()) {
+            if (dest != null && !src.query_exists () && dest.query_exists ()) {
                 // something has been renamed
                 string new_filename = dest.get_basename ();
                 this.settings.rename (old_filename, new_filename);
@@ -242,6 +242,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
                     ItemManager element = (ItemManager) this.items.nth_data (i);
                     if (element.get_file_name () == old_filename) {
                         element.rename (new_filename);
+                        element.get_view ().rename (new_filename);
                     }
                 }
 
@@ -388,7 +389,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
                     if (grid == null) {
                         // building the structure to see current gaps
                         grid = FolderGrid.build_grid_structure (this.view, this.get_settings ().arrangement_padding);
-                        grid.print ();
+                        // grid.print ();
                     }
                     Gdk.Point pos = grid.get_next_gap (this.view, is, this.get_settings ().arrangement_padding, this.is_vertical_arragement ());
                     is.x = pos.x;
