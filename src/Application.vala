@@ -154,12 +154,6 @@ public class DesktopFolderApp : Gtk.Application {
 
         create_shortcut ();
 
-        // we need the app folder (desktop folder)
-        var desktopFolder = File.new_for_path (DesktopFolderApp.get_app_folder ());
-        if (!desktopFolder.query_exists ()) {
-            DirUtils.create (DesktopFolderApp.get_app_folder (), 0755);
-        }
-
         // initializing the clipboard manager
         DesktopFolder.Clipboard.ClipboardManager.get_for_display ();
 
@@ -314,6 +308,34 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
+     * @name create_folder_name
+     * @description helper function to create a folder name
+     */
+    private static void create_folder_name (string full_path_to_folder_name) {
+        var desktopFolder = File.new_for_path (full_path_to_folder_name);
+        if (!desktopFolder.query_exists ()) {
+            DirUtils.create (full_path_to_folder_name, 0755);
+        }
+    }
+
+    /**
+     * @name update_user_dirs
+     * @description call xdg-user-dirs to set a specific value
+     */
+    private static void update_user_dirs (string full_path_to_folder_name,
+        string                                   dirs_type = "DESKTOP") {
+        string output = "";
+        string cmd    = "";
+        try {
+            cmd = "xdg-user-dirs-update --set " + dirs_type + " " + desktop_folder_name;
+            Process.spawn_command_line_sync (cmd, out output);
+        } catch (SpawnError e) {
+            stderr.printf ("Error: cannot execute cmd: %s - %s", cmd, e.message);
+        }
+
+    }
+
+    /**
      * @name set_app_folder
      * @description define the full path to the desktop folder
      * This is either calculated according to the environment DesktopFolder
@@ -322,8 +344,12 @@ public class DesktopFolderApp : Gtk.Application {
      */
     public static void set_app_folder (string folder_name = "") {
         string homedir = Environment.get_home_dir ();
+
+        // if called with an explicit filename then set and remember this name
         if (folder_name != "") {
             desktop_folder_name = homedir + "/" + folder_name;
+            create_folder_name (desktop_folder_name);
+            update_user_dirs (desktop_folder_name);
             return;
         }
 
@@ -336,17 +362,70 @@ public class DesktopFolderApp : Gtk.Application {
             string[] all_lines = output.split ("\n");
 
             if (all_lines.length != 2) {
+                // this should in theory never be executed assert if it does happen
                 stderr.printf ("Error: cmd %s returned %d values", cmd, all_lines.length);
-            } else if (all_lines[0] != homedir) {
-                desktop_folder_name = all_lines[0];
+                assert (true);
                 return;
             }
+
+            desktop_folder_name = all_lines[0];
+            // if remembered folder is the same as the home directory ...
+            // e.g. Elementary doesn't set this by default
+            if (all_lines[0] == homedir) {
+                // test if the "Desktop" folder has been previously created
+                // i.e. a previous DesktopFolder has created this previously
+                desktop_folder_name = homedir + "/Desktop";
+                var desktopFolder = File.new_for_path (desktop_folder_name);
+                if (desktopFolder.query_exists ()) {
+                    // yes it has previously been created ... so lets remember it for the future
+                    update_user_dirs (desktop_folder_name);
+                    return;
+                }
+                // otherwise lets create a translated desktop folder and remember that
+                desktop_folder_name = homedir + "/" + DesktopFolder.Lang.DESKTOPFOLDER_DESKTOP_FOLDER;
+                create_folder_name (desktop_folder_name);
+                update_user_dirs (desktop_folder_name);
+                return;
+            }
+            // if the remembered folder name already exists ...
+            var desktopFolder = File.new_for_path (desktop_folder_name);
+            if (desktopFolder.query_exists ()) {
+                // nothing more to-do so just exit
+                stderr.printf ("%s\n", desktop_folder_name);
+                return;
+            }
+            // so the remembered folder doesn't exist ...
+            string folder            = homedir + "/Desktop";
+            var    old_desktopFolder = File.new_for_path (folder);
+            if (old_desktopFolder.query_exists ()) {
+                // so "Desktop" created by a previous DesktopFolder needs to be renamed
+                // to the new remembered folder name
+                try {
+                    old_desktopFolder.move (desktopFolder, FileCopyFlags.NONE);
+                } catch (Error e) {
+                    stderr.printf ("Error: cannot move %s to %s, %s", folder, desktop_folder_name, e.message);
+                }
+                return;
+            }
+            // see if we need to rename a previous translated DesktopFolder name
+            folder            = homedir + "/" + DesktopFolder.Lang.DESKTOPFOLDER_DESKTOP_FOLDER;
+            old_desktopFolder = File.new_for_path (folder);
+            if (old_desktopFolder.query_exists ()) {
+                // so "Desktop" created by a previous DesktopFolder needs to be renamed
+                // to the new remembered folder name
+                try {
+                    old_desktopFolder.move (desktopFolder, FileCopyFlags.NONE);
+                } catch (Error e) {
+                    stderr.printf ("Error: cannot move %s to %s, %s", folder, desktop_folder_name, e.message);
+                }
+                return;
+            }
+            // create the remembered folder name
+            create_folder_name (desktop_folder_name);
+            return;
         } catch (SpawnError e) {
             stderr.printf ("Error: cannot execute cmd: %s - %s", cmd, e.message);
         }
-
-        // ultimate fallback
-        desktop_folder_name = homedir + "/" + DesktopFolder.Lang.DESKTOPFOLDER_DESKTOP_FOLDER;
     }
 
     /**
