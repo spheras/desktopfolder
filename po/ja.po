@@ -108,22 +108,22 @@ msgstr "パネルをリンク"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr "アイコンをロック："
+msgstr "アイコンをロック:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr "パネルをロック："
+msgstr "パネルをロック:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr "テキストに影を付ける："
+msgstr "テキストに影を付ける:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr "テキストを太字にする："
+msgstr "テキストを太字にする:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -208,7 +208,7 @@ msgstr "開く"
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr "他のアプリケーションで開く"
+msgstr "他のアプリケーションで開く…"
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
@@ -347,12 +347,12 @@ msgstr "閉じる"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "デスクトップのアイコン："
+msgstr "デスクトップのアイコン:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "デスクトップを有効にする："
+msgstr "デスクトップを有効にする:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
@@ -362,14 +362,14 @@ msgstr "この変更には再ログインが必要です"
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "解像度を変更したとき："
+msgstr "解像度を変更したとき:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
 msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
-msgstr "これは、画面解像度を変更した際に、パネル・ノート・写真がどのようにリサイズされるかの設定です。"
+msgstr "これは、画面解像度を変更した際に、パネル・ノート・写真がどのようにリサイズされるかの設定です"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
@@ -466,7 +466,7 @@ msgstr "最終更新日時"
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "アイコンの整列："
+msgstr "アイコンの整列:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
@@ -491,17 +491,17 @@ msgstr "アイコン"
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr "デフォルトのアイコンの整列："
+msgstr "デフォルトのアイコンの整列:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "アイコンの間隔："
+msgstr "アイコンの間隔:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "デフォルトのアイコンの間隔："
+msgstr "デフォルトのアイコンの間隔:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
@@ -548,7 +548,7 @@ msgstr "\"%'s\" を作成できませんでした"
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr "すでに存在しています。"
+msgstr " はすでに存在しています。"
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."

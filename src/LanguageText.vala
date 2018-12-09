@@ -225,9 +225,12 @@ namespace DesktopFolder.Lang {
     public const string NEWLY_CREATED_NOTE               = _("New Note");
     /// Please keep $FILE_NAME, it will be replaced by it's value
     public const string LINK_TO = _("Link to $FILE_NAME");
-
-    public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP = _("Show Desktop");
-    public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP = _("Hide Desktop");
+    // Menu option to show the desktop
+    public const string DESKTOPFOLDER_MENU_SHOW_DESKTOP  = _("Show Desktop");
+    // Menu option to hide the desktop
+    public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP  = _("Hide Desktop");
+    // Menu option to sort the items vertically
+    public const string DESKTOPFOLDER_MENU_SORT_VERTICAL = _("Sort Vertically");
 
     // folder name under the Home folder which will host the desktopfolder icons/folders etc
     public const string DESKTOPFOLDER_DESKTOP_FOLDER    = _("Desktop");

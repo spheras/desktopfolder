@@ -15,11 +15,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+public interface FolderSettingsInfoProvider {
+
+    /**
+     * @name get_parent_default_arrangement_orientation_setting
+     * @description provide the default orientation setting to store
+     * @return {int} the default orientation setting. See ARRANGEMENT_ORIENTATION_VERTICAL and ARRANGEMENT_ORIENTATION_HORIZONTAL
+     */
+    public abstract int get_parent_default_arrangement_orientation_setting ();
+
+}
+
 /**
  * @class
  * Desktop Folder Settings
  */
 public class DesktopFolder.FolderSettings : PositionSettings {
+    public static int ARRANGEMENT_ORIENTATION_VERTICAL   = 1;
+    public static int ARRANGEMENT_ORIENTATION_HORIZONTAL = 2;
+
     private string _name;
     public string name {
         get {
@@ -155,6 +169,18 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         set {
             if (_sort_reverse != value) {
                 _sort_reverse = value; flagChanged = true;
+            }
+        }
+    }
+
+    private int _arrangement_orientation;
+    public int arrangement_orientation {
+        get {
+            return _arrangement_orientation;
+        }
+        set {
+            if (_arrangement_orientation != value) {
+                _arrangement_orientation = value; flagChanged = true;
             }
         }
     }
@@ -396,8 +422,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @param name string the name of the folder
      * @return FolderSettings the FolderSettings created
      */
-    public static FolderSettings read_settings (File file, string name) {
-        FolderSettings result = _read_settings (file, name);
+    public static FolderSettings read_settings (File file, string name, FolderSettingsInfoProvider provider) {
+        FolderSettings result = _read_settings (file, name, provider);
         if (result == null) {
             // some error occurred, lets delete the settings and create again
             try {
@@ -406,12 +432,12 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
             FolderSettings new_folder_settings = new FolderSettings (name);
             new_folder_settings.save_to_file (file);
-            return _read_settings (file, name);
+            return _read_settings (file, name, provider);
         }
         return result;
     }
 
-    private static FolderSettings _read_settings (File file, string name) {
+    private static FolderSettings _read_settings (File file, string name, FolderSettingsInfoProvider provider) {
         try {
             string content = "";
             var    dis     = new DataInputStream (file.read ());
@@ -445,6 +471,10 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             // regression for on top and back
             if (existent.version == 0) {
                 existent.version = DesktopFolder.SETTINGS_VERSION;
+            }
+
+            if (existent.arrangement_orientation == 0) {
+                existent.arrangement_orientation = provider.get_parent_default_arrangement_orientation_setting ();
             }
 
             // the properties have not changed, just loaded

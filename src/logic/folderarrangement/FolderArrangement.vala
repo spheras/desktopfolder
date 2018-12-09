@@ -109,12 +109,13 @@ public interface DesktopFolder.FolderArrangement : Object {
      * @param sort_by_type int the sort type @see FolderSort constants
      * @param asc bool to indicate ascendent sort or descent (true->ascendent)
      */
-    public static void organize_items (FolderWindow parent_window, ref List <ItemManager> items, int sort_by_type, bool asc) {
+    public static void organize_items (FolderWindow parent_window, ref List <ItemManager> items, int sort_by_type, bool asc, bool vertically) {
         FolderSort folder_sort = FolderSort.factory (sort_by_type);
         folder_sort.sort (ref items, asc);
 
         // window width
         int width       = parent_window.get_manager ().get_settings ().w;
+        int height      = parent_window.get_manager ().get_settings ().h;
         // left margin to start the grid
         int left_margin = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
 
@@ -141,12 +142,21 @@ public interface DesktopFolder.FolderArrangement : Object {
             item.get_folder ().get_settings ().set_item (is);
             item.get_folder ().get_settings ().save ();
 
-            // moving the cursor
-            cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
-            if (cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + left_margin > width) {
-                // we need to move to the next rows
-                cursor_x = left_margin;
+            // moving the cursor horizontally
+            if (vertically) {
                 cursor_y = cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
+                if (cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH > height) {
+                    // we need to move to the next rows
+                    cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
+                    cursor_y = 0;
+                }
+            } else {
+                cursor_x = cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
+                if (cursor_x + DesktopFolder.ICON_DEFAULT_WIDTH + left_margin > width) {
+                    // we need to move to the next rows
+                    cursor_x = left_margin;
+                    cursor_y = cursor_y + DesktopFolder.ICON_DEFAULT_WIDTH + padding;
+                }
             }
         }
     }

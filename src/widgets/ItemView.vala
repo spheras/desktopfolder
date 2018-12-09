@@ -130,6 +130,15 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
+     * @name rename
+     * @description change the label of the item to the new label
+     */
+    public void rename (string new_name) {
+        this.label.text = new_name;
+        this.refresh_icon ();
+    }
+
+    /**
      * @name refresh
      * @description refresh the window
      */

@@ -24,7 +24,7 @@ protected errordomain FolderManagerIOError {
  * @class
  * Desktop Folder Manager
  */
-public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
+public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSettingsInfoProvider {
     /** parent application */
     private DesktopFolderApp application;
     /** to know if the panel is moveable or not */
@@ -71,6 +71,13 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
         this.monitor_folder ();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
+    }
+
+    /**
+     * @overrided
+     */
+    public virtual int get_parent_default_arrangement_orientation_setting () {
+        return FolderSettings.ARRANGEMENT_ORIENTATION_HORIZONTAL;
     }
 
     /**
@@ -168,7 +175,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             newone.save_to_file (file);
             this.settings = newone;
         } else {
-            FolderSettings existent = FolderSettings.read_settings (file, this.get_folder_name ());
+            FolderSettings existent = FolderSettings.read_settings (file, this.get_folder_name (), this);
             this.settings = existent;
         }
 
@@ -224,7 +231,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
             // we ignore the settings file changes
         } else {
             // debug ("%s - Change Detected", this.get_folder_name ());
-            if (dest != null && src.query_exists () && dest.query_exists ()) {
+            if (dest != null && !src.query_exists () && dest.query_exists ()) {
                 // something has been renamed
                 string new_filename = dest.get_basename ();
                 this.settings.rename (old_filename, new_filename);
@@ -235,6 +242,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     ItemManager element = (ItemManager) this.items.nth_data (i);
                     if (element.get_file_name () == old_filename) {
                         element.rename (new_filename);
+                        element.get_view ().rename (new_filename);
                     }
                 }
 
@@ -380,10 +388,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
                     // no desired position for the item, lets calculate a good position
                     if (grid == null) {
                         // building the structure to see current gaps
-                        grid = FolderGrid.build_grid_structure (this.view);
-                        // grid.print();
+                        grid = FolderGrid.build_grid_structure (this.view, this.get_settings ().arrangement_padding);
+                        // grid.print ();
                     }
-                    Gdk.Point pos = grid.get_next_gap (this.view, is);
+                    Gdk.Point pos = grid.get_next_gap (this.view, is, this.get_settings ().arrangement_padding, this.is_vertical_arragement ());
                     is.x = pos.x;
                     is.y = pos.y;
                 } else {
@@ -414,7 +422,16 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView {
      */
     public void organize_panel_items () {
         bool asc = !this.settings.sort_reverse;
-        FolderArrangement.organize_items (this.view, ref this.items, this.settings.sort_by_type, asc);
+        FolderArrangement.organize_items (this.view, ref this.items, this.settings.sort_by_type, asc, this.is_vertical_arragement ());
+    }
+
+    /**
+     * @name is_vertical_arragement
+     * @description check whether the arrangement is vertically
+     * @return {bool} true->vertical, false->horizontal
+     */
+    public bool is_vertical_arragement () {
+        return this.settings.arrangement_orientation == FolderSettings.ARRANGEMENT_ORIENTATION_VERTICAL;
     }
 
     /**

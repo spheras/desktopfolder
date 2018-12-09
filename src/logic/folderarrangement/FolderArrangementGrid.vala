@@ -93,7 +93,7 @@ public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
         init_item_px.x      = view_settings.x;
         init_item_px.y      = view_settings.y;
         this.drag_padding   = view.get_manager ().get_folder ().get_settings ().arrangement_padding;
-        this.drag_grid      = FolderGrid.build_grid_structure (view.get_manager ().get_folder ().get_view (), view_settings);
+        this.drag_grid      = FolderGrid.build_grid_structure (view.get_manager ().get_folder ().get_view (), this.drag_padding, view_settings);
         this.init_item_cell = this.drag_grid.get_item_cell_position (view_settings,
                 (a, b) => {
             return a.name == b.name;
