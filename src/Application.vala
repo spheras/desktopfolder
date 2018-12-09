@@ -391,7 +391,6 @@ public class DesktopFolderApp : Gtk.Application {
             var desktopFolder = File.new_for_path (desktop_folder_name);
             if (desktopFolder.query_exists ()) {
                 // nothing more to-do so just exit
-                stderr.printf ("%s\n", desktop_folder_name);
                 return;
             }
             // so the remembered folder doesn't exist ...
