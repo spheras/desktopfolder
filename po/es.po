@@ -7,6 +7,7 @@
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Logan 8192 <wsses11000@gmail.com>, 2018
 # Adolfo Jayme-Barrientos, 2018
+# Víctor Pont <victor@pont.cat>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-30 23:31+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Adolfo Jayme-Barrientos, 2018\n"
+"Last-Translator: Víctor Pont <victor@pont.cat>, 2018\n"
 "Language-Team: Spanish (https://www.transifex.com/ubuntu-budgie/teams/72251/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -125,7 +126,7 @@ msgstr "Sombra del texto:"
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Negrita del texto:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -388,7 +389,7 @@ msgstr "Escalar a una nueva resolución"
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "Guardar por resolución"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -470,7 +471,7 @@ msgstr "Modificado"
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr ""
+msgstr "Orden de los íconos:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
@@ -485,7 +486,7 @@ msgstr "Cuadrícula"
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr ""
+msgstr "Controlado por la app"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
@@ -495,7 +496,7 @@ msgstr "Iconos"
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Orden de los íconos por defecto:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206

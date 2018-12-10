@@ -4,9 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Davidmp <medipas@gmail.com>, 2018
-# Adolfo Jayme-Barrientos, 2018
-# Víctor Pont <victor@pont.cat>, 2018
+# abuyop <abuyop@gmail.com>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -15,18 +13,18 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-30 23:31+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Víctor Pont <victor@pont.cat>, 2018\n"
-"Language-Team: Catalan (https://www.transifex.com/ubuntu-budgie/teams/72251/ca/)\n"
+"Last-Translator: abuyop <abuyop@gmail.com>, 2018\n"
+"Language-Team: Malay (Malaysia) (https://www.transifex.com/ubuntu-budgie/teams/72251/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ms_MY\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Plafó"
+msgstr "Panel"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
@@ -39,208 +37,208 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Torneu a la vida l'escriptori minimalista.\n"
-"Organitzeu els fitxers a l'escriptori usant taulers."
+"Hidupkan kembali Desktop minimalist anda\n"
+" Urus fail pada Desktop anda melalui Anak Tetingkap."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_D’acord"
+msgstr "_Ok"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
 msgid "_Cancel"
-msgstr "_Cancel·la"
+msgstr "_Batal"
 
 #. Generic Dialog Select Button
 #: src/LanguageText.vala:26
 msgid "_Select"
-msgstr "_Selecciona"
+msgstr "_Pilih"
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "No hi ha res per enganxar al porta-retalls"
+msgstr "Tiada apa-apa di dalam papan keratan untuk ditampalkan"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "No es pot deixar anar aquest fitxer"
+msgstr "Tidak boleh lepaskan fail ini"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
 msgid "Invalid file name provided"
-msgstr "S’ha proporcionat un nom de fitxer no vàlid"
+msgstr "Nama fail yang disediakan tidak sah"
 
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr "Operacions amb fitxers"
+msgstr "Operasi Fail"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
 msgid "Copying"
-msgstr "S’està copiant"
+msgstr "Menyalin"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Copia-ho aquí"
+msgstr "Salin Di Sini"
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Mou-ho aquí"
+msgstr "Alih Ke Sini"
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Enllaça-ho aquí"
+msgstr "Paut Di Sini"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr "Batal"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Enllaça-ho al plafó"
+msgstr "Paut Panel"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr "Bloquejar icones:"
+msgstr "Ikon dikunci:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr "Bloquejar plafó:"
+msgstr "Panel dikunci:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr "Ombra del text:"
+msgstr "Bayang teks:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr "Negreta del text:"
+msgstr "Tebal teks:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
 msgid "Folder"
-msgstr "Carpeta"
+msgstr "Folder"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:62
 msgid "Empty File"
-msgstr "Fitxer buit"
+msgstr "Fail Kosong"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Canvia de nom el plafó"
+msgstr "Nama Semula Panel"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Mou el plafó a la paperea"
+msgstr "Alih Panel ke dalam Tong Sampah"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
 msgid "Paste"
-msgstr "Enganxa"
+msgstr "Tampal"
 
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr "carpeta sense títol"
+msgstr "folder tanpa tajuk"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr "fitxer nou"
+msgstr "fail baharu"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Mou a la paperera"
+msgstr "Alih ke dalam Tong Sampah"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
 #: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr "Propietats"
+msgstr "Sifat"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Nota nova"
+msgstr "Nota Baharu"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr "Textura de paper"
+msgstr "Tekstur Kertas"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
 msgid "Always on top"
-msgstr "Sempre davant"
+msgstr "Sentiasa di atas"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr "Sempre darrere"
+msgstr "Sentiasa di bawah"
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Canvia el nom de la nota"
+msgstr "Nama Semula Nota"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
 msgid "Open"
-msgstr "Obre"
+msgstr "Buka"
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr "Obre amb una altra aplicació…"
+msgstr "Buka Dengan Aplikasi Lain..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
 msgid "Execute"
-msgstr "Executa"
+msgstr "Lakukan"
 
 #. Item Menu - cut the file/folder
 #: src/LanguageText.vala:96
 msgid "Cut"
-msgstr "Retalla"
+msgstr "Potong"
 
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:98
 msgid "Copy"
-msgstr "Copia"
+msgstr "Salin"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:100
 msgid "Rename"
-msgstr "Canvia'n el nom"
+msgstr "Nama Semula"
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:104
 msgid "Delete"
-msgstr "Suprimeix"
+msgstr "Padam"
 
 #. Item Menu - change icon
 #: src/LanguageText.vala:106
 msgid "Change Icon"
-msgstr "Canvia'n la icona"
+msgstr "Ubah Ikon"
 
 #. Item - Delete Folder Item Dialog message
 #: src/LanguageText.vala:108
@@ -248,8 +246,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Aquesta acció SUPRIMIRÀ la carpeta i tot el contingut.\n"
-"<b>N'esteu segur?</b>"
+"Tindakan ini akan MEMADAM folder dan SEMUA kandungannya.\n"
+"<b>Anda pasti mahu lakukannya?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -257,8 +255,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Aquesta acció SUPRIMIRÀ el fitxer.\n"
-"<b>N'esteu segur?</b>"
+"Tindakan ini akan MEMADAM fail.\n"
+"<b>Anda pasti mahu lakukannya?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -266,105 +264,105 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Aquesta acció SUPRIMIRÀ l'enllaç (només l'enllaç).\n"
-"<b>N'esteu segur?</b>"
+"Tindakan ini akan MEMADAM pautan (hanya pautan).\n"
+"<b>Anda pasti mahu lakukannya?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr "Seleccioneu la imatge d'icona per usar."
+msgstr "Pilih ikon imej yang hendak digunakan."
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "El primer plafó"
+msgstr "Panel Pertama Saya"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Enllaça-ho a un fitxer"
+msgstr "Paut ke Fail"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Enllaça-ho a una carpeta"
+msgstr "Paut ke Folder"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Seleccioneu el fitxer o la carpeta de destinació de l'enllaç"
+msgstr "Pilih fail/folder destinasi pautan"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Seleccioneu la carpeta de destinació per al plafó"
+msgstr "Pilih folder destinasi bagi Panel"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
 msgid "Remove"
-msgstr "Suprimeix"
+msgstr "Buang"
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Fotografia"
+msgstr "Foto"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Seleccioneu la imatge per mostrar"
+msgstr "Pilih gambar untuk dipaparkan"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
 msgid "New"
-msgstr "Nou"
+msgstr "Baharu"
 
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr "Aquest plafó"
+msgstr "Panel Ini"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
 msgid "General"
-msgstr "General"
+msgstr "Am"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:140
 msgid "Behavior"
-msgstr "Comportament"
+msgstr "Kelakuan"
 
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr "Aparença"
+msgstr "Penampilan"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
 msgid "Close"
-msgstr "Tanca"
+msgstr "Tutup"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Icones a l’escriptori:"
+msgstr "Ikon atas desktop:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "Habilitar escriptori:"
+msgstr "Benarkan desktop:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr "Aquest canvi requereix sortir i tornar a entrar"
+msgstr "Tindakan ini akan memerlukan anda daftar keluar dan masuk sekali lagi"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "Al canviar la resolució:"
+msgstr "Ketika resolusi berubah:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -372,196 +370,196 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
-"Així serà com els panells, les notes i les fotos es dimensionaran quan "
-"canvieu la resolució "
+"Beginilah panel, nota dan foto akan disaizkan semula ketika anda mengubah "
+"resolusi skrin"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr "No fer res"
+msgstr "Jangan buat apa-apa"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr "Escalar a la nova resolució"
+msgstr "Skala ke resolusi baharu"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr "Emmagatzemar per resolució"
+msgstr "Stor per resolusi"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr "Canvia el fons"
+msgstr "Ubah Kertas Dinding"
 
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr "Obrir Terminal aquí"
+msgstr "Buka Terminal Di Sini"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr "Obre en un terminal"
+msgstr "Buka dalam terminal"
 
 #. file properties window - file name
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr "Nom"
+msgstr "Nama"
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr "Tipus"
+msgstr "Jenis"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr "Ubicació"
+msgstr "Lokasi"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr "Destí"
+msgstr "Sasaran"
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr "Tidak Diketahui"
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr "elements"
+msgstr "item"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr "Contingut"
+msgstr "Kandungan"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr "Mida total"
+msgstr "Jumlah saiz"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr "Mida del fitxer"
+msgstr "Saiz fail"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr "Permetre l'execució"
+msgstr "Benarkan pelakuan"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr "Utilitzat"
+msgstr "Digunakan"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr "Modificat"
+msgstr "Diubahsuai"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "Ordre de les icones"
+msgstr "Susunan ikon:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr "Lliure"
+msgstr "Bebas"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr "Graella"
+msgstr "Grid"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr "Gestionat per l'app"
+msgstr "Biar apl uruskan"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr "Icones"
+msgstr "Ikon"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr "Ordre de les icones per defecte:"
+msgstr "Susunan ikon lalai:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "Espaiat entre icones:"
+msgstr "Jarak ikon:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "Espaiat de les icones per defecte:"
+msgstr "Jarak ikon lalai:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr "Ordenar per"
+msgstr "Isih mengikut"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr "Mida"
+msgstr "Saiz"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr "Ordre Invers"
+msgstr "Tertib Songsang"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr "Reorganitza les icones"
+msgstr "Susun Semula Ikon"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr "Plafó sense títol"
+msgstr "Panel Tanpa Tajuk"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "Enllaçar amb $FILE_NAME"
+msgstr "Paut ke $FILE_NAME"
 
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr "Mostrar Escriptori"
+msgstr "Tunjuk Desktop"
 
 #: src/LanguageText.vala:230
 msgid "Hide Desktop"
-msgstr "Amagar Escriptori"
+msgstr "Sembunyi Desktop"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr "No s’ha pogut crear «%'s»"
+msgstr "Tidak dapat cipta \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr "ja existeix."
+msgstr "sudah wujud"
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr "El nom no és vàlid."
+msgstr "Nama tidak sah."
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:1
 msgid "Desktop Folder"
-msgstr "Carpeta de l'escriptori"
+msgstr "Folder Dekstop"
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:2
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Organitzeu l'escriptori amb plafons, notes i fotografies."
+msgstr "Urus desktop anda dengan panel, nota dan foto"
