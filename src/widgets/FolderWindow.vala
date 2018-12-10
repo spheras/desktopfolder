@@ -169,11 +169,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.leave_notify_event.connect (this.on_leave_notify);
 
         // Warning! we need to connect with the press_event, instead of release or clicked to avoid problems
-        trash_button.button_press_event.connect ((event) => {
+        trash_button.button_release_event.connect ((event) => {
             this.manager.trash ();
             return true;
         });
-        properties_button.button_press_event.connect ((event) => {
+        properties_button.button_release_event.connect ((event) => {
             this.show_properties_dialog ();
             return true;
         });
