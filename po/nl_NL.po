@@ -26,7 +26,7 @@ msgstr ""
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Venster"
+msgstr "Paneel"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
@@ -45,7 +45,7 @@ msgstr ""
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_Oké"
+msgstr "_Ok"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
@@ -60,12 +60,12 @@ msgstr "_Selecteren"
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "Het klembord bevat geen te plakken inhoud"
+msgstr "Het klembord is leeg"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "Kan bestand niet hierheen slepen"
+msgstr "Kan het bestand hier niet heen slepen"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
@@ -140,12 +140,12 @@ msgstr "Leeg bestand"
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Vesnternaam wijzigen"
+msgstr "Hernoem paneel"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Venster verplaatsen naar prullenbak"
+msgstr "Verplaats paneel naar prullenbak"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
@@ -167,7 +167,7 @@ msgstr "nieuw bestand"
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Verplaatsen naar prullenbak"
+msgstr "Verplaats naar prullenbak"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
@@ -200,7 +200,7 @@ msgstr "Altijd op achtergrond"
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Notitienaam wijzigen"
+msgstr "Hernoem notitie"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
@@ -299,7 +299,7 @@ msgstr "Kies de bestemmingsmap of het bestemmingsbestand van de verwijzing"
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Kies de bestemmingsmap van het venster"
+msgstr "Kies de bestemmingsmap van het paneel"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
@@ -324,7 +324,7 @@ msgstr "Nieuw"
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr "Dit Venster"
+msgstr "Dit paneel"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
@@ -349,7 +349,7 @@ msgstr "Sluiten"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Iconen op bureaublad:"
+msgstr "Pictogrammen op bureaublad:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
@@ -359,12 +359,12 @@ msgstr "Activeer bureaublad:"
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr "Deze aanpassing vereist u om uit te loggen en opnieuw in te loggen"
+msgstr "Deze aanpassing vereist dat u uitlogt en opnieuw inlogt"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "Wanneer resolutie aangepast:"
+msgstr "Wanneer resolutie wordt aangepast:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -372,8 +372,8 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
-"Dit is hoe vensters, notities en afbeeldingen zullen schalen wanneer u de "
-"scherm resolutie aanpast"
+"Dit is hoe panelen, notities en afbeeldingen zullen herschalen wanneer u de "
+"schermresolutie aanpast"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
@@ -450,7 +450,7 @@ msgstr "Totale grootte"
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr "Bestand grootte"
+msgstr "Bestandsgrootte"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
@@ -475,12 +475,12 @@ msgstr "Pictogram rangschikking:"
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr "Gratis"
+msgstr "Vrij"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr "Rooster"
+msgstr "Raster"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
@@ -500,12 +500,12 @@ msgstr "Standaard pictogram rangschikking:"
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "Pictogram ruimte:"
+msgstr "Pictogram afstand:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "Standaard pictogram ruimte:"
+msgstr "Standaard pictogram afstand:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
@@ -560,8 +560,8 @@ msgstr "Naam is ongeldig"
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:1
 msgid "Desktop Folder"
-msgstr "Bureaublad Map"
+msgstr "Bureaublad map"
 
 #: data/com.github.spheras.desktopfolder.desktop.in.h:2
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Beheer uw bureaublad met vensters, notities en afbeeldingen"
+msgstr "Beheer uw bureaublad met panelen, notities en afbeeldingen"

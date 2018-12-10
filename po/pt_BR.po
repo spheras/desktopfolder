@@ -40,7 +40,7 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Volte para a vida de sua área de trabalho minimalista\n"
+"Volte à vida de da sua área de trabalho minimalista\n"
 "  Organize arquivos em sua área de trabalho usando painéis."
 
 #. Generic Dialog OK Button
