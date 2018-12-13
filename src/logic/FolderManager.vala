@@ -94,10 +94,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @description detecting screen size changes
      */
     public virtual void on_screen_size_changed (Gdk.Screen screen) {
-        debug ("size changed for %s", this.folder_name);
-        this.settings.calculate_current_position ();
-        debug ("reloading settings");
-        this.view.reload_settings ();
+          debug ("size changed for %s", this.folder_name);
+          this.settings.calculate_current_position ();
+          debug ("reloading settings");
+          this.view.reload_settings ();
     }
 
     /**

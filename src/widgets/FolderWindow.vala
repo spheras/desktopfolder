@@ -271,9 +271,18 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     public virtual void resize_to (int width, int height) {
-        // debug ("RESIZE_TO: %d,%d", width, height);
-        this.set_default_size (width, height);
-        this.resize (width, height);
+        //strange hack to avoid problems when resizing after the window has a header
+        //(i.e. after new screen resolution change event)
+        Gtk.Allocation title_allocation;
+        this.get_titlebar ().get_allocation (out title_allocation);
+        int height_pad=title_allocation.height;
+        if(height_pad<2){
+          height_pad=0; //hack!
+        }
+
+        debug ("RESIZE_TO: %d,%d", width, height);
+        this.set_default_size (width, height-height_pad);
+        this.resize (width, height-height_pad);
     }
 
     /**
