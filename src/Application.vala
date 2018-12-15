@@ -211,12 +211,12 @@ public class DesktopFolderApp : Gtk.Application {
      */
     private void on_show_desktopicons_changed () {
         this.show_desktopicons = settings.get_boolean (SHOW_DESKTOPICONS_KEY);
-        debug (@"called, show_desktoppanel: $(this.show_desktoppanel), show_desktopicons: $show_desktopicons");
+        // debug (@"called, show_desktoppanel: $(this.show_desktoppanel), show_desktopicons: $show_desktopicons");
         if (this.show_desktoppanel) {
             if (this.show_desktopicons) {
                 this.desktop.show_items ();
             } else {
-                debug ("calling hide_items");
+                // debug ("calling hide_items");
                 this.desktop.hide_items ();
             }
         }

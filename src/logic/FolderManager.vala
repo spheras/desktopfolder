@@ -36,7 +36,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     /** File Monitor of this folder */
     private FileMonitor monitor                  = null;
     /** List of items of this folder */
-    protected List <ItemManager> items           = null;
+    public List <ItemManager> items              = null;
     /** name of the folder */
     private string folder_name                   = null;
     /** drag and drop behaviour for this folder */
@@ -45,6 +45,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     private FolderArrangement arrangement        = null;
     // the last selected item
     private ItemView selected_item               = null;
+    /** Folder Sync Thread */
+    private FolderSync.Thread sync_thread        = null;
+    /** the id for the organize event timer */
+    private uint organize_event_timeout;
 
 
     /**
@@ -69,6 +73,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
 
         // finally, we start monitoring the folder
         this.monitor_folder ();
+
+        this.view.refresh();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
     }
@@ -216,6 +222,14 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
+    * @name on_sync_finished
+    * @description sync thread has been finished
+    */
+    public void on_sync_finished(){
+        this.view.refresh();
+    }
+
+    /**
      * @name directory_changed
      * @description we received an event of the monitor that indicates a change
      * @see changed signal of FileMonitor (https://valadoc.org/gio-2.0/GLib.FileMonitor.changed.html)
@@ -287,7 +301,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @name skip_file
      * @description to check if the folder manager should skip the file and not take into account
      */
-    protected virtual bool skip_file (File file) {
+    public virtual bool skip_file (File file) {
         string basename = file.get_basename ();
         if (basename.has_prefix (".")) {
             return true;
@@ -313,107 +327,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @param y int the y position where any new item found should be positioned, <=0 if this algorithm must decide
      */
     public void sync_files (int x, int y) {
-        // debug ("syncingfiles for folder %s, %d, %d", this.get_folder_name (), x, y);
-        try {
-            this.load_folder_settings ();
-
-            // the current list must be refreshed, copying in an old list
-            List <ItemManager> oldItems = new List <ItemManager>();
-            this.items.foreach ((entry) => { oldItems.append (entry); }) ;
-            this.items = new List <ItemManager>();
-
-            // list of new file names recently created that need to find a valid position
-            List <string> newItemsToPosition = new List <string>();
-
-            string base_path                 = this.get_absolute_path ();
-            File   directory                 = this.get_file ();
-
-            // listing all the files inside this folder
-            var      enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
-            FileInfo file_info;
-
-            // list of gaps to put new items without a custom position
-            FolderGrid <ItemSettings> grid = null;
-
-            while ((file_info = enumerator.next_file ()) != null) {
-                string file_name = file_info.get_name ();
-                // debug("found:%s", file_name);
-                File file        = File.new_for_commandline_arg (base_path + "/" + file_name);
-
-                if (file_name == ".nopanel") {
-                    // This folder doesn't want to be a panel anymore, destroy the panel
-                    debug (".nopanel found, destroying panel");
-                    this.close ();
-                    return;
-                }
-
-                // checking if we must skip the file
-                if (this.skip_file (file)) {
-                    continue;
-                }
-
-
-                // debug("creating an item...");
-                // we try to get the settings for this item
-                ItemSettings is = this.settings.get_item (file_name);
-                if (is == null) {
-                    newItemsToPosition.append (file_name);
-                } else {
-                    // lets check if the item already exists
-                    ItemManager oldItemManager = pop_item_from_list (file_name, ref oldItems);
-                    if (oldItemManager != null) {
-                        oldItemManager.set_file (file);
-                        this.items.append (oldItemManager);
-                    } else {
-                        ItemManager item = new ItemManager (file_name, file, this);
-                        this.items.append (item);
-                        this.view.add_item (item.get_view (), is.x, is.y);
-                    }
-
-                }
-
-            }
-
-            // removing old entries, now no exist
-            oldItems.foreach ((entry) => {
-                this.view.remove_item (entry.get_view ());
-            }) ;
-
-            // last, there are new items that need to be positioned in a valid place
-            newItemsToPosition.foreach ((file_name) => {
-                File file = File.new_for_commandline_arg (base_path + "/" + file_name);
-                // we need to create one empty
-                ItemSettings is = new ItemSettings ();
-                if (x == 0 && y == 0) {
-                    // no desired position for the item, lets calculate a good position
-                    if (grid == null) {
-                        // building the structure to see current gaps
-                        grid = FolderGrid.build_grid_structure (this.view, this.get_settings ().arrangement_padding);
-                        // grid.print ();
-                    }
-                    Gdk.Point pos = grid.get_next_gap (this.view, is, this.get_settings ().arrangement_padding, this.is_vertical_arragement ());
-                    is.x = pos.x;
-                    is.y = pos.y;
-                } else {
-                    is.x = x;
-                    is.y = y;
-                }
-                is.name = file_name;
-                this.settings.add_item (is);
-                ItemManager item = new ItemManager (file_name, file, this);
-                this.items.append (item);
-                this.view.add_item (item.get_view (), is.x, is.y);
-            }) ;
-
-            this.settings.save ();
-            this.view.refresh ();
-            if (this.arrangement.force_organization ()) {
-                this.organize_panel_items ();
-            }
-        } catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog ("Error", e.message);
+        if (sync_thread == null) {
+            this.sync_thread = new FolderSync.Thread (this);
         }
+        this.load_folder_settings ();
+        this.sync_thread.sync_files (x, y);
     }
 
     /**
@@ -421,8 +339,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @description the panel try to organize all the items over the panel. This is asked manually by the user.
      */
     public void organize_panel_items () {
-        bool asc = !this.settings.sort_reverse;
-        FolderArrangement.organize_items (this.view, ref this.items, this.settings.sort_by_type, asc, this.is_vertical_arragement ());
+        if (this.organize_event_timeout > 0) {
+            Source.remove (this.organize_event_timeout);
+            this.organize_event_timeout = 0;
+        }
+        this.organize_event_timeout = Timeout.add (500, () => {
+            this.organize_event_timeout = 0;
+
+            bool asc = !this.settings.sort_reverse;
+            FolderArrangement.organize_items (this.view, ref this.items, this.settings.sort_by_type, asc, this.is_vertical_arragement ());
+
+            return false;
+        });
     }
 
     /**
@@ -432,23 +360,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      */
     public bool is_vertical_arragement () {
         return this.settings.arrangement_orientation == FolderSettings.ARRANGEMENT_ORIENTATION_VERTICAL;
-    }
-
-    /**
-     * @name pop_item_from_list
-     * @description try to ind an item in a item list by the file get_name
-     * @param string file_name the file name of the item
-     * @param List<ItemManager> the list to search inside (reference)
-     * @return ItemManager the itemmanager found, or null if none match
-     */
-    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
-        foreach (var item in items) {
-            if (item.get_file_name () == file_name) {
-                items.remove (item);
-                return item;
-            }
-        }
-        return null;
     }
 
     /**
@@ -736,9 +647,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     public void set_new_shape (int x, int y, int width, int height) {
         this.settings.x = x;
         this.settings.y = y;
+        bool flag_size_change = (this.settings.w != width || this.settings.h != height);
         this.settings.w = width;
         this.settings.h = height;
         this.settings.save ();
+
+        if (flag_size_change && this.get_arrangement ().force_organization ()) {
+            this.organize_panel_items ();
+        }
+
+        if (flag_size_change && this.sync_thread != null) {
+            this.sync_thread.on_resize ();
+        }
     }
 
     /**
@@ -947,4 +867,331 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     // ---------------------------------------------------------------------------------------
     // ---------------------------**********************--------------------------------------
     // ---------------------------------------------------------------------------------------
+}
+
+public class DesktopFolder.FolderSync.Param {
+    public int x { get; set; }
+    public int y { get; set; }
+
+    public Param (int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class DesktopFolder.FolderSync.PendingItem {
+    public string file_name { get; set; }
+    public File file { get; set; }
+    public bool calculate_position { get; set; default = false; }
+    public ItemSettings settings { get; set; }
+
+    public PendingItem (File file, string file_name, bool calculate_position, ItemSettings ? settings) {
+        this.file               = file;
+        this.file_name          = file_name;
+        this.calculate_position = calculate_position;
+        this.settings           = settings;
+    }
+}
+
+public class DesktopFolder.FolderSync.Thread {
+    /** the manager owner */
+    private FolderManager manager;
+    /** flag to know if the algorithm should stop and restart */
+    private bool flag_restart = false;
+    /** flag to know whether the sync algorithm is running or not */
+    private bool flag_running = false;
+
+    /** list of pending items to add to the folder window  */
+    private Gee.List <PendingItem> pending_items_to_process = null;
+    /** list of pending command params to process */
+    private Gee.List <Param> pending_params_to_process      = null;
+    /** semaphore */
+    private Mutex mutex            = Mutex ();
+    // the current grid of items, util to find gaps and position automatically new items
+    FolderGrid <ItemSettings> grid = null;
+
+    /**
+     * Constructor
+     * @param {FolderManager} manager the manager owned of this thread
+     */
+    public Thread (FolderManager manager) {
+        this.manager = manager;
+        this.pending_params_to_process = new Gee.ArrayList <Param>();
+    }
+
+    /**
+     * @name add_pending
+     * @descripition add a param to pending params to process
+     */
+    private void add_pending_param (Param param) {
+        mutex.lock () ;
+        this.pending_params_to_process.add (param);
+        mutex.unlock ();
+    }
+
+    /**
+     * @name on_resize
+     * @description the folder window was resize, this function notify of that event
+     */
+    public void on_resize () {
+        mutex.lock () ;
+        this.grid = null;
+        mutex.unlock ();
+    }
+
+    /**
+     * @name sync_files
+     * @param {int} x the x point where the next not managed item found should be positioned
+     * @param {int} y the y point where the next not managed item found should be positioned
+     */
+    public void sync_files (int x, int y) {
+        // we add the pending param to be processed, when a new item is found
+        this.add_pending_param (new Param (x, y));
+
+        mutex.lock () ;
+        if (this.flag_running) {
+            // it is running, so, lets start
+            this.flag_restart = true;
+        } else {
+            // the algorithm is not running, lets execute it in a new thread
+            this.flag_running = true;
+            try {
+                new GLib.Thread <bool> .try ("sync_thread", this._sync_files);
+            } catch (Error e) {
+                stderr.printf ("Error: %s\n", e.message);
+                Util.show_error_dialog ("Error", e.message);
+            }
+        }
+        mutex.unlock ();
+    }
+
+    /**
+     * @name set_restart
+     * @description set the flag restart to a value (concurrent safe)
+     * @param {bool} value the value to set
+     */
+    private void set_restart (bool value) {
+        mutex.lock () ;
+        this.flag_restart = value;
+        mutex.unlock ();
+    }
+
+    /**
+     * @name set_running
+     * @description set the flag running to a value (concurrent safe)
+     * @param {bool} value the value to set
+     */
+    private void set_running (bool value) {
+        mutex.lock () ;
+        this.flag_running = value;
+        mutex.unlock ();
+    }
+
+    /**
+     * @name _sync_files
+     * @description this is the sync algorithm processed in a different thread
+     */
+    private bool _sync_files () {
+        this.manager.get_view ().show_loading ();
+
+        debug (">>>>>>>>>>> INIT _sync_files for Panel: %s", this.manager.get_folder_name ());
+        this.set_running (true);
+        this.set_restart (true);
+        int restart_count = 0;
+
+        // main loop, in case we need to restart the algorithm (new sync commands)
+        while (this.flag_restart) {
+            restart_count++;
+            debug (">>>>>>>>>>>>>>>>>>>>>>>RESTARTING _sync_files %d times for Panel %s", restart_count - 1, this.manager.get_folder_name ());
+            this.set_restart (false);
+
+            // 1. setting some initial variables
+            // --------------------------------------------------------------------------
+            // list of current items that are showed in the window
+            List <ItemManager> old_showed_items = new List <ItemManager>();
+            this.manager.items.foreach ((entry) => { old_showed_items.append (entry); }) ;
+            // list of new items to be viewed in the window
+            List <ItemManager> new_viewed_items = new List <ItemManager>();
+            // list of current items managed by the settings
+            Gee.HashMap <string, ItemSettings> old_managed_items = this.manager.get_settings ().get_items_parsed ();
+            // list of pending items to be processed (to create setting, manager and view)
+            this.pending_items_to_process = new Gee.ArrayList <PendingItem>();
+            string   base_path       = this.manager.get_absolute_path ();
+            File     directory       = this.manager.get_file ();
+            var      file_enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
+            FileInfo file_info;
+
+            // 2. looping through all the files in the folder
+            // --------------------------------------------------------------------------
+            while ((file_info = file_enumerator.next_file ()) != null) {
+                ////////////////////////////////////
+                // >>>>>>>>> check control <<<<<<<<<
+                if (this.flag_restart) /////////////
+                    break; /////////////////////////
+                // >>>>>>>>> check control <<<<<<<<<
+                ////////////////////////////////////
+
+                // lets get the file to process
+                string file_name = file_info.get_name ();
+                File   file      = File.new_for_commandline_arg (base_path + "/" + file_name);
+                // debug ("syncing file found:%s", file_name);
+
+                // checking the .nopanel flag
+                if (file_name == ".nopanel") {
+                    // This folder doesn't want to be a panel anymore, destroy the panel
+                    debug (".nopanel found, destroying panel");
+                    this.manager.close ();
+                    this.set_running (false);
+                    this.set_restart (false);
+                    return false;
+                }
+
+                // checking if we must skip the file
+                if (this.manager.skip_file (file)) {
+                    // debug("skiping file %s", file_name);
+                    continue;
+                }
+
+                // we try to get the settings for this item
+                ItemSettings is = old_managed_items[file_name];
+                if (is == null) {
+                    // we don't have this file managed yet
+                    this.pending_items_to_process.add (new PendingItem (file, file_name, true, null));
+                } else {
+                    // lets check if the item already exists
+                    ItemManager old_item_manager = this.pop_item_from_list (file_name, ref old_showed_items);
+                    if (old_item_manager != null) {
+                        // yes, this is an existing already managed file, lets update
+                        old_item_manager.set_file (file);
+                        new_viewed_items.append (old_item_manager);
+                    } else {
+                        this.pending_items_to_process.add (new PendingItem (file, file_name, false, is));
+                    }
+                }
+            }
+
+            ////////////////////////////////////
+            // >>>>>>>>> check control <<<<<<<<<
+            if (this.flag_restart) /////////////
+                continue; //////////////////////
+            // >>>>>>>>> check control <<<<<<<<<
+            ////////////////////////////////////
+
+
+            // 2. Last part, there are new items that need to be positioned in a valid place
+            // --------------------------------------------------------------------------
+            // removing old entries, now no exist
+            old_showed_items.foreach ((entry) => {
+                this.manager.get_view ().remove_item (entry.get_view ());
+            }) ;
+            this.manager.items = new List <ItemManager>();
+            new_viewed_items.foreach ((entry) => {
+                this.manager.items.append (entry);
+            }) ;
+
+            if (this.pending_items_to_process.size > 0) {
+                // there are pending items to be processed, it means, create the widget and so
+                // Therefore, the pending actions need to be executed in the main gtk Thread
+                GLib.Idle.add_full (GLib.Priority.LOW, () => {
+                    // max items to process in the gtk draw thread
+                    const int MAX = 10;
+                    int index = 0;
+                    while (index < MAX && this.pending_items_to_process.size > 0) {
+                        PendingItem pending = this.pending_items_to_process.remove_at (0);
+                        // debug ("drawing widget for file: %s", pending.file_name);
+
+                        if (!pending.calculate_position) {
+                            // managing previously saved items in settings
+                            ItemManager item = new ItemManager (pending.file_name, pending.file, this.manager);
+                            this.manager.items.append (item);
+                            this.manager.get_view ().add_item (item.get_view (), pending.settings.x, pending.settings.y);
+                        } else {
+                            // new item to position
+                            // we need to create one empty setting
+                            ItemSettings is = new ItemSettings ();
+                            int x = 0;
+                            int y = 0;
+
+                            // trying to get a position for the new items
+                            this.mutex.lock () ;
+                            if (this.pending_params_to_process.size > 0) {
+                                Param fsp = this.pending_params_to_process.remove_at (0);
+                                x = fsp.x;
+                                y = fsp.y;
+                            }
+                            if (x == 0 && y == 0 && false) {
+                                // no desired position for the item, lets calculate a good position
+                                if (this.grid == null) {
+                                    // building the structure to see current gaps
+                                    this.grid = FolderGrid.build_grid_structure (this.manager.get_view (), this.manager.get_settings ().arrangement_padding);
+                                    // grid.print ();
+                                }
+                                Gdk.Point pos = grid.get_next_gap (this.manager.get_view (), is, this.manager.get_settings ().arrangement_padding, this.manager.is_vertical_arragement ());
+                                is.x = pos.x;
+                                is.y = pos.y;
+                            } else {
+                                is.x = x;
+                                is.y = y;
+                            }
+                            this.mutex.unlock ();
+
+                            is.name = pending.file_name;
+                            this.manager.get_settings ().add_item (is);
+                            ItemManager item = new ItemManager (pending.file_name, pending.file, this.manager);
+                            this.manager.items.append (item);
+                            this.manager.get_view ().add_item (item.get_view (), is.x, is.y);
+                        }
+
+                        index++;
+                    }
+
+                    // checking if we need to continue processing items in the idle thread
+                    if (this.flag_restart || this.pending_items_to_process.size == 0) {
+                        this.manager.get_settings ().save ();
+                        this.manager.get_view ().refresh ();
+                        if (this.manager.get_arrangement ().force_organization ()) {
+                            this.manager.organize_panel_items ();
+                        }
+                        this.manager.get_view ().hide_loading ();
+                        this.flag_running = false;
+                        this.manager.on_sync_finished();
+
+                        // debug ("finished drawing");
+                        debug (">>>>>>>>>>> END _sync_files for Panel: %s", this.manager.get_folder_name ());
+                        return false;
+                    } else {
+                        // this.manager.get_view ().refresh ();
+                        // debug ("lets continue drawing in the future");
+                        return true;
+                    }
+                });
+            } else {
+                // nothing to process, the sync algorithm is finished
+                this.manager.get_view ().hide_loading ();
+                this.flag_running = false;
+                this.manager.on_sync_finished();
+                debug (">>>>>>>>>>> END _sync_files for Panel: %s", this.manager.get_folder_name ());
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @name pop_item_from_list
+     * @description try to ind an item in a item list by the file get_name
+     * @param string file_name the file name of the item
+     * @param List<ItemManager> the list to search inside (reference)
+     * @return ItemManager the itemmanager found, or null if none match
+     */
+    private ItemManager ? pop_item_from_list (string file_name, ref List <ItemManager> items) {
+        foreach (var item in items) {
+            if (item.get_file_name () == file_name) {
+                items.remove (item);
+                return item;
+            }
+        }
+        return null;
+    }
+
 }

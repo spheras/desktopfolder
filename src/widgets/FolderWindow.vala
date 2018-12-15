@@ -20,22 +20,26 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    protected FolderManager manager                = null;
-    protected Gtk.Fixed container                  = null;
-    protected Gtk.ScrolledWindow scroll            = null;
-    protected Gtk.Menu context_menu                = null;
-    protected bool flag_moving                     = false;
-    private Gtk.Button trash_button                = null;
-    private DesktopFolder.EditableLabel label      = null;
-    protected Gtk.Button properties_button         = null;
+    protected FolderManager manager                    = null;
+    protected Gtk.Fixed container                      = null;
+    protected Gtk.ScrolledWindow scroll                = null;
+    protected Gtk.Menu context_menu                    = null;
+    protected bool flag_moving                         = false;
+    private Gtk.Button trash_button                    = null;
+    private DesktopFolder.EditableLabel label          = null;
+    protected Gtk.Button properties_button             = null;
 
-    public const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
-    public const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
+    public const string HEAD_TAGS_COLORS[3]            = { null, "#ffffff", "#000000" };
+    public const string HEAD_TAGS_COLORS_CLASS[3]      = { "df_headless", "df_light", "df_dark" };
 
-    public const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
-    public const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
-    protected string last_custom_color             = "#FF0000";
-    private Gtk.CssProvider custom_color_provider  = new Gtk.CssProvider ();
+    public const string BODY_TAGS_COLORS[10]           = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
+    public const string BODY_TAGS_COLORS_CLASS[10]     = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
+    protected string last_custom_color                 = "#FF0000";
+    private Gtk.CssProvider custom_color_provider      = new Gtk.CssProvider ();
+    /** timeout id for configure event */
+    private uint configure_event_timeout               = 0;
+    private const int MAX_ITEMS_TO_PROCESS_DINAMICALLY = 50;
+
 
     /** flag to know if the window was painted /packed already */
     private bool flag_realized = false;
@@ -198,6 +202,30 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+    * @name show_loading
+    * @description show the loading spinner
+    */
+    public void show_loading () {
+        if (this.spinner != null) {
+            debug ("setting LOADING VISIBLE: %s",this.manager.get_folder_name());
+            this.spinner.set_visible (true);
+            this.spinner.set_opacity(1);
+        }
+    }
+
+    /**
+    * @name hide_loading
+    * @description hide the loading spinner
+    */
+    public void hide_loading () {
+        if (this.spinner != null) {
+            debug ("setting LOADING NO VISIBLE: %s",this.manager.get_folder_name());
+            this.spinner.set_visible (false);
+            this.spinner.set_opacity(0);
+        }
+    }
+
+    /**
      * @name show_properties_dialog
      * @description show the properties dialog
      */
@@ -206,6 +234,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         dialog.set_transient_for (this);
         dialog.show_all ();
     }
+
+    private Gtk.Spinner spinner;
 
     /**
      * @name create_headerbar
@@ -231,6 +261,13 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         header.pack_end (properties_button);
 
         this.set_titlebar (header);
+
+        this.spinner        = new Gtk.Spinner ();
+        this.spinner.active = true;
+        header.pack_start (this.spinner);
+        this.spinner.set_visible(false);
+        this.spinner.set_opacity(0);
+
 
         label.changed.connect ((new_name) => {
             if (this.manager.rename (new_name)) {
@@ -454,18 +491,40 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // TODO: Is there a way to make a desktop window resizable and movable?
             this.type_hint = Gdk.WindowTypeHint.DESKTOP; // Going to try DIALOG at some point
 
-            int x = event.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            int y = event.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            int w = event.width - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
-            int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
-            // debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
-            this.manager.set_new_shape (x, y, w, h);
-
-            if (this.manager.get_arrangement ().force_organization ()) {
-                this.manager.organize_panel_items ();
+            if (this.manager.get_settings ().items.length > MAX_ITEMS_TO_PROCESS_DINAMICALLY) {
+                // waiting 400ms of inactivity to save the new position
+                if (this.configure_event_timeout > 0) {
+                    Source.remove (this.configure_event_timeout);
+                    this.configure_event_timeout = 0;
+                }
+                this.configure_event_timeout = Timeout.add (400, () => {
+                    this.configure_event_timeout = 0;
+                    this.save_current_position_and_size (event);
+                    return false;
+                });
+            } else {
+                // saving position inmediatelly, we can afford it
+                this.save_current_position_and_size (event);
             }
+
         }
         return false;
+    }
+
+    /**
+     * @name save_position_and_size
+     * @description save the current position and size of the window
+     */
+    public void save_current_position_and_size (Gdk.EventConfigure event) {
+        // we are saving here the last position and size
+        // we avoid doing it at on_configure because it launches a lot of events
+
+        int x = event.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+        int y = event.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+        int w = event.width - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
+        int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
+        // debug ("%s - set_new_shape: %i,%i,%i,%i", this.get_manager().get_folder_name(), x, y, w, h);
+        this.manager.set_new_shape (x, y, w, h);
     }
 
     /**
@@ -1147,18 +1206,18 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_text_file (int x, int y) {
         string new_name = this.manager.create_new_text_file (x, y);
-        var    item     = this.manager.get_item_by_filename (new_name);
-        if (item == null) {
-            stderr.printf ("Error: Couldn't find the newly created folder's item.");
-            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
-            return;
-        } else {
-            ItemView itemview = item.get_view ();
-            GLib.Timeout.add (50, () => {
+
+        GLib.Timeout.add (500, () => {
+            //sync algorithm thread need time to react
+            var    item     = this.manager.get_item_by_filename (new_name);
+            if (item != null) {
+                ItemView itemview = item.get_view ();
                 itemview.start_editing ();
-                return false;
-            });
-        }
+            }
+
+            return false;
+        });
+
     }
 
     /**

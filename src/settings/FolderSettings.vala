@@ -290,9 +290,33 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         }
 
         // finally, we recreate the string[]
+        this.serialize_list (all);
+    }
+
+    /**
+     * @name serialize
+     * @description serialize a list of itemsettings to the string result
+     * @param {List<ItemSettings} all the list of item settings to serialize in the settings
+     */
+    public void serialize_list (List <ItemSettings> all) {
         string[] str_result = new string[all.length ()];
         for (int i = 0; i < all.length (); i++) {
             ItemSettings element = all.nth_data (i);
+            var          str     = element.to_string ();
+            str_result[i] = str;
+        }
+        this.items = str_result;
+    }
+
+    /**
+     * @name serialize
+     * @description serialize an array of itemsettings to the string result
+     * @param {ItemSettings[]} all the array of item settings to serialize in the settings
+     */
+    public void serialize_array (ItemSettings[] all) {
+        string[] str_result = new string[all.length];
+        for (int i = 0; i < all.length; i++) {
+            ItemSettings element = all[i];
             var          str     = element.to_string ();
             str_result[i] = str;
         }
@@ -332,18 +356,27 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @param item ItemSettings the ItemSettings to be added
      */
     public void add_item (ItemSettings item) {
-        int length = this.items.length;
-        // i don't know why this can't compile
-        // this.items.resize(length+1);
-        // this.items[this.items.length-1]=item.to_string();
+      this._items += item.to_string();
+      this.flagChanged=true;
 
+      /*
+      int length = this.items.length;
+        this._items.resize (length + 1);
+        this._items[this._items.length - 1] = item.to_string ();
+        this.flagChanged=true;
+      */
+
+
+      /*
         // alternative, copying it manually?!! :(
-        string[] citems = new string[length + 1];
-        for (int i = 0; i < length; i++) {
+        int length = this.items.length;
+           string[] citems = new string[length + 1];
+           for (int i = 0; i < length; i++) {
             citems[i] = this.items[i];
-        }
-        citems[length] = item.to_string ();
-        this.items     = citems;
+           }
+           citems[length] = item.to_string ();
+           this.items     = citems;
+           */
     }
 
     /**
@@ -360,6 +393,20 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
         return (ItemSettings) null;
+    }
+
+    /**
+     * @name get_items_parsed
+     * @description return the list of item settings managed by this folder settings
+     * @return {List<ItemSettings>} the list of managed item settings
+     */
+    public Gee.HashMap <string, ItemSettings> get_items_parsed () {
+        Gee.HashMap <string, ItemSettings> result = new Gee.HashMap <string, ItemSettings>();
+        for (int i = 0; i < this.items.length; i++) {
+            ItemSettings is = ItemSettings.parse (this.items[i]);
+            result.set (is.name, is);
+        }
+        return result;
     }
 
     /**
@@ -394,6 +441,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         Json.Generator generator = new Json.Generator ();
         generator.set_root (root);
         string data              = generator.to_data (null);
+
         // debug ("the json generated is:\n%s\n", data);
         try {
             // an output file in the current working directory

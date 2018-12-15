@@ -387,7 +387,7 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
     }
 
     public Json.Node serialize_property (string property_name, Value @value, ParamSpec pspec) {
-        // debug("SERIALIZE -- property_name:%s",property_name);
+        //debug("SERIALIZE -- property_name:%s",property_name);
         if (property_name == "resolutions") {
             var array = new Json.Array.sized (this._resolutions.length ());
             for (int i = 0; i < this._resolutions.length (); i++) {
@@ -399,7 +399,8 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
             return node;
         }
 
-        return default_serialize_property (property_name, @value, pspec);
+        Json.Node result=default_serialize_property (property_name, @value, pspec);
+        return result;
     }
 
     public bool deserialize_property (string property_name, out Value @value, ParamSpec pspec, Json.Node property_node) {

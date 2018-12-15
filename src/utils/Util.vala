@@ -348,7 +348,7 @@ namespace DesktopFolder.Util {
         if (found) {
             default_arrangement = (int) settings.get_enum ("default-arrangement");
         }
-        debug ("default_arrangement: %d", default_arrangement);
+        // debug ("default_arrangement: %d", default_arrangement);
         return default_arrangement;
     }
 

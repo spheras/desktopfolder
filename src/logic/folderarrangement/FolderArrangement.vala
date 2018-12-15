@@ -110,6 +110,71 @@ public interface DesktopFolder.FolderArrangement : Object {
      * @param asc bool to indicate ascendent sort or descent (true->ascendent)
      */
     public static void organize_items (FolderWindow parent_window, ref List <ItemManager> items, int sort_by_type, bool asc, bool vertically) {
+        Organize.Thread fot = new Organize.Thread (parent_window, ref items, sort_by_type, asc, vertically);
+        fot.start ();
+    }
+
+}
+
+/**
+ * Class to represent a desired movement of an item to a different positions after a reorganization
+ */
+private class DesktopFolder.Organize.ItemMove {
+    /** the view to move */
+    public ItemView view { get; set; }
+    /** the new point x,y to put the item view*/
+    public Gdk.Point point { get; set; }
+
+    public ItemMove (ItemView view, Gdk.Point point) {
+        this.view  = view;
+        this.point = point;
+    }
+}
+
+/**
+ * Thread to organize items following a grid
+ */
+private class DesktopFolder.Organize.Thread {
+    private FolderWindow parent_window;
+    private List <ItemManager> items;
+    private int sort_by_type;
+    private bool asc;
+    private bool vertically;
+
+    public Thread (FolderWindow parent_window, ref List <ItemManager> items, int sort_by_type, bool asc, bool vertically) {
+        this.parent_window = parent_window;
+
+        // HELP! how to copy a ref variable in vala!?
+        this.items = new List <ItemManager>();
+        items.foreach ((i) => {
+            this.items.append (i);
+        }) ;
+        // ******************************************
+
+        this.sort_by_type = sort_by_type;
+        this.vertically   = vertically;
+    }
+
+    /**
+     * @name start
+     * @description start the thread
+     */
+    public void start () {
+        parent_window.show_loading ();
+        try{
+          new GLib.Thread <bool> .try ("sync_thread", this.organize);
+        }catch(Error e){
+          stderr.printf ("Error: %s\n", e.message);
+          Util.show_error_dialog ("Error", e.message);
+        }
+    }
+
+    /**
+     * @name organize
+     * @description organize algorithm
+     */
+    private bool organize () {
+        debug("ORGANIZE THREAD -> INIT");
         FolderSort folder_sort = FolderSort.factory (sort_by_type);
         folder_sort.sort (ref items, asc);
 
@@ -123,6 +188,8 @@ public interface DesktopFolder.FolderArrangement : Object {
         int cursor_x = left_margin;
         int cursor_y = 0;
         int padding  = parent_window.get_manager ().get_settings ().arrangement_padding;
+        Gee.HashMap <string, ItemSettings> managed_items = parent_window.get_manager ().get_settings ().get_items_parsed ();
+        Gee.List <Organize.ItemMove>       item_moves    = new Gee.ArrayList <Organize.ItemMove>();
 
         for (int i = 0; i < items.length (); i++) {
             ItemManager item = items.nth_data (i);
@@ -132,15 +199,15 @@ public interface DesktopFolder.FolderArrangement : Object {
             Gdk.Point px = Gdk.Point ();
             px.x = cursor_x;
             px.y = cursor_y;
-            UtilGtkAnimation.animate_move (item.get_view (), px, 500, UtilFx.AnimationMode.EASE_IN_BACK);
 
+            // add the movement to the pending movements to be executed in the gtk thread
+            item_moves.add (new Organize.ItemMove (item.get_view (), px));
 
             // saving settings for the new position
-            ItemSettings is = item.get_folder ().get_settings ().get_item (item.get_file_name ());
+            ItemSettings is = managed_items[item.get_file_name ()];
+
             is.x            = cursor_x;
             is.y            = cursor_y;
-            item.get_folder ().get_settings ().set_item (is);
-            item.get_folder ().get_settings ().save ();
 
             // moving the cursor horizontally
             if (vertically) {
@@ -159,9 +226,37 @@ public interface DesktopFolder.FolderArrangement : Object {
                 }
             }
         }
+
+
+        // only last to put the items in their positions, this is something can only be done in the gtk main thread
+        GLib.Idle.add_full (GLib.Priority.LOW, () => {
+            const int MAX = 5;
+            int cursor = 0;
+
+            while (cursor < MAX && item_moves.size > 0) {
+                Organize.ItemMove move = item_moves.remove_at (0);
+                UtilGtkAnimation.animate_move (move.view, move.point, 500, UtilFx.AnimationMode.EASE_IN_BACK);
+                cursor++;
+            }
+
+            if (item_moves.size > 0) {
+                // next iteration in the main gtk thread
+                return true;
+            } else {
+                parent_window.get_manager ().get_settings ().serialize_array (managed_items.values.to_array ());
+                parent_window.get_manager ().get_settings ().save ();
+
+                this.parent_window.hide_loading ();
+                debug("ORGANIZE THREAD -> END");
+                return false;
+            }
+        });
+
+        return true;
     }
 
 }
+
 
 private class GridRow {
 
