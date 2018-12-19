@@ -151,6 +151,7 @@ private class DesktopFolder.Organize.Thread {
         }) ;
         // ******************************************
 
+        this.asc=asc;
         this.sort_by_type = sort_by_type;
         this.vertically   = vertically;
     }
