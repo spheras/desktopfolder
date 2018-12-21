@@ -35,7 +35,7 @@ namespace DesktopFolder.Util {
         for (int i = 0; i < monitors; i++) {
             Gdk.Monitor   monitor = display.get_monitor (i);
             Gdk.Rectangle warea   = monitor.get_workarea ();
-            // debug("New rectangle: %d,%d -- %d,%d",warea.x,warea.y,warea.width,warea.height);
+            //debug("New rectangle: %d,%d -- %d,%d",warea.x,warea.y,warea.width,warea.height);
             warea.union (result, out result);
         }
 

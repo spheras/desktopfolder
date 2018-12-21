@@ -184,9 +184,9 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
         ResolutionStrategy strategy = this.get_resolution_strategy_setting ();
         switch (strategy) {
         case ResolutionStrategy.STORE:
-            // debug ("strategy store");
+            //debug ("strategy store");
             this.strategy_store ();
-            // debug("check_off_screen");
+            //debug("check_off_screen");
             check_off_screen ();
             break;
         case ResolutionStrategy.SCALE:
@@ -250,14 +250,14 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
     private void strategy_store () {
         ResolutionSettings rs = find_current_resolution ();
         if (rs != null) {
-            // debug("setting a store resolution");
+            //debug("setting a store resolution");
             this.x    = rs.x;
             this.y    = rs.y;
             this.w    = rs.w;
             this.h    = rs.h;
             this.resx = rs.resx;
             this.resy = rs.resy;
-            // debug ("strategy_store:(%d,%d,%d,%d)", this.x, this.y, this.w, this.h);
+            //debug ("strategy_store:(%d,%d,%d,%d)", this.x, this.y, this.w, this.h);
         } else {
             // debug ("strategy store: no resolution, lets scale");
             // should we resize?? not sure, normally I just add a monitor, don't need to resize, just to position it correctly

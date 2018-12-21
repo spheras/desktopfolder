@@ -281,11 +281,24 @@ public class DesktopFolderApp : Gtk.Application {
         }
     }
 
+    /** resize event timeout id */
+    private uint resize_event_timeout=0;
+
+
     /**
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
+
     public void on_screen_size_changed () {
+      if(this.resize_event_timeout>0){
+        Source.remove(this.resize_event_timeout);
+        this.resize_event_timeout=0;
+      }
+      //waiting 1 second to ensure the correct size information from monitors
+      this.resize_event_timeout=Timeout.add(1000,()=>{
+          this.resize_event_timeout=0;
+
         debug ("SCREEN SIZE CHANGED!");
         Gdk.Screen screen = Gdk.Screen.get_default ();
         if (this.desktop != null) {
@@ -300,6 +313,9 @@ public class DesktopFolderApp : Gtk.Application {
         foreach (var photo in photos) {
             photo.on_screen_size_changed (screen);
         }
+
+        return false;
+      });
     }
 
     /** the desktop folder name */
