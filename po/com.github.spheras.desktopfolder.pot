@@ -524,8 +524,12 @@ msgstr ""
 msgid "Show Desktop"
 msgstr ""
 
-#: src/LanguageText.vala:230
+#: src/LanguageText.vala:231
 msgid "Hide Desktop"
+msgstr ""
+
+#: src/LanguageText.vala:233
+msgid "Sort Vertically"
 msgstr ""
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
