@@ -12,10 +12,12 @@ services:
 
 addons:
   apt:
+    update: true
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - libstdc++-5-dev
+      - intltool
 
 cache:
   directories:
@@ -30,7 +32,3 @@ install:
 
 script:
   - houston ci
-
-before_install:
-  - sudo apt install -y intltool
-
