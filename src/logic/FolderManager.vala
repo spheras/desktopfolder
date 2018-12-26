@@ -465,11 +465,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @param int y the y position of the new folder
      */
     public string create_new_folder (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME) {
-        string path     = this.get_absolute_path () + "/" + name;
-
+        string path = this.get_absolute_path () + "/" + name;
         string new_name = "";
+        File folder = File.new_for_path (path);
 
-        File folder     = File.new_for_path (path);
         if (folder.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
@@ -477,14 +476,20 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
         }
         // cancelling the current monitor
         this.monitor.cancel ();
-        string folder_path = this.get_absolute_path () + "/" + new_name;
-        DirUtils.create (folder_path, 0755);
 
-        this.create_new_folder_inside (folder_path);
-        // forcing the sync of the files as a new folder has been created
-        this.sync_files (x, y);
-        // monitoring again
-        this.monitor_folder ();
+        try {
+            string folder_path = this.get_absolute_path () + "/" + new_name;
+            DirUtils.create (folder_path, 0755);
+
+            this.create_new_folder_inside (folder_path);
+            // forcing the sync of the files as a new folder has been created
+            this.sync_files (x, y);
+            // monitoring again
+            this.monitor_folder ();
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
 
         return new_name;
     }
@@ -497,11 +502,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @param int y the y position of the new file
      */
     public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
-        string path     = this.get_absolute_path () + "/" + name;
-
+        string path = this.get_absolute_path () + "/" + name;
         string new_name = "";
 
-        File file       = File.new_for_path (path);
+        File file = File.new_for_path (path);
         if (file.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
