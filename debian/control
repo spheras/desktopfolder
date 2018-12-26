@@ -13,7 +13,8 @@ Build-Depends: cmake,
                libgdk-pixbuf2.0-dev,
                libwnck-3-dev,
                libglib2.0-dev,
-               libgtksourceview-3.0-dev
+               libgtksourceview-3.0-dev,
+               intltool
 
 Standards-Version: 3.9.3
 Package: com.github.spheras.desktopfolder
