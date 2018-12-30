@@ -202,26 +202,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name show_loading
-    * @description show the loading spinner
-    */
+     * @name show_loading
+     * @description show the loading spinner
+     */
     public void show_loading () {
         if (this.spinner != null) {
-            debug ("setting LOADING VISIBLE: %s",this.manager.get_folder_name());
+            debug ("setting LOADING VISIBLE: %s", this.manager.get_folder_name ());
             this.spinner.set_visible (true);
-            this.spinner.set_opacity(1);
+            this.spinner.set_opacity (1);
         }
     }
 
     /**
-    * @name hide_loading
-    * @description hide the loading spinner
-    */
+     * @name hide_loading
+     * @description hide the loading spinner
+     */
     public void hide_loading () {
         if (this.spinner != null) {
-            debug ("setting LOADING NO VISIBLE: %s",this.manager.get_folder_name());
+            debug ("setting LOADING NO VISIBLE: %s", this.manager.get_folder_name ());
             this.spinner.set_visible (false);
-            this.spinner.set_opacity(0);
+            this.spinner.set_opacity (0);
         }
     }
 
@@ -265,8 +265,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.spinner        = new Gtk.Spinner ();
         this.spinner.active = true;
         header.pack_start (this.spinner);
-        this.spinner.set_visible(false);
-        this.spinner.set_opacity(0);
+        this.spinner.set_visible (false);
+        this.spinner.set_opacity (0);
 
 
         label.changed.connect ((new_name) => {
@@ -308,18 +308,18 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     public virtual void resize_to (int width, int height) {
-        //strange hack to avoid problems when resizing after the window has a header
-        //(i.e. after new screen resolution change event)
+        // strange hack to avoid problems when resizing after the window has a header
+        // (i.e. after new screen resolution change event)
         Gtk.Allocation title_allocation;
         this.get_titlebar ().get_allocation (out title_allocation);
-        int height_pad=title_allocation.height;
-        if(height_pad<2){
-          height_pad=0; //hack!
+        int height_pad = title_allocation.height;
+        if (height_pad < 2) {
+            height_pad = 0; // hack!
         }
 
         debug ("RESIZE_TO: %d,%d", width, height);
-        this.set_default_size (width, height-height_pad);
-        this.resize (width, height-height_pad);
+        this.set_default_size (width, height - height_pad);
+        this.resize (width, height - height_pad);
     }
 
     /**
@@ -1214,7 +1214,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         string new_name = this.manager.create_new_text_file (x, y);
 
         GLib.Timeout.add (500, () => {
-            //sync algorithm thread need time to react
+            // sync algorithm thread need time to react
             var item = this.manager.get_item_by_filename (new_name);
             if (item != null) {
                 ItemView itemview = item.get_view ();

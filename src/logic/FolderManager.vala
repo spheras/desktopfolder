@@ -74,7 +74,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
         // finally, we start monitoring the folder
         this.monitor_folder ();
 
-        this.view.refresh();
+        this.view.refresh ();
 
         this.dnd_behaviour = new DragnDrop.DndBehaviour (this, false, true);
     }
@@ -100,10 +100,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @description detecting screen size changes
      */
     public virtual void on_screen_size_changed (Gdk.Screen screen) {
-          debug ("size changed for %s", this.folder_name);
-          this.settings.calculate_current_position ();
-          debug ("reloading settings");
-          this.view.reload_settings ();
+        debug ("size changed for %s", this.folder_name);
+        this.settings.calculate_current_position ();
+        debug ("reloading settings");
+        this.view.reload_settings ();
     }
 
     /**
@@ -222,11 +222,11 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
-    * @name on_sync_finished
-    * @description sync thread has been finished
-    */
-    public void on_sync_finished(){
-        this.view.refresh();
+     * @name on_sync_finished
+     * @description sync thread has been finished
+     */
+    public void on_sync_finished () {
+        this.view.refresh ();
     }
 
     /**
@@ -465,9 +465,9 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @param int y the y position of the new folder
      */
     public string create_new_folder (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_FOLDER_NAME) {
-        string path = this.get_absolute_path () + "/" + name;
+        string path     = this.get_absolute_path () + "/" + name;
         string new_name = "";
-        File folder = File.new_for_path (path);
+        File   folder   = File.new_for_path (path);
 
         if (folder.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
@@ -502,10 +502,10 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @param int y the y position of the new file
      */
     public string create_new_text_file (int x, int y, string name = DesktopFolder.Lang.DESKTOPFOLDER_NEW_TEXT_FILE_NAME) {
-        string path = this.get_absolute_path () + "/" + name;
+        string path     = this.get_absolute_path () + "/" + name;
         string new_name = "";
 
-        File file = File.new_for_path (path);
+        File file       = File.new_for_path (path);
         if (file.query_exists ()) {
             new_name = DesktopFolder.Util.make_next_duplicate_name (name, this.get_absolute_path ());
         } else {
@@ -1158,7 +1158,7 @@ public class DesktopFolder.FolderSync.Thread {
                         }
                         this.manager.get_view ().hide_loading ();
                         this.flag_running = false;
-                        this.manager.on_sync_finished();
+                        this.manager.on_sync_finished ();
 
                         // debug ("finished drawing");
                         debug (">>>>>>>>>>> END _sync_files for Panel: %s", this.manager.get_folder_name ());
@@ -1173,7 +1173,7 @@ public class DesktopFolder.FolderSync.Thread {
                 // nothing to process, the sync algorithm is finished
                 this.manager.get_view ().hide_loading ();
                 this.flag_running = false;
-                this.manager.on_sync_finished();
+                this.manager.on_sync_finished ();
                 debug (">>>>>>>>>>> END _sync_files for Panel: %s", this.manager.get_folder_name ());
             }
         }

@@ -282,7 +282,7 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /** resize event timeout id */
-    private uint resize_event_timeout=0;
+    private uint resize_event_timeout = 0;
 
 
     /**
@@ -291,31 +291,31 @@ public class DesktopFolderApp : Gtk.Application {
      */
 
     public void on_screen_size_changed () {
-      if(this.resize_event_timeout>0){
-        Source.remove(this.resize_event_timeout);
-        this.resize_event_timeout=0;
-      }
-      //waiting 1 second to ensure the correct size information from monitors
-      this.resize_event_timeout=Timeout.add(1000,()=>{
-          this.resize_event_timeout=0;
+        if (this.resize_event_timeout > 0) {
+            Source.remove (this.resize_event_timeout);
+            this.resize_event_timeout = 0;
+        }
+        // waiting 1 second to ensure the correct size information from monitors
+        this.resize_event_timeout = Timeout.add (1000, () => {
+            this.resize_event_timeout = 0;
 
-        debug ("SCREEN SIZE CHANGED!");
-        Gdk.Screen screen = Gdk.Screen.get_default ();
-        if (this.desktop != null) {
-            this.desktop.on_screen_size_changed (screen);
-        }
-        foreach (var folder in folders) {
-            folder.on_screen_size_changed (screen);
-        }
-        foreach (var note in notes) {
-            note.on_screen_size_changed (screen);
-        }
-        foreach (var photo in photos) {
-            photo.on_screen_size_changed (screen);
-        }
+            debug ("SCREEN SIZE CHANGED!");
+            Gdk.Screen screen = Gdk.Screen.get_default ();
+            if (this.desktop != null) {
+                this.desktop.on_screen_size_changed (screen);
+            }
+            foreach (var folder in folders) {
+                folder.on_screen_size_changed (screen);
+            }
+            foreach (var note in notes) {
+                note.on_screen_size_changed (screen);
+            }
+            foreach (var photo in photos) {
+                photo.on_screen_size_changed (screen);
+            }
 
-        return false;
-      });
+            return false;
+        });
     }
 
     /** the desktop folder name */

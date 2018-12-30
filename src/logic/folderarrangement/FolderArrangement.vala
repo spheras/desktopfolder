@@ -151,7 +151,7 @@ private class DesktopFolder.Organize.Thread {
         }) ;
         // ******************************************
 
-        this.asc=asc;
+        this.asc          = asc;
         this.sort_by_type = sort_by_type;
         this.vertically   = vertically;
     }
@@ -162,11 +162,11 @@ private class DesktopFolder.Organize.Thread {
      */
     public void start () {
         parent_window.show_loading ();
-        try{
-          new GLib.Thread <bool> .try ("sync_thread", this.organize);
-        }catch(Error e){
-          stderr.printf ("Error: %s\n", e.message);
-          Util.show_error_dialog ("Error", e.message);
+        try {
+            new GLib.Thread <bool> .try ("sync_thread", this.organize);
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
         }
     }
 
@@ -175,7 +175,7 @@ private class DesktopFolder.Organize.Thread {
      * @description organize algorithm
      */
     private bool organize () {
-        debug("ORGANIZE THREAD -> INIT");
+        debug ("ORGANIZE THREAD -> INIT");
         FolderSort folder_sort = FolderSort.factory (sort_by_type);
         folder_sort.sort (ref items, asc);
 
@@ -248,7 +248,7 @@ private class DesktopFolder.Organize.Thread {
                 parent_window.get_manager ().get_settings ().save ();
 
                 this.parent_window.hide_loading ();
-                debug("ORGANIZE THREAD -> END");
+                debug ("ORGANIZE THREAD -> END");
                 return false;
             }
         });

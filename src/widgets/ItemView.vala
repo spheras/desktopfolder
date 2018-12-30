@@ -629,7 +629,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 Gtk.Widget p = this.parent;
                 // offset == distance of parent widget from edge of screen ...
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
-                debug("offset:%i,%i",this.offsetx,this.offsety);
+                debug ("offset:%i,%i", this.offsetx, this.offsety);
                 // plus distance from pointer to edge of widget
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;

@@ -356,27 +356,27 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @param item ItemSettings the ItemSettings to be added
      */
     public void add_item (ItemSettings item) {
-      this._items += item.to_string();
-      this.flagChanged=true;
+        this._items     += item.to_string ();
+        this.flagChanged = true;
 
-      /*
-      int length = this.items.length;
-        this._items.resize (length + 1);
-        this._items[this._items.length - 1] = item.to_string ();
-        this.flagChanged=true;
-      */
+        /*
+           int length = this.items.length;
+           this._items.resize (length + 1);
+           this._items[this._items.length - 1] = item.to_string ();
+           this.flagChanged=true;
+         */
 
 
-      /*
-        // alternative, copying it manually?!! :(
-        int length = this.items.length;
-           string[] citems = new string[length + 1];
-           for (int i = 0; i < length; i++) {
-            citems[i] = this.items[i];
-           }
-           citems[length] = item.to_string ();
-           this.items     = citems;
-           */
+        /*
+           // alternative, copying it manually?!! :(
+           int length = this.items.length;
+             string[] citems = new string[length + 1];
+             for (int i = 0; i < length; i++) {
+              citems[i] = this.items[i];
+             }
+             citems[length] = item.to_string ();
+             this.items     = citems;
+         */
     }
 
     /**
