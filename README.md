@@ -56,8 +56,9 @@ You'll need the following dependencies to build:
 * libjson-glib-dev
 * meson
 * valac
+* intltool
 
-`sudo apt install meson valac libgee-0.8-dev libcairo2-dev libjson-glib-dev libgdk-pixbuf2.0-dev libwnck-3-dev libgtksourceview-3.0-dev libjson-glib-dev`
+`sudo apt install meson valac libgee-0.8-dev libcairo2-dev libjson-glib-dev libgdk-pixbuf2.0-dev libwnck-3-dev libgtksourceview-3.0-dev libjson-glib-dev intltool`
 
 Run `meson build` to configure the build environment and then change to the build directory and run `ninja` to build:
 
