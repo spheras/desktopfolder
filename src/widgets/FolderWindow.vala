@@ -1192,19 +1192,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_folder (int x, int y) {
         string new_name = this.manager.create_new_folder (x, y);
-        var    item     = this.manager.get_item_by_filename (new_name);
-        if (item == null) {
-            stderr.printf ("Error: Couldn't find the newly created folder's item.");
-            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
-            return;
-        } else {
-            ItemView itemview = item.get_view ();
 
-            GLib.Timeout.add (50, () => {
+        GLib.Timeout.add (50, () => {
+            var item = this.manager.get_item_by_filename (new_name);
+            if (item != null) {
+                ItemView itemview = item.get_view ();
                 itemview.start_editing ();
-                return false;
-            });
-        }
+            }
+
+            return false;
+        });
     }
 
     /**
@@ -1218,7 +1215,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         GLib.Timeout.add (500, () => {
             //sync algorithm thread need time to react
-            var    item     = this.manager.get_item_by_filename (new_name);
+            var item = this.manager.get_item_by_filename (new_name);
             if (item != null) {
                 ItemView itemview = item.get_view ();
                 itemview.start_editing ();
@@ -1226,7 +1223,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
             return false;
         });
-
     }
 
     /**
