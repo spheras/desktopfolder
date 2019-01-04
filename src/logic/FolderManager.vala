@@ -321,13 +321,24 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
+    * @name stop_sync
+    * @description stop the syncing thread (if any)
+    */
+    public bool is_sync_running(){
+      if (this.sync_thread != null) {
+          return this.sync_thread.is_running();
+      }
+      return false;
+    }
+
+    /**
      * @name sync_files
      * @description sync all the files contained at the folder this manager refers to
      * @param x int the x position where any new item found should be positioned, <=0 if this algorithm must decide
      * @param y int the y position where any new item found should be positioned, <=0 if this algorithm must decide
      */
     public void sync_files (int x, int y) {
-        if (sync_thread == null) {
+        if (this.sync_thread == null) {
             this.sync_thread = new FolderSync.Thread (this);
         }
         this.load_folder_settings ();
@@ -923,6 +934,10 @@ public class DesktopFolder.FolderSync.Thread {
         this.pending_params_to_process = new Gee.ArrayList <Param>();
     }
 
+    public bool is_running(){
+      return this.flag_running;
+    }
+
     /**
      * @name add_pending
      * @descripition add a param to pending params to process
@@ -960,6 +975,7 @@ public class DesktopFolder.FolderSync.Thread {
             // the algorithm is not running, lets execute it in a new thread
             this.flag_running = true;
             try {
+                this.manager.get_view ().show_loading ();
                 new GLib.Thread <bool> .try ("sync_thread", this._sync_files);
             } catch (Error e) {
                 stderr.printf ("Error: %s\n", e.message);
@@ -996,8 +1012,6 @@ public class DesktopFolder.FolderSync.Thread {
      * @description this is the sync algorithm processed in a different thread
      */
     private bool _sync_files () {
-        this.manager.get_view ().show_loading ();
-
         debug (">>>>>>>>>>> INIT _sync_files for Panel: %s", this.manager.get_folder_name ());
         this.set_running (true);
         this.set_restart (true);

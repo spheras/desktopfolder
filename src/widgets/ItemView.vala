@@ -629,10 +629,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 Gtk.Widget p = this.parent;
                 // offset == distance of parent widget from edge of screen ...
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
-                debug ("offset:%i,%i", this.offsetx, this.offsety);
+                //debug ("offset_1: %i,%i", this.offsetx, this.offsety);
                 // plus distance from pointer to edge of widget
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
+                //debug ("offset_2: %i,%i", this.offsetx, this.offsety);
 
                 // if it was grabed the title_label, the event position (y) need to be recalculated
                 if (event.window == this.label.title_label.get_window ()) {
@@ -640,6 +641,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     int my_y = 0;
                     this.translate_coordinates (this.label.title_label, (int) event.x, (int) event.y, out my_x, out my_y);
                     this.offsety -= my_y;
+                    //debug ("offset_3 %i,%i", this.offsetx, this.offsety);
                 }
 
                 // creating a map of the current grid structure
@@ -922,6 +924,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int x = (int) event.x_root - this.offsetx;
             int y = (int) event.y_root - this.offsety;
 
+            //debug("motion: %d,%d",(int) event.x_root,(int) event.y_root);
+            //debug("offset_motion: %d,%d",this.offsetx,this.offsety);
+
             // removing parent absolute position due to scroll
             // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
             FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
@@ -946,6 +951,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
                 FolderWindow window = this.manager.get_folder ().get_view ();
                 window.move_item (this, x + PADDING_X, y);
+                //debug("moving to: %d,%d",x+PADDING_X,y);
 
                 // notifying to the arrangement
                 this.manager.get_folder ().get_arrangement ().motion_drag (x + PADDING_X, y);

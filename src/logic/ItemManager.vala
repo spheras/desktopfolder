@@ -412,7 +412,12 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description trash the file or folder associated
      */
     public void trash () {
+      if(this.folder.is_sync_running()){
+        return;
+      }
+
         try {
+            this.unselect();
             if (this.is_folder ()) {
                 File file = File.new_for_path (this.get_absolute_path ());
                 file.trash ();

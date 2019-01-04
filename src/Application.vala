@@ -430,6 +430,7 @@ public class DesktopFolderApp : Gtk.Application {
                 }
             }
 
+
             // finally we close any other not existent folder
             while (this.folders.length () > 0) {
                 DesktopFolder.FolderManager fm = this.folders.nth (0).data;
@@ -464,6 +465,7 @@ public class DesktopFolderApp : Gtk.Application {
 
                 this.sync_folders_and_notes ();
             }
+
         } catch (Error e) {
             // error! ??
             stderr.printf ("Error: %s\n", e.message);
