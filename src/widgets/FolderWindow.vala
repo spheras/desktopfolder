@@ -1018,7 +1018,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         if (key == DELETE_KEY) {
             if (selected == null) {
-                this.manager.trash ();
+                //I feel this is too drastic
+                //this.manager.trash ();
             } else if (shift_pressed) {
                 selected.delete_dialog ();
             } else {
