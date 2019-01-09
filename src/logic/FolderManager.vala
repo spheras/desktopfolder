@@ -1100,11 +1100,17 @@ public class DesktopFolder.FolderSync.Thread {
             // --------------------------------------------------------------------------
             // removing old entries, now no exist
             old_showed_items.foreach ((entry) => {
+              GLib.Idle.add_full (GLib.Priority.LOW, () => {
                 this.manager.get_view ().remove_item (entry.get_view ());
+                return false;
+              });
             }) ;
             this.manager.items = new List <ItemManager>();
             new_viewed_items.foreach ((entry) => {
+              GLib.Idle.add_full (GLib.Priority.LOW, () => {
                 this.manager.items.append (entry);
+                return false;
+              });
             }) ;
 
             if (this.pending_items_to_process.size > 0) {
