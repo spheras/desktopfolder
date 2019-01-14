@@ -268,6 +268,23 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+    * @name is_openable_contenttype
+    * @description check whether the item file can be executable or not (if not, could be opened instead)
+    */
+    public bool is_openable_contenttype(){
+      bool uncertain=false;
+      string content_type=GLib.ContentType.guess(this.file_name,null, out uncertain);
+      bool executable= GLib.ContentType.can_be_executable (content_type);
+      debug("content_type: %s   --  %s",content_type,(executable?"true":"false"));
+      if(executable){
+        return this.is_executable();
+      }else if(content_type=="application/octet-stream"){
+        return this.is_executable();
+      }
+      return false;
+    }
+
+    /**
      * @name open_in_terminal
      * @description open the folder item in a terminal (it is only called by folder items, see popup)
      * @param string path the path of the folder to open
@@ -292,7 +309,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             if (this.is_desktop_file ()) {
                 GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.get_absolute_path ());
                 desktopApp.launch_uris (null, null);
-            } else if (this.is_executable ()) {
+            } else if (this.is_openable_contenttype()) {
                 var command = "\"" + this.get_absolute_path () + "\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.NONE);
                 appinfo.launch_uris (null, null);
