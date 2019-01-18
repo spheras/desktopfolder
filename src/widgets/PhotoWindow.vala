@@ -1,20 +1,18 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -38,6 +36,12 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     // flag to know if the window is being resized
     private bool flag_resizing = false;
     private uint timeout_id    = 0;
+    // flag to know if the mouse is over the Window
+    private bool flag_over     = false;
+    /** flag to know if the window was painted /packed already */
+    private bool flag_realized = false;
+    /** flag to know if the window is being dragged */
+    private bool flag_dragged  = false;
 
     construct {
         set_keep_below (true);
@@ -67,19 +71,50 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         );
 
         DesktopManager desktop_manager = manager.get_application ().get_fake_desktop ();
-        this.set_transient_for (desktop_manager.get_view ());
-        this.set_titlebar (null);
+        if (desktop_manager != null) {
+            this.set_transient_for (desktop_manager.get_view ());
+        }
+
+        // this.set_titlebar (null);
+        var header = new Gtk.HeaderBar ();
+        this.set_titlebar (header);
+
+
         this.set_skip_taskbar_hint (true);
         this.set_property ("skip-taskbar-hint", true);
         // setting the folder name
         this.manager = manager;
 
+        // important to load settings 2 times, now and after realized event
         this.reload_settings ();
+        this.realize.connect (() => {
+            if (!this.flag_realized) {
+                this.flag_realized = true;
+                // we need to reload settings to ensure that it get the real sizes and positiions
+                this.reload_settings ();
+            }
+        });
 
         this.show_all ();
 
         // connecting to events
         this.configure_event.connect (this.on_configure);
+        this.motion_notify_event.connect ((event) => {
+            this.flag_dragged = false;
+            // forzing to draw the borders background
+            this.flag_over = true;
+            this.queue_draw ();
+            return true;
+        });
+        this.leave_notify_event.connect ((event) => {
+            var is_dragging_window = (event.detail == 3 && this.flag_dragged);
+            if (!is_dragging_window) {
+                this.flag_over = false;
+                this.queue_draw ();
+            }
+            return true;
+        });
+
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
         this.draw.connect (this.draw_background);
@@ -90,22 +125,39 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name fade_in
+     * @description fade the view in. does not call show
+     */
+    public void fade_in () {
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+    }
+
+    /**
+     * @name fade_out
+     * @description fade the view out. does not call hide
+     */
+    public void fade_out () {
+        this.get_style_context ().remove_class ("df_fadein");
+        this.get_style_context ().add_class ("df_fadeout");
+    }
+
+    /**
      * @name move_to
      * @description move the window to other position
      */
     protected virtual void move_to (int x, int y) {
-        this.move (x + 67, y + 53);
-        // WHY ARE NEEDED 67 AND 53?!!
-        // debug ("Move to:%d,%d", x, y);
+        // debug ("MOVE_TO: %d,%d", x, y);
+        this.move (x, y);
     }
 
     /**
      * @name resize_to
      * @description resize the window to other position
      */
-    protected virtual void resize_to (int width, int height) {
-        // this.set_default_size(width,height);
-        // debug ("Set size:%d,%d", width, height);
+    public virtual void resize_to (int width, int height) {
+        // debug ("RESIZE_TO: %d,%d", width, height);
+        this.set_default_size (width, height);
         this.resize (width, height);
     }
 
@@ -138,6 +190,17 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         this.get_style_context ().add_class ("df_photo");
         this.get_style_context ().add_class ("df_transparent");
         this.get_style_context ().add_class ("df_headless");
+
+        this.get_style_context ().add_class ("df_fadingwindow");
+        if (this.manager.get_application ().get_desktop_visibility ()) {
+            this.get_style_context ().add_class ("df_fadein");
+            // setting opacity to stop the folder window flashing at startup
+            this.opacity = 1;
+        } else {
+            this.get_style_context ().add_class ("df_fadeout");
+            // ditto
+            this.opacity = 0;
+        }
     }
 
     /**
@@ -181,7 +244,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         this.get_position (out x, out y);
         this.get_allocation (out all);
         this.get_size (out w, out h);
-        // debug ("allocation:%d,%d,%d,%d", x, y, w, h);
+        // debug ("set_new_shape:%i,%i,%i,%i", x, y, w, h);
         this.manager.set_new_shape (x, y, w, h);
     }
 
@@ -236,13 +299,15 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             return true;
         } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button == Gdk.BUTTON_PRIMARY)) {
-            this.flag_resizing = true;
             int width  = this.get_allocated_width ();
             int height = this.get_allocated_height ();
             int margin = 30;
             // debug("x:%d,y:%d,width:%d,height:%d",(int)event.x,(int) event.y,width,height);
             if (event.x > margin && event.y > margin && event.x < width - margin && event.y < height - margin) {
+                this.flag_dragged = true;
                 this.begin_move_drag ((int) event.button, (int) event.x_root, (int) event.y_root, event.time);
+            } else {
+                this.flag_resizing = true;
             }
         }
         return false;
@@ -254,84 +319,56 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @param event EventButton the origin event, needed to position the menu
      */
     private void show_popup (Gdk.EventButton event) {
-        // debug("evento:%f,%f",event.x,event.y);
-        // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
-
-        // Forcing Dock mode to avoid minimization in certain extremely cases without on_press signal!
-        // TODO exists a way to make resizable and moveable a dock window?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
 
         this.menu      = new Gtk.Menu ();
 
-        // new submenu
-        Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
-        item_new.show ();
-        menu.append (item_new);
+        if (!this.manager.get_application ().get_desktoppanel_enabled ()) {
+            Gtk.MenuItem item_new = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_SUBMENU);
+            menu.append (item_new);
 
-        Gtk.Menu newmenu = new Gtk.Menu ();
-        item_new.set_submenu (newmenu);
+            Gtk.Menu newmenu = new Gtk.Menu ();
+            item_new.set_submenu (newmenu);
 
-        // menu to create a new folder
-        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
-        item.activate.connect ((item) => {
-            this.new_desktop_folder ();
-        });
-        item.show ();
-        newmenu.append (item);
+            Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_DESKTOP_FOLDER);
+            item.activate.connect ((item) => {
+                this.new_desktop_folder ((int) event.x, (int) event.y);
+            });
+            newmenu.append (item);
 
-        // menu to create a new link panel
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
-        item.activate.connect ((item) => {
-            this.new_link_panel ();
-        });
-        item.show ();
-        newmenu.append (item);
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_LINK_PANEL);
+            item.activate.connect ((item) => {
+                this.new_link_panel ((int) event.x, (int) event.y);
+            });
+            newmenu.append (item);
 
-        // menu to create a new note
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
-        item.activate.connect ((item) => {
-            this.new_note ();
-        });
-        item.show ();
-        newmenu.append (item);
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_NOTE);
+            item.activate.connect ((item) => {
+                this.new_note ((int) event.x, (int) event.y);
+            });
+            newmenu.append (item);
 
-        // menu to create a new photo
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
-        item.activate.connect ((item) => {
-            this.new_photo ();
-        });
-        item.show ();
-        newmenu.append (item);
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_NEW_PHOTO);
+            item.activate.connect ((item) => {
+                this.new_photo ((int) event.x, (int) event.y);
+            });
+            newmenu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+            menu.append (new MenuItemSeparator ());
+        }
 
-        // option to delete the current folder
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
+        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
         item.activate.connect ((item) => { this.manager.delete (); });
-        item.show ();
         menu.append (item);
 
-        item = new MenuItemSeparator ();
-        item.show ();
-        menu.append (item);
+        menu.append (new MenuItemSeparator ());
 
         item = new MenuItemColor (FIXO_TAGS_COLORS, this, null);
         ((MenuItemColor) item).color_changed.connect (change_fixo_color);
-        item.show ();
         menu.append (item);
 
-        // }
-
-        // finally we show the popup
-        menu.popup (
-            null // parent menu shell
-            , null // parent menu item
-            , null // func
-            , event.button // button
-            , event.get_time () // Gtk.get_current_event_time() //time
-        );
+        menu.show_all ();
+        menu.popup_at_pointer (null);
     }
 
     /**
@@ -348,38 +385,38 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
 
     /**
      * @name new_desktop_folder
-     * @description show a dialog to create a new desktop folder
+     * @description create a new desktop folder
      */
-    private void new_desktop_folder () {
-        DesktopFolder.Util.create_new_desktop_folder (this);
+    private void new_desktop_folder (int x, int y) {
+        DesktopFolder.Util.create_new_desktop_folder (this, x, y);
     }
 
     /**
      * @name new_link_panel
-     * @description show a dialog to create a new link panel
+     * @description create a new link panel
      */
-    private void new_link_panel () {
-        DesktopFolder.Util.create_new_link_panel (this);
+    private void new_link_panel (int x, int y) {
+        DesktopFolder.Util.create_new_link_panel (this, x, y);
     }
 
-    /**
+    /*
      * @name new_note
-     * @description show a dialog to create a new note
+     * @description create a new note
      */
-    private void new_note () {
-        DesktopFolder.Util.create_new_note (this);
+    private void new_note (int x, int y) {
+        DesktopFolder.Util.create_new_note (this, x, y);
     }
 
     /**
      * @name new_photo
-     * @description show a dialog to create a new photo
+     * @description create a new photo
      */
-    private void new_photo () {
-        DesktopFolder.Util.create_new_photo (this);
+    private void new_photo (int x, int y) {
+        DesktopFolder.Util.create_new_photo (this, x, y);
     }
 
     /**
-     * @name draw_backgorund
+     * @name draw_background
      * @description draw the note window background intercepting the draw signal
      * @param {Cairo.Context} cr the cairo context
      * @bool @see draw signal
@@ -412,16 +449,26 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             }
 
             // debug ("pixwidth:%d, pixheight:%d", pixwidth, pixheight);
-            if (this.flag_resizing) {
-                cr.set_source_rgba (0, 0, 0, 0.2);
+            if (this.flag_resizing || this.flag_over) {
+                if (this.flag_resizing) {
+                    cr.set_source_rgba (0, 0, 0, 0.4);
+                } else {
+                    cr.set_source_rgba (0, 0, 0, 0.2);
+                }
                 cr.rectangle (0, 0, width, height);
                 cr.fill ();
+            } else {
+                cr.set_source_rgba (255, 0, 0, 0);
+                cr.rectangle (0, 0, width, height);
+                cr.fill ();
+            }
 
+            if (this.flag_resizing) {
                 if (this.timeout_id > 0) {
                     GLib.Source.remove (this.timeout_id);
                     this.timeout_id = 0;
                 }
-                this.timeout_id = GLib.Timeout.add (2000, () => {
+                this.timeout_id = GLib.Timeout.add (1000, () => {
                     // we force to resize to adapt to the image size, (to maintain aspect ratio)
                     // this.resize (pixwidth + margin, pixheight + margin);
                     this.flag_resizing = false;
@@ -433,17 +480,21 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                     this.save_current_position_and_size ();
                     return false;
                 });
-            } else {
-                cr.set_source_rgba (255, 0, 0, 0);
-                cr.rectangle (0, 0, width, height);
-                cr.fill ();
             }
 
             // drawing the shadow
             if (this.manager.get_settings ().fixocolor == 0) {
                 if (this.shadowSurface == null) {
                     var shadowPixbuf = new Gdk.Pixbuf.from_resource ("/com/github/spheras/desktopfolder/shadow.png");
-                    shadowPixbuf       = shadowPixbuf.scale_simple (pixwidth, 40, Gdk.InterpType.BILINEAR);
+                    var shadowHeight = 40;
+                    if (pixwidth < 100 || pixheight < 100) {
+                        if (pixwidth < pixheight) {
+                            shadowHeight = (int) (shadowHeight * (pixwidth / 100f));
+                        } else {
+                            shadowHeight = (int) (shadowHeight * (pixheight / 100f));
+                        }
+                    }
+                    shadowPixbuf       = shadowPixbuf.scale_simple (pixwidth, shadowHeight, Gdk.InterpType.BILINEAR);
                     this.shadowSurface = Gdk.cairo_surface_create_from_pixbuf (shadowPixbuf, 0, null);
                 }
                 cr.set_source_surface (this.shadowSurface, halfmargin, pixheight + 20);
@@ -463,11 +514,13 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             cr.paint ();
 
             // lets draw the fixo
-            int fixoWidth  = 56;
-            int fixoHeight = 56;
-            int fixoMargin = 4;
-            int fixocolor  = this.manager.get_settings ().fixocolor;
-            var color      = "";
+            int defaultFixoWidth  = 56;
+            int defaultFixoHeight = 56;
+            int fixoWidth         = 56;
+            int fixoHeight        = 56;
+            int fixoMargin        = 4;
+            int fixocolor         = this.manager.get_settings ().fixocolor;
+            var color             = "";
             switch (fixocolor) {
             case 0:
                 color = null;
@@ -501,25 +554,52 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             if (color != null) {
                 if (this.fixoPixbuf == null) {
                     this.fixoPixbuf = new Gdk.Pixbuf.from_resource ("/com/github/spheras/desktopfolder/fixo-" + color + ".svg");
-                    // this.fixoPixbuf=fixoPixbuf.scale_simple(100,100,Gdk.InterpType.BILINEAR);
+
+                    var fixoWidthScaled  = fixoWidth;
+                    var fixoHeightScaled = fixoHeight;
+                    if (pixwidth < 100 || pixheight < 100) {
+                        if (pixwidth < pixheight) {
+                            fixoWidthScaled  = fixoWidth * pixwidth / 100;
+                            fixoHeightScaled = fixoWidthScaled;
+                        } else {
+                            fixoHeightScaled = fixoHeight * pixheight / 100;
+                            fixoWidthScaled  = fixoHeightScaled;
+                        }
+                        this.fixoPixbuf = fixoPixbuf.scale_simple (fixoWidthScaled, fixoHeightScaled, Gdk.InterpType.BILINEAR);
+                        fixoWidth       = fixoWidthScaled;
+                        fixoHeight      = fixoHeightScaled;
+                    }
+
+                } else {
+                    fixoWidth  = this.fixoPixbuf.get_width ();
+                    fixoHeight = this.fixoPixbuf.get_height ();
                 }
+
                 var fixoSurface = Gdk.cairo_surface_create_from_pixbuf (this.fixoPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, fixoMargin, fixoMargin);
+                var fixoLeft    = fixoMargin + (defaultFixoWidth - fixoWidth) / 2.5;
+                var fixoTop     = fixoMargin + (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
 
                 var rotatedPixbuf = this.fixoPixbuf.rotate_simple (Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface = Gdk.cairo_surface_create_from_pixbuf (rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, pixwidth + margin - fixoWidth - fixoMargin, fixoMargin);
+                fixoLeft    = pixwidth + margin - fixoWidth - fixoMargin - (defaultFixoWidth - fixoWidth) / 2.5;
+                fixoTop     = fixoMargin + (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
 
                 rotatedPixbuf = rotatedPixbuf.rotate_simple (Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface   = Gdk.cairo_surface_create_from_pixbuf (rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, pixwidth + margin - fixoWidth - fixoMargin, pixheight + margin - fixoHeight - fixoMargin);
+                fixoLeft      = pixwidth + margin - fixoWidth - fixoMargin - (defaultFixoWidth - fixoWidth) / 2.5;
+                fixoTop       = pixheight + margin - fixoHeight - fixoMargin - (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
 
                 rotatedPixbuf = rotatedPixbuf.rotate_simple (Gdk.PixbufRotation.COUNTERCLOCKWISE);
                 fixoSurface   = Gdk.cairo_surface_create_from_pixbuf (rotatedPixbuf, 0, null);
-                cr.set_source_surface (fixoSurface, fixoMargin, pixheight + margin - fixoHeight - fixoMargin);
+                fixoLeft      = fixoMargin + (defaultFixoWidth - fixoWidth) / 2.5;
+                fixoTop       = pixheight + margin - fixoHeight - fixoMargin - (defaultFixoHeight - fixoHeight) / 2.5;
+                cr.set_source_surface (fixoSurface, fixoLeft, fixoTop);
                 cr.paint ();
             }
 

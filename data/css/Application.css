@@ -45,6 +45,19 @@
     color: @colorForegroundHEADLESS;
 }
 
+/* Windows opacity animation */
+.df_fadingwindow {
+    transition: opacity 160ms cubic-bezier(0.455, 0.030, 0.515, 0.955);
+}
+
+.df_fadein {
+    opacity: 1;
+}
+
+.df_fadeout {
+    opacity: 0;
+}
+
 /* Panel buttons (trash and properties) */
 .df_folder .df_titlebar_button {
     opacity: 0.75;
@@ -63,6 +76,16 @@
 }
 .df_folder.df_light.df_shadow .df_titlebar_button {
     -gtk-icon-shadow: 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.df_item entry{
+  padding:0px;
+  min-width:0px;
+  margin:0px;
+}
+
+spinner{
+  color:white;
 }
 
 /* ----------------------- */
@@ -276,6 +299,13 @@
     border-width: 1px;
 }
 
+window decoration{
+  /** if changed, modify resources.vala, the const WINDOW_DECORATION_MARGIN */
+  margin-left:10px;
+  margin-top:10px;
+  margin-right:10px;
+  margin-bottom:10px;
+}
 .df_folder.background, .df_folder.background:backdrop, .df_folder decoration{
     box-shadow: none;
     text-shadow: none;
@@ -323,7 +353,6 @@
 
 .df_item{
     border-radius:7px;
-    transition: background 100ms cubic-bezier(0.455, 0.030, 0.515, 0.955);
 }
 
 .df_folder .df_item.df_selected .df_label{
@@ -395,6 +424,8 @@
     font-size: 12px;
     background: rgba(0,0,255,0);
 }
+
+
 
 .df_note_text text{
     background:rgba(0,0,0,0);

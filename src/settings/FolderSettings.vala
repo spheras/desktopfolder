@@ -1,27 +1,39 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+public interface FolderSettingsInfoProvider {
+
+    /**
+     * @name get_parent_default_arrangement_orientation_setting
+     * @description provide the default orientation setting to store
+     * @return {int} the default orientation setting. See ARRANGEMENT_ORIENTATION_VERTICAL and ARRANGEMENT_ORIENTATION_HORIZONTAL
+     */
+    public abstract int get_parent_default_arrangement_orientation_setting ();
+
+}
 
 /**
  * @class
  * Desktop Folder Settings
  */
 public class DesktopFolder.FolderSettings : PositionSettings {
+    public static int ARRANGEMENT_ORIENTATION_VERTICAL   = 1;
+    public static int ARRANGEMENT_ORIENTATION_HORIZONTAL = 2;
+
     private string _name;
     public string name {
         get {
@@ -99,6 +111,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    // @deprecated since version 4
     private bool _align_to_grid;
     public bool align_to_grid {
         get {
@@ -110,6 +124,67 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    private int _arrangement_type;
+    public int arrangement_type {
+        get {
+            return _arrangement_type;
+        }
+        set {
+            if (_arrangement_type != value) {
+                _arrangement_type = value; flagChanged = true;
+            }
+        }
+    }
+
+    private int _arrangement_padding;
+    public int arrangement_padding {
+        get {
+            return _arrangement_padding;
+        }
+        set {
+            if (_arrangement_padding != value) {
+                _arrangement_padding = value; flagChanged = true;
+            }
+        }
+    }
+
+    private int _sort_by_type;
+    public int sort_by_type {
+        get {
+            return _sort_by_type;
+        }
+        set {
+            if (_sort_by_type != value) {
+                _sort_by_type = value; flagChanged = true;
+            }
+        }
+    }
+
+    private bool _sort_reverse;
+    public bool sort_reverse {
+        get {
+            return _sort_reverse;
+        }
+        set {
+            if (_sort_reverse != value) {
+                _sort_reverse = value; flagChanged = true;
+            }
+        }
+    }
+
+    private int _arrangement_orientation;
+    public int arrangement_orientation {
+        get {
+            return _arrangement_orientation;
+        }
+        set {
+            if (_arrangement_orientation != value) {
+                _arrangement_orientation = value; flagChanged = true;
+            }
+        }
+    }
+
     private string[] _items = new string[0];
     public string[] items {
         get {
@@ -149,6 +224,18 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
     }
+
+    private bool _edit_label_on_creation;
+    public bool edit_label_on_creation {
+        get {
+            return _edit_label_on_creation;
+        }
+        set {
+            if (_edit_label_on_creation != value) {
+                _edit_label_on_creation = value; flagChanged = true;
+            }
+        }
+    }
     // default json seralization implementation only support primitive types
 
     private File file;
@@ -166,20 +253,23 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @description reset the properties
      */
     public void reset () {
-        this.x             = 100;
-        this.y             = 100;
-        this.w             = 300;
-        this.h             = 300;
-        this.bgcolor       = "df_black";
-        this.fgcolor       = "df_light";
-        this.textbold      = true;
-        this.textshadow    = true;
-        this.align_to_grid = false;
-        this.lockitems     = false;
-        this.lockpanel     = false;
-        this.name          = name;
-        this.items         = new string[0];
-        this.version       = DesktopFolder.SETTINGS_VERSION;
+        this.x                      = 100;
+        this.y                      = 100;
+        this.w                      = 300;
+        this.h                      = 300;
+        this.bgcolor                = "df_black";
+        this.fgcolor                = "df_light";
+        this.textbold               = true;
+        this.textshadow             = true;
+        this.align_to_grid          = false;
+        this.lockitems              = false;
+        this.lockpanel              = false;
+        this.arrangement_padding    = FolderArrangement.DEFAULT_PADDING;
+        this.arrangement_type       = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        this.name                   = name;
+        this.items                  = new string[0];
+        this.version                = DesktopFolder.SETTINGS_VERSION;
+        this.edit_label_on_creation = false;
         check_off_screen ();
     }
 
@@ -200,9 +290,33 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         }
 
         // finally, we recreate the string[]
+        this.serialize_list (all);
+    }
+
+    /**
+     * @name serialize
+     * @description serialize a list of itemsettings to the string result
+     * @param {List<ItemSettings} all the list of item settings to serialize in the settings
+     */
+    public void serialize_list (List <ItemSettings> all) {
         string[] str_result = new string[all.length ()];
         for (int i = 0; i < all.length (); i++) {
             ItemSettings element = all.nth_data (i);
+            var          str     = element.to_string ();
+            str_result[i] = str;
+        }
+        this.items = str_result;
+    }
+
+    /**
+     * @name serialize
+     * @description serialize an array of itemsettings to the string result
+     * @param {ItemSettings[]} all the array of item settings to serialize in the settings
+     */
+    public void serialize_array (ItemSettings[] all) {
+        string[] str_result = new string[all.length];
+        for (int i = 0; i < all.length; i++) {
+            ItemSettings element = all[i];
             var          str     = element.to_string ();
             str_result[i] = str;
         }
@@ -242,18 +356,27 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @param item ItemSettings the ItemSettings to be added
      */
     public void add_item (ItemSettings item) {
-        int length = this.items.length;
-        // i don't know why this can't compile
-        // this.items.resize(length+1);
-        // this.items[this.items.length-1]=item.to_string();
+        this._items     += item.to_string ();
+        this.flagChanged = true;
 
-        // alternative, copying it manually?!! :(
-        string[] citems = new string[length + 1];
-        for (int i = 0; i < length; i++) {
-            citems[i] = this.items[i];
-        }
-        citems[length] = item.to_string ();
-        this.items     = citems;
+        /*
+           int length = this.items.length;
+           this._items.resize (length + 1);
+           this._items[this._items.length - 1] = item.to_string ();
+           this.flagChanged=true;
+         */
+
+
+        /*
+           // alternative, copying it manually?!! :(
+           int length = this.items.length;
+             string[] citems = new string[length + 1];
+             for (int i = 0; i < length; i++) {
+              citems[i] = this.items[i];
+             }
+             citems[length] = item.to_string ();
+             this.items     = citems;
+         */
     }
 
     /**
@@ -270,6 +393,20 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
         }
         return (ItemSettings) null;
+    }
+
+    /**
+     * @name get_items_parsed
+     * @description return the list of item settings managed by this folder settings
+     * @return {List<ItemSettings>} the list of managed item settings
+     */
+    public Gee.HashMap <string, ItemSettings> get_items_parsed () {
+        Gee.HashMap <string, ItemSettings> result = new Gee.HashMap <string, ItemSettings>();
+        for (int i = 0; i < this.items.length; i++) {
+            ItemSettings is = ItemSettings.parse (this.items[i]);
+            result.set (is.name, is);
+        }
+        return result;
     }
 
     /**
@@ -304,6 +441,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         Json.Generator generator = new Json.Generator ();
         generator.set_root (root);
         string data              = generator.to_data (null);
+
         // debug ("the json generated is:\n%s\n", data);
         try {
             // an output file in the current working directory
@@ -332,8 +470,8 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @param name string the name of the folder
      * @return FolderSettings the FolderSettings created
      */
-    public static FolderSettings read_settings (File file, string name) {
-        FolderSettings result = _read_settings (file, name);
+    public static FolderSettings read_settings (File file, string name, FolderSettingsInfoProvider provider) {
+        FolderSettings result = _read_settings (file, name, provider);
         if (result == null) {
             // some error occurred, lets delete the settings and create again
             try {
@@ -342,12 +480,12 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             }
             FolderSettings new_folder_settings = new FolderSettings (name);
             new_folder_settings.save_to_file (file);
-            return _read_settings (file, name);
+            return _read_settings (file, name, provider);
         }
         return result;
     }
 
-    private static FolderSettings _read_settings (File file, string name) {
+    private static FolderSettings _read_settings (File file, string name, FolderSettingsInfoProvider provider) {
         try {
             string content = "";
             var    dis     = new DataInputStream (file.read ());
@@ -370,9 +508,21 @@ public class DesktopFolder.FolderSettings : PositionSettings {
                 existent.fgcolor = "df_" + existent.fgcolor;
             }
 
+            // align_to_grid is deprecated from version 4
+            if (existent.align_to_grid == true) {
+                existent.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_GRID;
+                existent.align_to_grid    = false;
+            } else if (existent.arrangement_type == 0) {
+                existent.arrangement_type = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+            }
+
             // regression for on top and back
             if (existent.version == 0) {
                 existent.version = DesktopFolder.SETTINGS_VERSION;
+            }
+
+            if (existent.arrangement_orientation == 0) {
+                existent.arrangement_orientation = provider.get_parent_default_arrangement_orientation_setting ();
             }
 
             // the properties have not changed, just loaded
@@ -403,7 +553,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
             if (f.query_exists ()) {
                 all.append (is);
             } else {
-                debug ("Alert! doesnt exist: %s", filepath);
+                debug ("Alert! does not exist: %s", filepath);
                 // doesn't exist, we must remove the entry
             }
         }

@@ -1,20 +1,18 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -318,30 +316,35 @@ namespace DesktopFolder.DragnDrop {
             GLib.Callback ?                done_callback,
             Gtk.Widget ?                   done_callback_data) {
 
-            // debug("Util-copy_move");
             if (target_dir.query_exists ()) {
                 for (int i = 0; files != null && i < files.length (); i++) {
                     File f = files.nth (i).data;
                     if (f.query_exists ()) {
 
-                        string path = f.get_path ();
-                        // debug(f.get_path());
-                        if ((path.has_prefix ("/usr/local/share/applications/") || path.has_prefix ("/usr/share/applications/")) && path.has_suffix (".desktop")) {
+                        string path        = f.get_path ();
+                        string new_name    = f.get_basename ();
+                        string target_path = target_dir.get_path ();
+                        // string link_to     = DesktopFolder.Lang.LINK_TO;
+
+                        if ((path.has_prefix ("/usr/local/share/applications/") ||
+                            path.has_prefix ("/usr/share/") ||
+                            path.contains ("/.local/share/applications/")) &&
+                            path.has_suffix (".desktop")) {
                             // we don't move user desktop launchers
                             if (action == Gdk.DragAction.MOVE) {
                                 action = Gdk.DragAction.COPY;
                             }
                         }
 
+                        debug (@"$action, $(f.get_parent ().get_path ()) -> $target_path");
+
                         if (action == Gdk.DragAction.COPY) {
-                            // debug("copying "+f.get_path()+" to " + target_dir.get_path());
-                            File final_target               = File.new_for_path (target_dir.get_path () + "/" + f.get_basename ());
+                            File final_target               = File.new_for_path (target_path + "/" + f.get_basename ());
 
                             DesktopFolder.ProgressDialog pd = new DesktopFolder.ProgressDialog (DesktopFolder.Lang.DRAGNDROP_FILE_OPERATIONS, (Gtk.Window)parent_view);
                             GLib.Cancellable cancellable    = pd.start ();
 
                             try {
-
                                 new Thread <int> .try ("DesktopFolder File Operation", () => {
                                         try {
                                             DesktopFolder.Util.copy_recursive (f,
@@ -371,8 +374,7 @@ namespace DesktopFolder.DragnDrop {
                             }
                         } else if (action == Gdk.DragAction.MOVE) {
                             try {
-                                // debug("moving "+f.get_path()+" to " + target_dir.get_path());
-                                File final_target = File.new_for_path (target_dir.get_path () + "/" + f.get_basename ());
+                                File final_target = File.new_for_path (target_path + "/" + f.get_basename ());
                                 f.move (final_target, FileCopyFlags.NONE, null, null);
                                 if (done_callback != null)
                                     done_callback ();
@@ -381,17 +383,17 @@ namespace DesktopFolder.DragnDrop {
                             }
                         } else if (action == Gdk.DragAction.LINK) {
                             try {
-                                var name    = f.get_basename ();
-                                var command = "ln -s \"" + f.get_path () + "\" \"" + target_dir.get_path () + "/" + name + "\"";
-                                // debug("linking: %s", command);
-                                // debug("command: %s"+command);
-                                var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-                                appinfo.launch_uris (null, null);
+                                var target_file = File.new_for_path (@"$target_path/$new_name");
+                                if (!target_file.query_exists ()) {
+                                    var command = @"ln -s \"$(f.get_path ())\" \"$target_path/$new_name\"";
+                                    var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+                                    appinfo.launch_uris (null, null);
+                                }
                             } catch (Error error) {
                                 stderr.printf ("Error: %s\n", error.message);
                             }
                         } else {
-                            debug ("unkown action!");
+                            debug ("unknown action!");
                         }
                     }
                 }

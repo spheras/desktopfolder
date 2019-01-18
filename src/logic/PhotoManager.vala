@@ -1,20 +1,18 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -76,7 +74,7 @@ public class DesktopFolder.PhotoManager : Object {
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
-    public virtual void on_screen_size_changed (Gdk.Screen screen) {
+    public void on_screen_size_changed (Gdk.Screen screen) {
         this.settings.calculate_current_position ();
         this.view.reload_settings ();
     }
@@ -101,7 +99,7 @@ public class DesktopFolder.PhotoManager : Object {
         var abs_path = this.get_absolute_path ();
         debug ("loading photo settings...%s", abs_path);
         if (!this.file.query_exists ()) {
-            warning ("photo file doesnt exist!");
+            warning ("photo file does not exist!");
             return false;
         } else {
             PhotoSettings existent = PhotoSettings.read_settings (this.file, this.get_photo_name ());
@@ -149,6 +147,31 @@ public class DesktopFolder.PhotoManager : Object {
      */
     public PhotoWindow get_view () {
         return this.view;
+    }
+
+    /**
+     * @name show_view
+     * @description show the folder
+     */
+    public void show_view () {
+        // setting opacity to stop the folder window flashing at startup
+        this.view.opacity = 1;
+        this.view.show_all ();
+        this.view.fade_in ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the folder
+     */
+    public void hide_view () {
+        this.view.fade_out ();
+        Timeout.add (160, () => {
+            // ditto
+            this.view.opacity = 0;
+            this.view.hide ();
+            return false;
+        });
     }
 
     /**

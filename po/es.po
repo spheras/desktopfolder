@@ -2,450 +2,567 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.spheras.desktopfolder package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# David Mohammed <fossfreedom@ubuntu.com>, 2018
+# Logan 8192 <wsses11000@gmail.com>, 2018
+# Adolfo Jayme-Barrientos, 2018
+# Víctor Pont <victor@pont.cat>, 2018
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: com.github.spheras.desktopfolder\n"
+"Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-17 10:33+0200\n"
-"PO-Revision-Date: 2018-09-17 10:41+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: es\n"
+"POT-Creation-Date: 2018-11-30 23:31+0000\n"
+"PO-Revision-Date: 2018-11-08 12:46+0000\n"
+"Last-Translator: Víctor Pont <victor@pont.cat>, 2018\n"
+"Language-Team: Spanish (https://www.transifex.com/ubuntu-budgie/teams/72251/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
+msgid "Panel"
+msgstr "Panel"
+
+#. desktopfolder menu - create a new Note
+#: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
+msgid "Note"
+msgstr "Nota"
+
 #. Application Description
-#: src/LanguageText.vala:3
+#: src/LanguageText.vala:20
 msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Devuelve a la vida tu Escritorio minimalista \n"
-" Organiza ficheros y carpetas en tu escritorio usando Paneles."
+"Reviva el escritorio minimalista\n"
+"Organice archivos y carpetas en su escritorio mediante paneles."
 
 #. Generic Dialog OK Button
-#: src/LanguageText.vala:5
+#: src/LanguageText.vala:22
 msgid "_Ok"
 msgstr "_Aceptar"
 
 #. Generic Dialog CANCEL Button
-#: src/LanguageText.vala:7
+#: src/LanguageText.vala:24
 msgid "_Cancel"
 msgstr "_Cancelar"
 
 #. Generic Dialog Select Button
-#: src/LanguageText.vala:9
+#: src/LanguageText.vala:26
 msgid "_Select"
 msgstr "_Seleccionar"
 
 #. Trying to paste and the clipboard is empty
-#: src/LanguageText.vala:11
+#: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
 msgstr "No hay nada que pegar en el portapapeles"
 
 #. Dialog Error Title: Invalid Filename provided
-#: src/LanguageText.vala:13
+#: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "No puedes soltar este fichero"
+msgstr "No se puede soltar este archivo"
 
 #. Dialog Error Message while trying to drop
-#: src/LanguageText.vala:15
+#: src/LanguageText.vala:32
 msgid "Invalid file name provided"
-msgstr "Nombre de fichero no válido"
+msgstr "El nombre del archivo no es válido"
 
 #. Title dialog for File Operations
-#: src/LanguageText.vala:17
+#: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr "Operaciones de Fichero"
+msgstr "Operaciones de archivos"
 
 #. Copying File message for progress dialog
-#: src/LanguageText.vala:19
+#: src/LanguageText.vala:36
 msgid "Copying"
 msgstr "Copiando"
 
 #. Drop Menu - Copy
-#: src/LanguageText.vala:21
+#: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Copiar Aquí"
+msgstr "Copiar aquí"
 
 #. Drop Menu - Move
-#: src/LanguageText.vala:23
+#: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Mover Aquí"
+msgstr "Mover aquí"
 
 #. Drop Menu - Link
-#: src/LanguageText.vala:25
+#: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Acceso Directo Aquí"
+msgstr "Acceso directo aquí"
 
 #. Drop Menu - Cancel
-#: src/LanguageText.vala:27
+#: src/LanguageText.vala:44
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/LanguageText.vala:29
-msgid "Panel"
-msgstr "Panel"
-
-#. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/LanguageText.vala:31
+#: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Acceso Directo a Panel"
-
-#. desktopfolder menu - enable/disable alignment to grid
-#: src/LanguageText.vala:33
-msgid "Align to Grid"
-msgstr "Alinear a Rejilla"
+msgstr "Acceso directo a panel"
 
 #. desktopfolder menu - enable/disable lock items
-#: src/LanguageText.vala:35
-msgid "Lock Items"
-msgstr "Bloquear Ficheros"
+#: src/LanguageText.vala:50
+msgid "Lock icons:"
+msgstr "Bloquear iconos:"
 
 #. desktopfolder menu - enable/disable lock panel
-#: src/LanguageText.vala:37
-msgid "Lock Panel"
-msgstr "Bloquear Panel"
+#: src/LanguageText.vala:52
+msgid "Lock panel:"
+msgstr "Bloquear panel:"
 
 #. desktopfolder menu - enable/disable text shadows
-#: src/LanguageText.vala:39
-msgid "Text Shadow"
-msgstr "Texto con Sombra"
+#: src/LanguageText.vala:54
+msgid "Text shadow:"
+msgstr "Sombra del texto:"
 
 #. desktopfolder menu - enable/disable text bolds
-#: src/LanguageText.vala:41
-msgid "Text Bold"
-msgstr "Texto Negrita"
-
-#. desktopfolder menu - create a new Note
-#: src/LanguageText.vala:43
-msgid "Note"
-msgstr "Nota"
+#: src/LanguageText.vala:56
+msgid "Text bold:"
+msgstr "Negrita del texto:"
 
 #. desktopfolder menu - create a new Folder
-#: src/LanguageText.vala:45
+#: src/LanguageText.vala:60
 msgid "Folder"
 msgstr "Carpeta"
 
 #. desktopfolder menu - create a new empty Text File
-#: src/LanguageText.vala:47
+#: src/LanguageText.vala:62
 msgid "Empty File"
-msgstr "Fichero Vacío"
+msgstr "Archivo vacío"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
-#: src/LanguageText.vala:49
+#: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Renombrar el Panel"
+msgstr "Cambiar nombre de panel"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
-#: src/LanguageText.vala:51
+#: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Mover a la Papelera"
+msgstr "Enviar panel a la papelera"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
-#: src/LanguageText.vala:53
+#: src/LanguageText.vala:68
 msgid "Paste"
 msgstr "Pegar"
 
-#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
-#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:55 src/LanguageText.vala:59
-msgid "New Panel"
-msgstr "Nuevo Panel"
-
-#. desktopfolder - Dialog Message to rename the current Desktop-Folder
-#. Note - Dialog Message to rename the current note
-#. Item - Rename Dialog Message
-#: src/LanguageText.vala:57 src/LanguageText.vala:97 src/LanguageText.vala:126
-msgid "Enter the new name"
-msgstr "Introduzca el nuevo nombre"
-
-#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for a folder inside a Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for a text file inside a Desktop-Folder
-#. desktopfolder - Dialog Text to ask the new name for the Desktop-Folder
-#: src/LanguageText.vala:61 src/LanguageText.vala:65 src/LanguageText.vala:71
-#: src/LanguageText.vala:81
-msgid "Enter the name"
-msgstr "Introduzca el nombre"
-
-#. desktopfolder - Title for Dialog to ask the new name for a folder inside a Desktop-Folder
-#: src/LanguageText.vala:63
-msgid "New Folder"
-msgstr "Nueva carpeta"
-
 #. desktopfolder - The default name for the new folder to be created
-#: src/LanguageText.vala:67
-msgid "new folder"
-msgstr "Nueva carpeta"
-
-#. desktopfolder - Dialog Title to ask the new name for a text file inside a Desktop-Folder
-#: src/LanguageText.vala:69
-msgid "New Text File"
-msgstr "Nuevo Fichero de Texto"
+#: src/LanguageText.vala:70
+msgid "untitled folder"
+msgstr "carpeta sin nombre"
 
 #. desktopfolder - The default name for the new text file to be created
-#: src/LanguageText.vala:73
-msgid "new.txt"
-msgstr "nuevo.txt"
+#: src/LanguageText.vala:72
+msgid "new file"
+msgstr "nuevo archivo"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
-#: src/LanguageText.vala:75 src/LanguageText.vala:93
+#. Item Menu - trash the file/folder
+#: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Mover a la Papelera"
+msgstr "Enviar a la papelera"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
-#. panel properties - Properties section
-#: src/LanguageText.vala:77 src/LanguageText.vala:150
+#. file properties window - properties
+#: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr "Configuración"
+msgstr "Propiedades"
 
-#. desktopfolder - Title for a Dialog Text to ask the new name for the Desktop-Folder
-#. desktopfolder - Dialog Title for a new Desktop Folder Panel to ask the new name
-#: src/LanguageText.vala:79 src/LanguageText.vala:83
+#. desktopfolder - Title for a Dialog Text to ask the new name for the
+#. Desktop-Folder
+#. the title of a note when a new one is created
+#: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Nueva Nota"
+msgstr "Nota nueva"
 
 #. Note - popup option to set the paper texture or not
-#: src/LanguageText.vala:85
+#: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr "Textura Papel"
+msgstr "Textura de papel"
 
 #. Note - popup option to set allways on top or not
-#: src/LanguageText.vala:87
+#: src/LanguageText.vala:82
 msgid "Always on top"
-msgstr "Siempre Encima"
+msgstr "Siempre encima"
 
 #. Note - popup option to set allways on back or not
-#: src/LanguageText.vala:89
+#: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr "Siempre en el Fondo"
+msgstr "Siempre en el fondo"
 
 #. Menu popup option to rename the note
-#. Note - Dialog Title Message to rename the current note
-#: src/LanguageText.vala:91 src/LanguageText.vala:95
+#: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Renombrar Nota"
-
-#. Note - Dialog Message to DELETE the current note
-#: src/LanguageText.vala:99
-msgid ""
-"This action will DELETE the Note.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-"Esta acción ELIMINARÁ la Nota.\n"
-"<b>¿Está seguro?</b>"
+msgstr "Cambiar nombre de nota"
 
 #. Item Menu - Open the file
-#: src/LanguageText.vala:102
+#: src/LanguageText.vala:90
 msgid "Open"
 msgstr "Abrir"
 
 #. Item Menu - Execute the file
-#: src/LanguageText.vala:104
+#: src/LanguageText.vala:92
+msgid "Open With Other Application..."
+msgstr "Abrir con otra aplicación..."
+
+#. Item Menu - Execute the file
+#: src/LanguageText.vala:94
 msgid "Execute"
 msgstr "Ejecutar"
 
 #. Item Menu - cut the file/folder
-#: src/LanguageText.vala:106
+#: src/LanguageText.vala:96
 msgid "Cut"
 msgstr "Cortar"
 
 #. Item Menu - copy the file/folder
-#: src/LanguageText.vala:108
+#: src/LanguageText.vala:98
 msgid "Copy"
 msgstr "Copiar"
 
 #. Item Menu - rename the file/folder
-#: src/LanguageText.vala:110
+#: src/LanguageText.vala:100
 msgid "Rename"
-msgstr "Renombrar"
+msgstr "Cambiar nombre"
 
 #. Item Menu - delete the file/folder
-#: src/LanguageText.vala:112
+#: src/LanguageText.vala:104
 msgid "Delete"
 msgstr "Eliminar"
 
 #. Item Menu - change icon
-#: src/LanguageText.vala:114
+#: src/LanguageText.vala:106
 msgid "Change Icon"
-msgstr "Cambiar Icono"
+msgstr "Cambiar icono"
 
 #. Item - Delete Folder Item Dialog message
-#: src/LanguageText.vala:116
+#: src/LanguageText.vala:108
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
 "Esta acción ELIMINARÁ la carpeta y TODO su contenido.\n"
-"<b>¿Está seguro?</b>"
+"<b>¿Confirma que quiere eliminarla?</b>"
 
 #. Item - Delete File Item Dialog message
-#: src/LanguageText.vala:118
+#: src/LanguageText.vala:110
 msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el fichero.\n"
-"<b>¿Está seguro?</b>"
+"Esta acción ELIMINARÁ el archivo.\n"
+"<b>¿Confirma que quiere eliminarlo?</b>"
 
 #. Item - Delete File Link Dialog message
-#: src/LanguageText.vala:120
+#: src/LanguageText.vala:112
 msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el Acceso Directo (no el fichero).\n"
-"<b>¿Está seguro?</b>"
+"Esta acción ELIMINARÁ el acceso directo (no el archivo).\n"
+"<b>¿Confirma que quiere eliminarlo?</b>"
 
 #. Item - Change icon dialog message to select an image file
-#: src/LanguageText.vala:122
+#: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr "Seleccione el icono que desea utilizar"
-
-#. Item - Rename Dialog Title
-#: src/LanguageText.vala:124
-msgid "Rename Item"
-msgstr "Renombrar"
+msgstr "Seleccione el icono que quiere utilizar."
 
 #. Name of the first desktop-folder panel, when no panels found
-#: src/LanguageText.vala:128
+#: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "Mi Primer Panel"
+msgstr "Mi primer panel"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
-#: src/LanguageText.vala:132
+#: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Nuevo Acceso Directo a Fichero"
+msgstr "Acceso directo a archivo"
 
 #. Menu option to create a link to a folder
-#: src/LanguageText.vala:134
+#: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Nuevo Acceso directo a Carpeta"
+msgstr "Acceso directo a carpeta"
 
 #. Dialog message to create a new link
-#: src/LanguageText.vala:136
+#: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Seleccione el fichero o carpeta destino del acceso directo"
+msgstr "Seleccione el archivo o carpeta de destino del acceso directo"
 
 #. Dialog message to create a new link panel
-#: src/LanguageText.vala:138
+#: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Seleccione la carpeta destino del Panel"
+msgstr "Seleccione la carpeta de destino del panel"
 
 #. Menu popup option to remove a photo
-#: src/LanguageText.vala:140
+#: src/LanguageText.vala:128
 msgid "Remove"
 msgstr "Eliminar"
 
-#. Note - Dialog Message to DELETE the current photo
-#: src/LanguageText.vala:142
-msgid ""
-"This action will DELETE the Photo.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-"Esta acción ELIMINARÁ la Foto.\n"
-"<b>¿Está seguro?</b>"
-
 #. desktopfolder menu - create a new Photo
-#: src/LanguageText.vala:144
+#: src/LanguageText.vala:130
 msgid "Photo"
 msgstr "Foto"
 
 #. dialog message to select an image file to be shown at the desktop
-#: src/LanguageText.vala:146
+#: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Seleccione la imagen para mostrar"
+msgstr "Seleccione la imagen que mostrar"
 
 #. desktopfolder menu - create a new empty Text File
-#: src/LanguageText.vala:148
+#: src/LanguageText.vala:134
 msgid "New"
 msgstr "Nuevo"
 
+#. panel properties - Properties section
+#: src/LanguageText.vala:136
+msgid "This Panel"
+msgstr "Este Panel"
+
 #. panel properties - General section
-#: src/LanguageText.vala:152
+#: src/LanguageText.vala:138
 msgid "General"
 msgstr "General"
 
 #. panel properties - Behavior section
-#: src/LanguageText.vala:154
+#: src/LanguageText.vala:140
 msgid "Behavior"
 msgstr "Comportamiento"
 
-#. panel properties - Interface section
-#: src/LanguageText.vala:156
-msgid "Interface"
-msgstr "Interfaz"
+#. panel properties - Appearance section
+#: src/LanguageText.vala:142
+msgid "Appearance"
+msgstr "Apariencia"
 
 #. panel properties - Close button
-#: src/LanguageText.vala:158
+#: src/LanguageText.vala:144
 msgid "Close"
 msgstr "Cerrar"
 
 #. panel properties - Panel over Desktop title
-#: src/LanguageText.vala:160
-msgid "Panel Over Desktop"
-msgstr "Panel sobre el escritorio"
+#: src/LanguageText.vala:146
+msgid "Icons on desktop:"
+msgstr "Iconos en el escritorio:"
+
+#. panel properties - Panel over Desktop title
+#: src/LanguageText.vala:148
+msgid "Enable desktop:"
+msgstr "Activar escritorio:"
 
 #. panel properties - Panel over desktop description
-#: src/LanguageText.vala:162
-msgid ""
-"Activating this you will have a transparent background panel over your "
-"desktop. This change will require relogin into your system."
-msgstr ""
-"Activando esta opción tendrás un panel transparente sobre tu escritorio. "
-"Para poder visualizar el cambio tendrás que salir del sistema y entrar de "
-"nuevo."
+#: src/LanguageText.vala:150
+msgid "This change will require you to log out and in again"
+msgstr "Este cambio requerirá que cierre su sesión y vuelva a iniciarla."
 
 #. panel properties - Resolution Strategy title
-#: src/LanguageText.vala:164
-msgid "Resolution Strategy"
-msgstr "Estrategia de Resolución de Pantalla"
+#: src/LanguageText.vala:152
+msgid "When changing resolution:"
+msgstr "Al cambiar la resolución:"
 
 #. panel properties - Resolution Strategy Description
-#: src/LanguageText.vala:166
+#: src/LanguageText.vala:154
 msgid ""
-"This is how all the widgets behave when a new screen resolution is found, "
-"doing nothing, storing and restoring the new resolution positions, or "
-"scaling the positions."
+"This is how panels, notes and photos will resize when you change the screen "
+"resolution"
 msgstr ""
-"Esta configuración indica cómo los widgets se comportan ante un nuevo cambio "
-"de resolución de pantalla: No haciendo nada (cuidado con aquellos widgets "
-"que se pueden quedar fuera de la pantalla), guardando la posición en "
-"determinadas resoluciones y restaurándolas cuando es pertinente, o escalando "
-"las posiciones a la nueva resolución."
+"Así es como los paneles, notas y fotos se redimensionarán cuando cambie la "
+"resolución de la pantalla"
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:168
-msgid "None"
-msgstr "Nada"
+#: src/LanguageText.vala:156
+msgid "Do nothing"
+msgstr "Hacer nada"
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:170
-msgid "Scale"
-msgstr "Escalar"
+#: src/LanguageText.vala:158
+msgid "Scale to new resolution"
+msgstr "Escalar a una nueva resolución"
 
 #. panel properties - Resolution Strategy NONE
-#: src/LanguageText.vala:172
-msgid "Store"
-msgstr "Guardar"
+#: src/LanguageText.vala:160
+msgid "Store per resolution"
+msgstr "Guardar por resolución"
 
 #. change desktop menu
-#: src/LanguageText.vala:174
+#: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr "Cambiar Fondo de Pantalla"
+msgstr "Cambiar fondo de pantalla"
 
-#~ msgid ""
-#~ "This action will DELETE the DESKTOP-FOLDER and ALL the files inside.\n"
-#~ "<b>Are you sure?</b>"
-#~ msgstr ""
-#~ "Esta acción ELIMINARÁ el panel y TODOS los ficheros en su interior.\n"
-#~ "<b>¿Está seguro?</b>"
+#. open terminal here
+#: src/LanguageText.vala:164
+msgid "Open Terminal Here"
+msgstr "Abrir un terminal aquí"
+
+#. open terminal here
+#: src/LanguageText.vala:166
+msgid "Open in terminal"
+msgstr "Abrir en un terminal"
+
+#. file properties window - file name
+#. sort panel's items by name
+#: src/LanguageText.vala:170 src/LanguageText.vala:213
+msgid "Name"
+msgstr "Nombre"
+
+#. file properties window - file type
+#. sort panel's items by file type
+#: src/LanguageText.vala:172 src/LanguageText.vala:217
+msgid "Type"
+msgstr "Tipo"
+
+#. file properties window - file location
+#: src/LanguageText.vala:174
+msgid "Location"
+msgstr "Ubicación"
+
+#. file properties window - link target
+#: src/LanguageText.vala:176
+msgid "Target"
+msgstr "Objetivo"
+
+#. file properties window - property value is unknown
+#: src/LanguageText.vala:178
+msgid "Unknown"
+msgstr "Desconocido"
+
+#. file properties window - property value - number of items
+#: src/LanguageText.vala:180
+msgid "items"
+msgstr "elementos"
+
+#. file properties window - content
+#: src/LanguageText.vala:182
+msgid "Content"
+msgstr "Contenido"
+
+#. file properties window - total folder size
+#: src/LanguageText.vala:184
+msgid "Total size"
+msgstr "Tamaño total"
+
+#. file properties window - file size
+#: src/LanguageText.vala:186
+msgid "File size"
+msgstr "Tamaño del archivo"
+
+#. file properties window - file is executable?
+#: src/LanguageText.vala:188
+msgid "Allow execution"
+msgstr "Permitir ejecución"
+
+#. file properties window - last time used
+#: src/LanguageText.vala:190
+msgid "Used"
+msgstr "Usado"
+
+#. file properties window - last time modified
+#: src/LanguageText.vala:192
+msgid "Modified"
+msgstr "Modificado"
+
+#. Items Arrangement Configuration
+#: src/LanguageText.vala:194
+msgid "Icon arrangement:"
+msgstr "Orden de los íconos:"
+
+#. Free arrangement
+#: src/LanguageText.vala:196
+msgid "Free"
+msgstr "Libre"
+
+#. Grid arrangement
+#: src/LanguageText.vala:198
+msgid "Grid"
+msgstr "Cuadrícula"
+
+#. Managed arrangement
+#: src/LanguageText.vala:200
+msgid "Let app manage"
+msgstr "Controlado por la app"
+
+#. Default Panel Management
+#: src/LanguageText.vala:202
+msgid "Icons"
+msgstr "Iconos"
+
+#. Default Panel Management
+#: src/LanguageText.vala:204
+msgid "Default icon arrangement:"
+msgstr "Orden de los íconos por defecto:"
+
+#. Default Panel Arrangement Padding for Items
+#: src/LanguageText.vala:206
+msgid "Icon spacing:"
+msgstr "Espaciado de iconos"
+
+#. Default Panel Arrangement Padding for Items
+#: src/LanguageText.vala:208
+msgid "Default icon spacing:"
+msgstr "Espaciado de los iconos por defecto"
+
+#. sort by submenu
+#: src/LanguageText.vala:211
+msgid "Sort by"
+msgstr "Ordenar por"
+
+#. sort panel's items by size
+#: src/LanguageText.vala:215
+msgid "Size"
+msgstr "Tamaño"
+
+#. sort panel's in reverse
+#: src/LanguageText.vala:219
+msgid "Reverse Order"
+msgstr "Revertir orden"
+
+#. force panels to be organized automatically one time
+#: src/LanguageText.vala:221
+msgid "Reorganize Icons"
+msgstr "Reorganizar Iconos"
+
+#. the title of a panel when a new one is created
+#: src/LanguageText.vala:223
+msgid "Untitled Panel"
+msgstr "Panel sin nombre"
+
+#. / Please keep $FILE_NAME, it will be replaced by it's value
+#: src/LanguageText.vala:227
+msgid "Link to $FILE_NAME"
+msgstr "Enlazar a $FILE_NAME"
+
+#: src/LanguageText.vala:229
+msgid "Show Desktop"
+msgstr "Mostrar el escritorio"
+
+#: src/LanguageText.vala:230
+msgid "Hide Desktop"
+msgstr "Ocultar el escritorio"
+
+#: src/utils/Util.vala:397 src/utils/Util.vala:420
+#, c-format
+msgid "Could not create \"%'s\""
+msgstr "No se pudo crear «%'s»"
+
+#: src/utils/Util.vala:399
+msgid " already exists."
+msgstr "ya existe."
+
+#: src/utils/Util.vala:422
+msgid "Name is invalid."
+msgstr "El nombre no es válido."
+
+#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+msgid "Desktop Folder"
+msgstr "Carpeta de escritorio"
+
+#: data/com.github.spheras.desktopfolder.desktop.in.h:2
+msgid "Organize your desktop with panels, notes and photos"
+msgstr "Organice el escritorio con paneles, notas y fotos"

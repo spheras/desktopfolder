@@ -1,20 +1,18 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -49,12 +47,60 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     }
 
     /**
+     * @overrided
+     */
+    public override int get_parent_default_arrangement_orientation_setting () {
+        return FolderSettings.ARRANGEMENT_ORIENTATION_VERTICAL;
+    }
+
+    /**
      * @name create_view
      * @description create the view associated with this manager
      * @overrided
      */
     protected override void create_view () {
         this.view = new DesktopFolder.DesktopWindow (this);
+    }
+
+    /**
+     * @name show_items
+     * @description shows the items
+     */
+    public override void show_items () {
+        // debug (@"show_items $(this.get_application ().get_desktop_visibility ())");
+        if (this.get_application ().get_desktop_visibility ()) {
+            // debug ("showing items");
+            base.show_items ();
+            base.view.refresh ();
+        }
+    }
+
+    /**
+     * @name hide_items
+     * @description hides the items
+     */
+    public override void hide_items () {
+        debug (@"hide_items $(this.get_application ().get_desktop_visibility ())");
+        debug ("hiding items");
+        base.hide_items ();
+    }
+
+    /**
+     * @name show_view
+     * @description show the items on the desktop
+     * @override
+     */
+    public override void show_view () {
+        this.show_items ();
+    }
+
+    /**
+     * @name hide_view
+     * @description hide the items on the desktop
+     * @override
+     */
+    public override void hide_view () {
+        this.hide_items ();
     }
 
     /**
@@ -65,13 +111,19 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         if (screen == null) {
             screen = Gdk.Screen.get_default ();
         }
+
+        Gdk.Rectangle boundingbox = DesktopFolder.Util.get_desktop_bounding_box ();
+        // debug ("bounding box result: %d,%d -- %d,%d", boundingbox.x, boundingbox.y, boundingbox.width, boundingbox.height);
+
         this.get_view ().move (0, 0); // (-12, -10);
-        int w = screen.get_width (); // + 25;
-        int h = screen.get_height (); // + 25;
+        int w = boundingbox.width; // deprecated -> screen.get_width (); // + 25;
+        int h = boundingbox.height; // deprecated -> screen.get_height (); // + 25;
         this.get_view ().resize (w, h);
         this.get_view ().set_default_size (w, h);
+        this.get_view ().height_request = h;
+        this.get_view ().width_request  = w;
 
-        debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", -12, -10, w, h);
+        debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", 0, 0, w, h);
     }
 
     /**
@@ -105,9 +157,9 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
     protected override void create_new_folder_inside (string folder_path) {
         File nopanel = File.new_for_path (folder_path + "/.nopanel");
         try {
-          if(!nopanel.query_exists()){
-            nopanel.create (FileCreateFlags.NONE);
-          }
+            if (!nopanel.query_exists ()) {
+                nopanel.create (FileCreateFlags.NONE);
+            }
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);

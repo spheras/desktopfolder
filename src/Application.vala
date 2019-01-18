@@ -1,20 +1,18 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -28,6 +26,18 @@ public class DesktopFolderApp : Gtk.Application {
 
     /** The volume monitor */
     private GLib.VolumeMonitor volume_monitor = null;
+
+    /** schema settings */
+    private GLib.Settings settings              = null;
+    private bool single_click                   = false;
+    private const string SHOW_DESKTOPPANEL_KEY  = "desktop-panel";
+    private const string SHOW_DESKTOPICONS_KEY  = "icons-on-desktop";
+    private const string SHOW_DESKTOPFOLDER_KEY = "show-desktopfolder";
+
+    private bool show_desktoppanel              = false;
+    private bool show_desktopicons              = false;
+
+    private bool desktop_visible                = false;
 
     /** List of folder owned by the application */
     private DesktopFolder.DesktopManager desktop       = null;
@@ -74,6 +84,7 @@ public class DesktopFolderApp : Gtk.Application {
     protected override void activate () {
         base.activate ();
         debug ("activate event");
+        this.hold ();
         // we'll init the app in the activate event
         init ();
     }
@@ -109,6 +120,38 @@ public class DesktopFolderApp : Gtk.Application {
             return;
         }
 
+        // define our settings schema
+        settings = new GLib.Settings ("com.github.spheras.desktopfolder");
+        try {
+            // loki -> GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
+            GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/io.elementary.files.gschema.xml");
+            if (f_check_elementary.query_exists ()) {
+                // it seems we can't control an error reading settings!!
+                // loki -> GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
+                GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
+                single_click = elementary_files_settings.get_boolean ("single-click");
+            }
+        } catch (Error error) {
+            // we don't have any files settings, using default config
+        }
+
+        // Connect to show-desktopfolder key
+        settings.changed[SHOW_DESKTOPFOLDER_KEY].connect (on_show_desktopfolder_changed);
+        on_show_desktopfolder_changed ();
+
+        // Connect to desktoppanel key
+
+        // This commented out line would allow the setting to be changed on the fly
+        // Commented out because it allows specific conditions where it will currently crash Mutter
+        // This application may also have an unknown bug causing the crash
+        //
+        // settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
+
+        on_show_desktoppanel_changed ();
+
+        settings.changed[SHOW_DESKTOPICONS_KEY].connect (on_show_desktopicons_changed);
+        on_show_desktopicons_changed ();
+
         create_shortcut ();
 
         // we need the app folder (desktop folder)
@@ -140,7 +183,7 @@ public class DesktopFolderApp : Gtk.Application {
 
         // we start creating the folders found at the desktop folder
         this.sync_folders_and_notes ();
-        this.monitor_desktop ();
+        this.monitor_desktop_folder ();
 
         // Listening to size change events
         Gdk.Screen.get_default ().size_changed.connect (this.on_screen_size_changed);
@@ -155,6 +198,73 @@ public class DesktopFolderApp : Gtk.Application {
         this.volume_monitor.volume_changed.connect ((volume) => {
             this.on_mount_changed ();
         });
+
+        Timeout.add (500, () => { // 1000
+            this.toggle_desktop_visibility ();
+            return false;
+        });
+    }
+
+    /**
+     * @name on_show_desktopicons_changed
+     * @description detect when desktopicons key is toggled
+     */
+    private void on_show_desktopicons_changed () {
+        this.show_desktopicons = settings.get_boolean (SHOW_DESKTOPICONS_KEY);
+        // debug (@"called, show_desktoppanel: $(this.show_desktoppanel), show_desktopicons: $show_desktopicons");
+        if (this.show_desktoppanel) {
+            if (this.show_desktopicons) {
+                this.desktop.show_items ();
+            } else {
+                // debug ("calling hide_items");
+                this.desktop.hide_items ();
+            }
+        }
+    }
+
+    /**
+     * @name get_desktopicons_enabled
+     * @description detect when desktopicons key is toggled
+     */
+    public bool get_desktopicons_enabled () {
+        return show_desktopicons;
+    }
+
+    /**
+     * @name on_show_desktoppanel_changed
+     * @description detect when desktoppanel key is toggled
+     */
+    private void on_show_desktoppanel_changed () {
+        this.show_desktoppanel = settings.get_boolean (SHOW_DESKTOPPANEL_KEY);
+        debug (@"show_desktoppanel: $(this.show_desktoppanel)");
+        if (this.show_desktoppanel) {
+            this.create_fake_desktop ();
+        } else {
+            if (this.desktop != null) {
+                this.desktop.close ();
+                this.desktop = null;
+            }
+        }
+    }
+
+    /**
+     * @name on_show_desktopfolder_changed
+     * @description detect when desktopfolder key is toggled
+     */
+    public bool get_desktoppanel_enabled () {
+        return show_desktoppanel;
+    }
+
+    /**
+     * @name on_show_desktopfolder_changed
+     * @description detect when desktopfolder key is toggled
+     */
+    private void on_show_desktopfolder_changed () {
+        bool show_desktopfolder = settings.get_boolean (SHOW_DESKTOPFOLDER_KEY);
+        if (!show_desktopfolder) {
+            // requested to no longer show the desktop so let's gracefully quit
+            this.quit ();
+        }
     }
 
     /**
@@ -171,23 +281,41 @@ public class DesktopFolderApp : Gtk.Application {
         }
     }
 
+    /** resize event timeout id */
+    private uint resize_event_timeout = 0;
+
+
     /**
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
+
     public void on_screen_size_changed () {
-        debug ("SCREEN SIZE CHANGED!");
-        Gdk.Screen screen = Gdk.Screen.get_default ();
-        this.desktop.on_screen_size_changed (screen);
-        for (int i = 0; i < this.folders.length (); i++) {
-            this.folders.nth_data (i).on_screen_size_changed (screen);
+        if (this.resize_event_timeout > 0) {
+            Source.remove (this.resize_event_timeout);
+            this.resize_event_timeout = 0;
         }
-        for (int i = 0; i < this.notes.length (); i++) {
-            this.notes.nth_data (i).on_screen_size_changed (screen);
-        }
-        for (int i = 0; i < this.photos.length (); i++) {
-            this.photos.nth_data (i).on_screen_size_changed (screen);
-        }
+        // waiting 1 second to ensure the correct size information from monitors
+        this.resize_event_timeout = Timeout.add (1000, () => {
+            this.resize_event_timeout = 0;
+
+            debug ("SCREEN SIZE CHANGED!");
+            Gdk.Screen screen = Gdk.Screen.get_default ();
+            if (this.desktop != null) {
+                this.desktop.on_screen_size_changed (screen);
+            }
+            foreach (var folder in folders) {
+                folder.on_screen_size_changed (screen);
+            }
+            foreach (var note in notes) {
+                note.on_screen_size_changed (screen);
+            }
+            foreach (var photo in photos) {
+                photo.on_screen_size_changed (screen);
+            }
+
+            return false;
+        });
     }
 
     /** the desktop folder name */
@@ -203,44 +331,12 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name check_fake_desktop
-     * @description check if the fake desktop must be showed or not to create it
+     * @name create_fake_desktop
+     * @description create the fake desktop
      */
-    private void check_fake_desktop () {
-        GLib.Settings settings = new GLib.Settings ("com.github.spheras.desktopfolder");
-        string[]      keys     = settings.list_keys ();
-        bool          found    = false;
-        for (int i = 0; i < keys.length; i++) {
-            string key = keys[i];
-            if (key == "desktop-panel") {
-                found = true;
-                break;
-            }
-        }
-        bool desktop_panel = false;
-        if (found) {
-            desktop_panel = settings.get_boolean ("desktop-panel");
-        }
-
-        if (desktop_panel && this.desktop == null) {
-            this.desktop = new DesktopFolder.DesktopManager (this);
-            for (int i = 0; i < this.folders.length (); i++) {
-                var fm = this.folders.nth (i).data;
-                fm.reopen ();
-            }
-            for (int i = 0; i < this.notes.length (); i++) {
-                var fm = this.notes.nth (i).data;
-                fm.reopen ();
-            }
-            for (int i = 0; i < this.photos.length (); i++) {
-                var fm = this.photos.nth (i).data;
-                fm.reopen ();
-            }
-
-        } else if (!desktop_panel && this.desktop != null) {
-            this.desktop.close ();
-            this.desktop = null;
-        }
+    private void create_fake_desktop () {
+        this.desktop = new DesktopFolder.DesktopManager (this);
+        this.clear_all ();
     }
 
     /**
@@ -249,8 +345,6 @@ public class DesktopFolderApp : Gtk.Application {
      */
     private void sync_folders_and_notes () {
         try {
-            check_fake_desktop ();
-
             var base_path  = DesktopFolderApp.get_app_folder ();
             var directory  = File.new_for_path (base_path);
             var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
@@ -263,18 +357,18 @@ public class DesktopFolderApp : Gtk.Application {
             int totalNotes   = 0;
             int totalPhotos  = 0;
             while ((file_info = enumerator.next_file ()) != null) {
-                string   name = file_info.get_name ();
-                File     file = File.new_for_commandline_arg (base_path + "/" + name);
-                FileType type = file.query_file_type (FileQueryInfoFlags.NONE);
+                string   name   = file_info.get_name ();
+                File     file   = File.new_for_commandline_arg (base_path + "/" + name);
+                FileType type   = file.query_file_type (FileQueryInfoFlags.NONE);
 
-                File nopanel  = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.PANEL_BLACKLIST_FILE);
-
+                File nopanel    = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.PANEL_BLACKLIST_FILE);
+                File panel_flag = File.new_for_commandline_arg (base_path + "/" + name + "/" + DesktopFolder.FOLDER_SETTINGS_FILE);
                 if (type == FileType.DIRECTORY) {
 
                     // Is this folder already known about?
                     DesktopFolder.FolderManager fm = this.find_folder_by_name (name);
 
-                    if (nopanel.query_exists ()) {
+                    if (nopanel.query_exists () || !panel_flag.query_exists ()) {
                         if (fm != null) {
                             // This folder doesn't want to be a panel anymore
                             // (this check might be pointless however because it's already done in FolderManager's sync)
@@ -336,6 +430,7 @@ public class DesktopFolderApp : Gtk.Application {
                 }
             }
 
+
             // finally we close any other not existent folder
             while (this.folders.length () > 0) {
                 DesktopFolder.FolderManager fm = this.folders.nth (0).data;
@@ -360,11 +455,17 @@ public class DesktopFolderApp : Gtk.Application {
             }
             this.photos = updated_photo_list.copy ();
 
-            // by default, at least one folder is needed
-            if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0) {
-                DirUtils.create (DesktopFolderApp.get_app_folder () + "/" + DesktopFolder.Lang.APP_FIRST_PANEL, 0755);
+            // by default, we create at least one folder if set by settings
+            if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0 && this.desktop == null) {
+                string first_panel_path         = DesktopFolderApp.get_app_folder () + "/" + DesktopFolder.Lang.APP_FIRST_PANEL;
+                DirUtils.create (first_panel_path, 0755);
+                File first_settings_file        = File.new_for_path (first_panel_path + "/.desktopfolder");
+                DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (DesktopFolder.Lang.APP_FIRST_PANEL);
+                fs.save_to_file (first_settings_file);
+
                 this.sync_folders_and_notes ();
             }
+
         } catch (Error e) {
             // error! ??
             stderr.printf ("Error: %s\n", e.message);
@@ -430,6 +531,15 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
+     * @name get_single_click
+     * @description get the single click system setting (fallback is false)
+     * @return bool whether single click is on or not
+     */
+    public bool get_single_click () {
+        return single_click;
+    }
+
+    /**
      * @name exist_manager
      * @description check if the folder_name is being monitored or not
      * @return bool true->yes, it is being monitored
@@ -445,10 +555,10 @@ public class DesktopFolderApp : Gtk.Application {
     }
 
     /**
-     * @name monitor_desktop
+     * @name monitor_desktop_folder
      * @description monitor the desktop folder
      */
-    private void monitor_desktop () {
+    private void monitor_desktop_folder () {
         try {
             if (this.monitor != null) {
                 // if we have an existing monitor, we cancel it before to monitor again
@@ -472,6 +582,20 @@ public class DesktopFolderApp : Gtk.Application {
      * @see changed signal of FileMonitor (https://valadoc.org/gio-2.0/GLib.FileMonitor.changed.html)
      */
     private void desktop_changed (GLib.File src, GLib.File ? dest, FileMonitorEvent event) {
+        // string src_path = "";
+        // if (src == null) {
+        // src_path = "null";
+        // } else {
+        // src_path = src.get_path ().to_string ();
+        // }
+        // string dest_path = "";
+        // if (dest == null) {
+        // dest_path = "null";
+        // } else {
+        // dest_path = dest.get_path ().to_string ();
+        // }
+        // debug ("src: " + src_path + " dest: " + dest_path + " event: " + event.to_string ());
+
         // something changed at the desktop folder
         bool flagNote   = false;
         bool flagPhoto  = false;
@@ -480,9 +604,9 @@ public class DesktopFolderApp : Gtk.Application {
         int    index    = basename.last_index_of (".", 0);
         if (index > 0) {
             string ext = basename.substring (index + 1);
-            if (ext == DesktopFolder.OLD_NOTE_EXTENSION || ext == DesktopFolder.NEW_NOTE_EXTENSION) {
+            if (event == FileMonitorEvent.CHANGES_DONE_HINT && (ext == DesktopFolder.OLD_NOTE_EXTENSION || ext == DesktopFolder.NEW_NOTE_EXTENSION)) {
                 flagNote = true;
-            } else if (ext == DesktopFolder.OLD_PHOTO_EXTENSION || ext == DesktopFolder.NEW_PHOTO_EXTENSION) {
+            } else if (event == FileMonitorEvent.CHANGES_DONE_HINT && (ext == DesktopFolder.OLD_PHOTO_EXTENSION || ext == DesktopFolder.NEW_PHOTO_EXTENSION)) {
                 flagPhoto = true;
             }
         }
@@ -490,23 +614,94 @@ public class DesktopFolderApp : Gtk.Application {
         // new content inside
         var file_type = src.query_file_type (FileQueryInfoFlags.NONE);
         if (flagNote || flagPhoto || file_type == FileType.DIRECTORY || !src.query_exists ()) {
-            // debug("Desktop - Change Detected");
             // new directory or removed, we need to synchronize
-            // removed directory
+            // debug ("desktop changed, calling sync_folders_and_notes");
             this.sync_folders_and_notes ();
         }
     }
 
     /**
-     * @name clear_all
+     * @name get_desktop_visibility
+     * @description show or hide the desktop
+     */
+    public bool get_desktop_visibility () {
+        return this.desktop_visible;
+    }
+
+    /**
+     * @name toggle_desktop_visiblity
+     * @description show or hide the desktop
+     */
+    public void toggle_desktop_visibility () {
+        this.desktop_visible = !this.desktop_visible;
+        debug (@"desktop_visible is now $(this.desktop_visible)");
+        if (this.desktop_visible) {
+            this.desktop.show_view ();
+            foreach (var folder in folders) {
+                folder.show_view ();
+            }
+            foreach (var note in notes) {
+                note.show_view ();
+            }
+            foreach (var photo in photos) {
+                photo.show_view ();
+            }
+        } else {
+            this.desktop.hide_view ();
+            foreach (var folder in folders) {
+                folder.hide_view ();
+            }
+            foreach (var note in notes) {
+                note.hide_view ();
+            }
+            foreach (var photo in photos) {
+                photo.hide_view ();
+            }
+        }
+    }
+
+    /**
+     * @name clear_folders
      * @description close all the folders launched
      */
-    protected void clear_all () {
-        for (int i = 0; i < this.folders.length (); i++) {
-            DesktopFolder.FolderManager fm = this.folders.nth (i).data;
-            fm.close ();
+    protected void clear_folders () {
+        foreach (var folder in folders) {
+            folder.close ();
         }
         this.folders = new List <DesktopFolder.FolderManager> ();
+    }
+
+    /**
+     * @name clear_notes
+     * @description close all the notes launched
+     */
+    protected void clear_notes () {
+        foreach (var note in notes) {
+            note.close ();
+        }
+        this.notes = new List <DesktopFolder.NoteManager> ();
+    }
+
+    /**
+     * @name clear_photos
+     * @description close all the photos launched
+     */
+    protected void clear_photos () {
+        foreach (var photo in photos) {
+            photo.close ();
+        }
+        this.photos = new List <DesktopFolder.PhotoManager> ();
+    }
+
+    /**
+     * @name clear_all
+     * @description close all the windows launched
+     */
+    protected void clear_all () {
+        this.clear_folders ();
+        this.clear_notes ();
+        this.clear_photos ();
+        this.sync_folders_and_notes ();
     }
 
     /**

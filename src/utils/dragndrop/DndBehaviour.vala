@@ -1,20 +1,18 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace DesktopFolder.DragnDrop {
@@ -103,17 +101,11 @@ namespace DesktopFolder.DragnDrop {
                 if (icon_name != null) {
                     Gtk.drag_set_icon_name (context, icon_name, x, y);
                 } else {
-                    string stock_name;
-                    image.get_stock (out stock_name, out iconSize);
-                    if (stock_name != null) {
-                        Gtk.drag_set_icon_stock (context, stock_name, x, y);
+                    Gdk.Pixbuf pixbuf = image.get_pixbuf ();
+                    if (pixbuf != null) {
+                        Gtk.drag_set_icon_pixbuf (context, pixbuf, x, y);
                     } else {
-                        Gdk.Pixbuf pixbuf = image.get_pixbuf ();
-                        if (pixbuf != null) {
-                            Gtk.drag_set_icon_pixbuf (context, pixbuf, x, y);
-                        } else {
-                            Gtk.drag_set_icon_default (context);
-                        }
+                        Gtk.drag_set_icon_default (context);
                     }
                 }
             }
@@ -157,6 +149,7 @@ namespace DesktopFolder.DragnDrop {
             current_actions          = Gdk.DragAction.DEFAULT;
             drag_has_begun           = false;
             drop_occurred            = false;
+            this.view.on_drag_end ();
         }
 
         public unowned GLib.List <File> get_selected_files () {
@@ -309,7 +302,7 @@ namespace DesktopFolder.DragnDrop {
 
 
             // depending on the modifier pressed, we will copy move or link
-            Gdk.Keymap keymap    = Gdk.Keymap.get_default ();
+            Gdk.Keymap keymap    = Gdk.Keymap.get_for_display (Gdk.Display.get_default ());
             uint       modifiers = keymap.get_modifier_state ();
             if ((modifiers & Gdk.ModifierType.CONTROL_MASK) > 0) {
                 // lets copy

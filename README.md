@@ -43,7 +43,7 @@ Wayland (in Ubuntu since 17.10) is not fully supported yet, and we've experience
 See the [Contributing page](https://github.com/spheras/desktopfolder/wiki/Contributing) on the wiki.
 
 ## Building and Installing
-Important! This version only works correctly with GTK library >=3.22
+Important!! This version only works correctly with GTK library >=3.22
 
 You'll need the following dependencies to build:
 
@@ -56,8 +56,9 @@ You'll need the following dependencies to build:
 * libjson-glib-dev
 * meson
 * valac
+* intltool
 
-`sudo apt install meson valac libgee-0.8-dev libcairo2-dev libjson-glib-dev libgdk-pixbuf2.0-dev libwnck-3-dev libgtksourceview-3.0-dev libjson-glib-dev`
+`sudo apt install meson valac libgee-0.8-dev libcairo2-dev libjson-glib-dev libgdk-pixbuf2.0-dev libwnck-3-dev libgtksourceview-3.0-dev libjson-glib-dev intltool`
 
 Run `meson build` to configure the build environment and then change to the build directory and run `ninja` to build:
 

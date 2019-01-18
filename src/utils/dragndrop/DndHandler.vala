@@ -1,24 +1,23 @@
-/***
-    Copyright (c) 2015-2017 elementary LLC (http://launchpad.net/elementary)
-    NOTE: This is an adaptation of the DndHandler class from elementary Files project.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, Inc.,; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-    MA 02110-1301, USA.
-
-    Authors: Jeremy Wootten <jeremy@elementaryos.org>
- ***/
+/*
+ *  Copyright (c) 2015-2017 elementary LLC (http://launchpad.net/elementary)
+ *  NOTE: This is an adaptation of the DndHandler class from elementary Files project.
+ *  Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Authors: Jeremy Wootten <jeremy@elementaryos.org>
+ */
 
 namespace DesktopFolder.DragnDrop {
 
@@ -86,7 +85,7 @@ namespace DesktopFolder.DragnDrop {
                 remove_action (win);
             });
 
-            ask_menu.popup (null, null, null, 0, Gdk.CURRENT_TIME);
+            ask_menu.popup_at_pointer (null);
             loop.run ();
             Gtk.grab_remove (ask_menu);
 
@@ -152,7 +151,7 @@ namespace DesktopFolder.DragnDrop {
             case "link":
                 this.chosen = Gdk.DragAction.LINK;
                 break;
-            case "background":     /* not implemented yet */
+            case "background": /* not implemented yet */
             case "cancel":
             default:
                 this.chosen = Gdk.DragAction.DEFAULT;
@@ -169,10 +168,10 @@ namespace DesktopFolder.DragnDrop {
             bool exists            = Gdk.property_get (context.get_source_window (),
                     property_name,
                     property_type,
-                    0,                         /* offset into property to start getting */
-                    1024,                         /* max bytes of data to retrieve */
-                    0,                         /* do not delete after retrieving */
-                    null, null,                         /* actual property type and format got disregarded */
+                    0, /* offset into property to start getting */
+                    1024, /* max bytes of data to retrieve */
+                    0, /* do not delete after retrieving */
+                    null, null, /* actual property type and format got disregarded */
                     out data
                 );
 

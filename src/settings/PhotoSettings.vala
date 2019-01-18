@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 public class DesktopFolder.PhotoSettings : PositionSettings {
     private int _original_width = 0;
     public int original_width {
@@ -70,7 +87,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
 
     private File file;
 
-    public PhotoSettings (string photo_path) {
+    public PhotoSettings (string photo_path, Gdk.Window window) {
         this.x          = 110;
         this.y          = 110;
         this.photo_path = photo_path;
@@ -89,7 +106,7 @@ public class DesktopFolder.PhotoSettings : PositionSettings {
 
             // max a 30% of the screen
             Gdk.Screen screen = Gdk.Screen.get_default ();
-            int        MAX    = (screen.get_width () * 30) / 100;
+            int        MAX    = (screen.get_display ().get_monitor_at_window (window).get_geometry ().width * 30) / 100;
 
             if (this.w > MAX) {
                 int newWidth  = MAX;

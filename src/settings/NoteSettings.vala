@@ -1,4 +1,19 @@
-
+/*
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 public class DesktopFolder.NoteSettings : PositionSettings {
     private string _name;
@@ -104,11 +119,25 @@ public class DesktopFolder.NoteSettings : PositionSettings {
         }
     }
 
+    private bool _edit_label_on_creation;
+    public bool edit_label_on_creation {
+        get {
+            return _edit_label_on_creation;
+        }
+        set {
+            if (_edit_label_on_creation != value) {
+                _edit_label_on_creation = value; flagChanged = true;
+            }
+        }
+    }
+
     private File file;
 
     public NoteSettings (string name) {
         this.x         = 110;
         this.y         = 110;
+        this.w         = 300;
+        this.h         = 300;
         this.bgcolor   = "df_yellow";
         this.fgcolor   = "df_dark";
         this.texture   = "";

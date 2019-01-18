@@ -1,26 +1,25 @@
 /*
- * Copyright (c) 2017 José Amuedo (https://github.com/spheras)
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301 USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 public class DesktopFolder.ItemView : Gtk.EventBox {
 
     // NOT SURE ABOUT THESE CONSTANTS!!! TODO!!!!!
-    public const int PADDING_X       = 13;
-    public const int PADDING_Y       = 47;
+    public const int PADDING_X       = 10;
+    public const int PADDING_Y       = 44;
     // DEFAULT SIZES
     private const int ICON_WIDTH     = 48;
     private const int DEFAULT_WIDTH  = 90;
@@ -44,7 +43,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     /** the label of the icon */
     private DesktopFolder.EditableLabel label;
     /** the image shown */
-    private Gtk.Image icon = null;
+    private Gtk.Image icon             = null;
+    /** flag to know whether the drag drop event was started */
+    private bool flag_dragdrop_started = false;
+
 
     /** set of variables to allow move the widget */
     private int offsetx;
@@ -80,6 +82,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // class for this widget
         this.get_style_context ().add_class ("df_item");
 
+        this.get_style_context ().add_class ("df_fadingwindow");
+        this.get_style_context ().add_class ("df_fadeout");
+
         // we connect the enter and leave events
         this.enter_notify_event.connect (this.on_enter);
         this.leave_notify_event.connect (this.on_leave);
@@ -92,36 +97,56 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.container.margin = 0;
         this.container.set_size_request (DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-        try {
-            this.refresh_icon ();
-            string slabel = this.get_correct_label (this.manager.get_file_name ());
-            this.create_label (slabel);
-        } catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
-            Util.show_error_dialog ("Error", e.message);
-        }
+        this.refresh_icon ();
+        string slabel = this.get_correct_label (this.manager.get_file_name ());
+        this.create_label (slabel);
 
         this.add (this.container);
-    }
 
+    }
 
     /**
      * @name create_headerbar
      * @description create the header bar
      */
     protected virtual void create_label (string slabel) {
-        // debug ("Create label for %s", this.manager.get_file_name ());
+        try {
+            // debug ("Create label for %s", this.manager.get_file_name ());
 
-        this.label = new DesktopFolder.EditableLabel (slabel);
-        this.container.pack_end (label, true, true, 0);
-        this.check_ellipse ();
+            this.label = new DesktopFolder.EditableLabel (slabel);
+            this.container.pack_end (label, true, true, 0);
+            this.check_ellipse ();
 
-        label.changed.connect ((new_name) => {
-            if (this.manager.rename (new_name + this.hidden_extension)) {
-                label.text = new_name;
-                this.check_ellipse ();
-            }
-        });
+            label.changed.connect ((new_name) => {
+                if (this.manager.rename (new_name + this.hidden_extension)) {
+                    label.text = new_name;
+                    this.check_ellipse ();
+                }
+            });
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
+    }
+
+    /**
+     * @name rename
+     * @description change the label of the item to the new label
+     */
+    public void rename (string new_name) {
+        this.label.text = new_name;
+        this.refresh_icon ();
+    }
+
+    /**
+     * @name refresh
+     * @description refresh the window
+     */
+    public void refresh () {
+        if (this.manager.get_folder ().get_application ().get_desktop_visibility ()) {
+            this.fade_in ();
+            this.show_all ();
+        }
     }
 
     /**
@@ -129,17 +154,22 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @description force to refresh the icon imagen shown
      */
     public void refresh_icon () {
-        Gtk.Image newImage = this.calculate_icon ();
+        try {
+            Gtk.Image newImage = this.calculate_icon ();
 
-        if (this.icon != null) {
-            this.container.remove (this.icon);
+            if (this.icon != null) {
+                this.container.remove (this.icon);
+            }
+
+            this.icon = newImage;
+            this.icon.set_size_request (ICON_WIDTH, ICON_WIDTH);
+            this.icon.get_style_context ().add_class ("df_icon");
+            this.container.pack_start (this.icon, true, true);
+            this.refresh ();
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
         }
-
-        this.icon = newImage;
-        this.icon.set_size_request (ICON_WIDTH, ICON_WIDTH);
-        this.icon.get_style_context ().add_class ("df_icon");
-        this.container.pack_start (this.icon, true, true);
-        this.show_all ();
     }
 
     /**
@@ -161,8 +191,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             if (manager.get_settings ().icon != null && manager.get_settings ().icon.length > 0) {
                 // We have a custom icon
                 int        scale  = DesktopFolder.ICON_SIZE;
-                Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file (manager.get_settings ().icon);
-                custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
+                Gdk.Pixbuf custom = new Gdk.Pixbuf.from_file_at_scale (manager.get_settings ().icon, scale, scale, true);
+                // custom = custom.scale_simple (scale, scale, Gdk.InterpType.BILINEAR);
                 if (this.manager.is_link ()) {
                     icon = this.draw_link_mark_pixbuf (custom);
                 } else {
@@ -189,8 +219,15 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                         icon = this.draw_link_mark_gicon (gicon);
                     } else {
                         GLib.ThemedIcon themed = new GLib.ThemedIcon.with_default_fallbacks (gicon.to_string ());
-                        var info               = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
-                        var pixbuf             = info.load_icon ();
+                        var        info        = Gtk.IconTheme.get_default ().lookup_by_gicon (themed, ICON_WIDTH, 0);
+                        Gdk.Pixbuf pixbuf      = null;
+                        if (info == null) {
+                            // force a large icon load to ensure icons like svg's are scaled correctly later
+                            pixbuf = new Gdk.Pixbuf.from_file_at_scale (gicon.to_string (), ICON_WIDTH, ICON_WIDTH, true);
+                        } else {
+                            pixbuf = info.load_icon ();
+                        }
+
                         if (pixbuf.height != ICON_WIDTH) {
                             // Some icons don't return the requested size, so we need to scale them
                             pixbuf = pixbuf.scale_simple (ICON_WIDTH, ICON_WIDTH, Gdk.InterpType.BILINEAR);
@@ -367,6 +404,11 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private bool on_enter (Gdk.EventCrossing eventCrossing) {
         this.get_style_context ().add_class ("df_item_over");
         // debug("enter item");
+        bool single_click = this.manager.get_folder ().get_application ().get_single_click ();
+
+        if (single_click && !this.flagModified) {
+            get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "pointer"));
+        }
         return true;
     }
 
@@ -376,18 +418,12 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @param eventCrossing EventCrossing @see on_enter signal
      * @return bool @see the on_leave signal
      */
-    private bool on_leave (Gdk.EventCrossing eventCrossing) {
+    public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
         if (this.flagModified) {
-            Gtk.Allocation allocation;
-            this.get_allocation (out allocation);
-            // HELP! don't know why these constants?? maybe padding??
-            int x = allocation.x - PADDING_X;
-            int y = allocation.y - PADDING_Y;
-
-            this.manager.save_position (x, y);
+            this.manager.save_current_position ();
             this.flagModified = false;
         }
         // debug("leave item");
@@ -445,6 +481,24 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
+     * @name fade_in
+     * @description fade the view in. does not call show
+     */
+    public void fade_in () {
+        this.get_style_context ().remove_class ("df_fadeout");
+        this.get_style_context ().add_class ("df_fadein");
+    }
+
+    /**
+     * @name fade_out
+     * @description fade the view out. does not call hide
+     */
+    public void fade_out () {
+        this.get_style_context ().remove_class ("df_fadein");
+        this.get_style_context ().add_class ("df_fadeout");
+    }
+
+    /**
      * @name on_release
      * @description the release button event
      * @param EventButton event the event produced
@@ -464,9 +518,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
            return true;
          */
-
         // if the icon wasnt moved, maybe we must execute it
         // depending if the files preferences single-click was activated
+
+        var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+
+        this.flag_dragdrop_started = false;
 
         // Change cursor
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "default"));
@@ -475,28 +533,67 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.manager.get_folder ().get_view ().on_item_moving (false);
 
         if (!this.flagMoved) {
-            bool single_click = false;
-            try {
-                // loki -> GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/org.pantheon.files.gschema.xml");
-                GLib.File f_check_elementary = GLib.File.new_for_path ("/usr/share/glib-2.0/schemas/io.elementary.files.gschema.xml");
-                if (f_check_elementary.query_exists ()) {
-                    // it seems we can't control an error reading settings!!
-                    // loki -> GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
-                    GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
-                    single_click = elementary_files_settings.get_boolean ("single-click");
-                    debug ("single_click: %s", (single_click ? "true" : "false"));
-                }
-            } catch (Error error) {
-                // we don't have any files settings, using default config
-                single_click = false;
-            }
+            bool single_click = this.manager.get_folder ().get_application ().get_single_click ();
 
-            if (single_click && event.type == Gdk.EventType.BUTTON_RELEASE && event.button == Gdk.BUTTON_PRIMARY) {
+            if (single_click && !control_pressed && event.type == Gdk.EventType.BUTTON_RELEASE && event.button == Gdk.BUTTON_PRIMARY) {
                 on_double_click ();
             }
+        } else {
+            Gtk.Allocation allocation;
+            this.get_allocation (out allocation);
+            // debug("release(%d,%d)",allocation.x,allocation.y);
+            // HELP! don't know why these constants?? maybe padding??
+            int x = allocation.x; // - PADDING_X;
+            int y = allocation.y; // - PADDING_Y;
+
+            FolderArrangement arrangement = this.manager.get_folder ().get_arrangement ();
+            int sensitivity               = arrangement.get_sensitivity ();
+            int padding = this.manager.get_folder ().get_settings ().arrangement_padding;
+            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), sensitivity + padding);
+            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), sensitivity + padding);
+
+            if (this.manager.get_folder ().get_arrangement ().have_margin ()) {
+                x = x + FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+            }
+
+            Gtk.Window window = (Gtk.Window) this.get_toplevel ();
+            ((FolderWindow) window).move_item (this, x, y);
+
+            // notifying to the arrangement
+            this.manager.get_folder ().get_arrangement ().end_drag ();
+            ItemSettings my_settings = this.manager.get_settings ();
+            my_settings.x = x;
+            my_settings.y = y;
+            this.manager.save_settings (my_settings);
         }
 
         return false;
+    }
+
+    /**
+     * @name get_manager
+     * @description return the manager of this view
+     * @return {ItemManager} the manager
+     */
+    public ItemManager get_manager () {
+        return this.manager;
+    }
+
+    /**
+     * @name is_dragdrop_started
+     * @description return whether the item has started a drag drop event
+     * @return true -> yes, it was started, false otherwise
+     */
+    public bool is_dragdrop_started () {
+        return this.flag_dragdrop_started;
+    }
+
+    /**
+     * @name on_drag_end
+     * @description drag end event
+     */
+    public void on_drag_end () {
+        this.flag_dragdrop_started = false;
     }
 
     /**
@@ -507,14 +604,19 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      */
     private bool on_press (Gdk.EventButton event) {
         // debug("press:%i",(int)event.button);
-
+        manager.get_folder ().get_view ().present ();
         // Change cursor to closed hand
         get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "grabbing"));
 
         // this code is to allow the drag'ndrop of files inside the folder window
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
+        bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
+        bool locked          = this.manager.get_folder ().are_items_locked ();
+
+        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
+            this.select ();
+            this.flag_dragdrop_started = true;
             return false;
         }
 
@@ -523,15 +625,27 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             this.select ();
             this.flagMoved = false;
 
-            if (!this.manager.get_folder ().are_items_locked ()) {
+            if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
                 Gtk.Widget p = this.parent;
                 // offset == distance of parent widget from edge of screen ...
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
-                // debug("offset:%i,%i",this.offsetx,this.offsety);
+                //debug ("offset_1: %i,%i", this.offsetx, this.offsety);
                 // plus distance from pointer to edge of widget
-
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
+                //debug ("offset_2: %i,%i", this.offsetx, this.offsety);
+
+                // if it was grabed the title_label, the event position (y) need to be recalculated
+                if (event.window == this.label.title_label.get_window ()) {
+                    int my_x = 0;
+                    int my_y = 0;
+                    this.translate_coordinates (this.label.title_label, (int) event.x, (int) event.y, out my_x, out my_y);
+                    this.offsety -= my_y;
+                    //debug ("offset_3 %i,%i", this.offsetx, this.offsety);
+                }
+
+                // creating a map of the current grid structure
+                this.manager.get_folder ().get_arrangement ().start_drag (this);
 
                 // maxx, maxy both relative to the parent
                 // note that we're rounding down now so that these max values don't get
@@ -540,8 +654,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 p.get_allocation (out pAllocation);
                 Gtk.Allocation thisAllocation;
                 this.get_allocation (out thisAllocation);
-                this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_view ().get_sensitivity ());
-                this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_view ().get_sensitivity ());
+                this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
+                this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
             }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             this.select ();
@@ -577,6 +691,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @param EventButton event the event button that originates this context menu
      */
     private void show_popup (Gdk.EventButton event) {
+
         // debug("evento:%f,%f",event.x,event.y);
         // if(this.menu==null) { //we need the event coordinates for the menu, we need to recreate?!
 
@@ -587,10 +702,18 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         if (this.manager.is_executable ()) {
             label = DesktopFolder.Lang.ITEM_MENU_EXECUTE;
         }
+
         Gtk.MenuItem item = new Gtk.MenuItem.with_label (label);
         item.activate.connect ((item) => {
             this.manager.execute ();
         });
+
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN_WITH);
+        string path = this.manager.get_absolute_path ();
+        item.activate.connect ((item) => { this.manager.openwith (path); });
         item.show ();
         menu.append (item);
 
@@ -617,14 +740,36 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         item.show ();
         menu.append (item);
 
-        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_DELETE);
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_TRASH);
         item.activate.connect ((item) => { this.manager.trash (); });
         item.show ();
         menu.append (item);
 
-        if (this.manager.is_executable ()) {
-            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CHANGEICON);
-            item.activate.connect ((item) => { this.change_icon (); });
+        // if (this.manager.is_executable ()) { //only allowing this to executable files
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_CHANGEICON);
+        item.activate.connect ((item) => { this.change_icon (); });
+        item.show ();
+        menu.append (item);
+        // }
+
+        item = new MenuItemSeparator ();
+        item.show ();
+        menu.append (item);
+
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_PROPSWINDOW_SHOW_FILEINFO);
+        string info_path = this.manager.get_absolute_path ();
+        item.activate.connect ((item) => { this.manager.show_info (info_path); });
+        item.show ();
+        menu.append (item);
+
+        // only add open-folder-in-terminal to menu if the item is a folder
+        if (this.manager.is_folder ()) {
+            item = new MenuItemSeparator ();
+            item.show ();
+            menu.append (item);
+
+            item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_OPEN_IN_TERMINAL);
+            item.activate.connect ((item) => { this.manager.open_in_terminal (path); });
             item.show ();
             menu.append (item);
         }
@@ -633,13 +778,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // }
 
         // showing the menu
-        menu.popup (
-            null // parent menu shell
-            , null // parent menu item
-            , null // func
-            , event.button // button
-            , event.get_time () // Gtk.get_current_event_time() //time
-        );
+        menu.popup_at_pointer (null);
     }
 
     /**
@@ -723,8 +862,10 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         filter.add_mime_type ("image/png");
         filter.add_mime_type ("image/jpeg");
         filter.add_mime_type ("image/gif");
+        filter.add_mime_type ("image/svg+xml");
         filter.add_pattern ("*.png");
         filter.add_pattern ("*.jpg");
+        filter.add_pattern ("*.svg");
         filter.add_pattern ("*.gif");
         filter.add_pattern ("*.tif");
         filter.add_pattern ("*.xpm");
@@ -739,13 +880,21 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     }
 
     /**
+     * @name modify
+     * @description raise the flat modify
+     */
+    public void modify () {
+        this.flagModified = true;
+    }
+
+    /**
      * @name on_motion
      * @description the on_motion event captured to allow the movement of the icon
      * @param EventMotion event @see the on_motion signal
      * @return bool @see the on_motion signal
      */
     private bool on_motion (Gdk.EventMotion event) {
-        if (!this.manager.get_folder ().are_items_locked ()) {
+        if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
 
             // To prevent moving the itemView when editing the label
             if (this.label.editing) {
@@ -775,17 +924,37 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int x = (int) event.x_root - this.offsetx;
             int y = (int) event.y_root - this.offsety;
 
+            //debug("motion: %d,%d",(int) event.x_root,(int) event.y_root);
+            //debug("offset_motion: %d,%d",this.offsetx,this.offsety);
+
+            // removing parent absolute position due to scroll
+            // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
+            FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
+            x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            // }
+
+            // debug("-------------");
+            // debug ("offset(%d,%d)", this.offsetx, this.offsety);
+            // debug ("event-xy(%f, %f)", event.x, event.y);
+            // debug ("root(%f, %f)", event.x_root, event.y_root);
+            // debug ("x,y=(%d,%d)", x, y);
+
             // make sure the potential coordinates x,y:
             // 1) will not push any part of the widget outside of its parent container
             // 2) is a multiple of Sensitivity
-            x = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
-            y = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), this.manager.get_folder ().get_view ().get_sensitivity ());
+            // x           = RoundToNearestMultiple (int.max (int.min (x, this.maxx), 0), FreeArrangement.SENSITIVITY_WITHOUT_GRID);
+            // y           = RoundToNearestMultiple (int.max (int.min (y, this.maxy), 0), FreeArrangement.SENSITIVITY_WITHOUT_GRID);
             if (x != this.px || y != this.py) {
                 this.px = x;
                 this.py = y;
 
-                Gtk.Window window = (Gtk.Window) this.get_toplevel ();
-                ((FolderWindow) window).move_item (this, x + PADDING_X, y);
+                FolderWindow window = this.manager.get_folder ().get_view ();
+                window.move_item (this, x + PADDING_X, y);
+                //debug("moving to: %d,%d",x+PADDING_X,y);
+
+                // notifying to the arrangement
+                this.manager.get_folder ().get_arrangement ().motion_drag (x + PADDING_X, y);
             }
             return true;
         } else {

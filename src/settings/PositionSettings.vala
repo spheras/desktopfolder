@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2017-2019 José Amuedo (https://github.com/spheras)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 public class DesktopFolder.ResolutionSettings : Object {
     public int resx  { get; set; }
     public int resy  { get; set; }
@@ -17,6 +34,9 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
 
     /** the internal list of resolutions stored for this object */
     public SList <ResolutionSettings> _resolutions = new SList <ResolutionSettings>();
+    // temporal WEIRD hack to avoid the problem of set an SLIST to the json @value deserializer
+    private bool flag_deserialized                 = false;
+
     private enum ResolutionStrategy {
         NONE,
         SCALE,
@@ -29,8 +49,13 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
             return this._resolutions;
         }
         set {
-            this._resolutions = value.copy ();
-            flagChanged       = false;
+            if (flag_deserialized) {
+                // temporal WEIRD hack to avoid the problem of set an SLIST to the json @value deserializer
+                flag_deserialized = false;
+            } else {
+                this._resolutions = value.copy ();
+            }
+            flagChanged = false;
         }
     }
 
@@ -109,9 +134,9 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      */
     protected void store_resolution_position () {
         if (this.resx <= 0 || this.resy <= 0) {
-            Gdk.Screen screen  = Gdk.Screen.get_default ();
-            int        swidth  = screen.get_width ();
-            int        sheight = screen.get_height ();
+            ResolutionSettings rs = calculate_screen_resolutions ();
+            int swidth            = rs.resx;
+            int sheight           = rs.resy;
             this.resx = swidth;
             this.resy = sheight;
         }
@@ -151,19 +176,23 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      * @description set the current position and size based on the strategy setting
      */
     public void calculate_current_position () {
+        // debug ("calculate_current_position");
         if (this._resolutions == null) {
+            // debug ("null resolutions!");
             this._resolutions = new SList <ResolutionSettings>();
         }
         ResolutionStrategy strategy = this.get_resolution_strategy_setting ();
         switch (strategy) {
         case ResolutionStrategy.STORE:
-            // debug("strategy store");
+            // debug ("strategy store");
             this.strategy_store ();
+            // debug("check_off_screen");
             check_off_screen ();
             break;
         case ResolutionStrategy.SCALE:
-            // debug("strategy scale");
+            // debug ("strategy scale");
             this.strategy_scale (this.resx, this.resy);
+            // debug("check_off_screen");
             check_off_screen ();
             break;
         default:
@@ -178,11 +207,11 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      * @description check whether the new position is inside the monitor rectangle or not, and fix the position
      */
     protected void check_off_screen () {
-        Gdk.Rectangle monitor_rect;
-        Gdk.Screen    screen      = Gdk.Screen.get_default ();
-        int           monitor     = screen.get_monitor_at_point (this.x, this.y);
-        screen.get_monitor_geometry (monitor, out monitor_rect);
-        Gdk.Rectangle widget_rect = Gdk.Rectangle ();
+        Gdk.Screen    screen       = Gdk.Screen.get_default ();
+        Gdk.Monitor   monitor      = screen.get_display ().get_monitor_at_point (this.x, this.y);
+        Gdk.Rectangle monitor_rect = monitor.get_geometry ();
+
+        Gdk.Rectangle widget_rect  = Gdk.Rectangle ();
         widget_rect.x      = this.x;
         widget_rect.y      = this.y;
         widget_rect.width  = this.w;
@@ -221,14 +250,14 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
     private void strategy_store () {
         ResolutionSettings rs = find_current_resolution ();
         if (rs != null) {
-            // debug("\n1-strategy_store:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
+            // debug("setting a store resolution");
             this.x    = rs.x;
             this.y    = rs.y;
             this.w    = rs.w;
             this.h    = rs.h;
             this.resx = rs.resx;
             this.resy = rs.resy;
-            // debug("\n1-strategy_store:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
+            // debug ("strategy_store:(%d,%d,%d,%d)", this.x, this.y, this.w, this.h);
         } else {
             // debug ("strategy store: no resolution, lets scale");
             // should we resize?? not sure, normally I just add a monitor, don't need to resize, just to position it correctly
@@ -242,9 +271,9 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      * @description the positions are scaled to the new screen resolution
      */
     private void strategy_scale (int oldresx, int oldresy) {
-        Gdk.Screen screen  = Gdk.Screen.get_default ();
-        int        swidth  = screen.get_width ();
-        int        sheight = screen.get_height ();
+        ResolutionSettings rs = calculate_screen_resolutions ();
+        int swidth            = rs.resx;
+        int sheight           = rs.resy;
 
         if (this.resx > 0 && this.resy > 0) {
             // debug("1-strategy_scale:(%d,%d,%d,%d)",this.x,this.y,this.w,this.h);
@@ -265,6 +294,25 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
     }
 
     /**
+     * @name calcualte_screen_resolutions
+     * @description calculate the screen resolution taking into account all the monitors
+     * @return {ResolutionSettings} the resolution calculated (resx and resy)
+     */
+    private ResolutionSettings calculate_screen_resolutions () {
+        // this was the old -deprecated- way gtk (since Gtk+2.2) to obtain that.
+        // Gdk.Screen screen  = Gdk.Screen.get_default ();
+        // int        swidth  = screen.get_width ();
+        // int        sheight = screen.get_height ();
+
+        var           result      = new ResolutionSettings ();
+        Gdk.Rectangle boundingbox = DesktopFolder.Util.get_desktop_bounding_box ();
+        result.resx = boundingbox.width;
+        result.resy = boundingbox.height;
+        // debug("calculating: %d,%d",result.resx,result.resy);
+        return result;
+    }
+
+    /**
      * @name create_current_resolution
      * @description find and create if necessary the current resolution
      * @return {ResolutionSettings} the current screen resolution
@@ -272,9 +320,10 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
     public ResolutionSettings create_current_resolution () {
         ResolutionSettings current = this.find_current_resolution ();
         if (current == null) {
-            Gdk.Screen screen  = Gdk.Screen.get_default ();
-            int        swidth  = screen.get_width ();
-            int        sheight = screen.get_height ();
+            // debug ("create_current_resolution.. not current");
+            ResolutionSettings rs = calculate_screen_resolutions ();
+            int swidth            = rs.resx;
+            int sheight           = rs.resy;
 
             current      = new ResolutionSettings ();
             current.resx = swidth;
@@ -294,12 +343,14 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
      * @return {ResolutionSettings} the resolution found, null if none
      */
     public ResolutionSettings find_current_resolution () {
-        Gdk.Screen screen  = Gdk.Screen.get_default ();
-        int        swidth  = screen.get_width ();
-        int        sheight = screen.get_height ();
-
+        ResolutionSettings rs = calculate_screen_resolutions ();
+        int swidth            = rs.resx;
+        int sheight           = rs.resy;
         this.resx = swidth;
         this.resy = sheight;
+
+        // we got here the full resolution (big bounding box for all the monitors)
+        // debug("find_current_resolution: %d,%d",swidth,sheight);
 
         return this.find_resolution (swidth, sheight);
     }
@@ -348,7 +399,8 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
             return node;
         }
 
-        return default_serialize_property (property_name, @value, pspec);
+        Json.Node result = default_serialize_property (property_name, @value, pspec);
+        return result;
     }
 
     public bool deserialize_property (string property_name, out Value @value, ParamSpec pspec, Json.Node property_node) {
@@ -360,7 +412,9 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
                 this._resolutions.append (Json.gobject_deserialize (typeof (ResolutionSettings), n) as ResolutionSettings);
             });
             GLib.Type type = typeof (SList);
-            @value = Value (type);
+            @value                 = Value (type);
+            this.flag_deserialized = true;
+            // TODO - Help,  how the hell we set an SLIST!!!
             // @value.set_boxed(this._resolutions);
             return true;
         }
