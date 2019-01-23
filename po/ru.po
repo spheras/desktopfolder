@@ -38,8 +38,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Вернёт к жизни ваш минималистский Рабочий стол \n"
-"Позволит организовать файлы на Рабочем столе при помощи панелей."
+"Вернёт к жизни ваш упрощённый рабочий стол \n"
+"Позволит организовать файлы на рабочем столе при помощи панелей."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
@@ -59,7 +59,7 @@ msgstr "_Выбрать"
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "В буфере обмена отсутствуют элементы для вставки"
+msgstr "Буфер обмена пуст"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
@@ -308,7 +308,7 @@ msgstr "Удалить"
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Фотографию"
+msgstr "Фото"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
@@ -397,7 +397,7 @@ msgstr "Изменить обои"
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr "Открыть терминал здесь"
+msgstr "Открыть терминал"
 
 #. open terminal here
 #: src/LanguageText.vala:166
@@ -419,7 +419,7 @@ msgstr "Тип"
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr "Местоположение"
+msgstr "Расположение"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
@@ -509,7 +509,7 @@ msgstr "Интервал между значками по умолчанию:"
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr "Сортировать по"
+msgstr "Сортировать"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
