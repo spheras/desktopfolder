@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Pabli, 2018
+# Paweł Rubacha, 2018
 # Robert Szmurlo <szmurlor@gmail.com>, 2018
 # 
 #, fuzzy

@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Davidmp <medipas@gmail.com>, 2018
-# Adolfo Jayme-Barrientos, 2018
+# Adolfo Jayme Barrientos, 2018
 # Víctor Pont <victor@pont.cat>, 2018
 # 
 #, fuzzy
