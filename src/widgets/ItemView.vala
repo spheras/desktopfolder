@@ -454,12 +454,17 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @name select
      * @description the user select the icon
      */
-    public void select () {
+    public void select_only () {
         Gtk.Window window = (Gtk.Window) this.get_toplevel ();
         ((FolderWindow) window).unselect_all ();
-        this.manager.select ();
+        this.manager.select_only ();
         this.get_style_context ().add_class ("df_selected");
 
+    }
+
+    public void select_add () {
+        this.manager.select_add ();
+        this.get_style_context ().add_class ("df_selected");
     }
 
     /**
@@ -559,12 +564,41 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
             ((FolderWindow) window).move_item (this, x, y);
 
+            int diff_x = allocation.x - x;
+            int diff_y = allocation.y - y;
+
+
             // notifying to the arrangement
             this.manager.get_folder ().get_arrangement ().end_drag ();
             ItemSettings my_settings = this.manager.get_settings ();
             my_settings.x = x;
             my_settings.y = y;
             this.manager.save_settings (my_settings);
+
+            // now, moving the rest of selected items to replicate the main movement
+            Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
+            for (int i = 0; i < selecteds.size; i++) {
+                ItemView selected = selecteds.@get (i);
+                if (selected != this) {
+                    Gtk.Allocation allocation_selected;
+                    selected.get_allocation (out allocation_selected);
+                    int sel_x = allocation_selected.x - diff_x;
+                    int sel_y = allocation_selected.y - diff_y;
+                    ((FolderWindow) window).move_item (selected, sel_x, sel_y);
+
+                    // we simulate a drag to move the conflict items in that position of the grid
+                    this.manager.get_folder ().get_arrangement ().start_drag (selected);
+                    this.manager.get_folder ().get_arrangement ().motion_drag (sel_x + PADDING_X, sel_y);
+                    this.manager.get_folder ().get_arrangement ().end_drag ();
+
+                    ItemSettings sel_settings = selected.manager.get_settings ();
+                    sel_settings.x = sel_x;
+                    sel_settings.y = sel_y;
+                    selected.manager.save_settings (sel_settings);
+
+                }
+            }
+
         }
 
         return false;
@@ -615,25 +649,29 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         bool locked          = this.manager.get_folder ().are_items_locked ();
 
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             this.flag_dragdrop_started = true;
             return false;
         }
 
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY) {
             // first we must select the item
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             this.flagMoved = false;
 
             if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
                 Gtk.Widget p = this.parent;
                 // offset == distance of parent widget from edge of screen ...
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
-                //debug ("offset_1: %i,%i", this.offsetx, this.offsety);
+                // debug ("offset_1: %i,%i", this.offsetx, this.offsety);
                 // plus distance from pointer to edge of widget
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
-                //debug ("offset_2: %i,%i", this.offsetx, this.offsety);
+                // debug ("offset_2: %i,%i", this.offsetx, this.offsety);
 
                 // if it was grabed the title_label, the event position (y) need to be recalculated
                 if (event.window == this.label.title_label.get_window ()) {
@@ -641,7 +679,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     int my_y = 0;
                     this.translate_coordinates (this.label.title_label, (int) event.x, (int) event.y, out my_x, out my_y);
                     this.offsety -= my_y;
-                    //debug ("offset_3 %i,%i", this.offsetx, this.offsety);
+                    // debug ("offset_3 %i,%i", this.offsetx, this.offsety);
                 }
 
                 // creating a map of the current grid structure
@@ -658,10 +696,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
             }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             on_double_click ();
         } else if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_SECONDARY) {
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             this.show_popup (event);
         }
 
@@ -887,6 +929,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.flagModified = true;
     }
 
+    public Gdk.Rectangle get_bounding_box () {
+        Gtk.Allocation allocation;
+        this.get_allocation (out allocation);
+        allocation.y = allocation.y + PADDING_Y; // damn magic numbers!
+        allocation.x = allocation.x + PADDING_X; // damn magic numbers!
+        return allocation;
+    }
+
     /**
      * @name on_motion
      * @description the on_motion event captured to allow the movement of the icon
@@ -924,8 +974,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int x = (int) event.x_root - this.offsetx;
             int y = (int) event.y_root - this.offsety;
 
-            //debug("motion: %d,%d",(int) event.x_root,(int) event.y_root);
-            //debug("offset_motion: %d,%d",this.offsetx,this.offsety);
+            // debug("motion: %d,%d",(int) event.x_root,(int) event.y_root);
+            // debug("offset_motion: %d,%d",this.offsetx,this.offsety);
 
             // removing parent absolute position due to scroll
             // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
@@ -949,9 +999,25 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.px = x;
                 this.py = y;
 
+                Gtk.Allocation allocation0;
+                this.get_allocation (out allocation0);
                 FolderWindow window = this.manager.get_folder ().get_view ();
                 window.move_item (this, x + PADDING_X, y);
-                //debug("moving to: %d,%d",x+PADDING_X,y);
+                int diff_x          = allocation0.x - (x + PADDING_X);
+                int diff_y          = allocation0.y - y;
+
+                // now, moving the rest of selected items to replicate the main movement
+                Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
+                for (int i = 0; i < selecteds.size; i++) {
+                    ItemView selected = selecteds.@get (i);
+                    if (selected != this) {
+                        Gtk.Allocation allocation;
+                        selected.get_allocation (out allocation);
+                        window.move_item (selected, allocation.x - diff_x, allocation.y - diff_y);
+                    }
+                }
+
+                // debug("moving to: %d,%d",x+PADDING_X,y);
 
                 // notifying to the arrangement
                 this.manager.get_folder ().get_arrangement ().motion_drag (x + PADDING_X, y);

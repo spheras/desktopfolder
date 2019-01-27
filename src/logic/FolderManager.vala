@@ -43,8 +43,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     private DragnDrop.DndBehaviour dnd_behaviour = null;
     /** the arrangement for this folder manager */
     private FolderArrangement arrangement        = null;
-    // the last selected item
-    private ItemView selected_item               = null;
+    // the list of selected items
+    private Gee.List <ItemView> selected_items   = new Gee.ArrayList <ItemView>();
     /** Folder Sync Thread */
     private FolderSync.Thread sync_thread        = null;
     /** the id for the organize event timer */
@@ -136,13 +136,39 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
         return null;
     }
 
+    public void select_items (Gdk.Rectangle sel_rectangle) {
+        this.view.unselect_all ();
+        this.selected_items.clear ();
+        // debug("sel_rectangle(%d,%d,%d,%d)",sel_rectangle.x,sel_rectangle.y,sel_rectangle.width,sel_rectangle.height);
+        foreach (ItemManager item in this.items) {
+            Gdk.Rectangle item_rect = item.get_view ().get_bounding_box ();
+            // debug("item_rect(%d,%d,%d,%d)",item_rect.x,item_rect.y,item_rect.width,item_rect.height);
+            bool intersect          = item_rect.intersect (sel_rectangle, null);
+            if (intersect) {
+                // debug("sel_rectangle(%d,%d,%d,%d)",sel_rectangle.x,sel_rectangle.y,sel_rectangle.width,sel_rectangle.height);
+                // debug("item_rect(%d,%d,%d,%d)",item_rect.x,item_rect.y,item_rect.width,item_rect.height);
+                item.get_view ().select_add ();
+            }
+        }
+    }
+
     /**
      * @name set_selected_item
      * @description set the selected item
      * @param ItemView selected the new selected item
      */
     public void set_selected_item (ItemView ? selected) {
-        this.selected_item = selected;
+        this.selected_items.clear ();
+        this.selected_items.add (selected);
+    }
+
+    /**
+     * @name add_selected_item
+     * @description add the item to the selected list of items
+     * @param {ItemView} the new selected item to add
+     */
+    public void add_selected_item (ItemView ? selected) {
+        this.selected_items.add (selected);
     }
 
     /**
@@ -150,10 +176,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @description return the current selected item, or null if none
      * @return ItemView the current selected item, null if none
      */
-    public ItemView ? get_selected_item () {
-        return this.selected_item;
+    public Gee.List <ItemView> get_selected_items () {
+        return this.selected_items;
     }
 
+    /**
+     * @name are_items_selected
+     * @description check whether there are 1 or more items selected
+     * @return {bool} true->yes, there are
+     */
+    public bool are_items_selected () {
+        return this.selected_items.size > 0;
+    }
 
     /**
      * @name are_items_locked
@@ -321,14 +355,14 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
-    * @name stop_sync
-    * @description stop the syncing thread (if any)
-    */
-    public bool is_sync_running(){
-      if (this.sync_thread != null) {
-          return this.sync_thread.is_running();
-      }
-      return false;
+     * @name stop_sync
+     * @description stop the syncing thread (if any)
+     */
+    public bool is_sync_running () {
+        if (this.sync_thread != null) {
+            return this.sync_thread.is_running ();
+        }
+        return false;
     }
 
     /**
@@ -934,8 +968,8 @@ public class DesktopFolder.FolderSync.Thread {
         this.pending_params_to_process = new Gee.ArrayList <Param>();
     }
 
-    public bool is_running(){
-      return this.flag_running;
+    public bool is_running () {
+        return this.flag_running;
     }
 
     /**
@@ -1100,17 +1134,17 @@ public class DesktopFolder.FolderSync.Thread {
             // --------------------------------------------------------------------------
             // removing old entries, now no exist
             old_showed_items.foreach ((entry) => {
-              GLib.Idle.add_full (GLib.Priority.LOW, () => {
-                this.manager.get_view ().remove_item (entry.get_view ());
-                return false;
-              });
+                GLib.Idle.add_full (GLib.Priority.LOW, () => {
+                    this.manager.get_view ().remove_item (entry.get_view ());
+                    return false;
+                });
             }) ;
             this.manager.items = new List <ItemManager>();
             new_viewed_items.foreach ((entry) => {
-              GLib.Idle.add_full (GLib.Priority.LOW, () => {
-                this.manager.items.append (entry);
-                return false;
-              });
+                GLib.Idle.add_full (GLib.Priority.LOW, () => {
+                    this.manager.items.append (entry);
+                    return false;
+                });
             }) ;
 
             if (this.pending_items_to_process.size > 0) {

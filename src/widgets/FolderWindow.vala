@@ -20,14 +20,15 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    protected FolderManager manager                    = null;
-    protected Gtk.Fixed container                      = null;
-    protected Gtk.ScrolledWindow scroll                = null;
-    protected Gtk.Menu context_menu                    = null;
-    protected bool flag_moving                         = false;
-    private Gtk.Button trash_button                    = null;
-    private DesktopFolder.EditableLabel label          = null;
-    protected Gtk.Button properties_button             = null;
+    protected FolderManager manager = null;
+    protected Gtk.Fixed container = null;
+    protected Gtk.ScrolledWindow scroll = null;
+    protected Gtk.Menu context_menu = null;
+    protected bool flag_moving = false;
+    private Gtk.Button trash_button = null;
+    private DesktopFolder.EditableLabel label = null;
+    protected Gtk.Button properties_button = null;
+    protected Gdk.Point ? press_point = null;
 
     public const string HEAD_TAGS_COLORS[3]            = { null, "#ffffff", "#000000" };
     public const string HEAD_TAGS_COLORS_CLASS[3]      = { "df_headless", "df_light", "df_dark" };
@@ -166,6 +167,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
+        this.motion_notify_event.connect (this.on_motion);
         this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
         this.draw.connect (this.draw_background);
@@ -567,6 +569,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
+
+        if (this.press_point != null) {
+            // removing old press point
+            this.press_point = null;
+            this.queue_draw ();
+        }
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
@@ -579,7 +587,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     protected virtual bool on_press (Gdk.EventButton event) {
-        // debug("on_press folderwindow");
+        this.unselect_all ();
+
+        // debug("on_press folderwindow: %d, %d",(int)event.x,(int)event.y);
         // Needed to exit focus from title when editting
         this.activate_focus ();
 
@@ -588,8 +598,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool can_drag        = this.manager.get_arrangement ().can_drag ();
         if (!can_drag) {
-            ItemView selected = this.manager.get_selected_item ();
-            if (selected != null) {
+            Gee.List <ItemView> selecteds = this.manager.get_selected_items ();
+            for (int i = 0; i < selecteds.size && !control_pressed; i++) {
+                ItemView selected = selecteds.@get (i);
                 control_pressed = selected.is_dragdrop_started ();
             }
         }
@@ -607,7 +618,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.show_popup (event);
             return true;
             // Remove below later if hiding behind Wingpanel is properly fixed (required for drag boxes)
-        } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
+        } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
+            (event.button == Gdk.BUTTON_MIDDLE ||
+            (event.button == Gdk.BUTTON_PRIMARY && event.y < 31))) {
             this.unselect_all ();
 
             if (this.manager.can_move ()) {
@@ -624,6 +637,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             } else {
                 return true;
             }
+        } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
+            this.press_point   = Gdk.Point ();
+            this.press_point.x = (int) event.x;
+            this.press_point.y = (int) event.y;
+            return true;
         }
         return false;
     }
@@ -989,90 +1007,94 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         int key = (int) event.keyval;
 
         // debug("event key %d",key);
-        const int DELETE_KEY      = 65535;
-        const int F2_KEY          = 65471;
-        const int ENTER_KEY       = 65293;
-        const int ARROW_LEFT_KEY  = 65361;
-        const int ARROW_UP_KEY    = 65362;
-        const int ARROW_RIGHT_KEY = 65363;
-        const int ARROW_DOWN_KEY  = 65364;
+        const int DELETE_KEY          = 65535;
+        const int F2_KEY              = 65471;
+        const int ENTER_KEY           = 65293;
+        const int ARROW_LEFT_KEY      = 65361;
+        const int ARROW_UP_KEY        = 65362;
+        const int ARROW_RIGHT_KEY     = 65363;
+        const int ARROW_DOWN_KEY      = 65364;
 
-        var      mods             = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool     control_pressed  = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        bool     shift_pressed    = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
-        ItemView selected         = this.manager.get_selected_item ();
+        var  mods                     = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed          = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed            = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
+        Gee.List <ItemView> selecteds = this.manager.get_selected_items ();
+        for (int i = 0; i < selecteds.size; i++) {
+            ItemView selected = selecteds.@get (i);
 
-        if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
-            selected.copy ();
-            return true;
-        }
-
-        if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
-            selected.cut ();
-            return true;
-        }
-
-        if (control_pressed && (key == 'v' || key == 'V')) {
-            this.manager.paste ();
-        }
-
-        if (key == DELETE_KEY) {
-            if (selected == null) {
-                //I feel this is too drastic
-                //this.manager.trash ();
-            } else if (shift_pressed) {
-                selected.delete_dialog ();
-            } else {
-                selected.trash ();
-            }
-            return true;
-        }
-
-        if (key == F2_KEY) {
-            if (selected != null) {
-                selected.start_editing ();
+            if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
+                selected.copy ();
                 return true;
-            } else {
-                this.label.start_editing ();
             }
-        }
 
-        if (selected != null && key == ENTER_KEY) {
-            selected.execute ();
-            return true;
-        }
+            if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
+                selected.cut ();
+                return true;
+            }
 
-        if (key == ARROW_LEFT_KEY) {
-            // left arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-            }, (a, b) => {
-                return a.x < b.x;
-            });
-        }
-        if (key == ARROW_UP_KEY) {
-            // up arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-            }, (a, b) => {
-                return a.y < b.y;
-            });
-        }
-        if (key == ARROW_RIGHT_KEY) {
-            // right arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-            }, (a, b) => {
-                return a.x > b.x;
-            });
-        }
-        if (key == ARROW_DOWN_KEY) {
-            // down arrow pressed
-            move_selected_to ((a, b) => {
-                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-            }, (a, b) => {
-                return a.y > b.y;
-            });
+            if (control_pressed && (key == 'v' || key == 'V')) {
+                this.manager.paste ();
+            }
+
+            if (key == DELETE_KEY) {
+                if (selected == null) {
+                    // I feel this is too drastic
+                    // this.manager.trash ();
+                } else if (shift_pressed) {
+                    selected.delete_dialog ();
+                } else {
+                    selected.trash ();
+                }
+                return true;
+            }
+
+            if (key == F2_KEY) {
+                if (selected != null) {
+                    selected.start_editing ();
+                    return true;
+                } else {
+                    this.label.start_editing ();
+                }
+            }
+
+            if (selected != null && key == ENTER_KEY) {
+                selected.execute ();
+                return true;
+            }
+
+            if (key == ARROW_LEFT_KEY) {
+                // left arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                }, (a, b) => {
+                    return a.x < b.x;
+                });
+            }
+            if (key == ARROW_UP_KEY) {
+                // up arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                }, (a, b) => {
+                    return a.y < b.y;
+                });
+            }
+            if (key == ARROW_RIGHT_KEY) {
+                // right arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+                }, (a, b) => {
+                    return a.x > b.x;
+                });
+            }
+            if (key == ARROW_DOWN_KEY) {
+                // down arrow pressed
+                move_selected_to ((a, b) => {
+                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+                }, (a, b) => {
+                    return a.y > b.y;
+                });
+            }
+
         }
 
         return false;
@@ -1092,7 +1114,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param {CompareAllocations} is_selectable a function to check that the next item is in the correct direction
      */
     private void move_selected_to (CompareAllocations same_axis, CompareAllocations is_selectable) {
-        ItemView actual_item = this.manager.get_selected_item ();
+        Gee.List <ItemView> selecteds = this.manager.get_selected_items ();
+        ItemView actual_item          = null;
+        if (selecteds.size > 0) {
+            actual_item = selecteds.@get (0);
+        }
         if (actual_item == null) {
             actual_item = (ItemView) this.container.get_children ().nth_data (0);
             if (actual_item == null) {
@@ -1122,7 +1148,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             }
         }
         if (next_item != null) {
-            next_item.select ();
+            next_item.select_only ();
         } else {
             debug ("There are no elements on this direction");
         }
@@ -1302,6 +1328,61 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         return this.manager;
     }
 
+    private Gdk.Point ? current_point = null;
+
+    /**
+     * @name on_motion
+     * @description the on_motion event captured
+     * @param EventMotion event @see the on_motion signal
+     * @return bool @see the on_motion signal
+     */
+    private bool on_motion (Gdk.EventMotion event) {
+        if (this.press_point != null) {
+            this.current_point   = Gdk.Point ();
+            this.current_point.x = (int) event.x;
+            this.current_point.y = (int) event.y;
+            this.queue_draw ();
+
+            this.manager.select_items (this.get_selected_rectangle ());
+        }
+
+        return true;
+    }
+
+    /**
+     * @name get_selected_rectangle
+     * @description create the rectangle which is being drawed by the selection
+     * @return {Gdk.Rectangle} the rectangle selected
+     */
+    private Gdk.Rectangle ? get_selected_rectangle () {
+        if (this.press_point != null) {
+            Gdk.Rectangle sel_rectangle = Gdk.Rectangle ();
+            Gdk.Point     point_a       = this.press_point;
+            Gdk.Point     point_b       = this.current_point;
+            int           sel_width     = point_b.x - point_a.x;
+            int           sel_height    = point_b.y - point_a.y;
+
+            sel_rectangle.x      = point_a.x;
+            sel_rectangle.y      = point_a.y;
+            sel_rectangle.width  = sel_width;
+            sel_rectangle.height = sel_height;
+
+            if (sel_rectangle.width < 0) {
+                sel_rectangle.x     = sel_rectangle.x + sel_rectangle.width;
+                sel_rectangle.width = -sel_rectangle.width;
+            }
+            if (sel_rectangle.height < 0) {
+                sel_rectangle.y      = sel_rectangle.y + sel_rectangle.height;
+                sel_rectangle.height = -sel_rectangle.height;
+            }
+
+            // debug("rectangle: %d,%d,%d,%d",sel_rectangle.x,sel_rectangle.y,sel_rectangle.width,sel_rectangle.height);
+
+            return sel_rectangle;
+        }
+        return null;
+    }
+
     /**
      * @name draw_backgorund
      * @description draw the folder window background intercepting the draw signal
@@ -1315,6 +1396,18 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // cr.fill();
 
         // we must show the grid if it is enabled and an item being moved
+
+        if (this.press_point != null && this.current_point != null) {
+            Gdk.Point point_a    = this.press_point;
+            Gdk.Point point_b    = this.current_point;
+            int       sel_width  = point_b.x - point_a.x;
+            int       sel_height = point_b.y - point_a.y;
+            // debug("rectangle: %d,%d   -  %d,%d",point_a.x,point_a.y,sel_width,sel_height);
+            cr.rectangle (point_a.x, point_a.y, sel_width, sel_height);
+            // cr.set_source_rgba (0, 0.5, 1, 0.1);
+            cr.set_source_rgba (0.2, 0.6, 1, 0.1);
+            cr.fill ();
+        }
 
         if (flag_moving == true && this.manager.get_settings ().arrangement_type == FolderArrangement.ARRANGEMENT_TYPE_GRID) {
 
@@ -1344,18 +1437,19 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug("panel: width:%d height:%d",width,height);
             // debug("header: x:%d y:%d width:%d height:%d",title_allocation.x,title_allocation.y,title_allocation.width,title_allocation.height);
 
-            int left_padding             = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
-            int top_padding              = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
-            int header                   = title_allocation.height + top_padding;
-            int margin                   = this.manager.get_settings ().arrangement_padding;
-            int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity ();
+            int left_padding = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+            int top_padding  = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+            int header       = title_allocation.height + top_padding;
+            int margin       = this.manager.get_settings ().arrangement_padding;
+            int sensitivity  = this.get_manager ().get_arrangement ().get_sensitivity ();
 
-            ItemView       selected_item = this.manager.get_selected_item ();
+            // TODO Multiselection!!!!!!!!!!!!
+            ItemView       selected_item = this.manager.get_selected_items ().@get (0);
             Gtk.Allocation allocation;
             selected_item.get_allocation (out allocation);
             int selected_cell_x = (allocation.x + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
             int selected_cell_y = (allocation.y + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
-            // debug ("sellected: %d, %d", selected_i, selected_j);
+            // debug ("selected: %d, %d", selected_i, selected_j);
 
 
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X, cell_x = 0; i <= width - left_padding; i += sensitivity + margin, cell_x++) {

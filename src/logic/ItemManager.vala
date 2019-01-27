@@ -151,9 +151,18 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @name select
      * @description the item is selected
      */
-    public void select () {
+    public void select_only () {
         this.selected = true;
         this.get_folder ().set_selected_item (this.view);
+    }
+
+    /**
+     * @name select_add
+     * @desription add this istem as selected
+     */
+    public void select_add () {
+        this.selected = true;
+        this.get_folder ().add_selected_item (this.view);
     }
 
     /**
@@ -268,20 +277,20 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
-    * @name is_openable_contenttype
-    * @description check whether the item file can be executable or not (if not, could be opened instead)
-    */
-    public bool is_openable_contenttype(){
-      bool uncertain=false;
-      string content_type=GLib.ContentType.guess(this.file_name,null, out uncertain);
-      bool executable= GLib.ContentType.can_be_executable (content_type);
-      debug("content_type: %s   --  %s",content_type,(executable?"true":"false"));
-      if(executable){
-        return this.is_executable();
-      }else if(content_type=="application/octet-stream"){
-        return this.is_executable();
-      }
-      return false;
+     * @name is_openable_contenttype
+     * @description check whether the item file can be executable or not (if not, could be opened instead)
+     */
+    public bool is_openable_contenttype () {
+        bool   uncertain    = false;
+        string content_type = GLib.ContentType.guess (this.file_name, null, out uncertain);
+        bool   executable   = GLib.ContentType.can_be_executable (content_type);
+        debug ("content_type: %s   --  %s", content_type, (executable ? "true" : "false"));
+        if (executable) {
+            return this.is_executable ();
+        } else if (content_type == "application/octet-stream") {
+            return this.is_executable ();
+        }
+        return false;
     }
 
     /**
@@ -309,7 +318,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             if (this.is_desktop_file ()) {
                 GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.get_absolute_path ());
                 desktopApp.launch_uris (null, null);
-            } else if (this.is_openable_contenttype()) {
+            } else if (this.is_openable_contenttype ()) {
                 var command = "\"" + this.get_absolute_path () + "\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.NONE);
                 appinfo.launch_uris (null, null);
@@ -409,7 +418,10 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     public void cut () {
         Clipboard.ClipboardManager     cm    = Clipboard.ClipboardManager.get_for_display ();
         List <Clipboard.ClipboardFile> items = new List <Clipboard.ClipboardFile> ();
-        items.append (this);
+        Gee.List <ItemView> selecteds        = this.folder.get_selected_items ();
+        for (int i = 0; i < selecteds.size; i++) {
+            items.append (selecteds.@get (i).get_manager ());
+        }
         cm.cut_files (items);
     }
 
@@ -420,7 +432,10 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     public void copy () {
         Clipboard.ClipboardManager     cm    = Clipboard.ClipboardManager.get_for_display ();
         List <Clipboard.ClipboardFile> items = new List <Clipboard.ClipboardFile> ();
-        items.append (this);
+        Gee.List <ItemView> selecteds        = this.folder.get_selected_items ();
+        for (int i = 0; i < selecteds.size; i++) {
+            items.append (selecteds.@get (i).get_manager ());
+        }
         cm.copy_files (items);
     }
 
@@ -429,12 +444,12 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description trash the file or folder associated
      */
     public void trash () {
-      if(this.folder.is_sync_running()){
-        return;
-      }
+        if (this.folder.is_sync_running ()) {
+            return;
+        }
 
         try {
-            this.unselect();
+            this.unselect ();
             if (this.is_folder ()) {
                 File file = File.new_for_path (this.get_absolute_path ());
                 file.trash ();

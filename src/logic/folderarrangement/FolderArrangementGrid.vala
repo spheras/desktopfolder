@@ -116,7 +116,11 @@ public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
             // restoring conflict item to its original position
             this.drag_grid.replace (drag_item_settings, this.drag_conflict_cell, this.drag_conflict_item, this.init_item_cell);
             ItemManager item_conflict_manager = this.drag_item.get_manager ().get_folder ().get_item_by_filename (this.drag_conflict_item.name);
-            UtilGtkAnimation.animate_move (item_conflict_manager.get_view (), this.drag_conflict_px, 1000);
+
+            if (!item_conflict_manager.is_selected ()) {
+                UtilGtkAnimation.animate_move (item_conflict_manager.get_view (), this.drag_conflict_px, 1000);
+            }
+
 
             this.drag_conflict_item.x = this.drag_conflict_px.x;
             this.drag_conflict_item.y = this.drag_conflict_px.y;
@@ -135,18 +139,21 @@ public class DesktopFolder.FolderArrangementGrid : Object, FolderArrangement {
             // anotate the conflict
             this.drag_conflict_item = item_at_pos;
             this.drag_conflict_cell = cell_at_xy;
+            ItemManager item_at_pos_manager = this.drag_item.get_manager ().get_folder ().get_item_by_filename (item_at_pos.name);
 
             // interchanging positions in the grid and physically
             this.drag_grid.replace (drag_item_settings, this.init_item_cell, item_at_pos, cell_at_xy);
-            ItemManager item_at_pos_manager = this.drag_item.get_manager ().get_folder ().get_item_by_filename (item_at_pos.name);
             this.drag_conflict_px   = Gdk.Point ();
             this.drag_conflict_px.x = item_at_pos.x;
             this.drag_conflict_px.y = item_at_pos.y;
             item_at_pos.x           = init_item_px.x;
             item_at_pos.y           = init_item_px.y;
 
-            // this.drag_item.get_manager ().get_folder ().get_view ().move_item (item_at_pos_manager.get_view (), init_item_px.x, init_item_px.y);
-            UtilGtkAnimation.animate_move (item_at_pos_manager.get_view (), init_item_px, 500, UtilFx.AnimationMode.EASE_IN_BACK);
+            if (!item_at_pos_manager.is_selected ()) {
+                // this.drag_item.get_manager ().get_folder ().get_view ().move_item (item_at_pos_manager.get_view (), init_item_px.x, init_item_px.y);
+                UtilGtkAnimation.animate_move (item_at_pos_manager.get_view (), init_item_px, 500, UtilFx.AnimationMode.EASE_IN_BACK);
+            }
+
         }
 
         // if no, then restore the item in conflict to the original position
