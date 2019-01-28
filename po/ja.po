@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Ryo Nakano, 2018
+# Ryo Nakano, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
+"Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-30 23:31+0000\n"
+"POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Ryo Nakano, 2018\n"
+"Last-Translator: Ryo Nakano, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/ubuntu-budgie/teams/72251/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
+#: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
 msgstr "パネル"
 
@@ -533,13 +533,20 @@ msgstr "名称未設定のパネル"
 msgid "Link to $FILE_NAME"
 msgstr "$FILE_NAME にリンク"
 
+#. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
 msgstr "デスクトップを表示"
 
-#: src/LanguageText.vala:230
+#. Menu option to hide the desktop
+#: src/LanguageText.vala:231
 msgid "Hide Desktop"
 msgstr "デスクトップを非表示"
+
+#. Menu option to sort the items vertically
+#: src/LanguageText.vala:233
+msgid "Sort Vertically"
+msgstr "垂直に整列"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
@@ -554,10 +561,55 @@ msgstr " はすでに存在しています。"
 msgid "Name is invalid."
 msgstr "名前が無効です。"
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:7
+#: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
 msgstr "デスクトップフォルダー"
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:2
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:8
+msgid "Bring your desktop back to life"
+msgstr "デスクトップを生活に取り戻します"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:11
+msgid "Organize your desktop with panels that hold your things."
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:13
+msgid "Access files, folders and apps from your desktop"
+msgstr "デスクトップから、ファイル・フォルダー・アプリにアクセスします"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:14
+msgid "Drop files, folders, links and .desktop launchers inside panels"
+msgstr "パネル内にファイル・フォルダー・リンク・.desktop ランチャーをドロップします"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:15
+msgid "Resize, position and color panels"
+msgstr "パネルをサイズ変更・位置変更・色変更します"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:16
+msgid "Display photos and keep notes on your desktop"
+msgstr "デスクトップに写真を表示してノートをピン止めします"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:17
+msgid "Reveal the desktop with ⌘-D"
+msgstr "⌘-D で、デスクトップを表示します"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:19
+msgid ""
+"Open it like any other app after installing. Desktop Folder will launch "
+"automatically when you next log in."
+msgstr "インストール後は、他のアプリと同様に開いてください。\"デスクトップフォルダー\" は、次回起動時から自動的に起動します。"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:26
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:30
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:34
+msgid "Overall desktop view"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:38
+msgid "DesktopFolder Developers"
+msgstr "デスクトップフォルダーの開発者"
+
+#: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
 msgstr "デスクトップをパネル・ノート・写真で整理します"
