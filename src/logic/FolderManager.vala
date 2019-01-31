@@ -172,6 +172,15 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
+    * @name remove_selected_item
+    * @description remove a selected item from the list of selected items
+    * @param {ItemView} selected the item view which will be removed
+    */
+    public void remove_selected_item(ItemView selected){
+      this.selected_items.remove(selected);
+    }
+
+    /**
      * @name get_selected_item
      * @description return the current selected item, or null if none
      * @return ItemView the current selected item, null if none
@@ -245,7 +254,7 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
                 this.monitor.cancel ();
             }
             File directory = this.get_file ();
-            this.monitor            = directory.monitor_directory (FileMonitorFlags.SEND_MOVED, null);
+            this.monitor            = directory.monitor_directory (FileMonitorFlags.WATCH_MOVES, null);
             this.monitor.rate_limit = 100;
             debug ("Monitoring: %s", directory.get_path ());
             this.monitor.changed.connect (this.directory_changed);
@@ -278,8 +287,8 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
         if (old_filename == DesktopFolder.FOLDER_SETTINGS_FILE) {
             // we ignore the settings file changes
         } else {
-            // debug ("%s - Change Detected", this.get_folder_name ());
-            if (dest != null && !src.query_exists () && dest.query_exists ()) {
+            debug ("%s - Change Detected - %d", this.get_folder_name (), event);
+            if (event == FileMonitorEvent.RENAMED) {
                 // something has been renamed
                 string new_filename = dest.get_basename ();
                 this.settings.rename (old_filename, new_filename);
@@ -819,6 +828,18 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     // ---------------------------------------------------------------------------------------
 
     /**
+     * @overrided
+     */
+    public DragnDrop.DndView[] get_all_selected_views () {
+        Gee.List <ItemView> selected_views = this.get_selected_items ();
+        DragnDrop.DndView[] result         = new DragnDrop.DndView[selected_views.size];
+        for (int i = 0; i < selected_views.size; i++) {
+            result[i] = (DragnDrop.DndView)selected_views.@get (i);
+        }
+        return result;
+    }
+
+    /**
      * @name get_widget
      * @description return the widget associated with this view
      * @return Widget the widget
@@ -1046,6 +1067,7 @@ public class DesktopFolder.FolderSync.Thread {
      * @description this is the sync algorithm processed in a different thread
      */
     private bool _sync_files () {
+      this.grid=null;
         debug (">>>>>>>>>>> INIT _sync_files for Panel: %s", this.manager.get_folder_name ());
         this.set_running (true);
         this.set_restart (true);
@@ -1061,7 +1083,10 @@ public class DesktopFolder.FolderSync.Thread {
             // --------------------------------------------------------------------------
             // list of current items that are showed in the window
             List <ItemManager> old_showed_items = new List <ItemManager>();
-            this.manager.items.foreach ((entry) => { old_showed_items.append (entry); }) ;
+            this.manager.items.foreach ((entry) => {
+              //debug("actualmente el manager tiene este entry: %s",entry.get_file_name());
+              old_showed_items.append (entry);
+            }) ;
             // list of new items to be viewed in the window
             List <ItemManager> new_viewed_items = new List <ItemManager>();
             // list of current items managed by the settings
@@ -1086,7 +1111,7 @@ public class DesktopFolder.FolderSync.Thread {
                 // lets get the file to process
                 string file_name = file_info.get_name ();
                 File   file      = File.new_for_commandline_arg (base_path + "/" + file_name);
-                // debug ("syncing file found:%s", file_name);
+                debug ("syncing file found:%s", base_path + "/" + file_name);
 
                 // checking the .nopanel flag
                 if (file_name == ".nopanel") {
@@ -1107,16 +1132,19 @@ public class DesktopFolder.FolderSync.Thread {
                 // we try to get the settings for this item
                 ItemSettings is = old_managed_items[file_name];
                 if (is == null) {
+                  //debug("1---we don't have this file managed yet: %s",file_name);
                     // we don't have this file managed yet
                     this.pending_items_to_process.add (new PendingItem (file, file_name, true, null));
                 } else {
                     // lets check if the item already exists
                     ItemManager old_item_manager = this.pop_item_from_list (file_name, ref old_showed_items);
                     if (old_item_manager != null) {
+                      //debug("2---yes, this is an existing already managed file: %s",file_name);
                         // yes, this is an existing already managed file, lets update
                         old_item_manager.set_file (file);
                         new_viewed_items.append (old_item_manager);
                     } else {
+                      //debug("3---no, we need to add this file: %s",file_name);
                         this.pending_items_to_process.add (new PendingItem (file, file_name, false, is));
                     }
                 }
@@ -1141,10 +1169,10 @@ public class DesktopFolder.FolderSync.Thread {
             }) ;
             this.manager.items = new List <ItemManager>();
             new_viewed_items.foreach ((entry) => {
-                GLib.Idle.add_full (GLib.Priority.LOW, () => {
+            //    GLib.Idle.add_full (GLib.Priority.LOW, () => {
                     this.manager.items.append (entry);
-                    return false;
-                });
+            //        return false;
+            //    });
             }) ;
 
             if (this.pending_items_to_process.size > 0) {
@@ -1177,7 +1205,7 @@ public class DesktopFolder.FolderSync.Thread {
                                 x = fsp.x;
                                 y = fsp.y;
                             }
-                            if (x == 0 && y == 0 && false) {
+                            if (x == 0 && y == 0) {
                                 // no desired position for the item, lets calculate a good position
                                 if (this.grid == null) {
                                     // building the structure to see current gaps

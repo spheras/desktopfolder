@@ -225,14 +225,14 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         }
     }
 
-    private bool _edit_label_on_creation;
-    public bool edit_label_on_creation {
+    private bool _recently_created;
+    public bool recently_created {
         get {
-            return _edit_label_on_creation;
+            return _recently_created;
         }
         set {
-            if (_edit_label_on_creation != value) {
-                _edit_label_on_creation = value; flagChanged = true;
+            if (_recently_created != value) {
+                _recently_created = value; flagChanged = true;
             }
         }
     }
@@ -253,23 +253,23 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @description reset the properties
      */
     public void reset () {
-        this.x                      = 100;
-        this.y                      = 100;
-        this.w                      = 300;
-        this.h                      = 300;
-        this.bgcolor                = "df_black";
-        this.fgcolor                = "df_light";
-        this.textbold               = true;
-        this.textshadow             = true;
-        this.align_to_grid          = false;
-        this.lockitems              = false;
-        this.lockpanel              = false;
-        this.arrangement_padding    = FolderArrangement.DEFAULT_PADDING;
-        this.arrangement_type       = FolderArrangement.ARRANGEMENT_TYPE_FREE;
-        this.name                   = name;
-        this.items                  = new string[0];
-        this.version                = DesktopFolder.SETTINGS_VERSION;
-        this.edit_label_on_creation = false;
+        this.x                   = 100;
+        this.y                   = 100;
+        this.w                   = 300;
+        this.h                   = 300;
+        this.bgcolor             = "df_black";
+        this.fgcolor             = "df_light";
+        this.textbold            = true;
+        this.textshadow          = true;
+        this.align_to_grid       = false;
+        this.lockitems           = false;
+        this.lockpanel           = false;
+        this.arrangement_padding = FolderArrangement.DEFAULT_PADDING;
+        this.arrangement_type    = FolderArrangement.ARRANGEMENT_TYPE_FREE;
+        this.name                = name;
+        this.items               = new string[0];
+        this.version             = DesktopFolder.SETTINGS_VERSION;
+        this.recently_created    = false;
         check_off_screen ();
     }
 
@@ -401,8 +401,10 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @return {List<ItemSettings>} the list of managed item settings
      */
     public Gee.HashMap <string, ItemSettings> get_items_parsed () {
+      //debug("0---get_items_parsed");
         Gee.HashMap <string, ItemSettings> result = new Gee.HashMap <string, ItemSettings>();
         for (int i = 0; i < this.items.length; i++) {
+            //debug(">>>>>>>>>>> %s",this.items[i]);
             ItemSettings is = ItemSettings.parse (this.items[i]);
             result.set (is.name, is);
         }
@@ -442,7 +444,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         generator.set_root (root);
         string data              = generator.to_data (null);
 
-        // debug ("the json generated is:\n%s\n", data);
+        //debug ("the json generated is:\n%s\n", data);
         try {
             // an output file in the current working directory
             if (file.query_exists ()) {

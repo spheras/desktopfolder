@@ -123,6 +123,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     this.check_ellipse ();
                 }
             });
+
+            label.on_start_editing.connect (() => {
+                this.manager.get_folder ().get_view ().on_start_editing ();
+            });
+            label.on_stop_editing.connect (() => {
+                this.manager.get_folder ().get_view ().on_end_editing ();
+            });
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
@@ -645,16 +652,31 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // this code is to allow the drag'ndrop of files inside the folder window
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
         bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
         bool locked          = this.manager.get_folder ().are_items_locked ();
 
-        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
-            if (!this.is_selected ()) {
-                this.select_only ();
-            }
+        if (event.type == Gdk.EventType.BUTTON_PRESS &&
+          event.button == Gdk.BUTTON_PRIMARY &&
+          (control_pressed || !can_drag || locked) &&
+          this.is_selected()) {
             this.flag_dragdrop_started = true;
             return false;
         }
+
+        if (event.type == Gdk.EventType.BUTTON_PRESS &&
+          event.button == Gdk.BUTTON_PRIMARY &&
+          (control_pressed || shift_pressed)) {
+
+            if (!this.is_selected ()) {
+              this.select_add();
+            }else{
+              this.unselect();
+            }
+            return false;
+        }
+
+
 
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY) {
             // first we must select the item
@@ -783,7 +805,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_TRASH);
-        item.activate.connect ((item) => { this.manager.trash (); });
+        item.activate.connect ((item) => { this.manager.trash_selected (); });
         item.show ();
         menu.append (item);
 

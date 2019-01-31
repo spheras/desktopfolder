@@ -94,5 +94,12 @@ namespace DesktopFolder.DragnDrop {
          */
         public abstract void on_drag_end ();
 
+        /**
+         * @name get_all_selected_views
+         * @description return all the selected views at this moment
+         * @return DndView[] the list of DndViews selected
+         */
+        public abstract DndView[] get_all_selected_views ();
+
     }
 }

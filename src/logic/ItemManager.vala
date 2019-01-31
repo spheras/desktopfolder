@@ -171,7 +171,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void unselect () {
         this.selected = false;
-        this.get_folder ().set_selected_item (null);
+        this.get_folder ().remove_selected_item (this.view);
     }
 
     /**
@@ -465,6 +465,21 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         }
     }
 
+    /**
+     * @name trash_selected
+     * @descriptionsend to trash all the selected files
+     */
+    public void trash_selected () {
+        Gee.List <ItemView> selecteds = this.get_folder ().get_selected_items ();
+        ItemView[]          to_delete = selecteds.to_array ();
+        for (int i = 0; i < to_delete.length; i++) {
+            ItemView view = to_delete[i];
+            if (view != null) {
+                view.get_manager ().trash ();
+            }
+        }
+    }
+
     // ---------------------------------------------------------------------------------------
     // ---------------------------DndView Implementation--------------------------------------
     // ---------------------------------------------------------------------------------------
@@ -545,6 +560,21 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void on_drag_end () {
         this.view.on_drag_end ();
+    }
+
+    /**
+     * @overrided
+     */
+    public DragnDrop.DndView[] get_all_selected_views () {
+        Gee.List <ItemView> selected_views = this.get_folder ().get_selected_items ();
+        DragnDrop.DndView[] result         = new DragnDrop.DndView[selected_views.size];
+        for (int i = 0; i < selected_views.size; i++) {
+            ItemView view = selected_views.@get (i);
+            if (view != null) {
+                result[i] = (DragnDrop.DndView)selected_views.@get (i).get_manager ();
+            }
+        }
+        return result;
     }
 
     // ---------------------------------------------------------------------------------------

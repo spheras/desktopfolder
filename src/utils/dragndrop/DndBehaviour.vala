@@ -126,7 +126,12 @@ namespace DesktopFolder.DragnDrop {
 
             // lets drag
             unowned GLib.List <DragnDrop.DndView> list_of_files = null;
-            list_of_files.prepend (this.view);
+
+            DndView[] selected_views = this.view.get_all_selected_views ();
+            for (int i = 0; i < selected_views.length; i++) {
+                list_of_files.prepend (selected_views[i]);
+            }
+
             DndHandler.set_selection_data_from_file_list_2 (selection_data, list_of_files);
         }
 

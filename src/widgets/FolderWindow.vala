@@ -47,6 +47,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** flag to create fade_out effect for the grid */
     private double grid_fade   = 0;
 
+    /** flag to know whether any item or header is benig editing */
+    private bool flag_is_editing = false;
+
 
     // this is the link image loaded
     static Gdk.Pixbuf LINK_PIXBUF = null;
@@ -71,6 +74,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.set_property ("skip-pager-hint", true);
         this.set_property ("skip_taskbar_hint", true);
         this.set_property ("skip_pager_hint", true);
+        this.set_accept_focus (true);
         this.skip_pager_hint   = true;
         this.skip_taskbar_hint = true;
 
@@ -168,7 +172,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
         this.motion_notify_event.connect (this.on_motion);
-        this.key_release_event.connect (this.on_key);
+        // this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
         this.draw.connect (this.draw_background);
         this.enter_notify_event.connect (this.on_enter_notify);
@@ -192,12 +196,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
 
         FolderSettings settings = this.manager.get_settings ();
-
-        // debug (settings.edit_label_on_creation.to_string ());
-        if (settings.edit_label_on_creation) {
+        if (settings.recently_created) {
             GLib.Timeout.add (50, () => {
                 this.label.start_editing ();
-                settings.edit_label_on_creation = false;
+                settings.recently_created = false;
+                settings.save ();
                 return false;
             });
         }
@@ -276,6 +279,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 label.text = new_name;
             }
         });
+
+        label.on_start_editing.connect (() => {
+            this.on_start_editing ();
+        });
+        label.on_stop_editing.connect (() => {
+            this.on_end_editing ();
+        });
+
     }
 
     /**
@@ -587,7 +598,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     protected virtual bool on_press (Gdk.EventButton event) {
-        this.unselect_all ();
 
         // debug("on_press folderwindow: %d, %d",(int)event.x,(int)event.y);
         // Needed to exit focus from title when editting
@@ -607,6 +617,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
             return false;
         }
+
+        if (!control_pressed) {
+            this.unselect_all ();
+        }
+
 
         // This is to allow moving and resizing the panel
         // TODO: Is there a way to make a desktop window resizable and movable?
@@ -988,6 +1003,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+    * @name on_start_editing
+    * @description a label is being edited
+    */
+    public void on_start_editing () {
+        this.flag_is_editing = true;
+    }
+
+    /**
+    * @name on_end_editing
+    * @description a label has finished the edition
+    */
+    public void on_end_editing () {
+        this.flag_is_editing = false;
+    }
+
+    /**
      * @name on_key
      * @description the key event captured for the window
      * @param EventKey event the event produced
@@ -995,107 +1026,126 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private bool on_key (Gdk.EventKey event) {
         // debug("FolderWindow on_key, event: %s",event.type == Gdk.EventType.KEY_RELEASE?"KEY_RELEASE":event.type == Gdk.EventType.KEY_PRESS?"KEY_PRESS":"OTRO");
-        // If the uses is editing something on an entr
-        if (this.get_focus () is Gtk.Entry) {
+        // If the uses is editing something on an entry
+
+        if (flag_is_editing) {
             // debug ("User is editing!");
-            return false;
-        }
-        if (event.type != Gdk.EventType.KEY_PRESS) {
             return false;
         }
 
         int key = (int) event.keyval;
 
-        // debug("event key %d",key);
-        const int DELETE_KEY          = 65535;
-        const int F2_KEY              = 65471;
-        const int ENTER_KEY           = 65293;
-        const int ARROW_LEFT_KEY      = 65361;
-        const int ARROW_UP_KEY        = 65362;
-        const int ARROW_RIGHT_KEY     = 65363;
-        const int ARROW_DOWN_KEY      = 65364;
+        debug ("event key %d", key);
+        const int DELETE_KEY      = 65535;
+        const int F2_KEY          = 65471;
+        const int ENTER_KEY       = 65293;
+        const int ARROW_LEFT_KEY  = 65361;
+        const int ARROW_UP_KEY    = 65362;
+        const int ARROW_RIGHT_KEY = 65363;
+        const int ARROW_DOWN_KEY  = 65364;
 
-        var  mods                     = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool control_pressed          = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        bool shift_pressed            = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
-        Gee.List <ItemView> selecteds = this.manager.get_selected_items ();
-        for (int i = 0; i < selecteds.size; i++) {
-            ItemView selected = selecteds.@get (i);
+        var  mods                 = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed      = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed        = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
 
-            if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
-                selected.copy ();
-                return true;
+        // lets get the first selected item
+        ItemView[] selecteds = this.manager.get_selected_items ().to_array ();
+        ItemView   selected  = null;
+        for (int i = 0; i < selecteds.length; i++) {
+            ItemView isel = selecteds[i];
+            if (isel != null) {
+                selected = isel;
             }
-
-            if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
-                selected.cut ();
-                return true;
-            }
-
-            if (control_pressed && (key == 'v' || key == 'V')) {
-                this.manager.paste ();
-            }
-
-            if (key == DELETE_KEY) {
-                if (selected == null) {
-                    // I feel this is too drastic
-                    // this.manager.trash ();
-                } else if (shift_pressed) {
-                    selected.delete_dialog ();
-                } else {
-                    selected.trash ();
-                }
-                return true;
-            }
-
-            if (key == F2_KEY) {
-                if (selected != null) {
-                    selected.start_editing ();
-                    return true;
-                } else {
-                    this.label.start_editing ();
-                }
-            }
-
-            if (selected != null && key == ENTER_KEY) {
-                selected.execute ();
-                return true;
-            }
-
-            if (key == ARROW_LEFT_KEY) {
-                // left arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x < b.x;
-                });
-            }
-            if (key == ARROW_UP_KEY) {
-                // up arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y < b.y;
-                });
-            }
-            if (key == ARROW_RIGHT_KEY) {
-                // right arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
-                }, (a, b) => {
-                    return a.x > b.x;
-                });
-            }
-            if (key == ARROW_DOWN_KEY) {
-                // down arrow pressed
-                move_selected_to ((a, b) => {
-                    return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
-                }, (a, b) => {
-                    return a.y > b.y;
-                });
-            }
-
         }
+
+        if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
+            if (selected != null) {
+                selected.copy ();
+            }
+            return true;
+        }
+
+        if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
+            if (selected != null) {
+                selected.cut ();
+            }
+            return true;
+        }
+
+        if (control_pressed && (key == 'v' || key == 'V')) {
+            this.manager.paste ();
+        }
+
+        if (key == DELETE_KEY) {
+            if (selected == null) {
+                // I feel this is too drastic
+                // this.manager.trash ();
+            } else {
+
+                for (int i = 0; i < selecteds.length; i++) {
+                    ItemView isel = selecteds[i];
+                    if (isel != null) {
+                        if (shift_pressed) {
+                            isel.delete_dialog ();
+                        } else {
+                            isel.trash ();
+                        }
+                    }
+                }
+
+
+            }
+            return true;
+        }
+
+        if (key == F2_KEY) {
+            flag_is_editing = true;
+            if (selected != null) {
+                selected.start_editing ();
+                return true;
+            } else {
+                this.label.start_editing ();
+            }
+        }
+
+        if (selected != null && key == ENTER_KEY) {
+            selected.execute ();
+            return true;
+        }
+
+        if (key == ARROW_LEFT_KEY) {
+            // left arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+            }, (a, b) => {
+                return a.x < b.x;
+            });
+        }
+        if (key == ARROW_UP_KEY) {
+            // up arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+            }, (a, b) => {
+                return a.y < b.y;
+            });
+        }
+        if (key == ARROW_RIGHT_KEY) {
+            // right arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.y >= a.y && b.y <= (a.y + a.height)) || (a.y >= b.y && a.y <= (b.y + b.height));
+            }, (a, b) => {
+                return a.x > b.x;
+            });
+        }
+        if (key == ARROW_DOWN_KEY) {
+            // down arrow pressed
+            move_selected_to ((a, b) => {
+                return (b.x >= a.x && b.x <= (a.x + a.width)) || (a.x >= b.x && a.x <= (b.x + b.width));
+            }, (a, b) => {
+                return a.y > b.y;
+            });
+        }
+
 
         return false;
     }
@@ -1152,22 +1202,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         } else {
             debug ("There are no elements on this direction");
         }
-    }
-
-    /**
-     * @name find_selected_item
-     * @description return the selected item
-     * @return ItemView return the selected item at the desktop folder, or null if none selected
-     */
-    public ItemView find_selected_item () {
-        var children = this.container.get_children ();
-        for (int i = 0; i < children.length (); i++) {
-            ItemView element = (ItemView) children.nth_data (i);
-            if (element.is_selected ()) {
-                return element;
-            }
-        }
-        return null as ItemView;
     }
 
     /**
@@ -1405,7 +1439,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug("rectangle: %d,%d   -  %d,%d",point_a.x,point_a.y,sel_width,sel_height);
             cr.rectangle (point_a.x, point_a.y, sel_width, sel_height);
             // cr.set_source_rgba (0, 0.5, 1, 0.1);
-            cr.set_source_rgba (0.2, 0.6, 1, 0.1);
+            cr.set_source_rgba (0.2, 0.6, 1, 0.8);
+            cr.stroke ();
+
+            cr.rectangle (point_a.x, point_a.y, sel_width, sel_height);
+            cr.set_source_rgba (0.2, 0.6, 1, 0.2);
             cr.fill ();
         }
 
