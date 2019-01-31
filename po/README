@@ -1,0 +1,28 @@
+# Translations handling
+
+All translations are managed via transifex https://www.transifex.com/ubuntu-budgie/desktopfolder
+
+To pull from transifex:
+
+    git clone https://github.com/spheras/desktopfolder
+    cd desktopfolder
+    ./po/get_merge_translations.sh
+
+To update the pot file:
+
+    git clone https://github.com/spheras/desktopfolder
+    cd desktopfolder
+    mkdir build
+    meson --prefix
+    ninja com.github.spheras.desktopfolder-pot
+
+Edit the file po/com.github.spheras.desktopfolder.pot
+Delete the following:
+
+    #: data/com.github.spheras.desktopfolder.desktop.in:6
+    msgid "com.github.spheras.desktopfolder"
+    msgstr ""
+
+    #: data/com.github.spheras.desktopfolder.desktop.in:7
+    msgid "desktop;folder;file;organize;"
+    msgstr ""
