@@ -580,10 +580,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
-
         if (this.press_point != null) {
             // removing old press point
             this.press_point = null;
+            this.current_point=null;
             this.queue_draw ();
         }
         // This is to avoid minimization when Show Desktop shortcut is used
@@ -598,7 +598,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     protected virtual bool on_press (Gdk.EventButton event) {
-
         // debug("on_press folderwindow: %d, %d",(int)event.x,(int)event.y);
         // Needed to exit focus from title when editting
         this.activate_focus ();
