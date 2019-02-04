@@ -7,6 +7,7 @@
 # Kalle Dobler <ecco@myway.de>, 2018
 # Rainer Bode <rainer.uwe.bode@gmail.com>, 2018
 # Rainer Bode <rainer.uwe@hotmail.com>, 2018
+# Max Schmitz <max.schmitz@posteo.de>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Rainer Bode <rainer.uwe@hotmail.com>, 2018\n"
+"Last-Translator: Max Schmitz <max.schmitz@posteo.de>, 2019\n"
 "Language-Team: German (Germany) (https://www.transifex.com/ubuntu-budgie/teams/72251/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Leiste"
+msgstr "Panel"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
@@ -39,8 +40,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Bring deinen minimalistischen Desktop zurück ins Leben. Organisiere die "
-"Dateien auf deinem Desktop mit Leisten."
+"Bring Deinen minimalistischen Desktop zurück ins Leben.\n"
+" Organisiere die Dateien auf Deinem Desktop mit Panels."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
@@ -65,7 +66,7 @@ msgstr "In der Zwischenablage befindet sich nichts zum einfügen"
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "Kann diese Datei nicht ablegen."
+msgstr "Kann diese Datei nicht ablegen"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
@@ -95,7 +96,7 @@ msgstr "Hierhin verschieben"
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Link hier"
+msgstr "Verlinke hierhin"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
@@ -105,27 +106,27 @@ msgstr "Abbrechen"
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Leiste verlinken"
+msgstr "Panel verknüpfen"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr "Ikonen sperren "
+msgstr "Icons sperren:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr "Leiste sperren"
+msgstr "Panel sperren:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr "Textschatten "
+msgstr "Textschatten:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr "Fetter Text"
+msgstr "Fetter Text:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -140,12 +141,12 @@ msgstr "Leere Datei"
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Leiste umbenennen"
+msgstr "Panel umbenennen"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Leiste löschen"
+msgstr "Panel in den Papierkorb verschieben"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
@@ -167,7 +168,7 @@ msgstr "neue Datei"
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "In den Papierkorb"
+msgstr "In den Papierkorb verschieben"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
@@ -247,21 +248,27 @@ msgstr "Icon ändern"
 msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
-msgstr "Das LŐSCHT den Ordner und alle Inhalte. Bist du sicher?"
+msgstr ""
+"Das LŐSCHT den Ordner und alle Inhalte. \n"
+"<b>Bist du sicher?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
 msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
-msgstr "Das LŐSCHT die Datei. Bist du sicher?"
+msgstr ""
+"Das LŐSCHT die Datei.\n"
+"<b>Bist du sicher?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
 msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
-msgstr "Das LŐSCHT dem Link (nur den Link). Bist du sicher?"
+msgstr ""
+"Das LŐSCHT die Verknüpfung (nur die Verknüpfung).\n"
+"<b>Bist du sicher?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
@@ -271,7 +278,7 @@ msgstr "Bitte das zu verwendende Bild auswählen"
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "Meine erste Leiste"
+msgstr "Meine erstes Panel"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
@@ -288,12 +295,12 @@ msgstr "Ordnerverknüpfung"
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Wähle den Zielordner des Links."
+msgstr "Wähle den Zielordner / die Zieldatei für die Verknüpfung"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Wähle den Zielordner der Leiste."
+msgstr "Wähle den Zielordner für das Panel."
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
@@ -318,7 +325,7 @@ msgstr "Neu"
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr "Diese Leiste "
+msgstr "Dieses Panel"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
@@ -343,22 +350,22 @@ msgstr "Schließen"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Ikonen auf dem Desktop"
+msgstr "Icons auf dem Desktop:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "Desktop aktivieren "
+msgstr "Desktop aktivieren:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr "Diese Änderung erfordert Aus- und neues Einloggen"
+msgstr "Für diese Anderung must Du Dich ab- und wieder anmelden"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "Bei der Änderung der Resolution: "
+msgstr "Bei der Änderung der Auflösung: "
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -366,8 +373,8 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
-"Auf diese Weise wird Größe der Leisten, Notizen und Fotos verändert, wenn du"
-" die Bildschirmresolution änderst "
+"Auf diese Weise werden Größe der Panels, Notizen und Fotos angepasst, wenn "
+"du die Bildschirmauflösung änderst"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
@@ -377,12 +384,12 @@ msgstr "Nichts tun"
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr "An neue Resolution anpassen "
+msgstr "Auf neue Auflösung skalieren"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr "Speichern nach Resolution "
+msgstr "Pro Auflösung speichern"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -464,7 +471,7 @@ msgstr "Geändert "
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "Anordnung der Ikonen "
+msgstr "Anordnung der Icons"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
@@ -484,22 +491,22 @@ msgstr "Lass die Anwendung entscheiden"
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr "Ikonen "
+msgstr "Icons"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr "Standardausrichtung der Ikonen "
+msgstr "Standardausrichtung der Icons:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "Abstand der Ikonen: "
+msgstr "Abstand der Icons:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "Standardabstand der Ikonen: "
+msgstr "Standardabstand der Icons:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
@@ -519,17 +526,17 @@ msgstr "Umgekehrte Reihenfolge"
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr "Ikonen umorganisieren "
+msgstr "Icons umorganisieren "
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr "Leiste ohne Titel "
+msgstr "Unbenanntes Panel"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "Link zu $FILE_NAME "
+msgstr "Verknüpfung zu $FILE_NAME "
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
@@ -544,7 +551,7 @@ msgstr "Desktop verbergen "
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr ""
+msgstr "Sortiere vertikal"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
@@ -566,47 +573,49 @@ msgstr "Desktop-Ordner "
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr ""
+msgstr "Bringe Deinen Desktop wieder zum Leben"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr ""
+msgstr "Organisiere Deinen Desktop mit Panels, die Deine Objekte enthalten."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr ""
+msgstr "Greife von Deinem Desktop auf Dateien, Ordner und Apps zu"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
-msgstr ""
+msgstr "Lege Dateien, Ordner, Links und .desktop-Programmstarter in Panels ab"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr ""
+msgstr "Ändere Größe, Position und Farbe des Panels"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr ""
+msgstr "Zeige Fotos und Notizen auf Deinem Desktop an"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr ""
+msgstr "Zeige den Desktop mit ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
+"Starte es nach der Installation wie jede andere gewöhnlich App. \"Desktop "
+"Folder\" wird automatisch gestartet, wenn Du Dich das nächste Mal anmeldest."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Desktop Gesamtansicht"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr ""
+msgstr "DesktopFolder Entwickler"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
