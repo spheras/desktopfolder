@@ -50,6 +50,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     /** flag to know whether any item or header is benig editing */
     private bool flag_is_editing = false;
 
+    /** spinner widget to show background process indicator */
+    private Gtk.Spinner spinner;
 
     // this is the link image loaded
     static Gdk.Pixbuf LINK_PIXBUF = null;
@@ -183,7 +185,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             this.manager.trash ();
             return true;
         });
-        properties_button.button_release_event.connect ((event) => {
+        properties_button.button_press_event.connect ((event) => {
             this.show_properties_dialog ();
             return true;
         });
@@ -239,8 +241,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         dialog.set_transient_for (this);
         dialog.show_all ();
     }
-
-    private Gtk.Spinner spinner;
 
     /**
      * @name create_headerbar
