@@ -137,13 +137,13 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
 
         // If press intro while editting
         this.title_entry.activate.connect (() => {
-            //debug ("title_entry.activate.connect");
+            // debug ("title_entry.activate.connect");
             this.stop_editing ();
         });
 
         // focus lost while editing
         this.title_entry.focus_out_event.connect ((event) => {
-            //debug ("title_entry.focus_out_event.connect");
+            // debug ("title_entry.focus_out_event.connect");
             this.stop_editing ();
             return false;
         });
@@ -172,9 +172,9 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * @return bool @see the on_key signal
      */
     private bool on_key (Gdk.EventKey event) {
-        //debug ("EditableLabel on_key, event: %s", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
+        // debug ("EditableLabel on_key, event: %s", event.type == Gdk.EventType.KEY_RELEASE ? "KEY_RELEASE" : event.type == Gdk.EventType.KEY_PRESS ? "KEY_PRESS" : "OTRO");
         int key = (int) event.keyval;
-         //debug ("EditableLabel event key %d", key);
+        // debug ("EditableLabel event key %d", key);
 
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
@@ -186,7 +186,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 this.undo_changes ();
             }
         } else if (key == ESCAPE_KEY) {
-          //debug("undo changes");
+            // debug("undo changes");
             this.undo_changes ();
             this.stop_editing ();
         } else {
@@ -200,8 +200,8 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * Updates Entry width to fit its content
      */
     private void update_entry_width () {
-        int width, height;
-        const int margin=10;
+        int       width, height;
+        const int margin = 10;
         title_entry.get_layout ().get_size (out width, out height);
         width = (width / Pango.SCALE) + margin;
 

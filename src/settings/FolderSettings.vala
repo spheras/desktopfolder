@@ -401,10 +401,10 @@ public class DesktopFolder.FolderSettings : PositionSettings {
      * @return {List<ItemSettings>} the list of managed item settings
      */
     public Gee.HashMap <string, ItemSettings> get_items_parsed () {
-      //debug("0---get_items_parsed");
+        // debug("0---get_items_parsed");
         Gee.HashMap <string, ItemSettings> result = new Gee.HashMap <string, ItemSettings>();
         for (int i = 0; i < this.items.length; i++) {
-            //debug(">>>>>>>>>>> %s",this.items[i]);
+            // debug(">>>>>>>>>>> %s",this.items[i]);
             ItemSettings is = ItemSettings.parse (this.items[i]);
             result.set (is.name, is);
         }
@@ -444,7 +444,7 @@ public class DesktopFolder.FolderSettings : PositionSettings {
         generator.set_root (root);
         string data              = generator.to_data (null);
 
-        //debug ("the json generated is:\n%s\n", data);
+        // debug ("the json generated is:\n%s\n", data);
         try {
             // an output file in the current working directory
             if (file.query_exists ()) {

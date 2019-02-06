@@ -293,6 +293,7 @@ namespace DesktopFolder.DragnDrop {
             int                                      x,
             int                                      y,
             uint                                     timestamp) {
+
             // debug("DndBehaviour-on_drag_motion");
             /* if we don't have drop data already ... */
             if (!drop_data_ready && !get_drop_data (context, x, y, timestamp))

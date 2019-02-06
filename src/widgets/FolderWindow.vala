@@ -582,8 +582,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     private bool on_release (Gdk.EventButton event) {
         if (this.press_point != null) {
             // removing old press point
-            this.press_point = null;
-            this.current_point=null;
+            this.press_point   = null;
+            this.current_point = null;
             this.queue_draw ();
         }
         // This is to avoid minimization when Show Desktop shortcut is used
@@ -1002,17 +1002,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    * @name on_start_editing
-    * @description a label is being edited
-    */
+     * @name on_start_editing
+     * @description a label is being edited
+     */
     public void on_start_editing () {
         this.flag_is_editing = true;
     }
 
     /**
-    * @name on_end_editing
-    * @description a label has finished the edition
-    */
+     * @name on_end_editing
+     * @description a label has finished the edition
+     */
     public void on_end_editing () {
         this.flag_is_editing = false;
     }

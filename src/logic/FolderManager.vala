@@ -172,12 +172,12 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
-    * @name remove_selected_item
-    * @description remove a selected item from the list of selected items
-    * @param {ItemView} selected the item view which will be removed
-    */
-    public void remove_selected_item(ItemView selected){
-      this.selected_items.remove(selected);
+     * @name remove_selected_item
+     * @description remove a selected item from the list of selected items
+     * @param {ItemView} selected the item view which will be removed
+     */
+    public void remove_selected_item (ItemView selected) {
+        this.selected_items.remove (selected);
     }
 
     /**
@@ -1067,7 +1067,7 @@ public class DesktopFolder.FolderSync.Thread {
      * @description this is the sync algorithm processed in a different thread
      */
     private bool _sync_files () {
-      this.grid=null;
+        this.grid = null;
         debug (">>>>>>>>>>> INIT _sync_files for Panel: %s", this.manager.get_folder_name ());
         this.set_running (true);
         this.set_restart (true);
@@ -1084,8 +1084,8 @@ public class DesktopFolder.FolderSync.Thread {
             // list of current items that are showed in the window
             List <ItemManager> old_showed_items = new List <ItemManager>();
             this.manager.items.foreach ((entry) => {
-              //debug("actualmente el manager tiene este entry: %s",entry.get_file_name());
-              old_showed_items.append (entry);
+                // debug("actualmente el manager tiene este entry: %s",entry.get_file_name());
+                old_showed_items.append (entry);
             }) ;
             // list of new items to be viewed in the window
             List <ItemManager> new_viewed_items = new List <ItemManager>();
@@ -1132,19 +1132,19 @@ public class DesktopFolder.FolderSync.Thread {
                 // we try to get the settings for this item
                 ItemSettings is = old_managed_items[file_name];
                 if (is == null) {
-                  //debug("1---we don't have this file managed yet: %s",file_name);
+                    // debug("1---we don't have this file managed yet: %s",file_name);
                     // we don't have this file managed yet
                     this.pending_items_to_process.add (new PendingItem (file, file_name, true, null));
                 } else {
                     // lets check if the item already exists
                     ItemManager old_item_manager = this.pop_item_from_list (file_name, ref old_showed_items);
                     if (old_item_manager != null) {
-                      //debug("2---yes, this is an existing already managed file: %s",file_name);
+                        // debug("2---yes, this is an existing already managed file: %s",file_name);
                         // yes, this is an existing already managed file, lets update
                         old_item_manager.set_file (file);
                         new_viewed_items.append (old_item_manager);
                     } else {
-                      //debug("3---no, we need to add this file: %s",file_name);
+                        // debug("3---no, we need to add this file: %s",file_name);
                         this.pending_items_to_process.add (new PendingItem (file, file_name, false, is));
                     }
                 }
@@ -1169,10 +1169,10 @@ public class DesktopFolder.FolderSync.Thread {
             }) ;
             this.manager.items = new List <ItemManager>();
             new_viewed_items.foreach ((entry) => {
-            //    GLib.Idle.add_full (GLib.Priority.LOW, () => {
-                    this.manager.items.append (entry);
-            //        return false;
-            //    });
+                // GLib.Idle.add_full (GLib.Priority.LOW, () => {
+                this.manager.items.append (entry);
+                // return false;
+                // });
             }) ;
 
             if (this.pending_items_to_process.size > 0) {
