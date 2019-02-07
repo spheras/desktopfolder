@@ -478,7 +478,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_leave signal
      */
     public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
-        //debug ("detail: %d", eventCrossing.detail);
+        debug ("detail: %d", eventCrossing.detail);
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
@@ -807,6 +807,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.get_allocation (out thisAllocation);
                 this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
                 this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
+            }else{
+              return false;
             }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             if (!this.is_selected ()) {
@@ -1092,13 +1094,18 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             // debug("offset_motion: %d,%d",this.offsetx,this.offsety);
 
             Gdk.Rectangle icon_rectangle = Gdk.Rectangle ();
-            icon_rectangle.x      = x;
-            icon_rectangle.y      = y;
-            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH;
-            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH;
-            ItemManager im = this.manager.get_folder ().get_item_at (icon_rectangle);
-            if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
-                this.cancel_movement_and_start_drag_action (event);
+            int qwidth=DesktopFolder.ICON_DEFAULT_WIDTH/2;
+            icon_rectangle.x      = x+qwidth;
+            icon_rectangle.y      = y+qwidth;
+            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
+            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
+            Gee.List<ItemManager> ims = this.manager.get_folder ().get_items_at (icon_rectangle);
+            for(int i=0;i<ims.size;i++){
+              ItemManager im=ims.@get(i);
+              if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
+                  this.cancel_movement_and_start_drag_action (event);
+                  break;
+              }
             }
 
             // removing parent absolute position due to scroll

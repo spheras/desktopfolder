@@ -413,24 +413,27 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @param {Gdk.Rectangle} rectangle the rectangle area to search
      * @return {ItemManager} return the item at that area found, or null if none
      */
-    public ItemManager ? get_item_at (Gdk.Rectangle rectangle) {
+    public Gee.List<ItemManager> ? get_items_at (Gdk.Rectangle rectangle) {
+      Gee.List<ItemManager> result=new Gee.ArrayList<ItemManager>();
         for (int i = 0; i < this.items.length (); i++) {
             ItemManager    im = this.items.nth_data (i);
             ItemView       iv = im.get_view ();
             Gtk.Allocation allocation;
             iv.get_allocation (out allocation);
 
+            int qwidth=DesktopFolder.ICON_DEFAULT_WIDTH/2;
             Gdk.Rectangle icon_rectangle = Gdk.Rectangle ();
-            icon_rectangle.x      = allocation.x;
-            icon_rectangle.y      = allocation.y;
-            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH;
-            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH;
+            icon_rectangle.x      = allocation.x+qwidth;
+            icon_rectangle.y      = allocation.y+qwidth;
+            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
+            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
 
             if (rectangle.intersect (icon_rectangle, null)) {
-                return im;
+                result.add(im);
             }
         }
-        return null;
+
+        return result;
     }
 
     /**
