@@ -478,7 +478,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_leave signal
      */
     public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
-        debug ("detail: %d", eventCrossing.detail);
+        //debug ("detail: %d", eventCrossing.detail);
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 

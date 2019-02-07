@@ -598,7 +598,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     protected virtual bool on_press (Gdk.EventButton event) {
-        // debug("on_press folderwindow: %d, %d",(int)event.x,(int)event.y);
+        //debug("on_press folderwindow: %d, %d",(int)event.x,(int)event.y);
         // Needed to exit focus from title when editting
         this.activate_focus ();
 
@@ -613,6 +613,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 control_pressed = selected.is_dragdrop_started ();
             }
         }
+
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
             return false;
         }
@@ -626,7 +627,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.NORMAL; // Going to try DIALOG at some point to make below obsolete
 
-        // debug("press:%i,%i",(int)event.button,(int)event.y);
+        //debug("press:%i,%i,%i",(int)event.button,(int)event.x,(int)event.y);
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button == Gdk.BUTTON_SECONDARY)) {
             this.show_popup (event);
@@ -651,12 +652,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             } else {
                 return true;
             }
-        } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
+        } else if (event.x>11 &&
+          event.type == Gdk.EventType.BUTTON_PRESS &&
+          event.button == Gdk.BUTTON_PRIMARY) {
             this.press_point   = Gdk.Point ();
             this.press_point.x = (int) event.x;
             this.press_point.y = (int) event.y;
-            return true;
         }
+
         return false;
     }
 
