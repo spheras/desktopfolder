@@ -414,7 +414,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
      * @return {ItemManager} return the item at that area found, or null if none
      */
     public Gee.List<ItemManager> ? get_items_at (Gdk.Rectangle rectangle) {
-      debug("me preguntan por %d,%d,%d,%d",rectangle.x,rectangle.y,rectangle.width,rectangle.height);
       Gee.List<ItemManager> result=new Gee.ArrayList<ItemManager>();
         for (int i = 0; i < this.items.length (); i++) {
             ItemManager    im = this.items.nth_data (i);
@@ -428,8 +427,6 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
             icon_rectangle.y      = allocation.y+qwidth;
             icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
             icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
-
-            debug(">>> encuentro %d,%d,%d,%d",icon_rectangle.x,icon_rectangle.y,icon_rectangle.width,icon_rectangle.height);
 
             if (rectangle.intersect (icon_rectangle, null)) {
                 result.add(im);
