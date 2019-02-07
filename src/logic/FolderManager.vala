@@ -408,6 +408,32 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     }
 
     /**
+     * @name get_item_at
+     * @description return the item at a certain area of the folder window
+     * @param {Gdk.Rectangle} rectangle the rectangle area to search
+     * @return {ItemManager} return the item at that area found, or null if none
+     */
+    public ItemManager ? get_item_at (Gdk.Rectangle rectangle) {
+        for (int i = 0; i < this.items.length (); i++) {
+            ItemManager    im = this.items.nth_data (i);
+            ItemView       iv = im.get_view ();
+            Gtk.Allocation allocation;
+            iv.get_allocation (out allocation);
+
+            Gdk.Rectangle icon_rectangle = Gdk.Rectangle ();
+            icon_rectangle.x      = allocation.x;
+            icon_rectangle.y      = allocation.y;
+            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH;
+            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH;
+
+            if (rectangle.intersect (icon_rectangle, null)) {
+                return im;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @name is_vertical_arragement
      * @description check whether the arrangement is vertically
      * @return {bool} true->vertical, false->horizontal
@@ -826,6 +852,12 @@ public class DesktopFolder.FolderManager : Object, DragnDrop.DndView, FolderSett
     // ---------------------------------------------------------------------------------------
     // ---------------------------DndView Implementation--------------------------------------
     // ---------------------------------------------------------------------------------------
+
+    public void on_drag_motion () {
+    }
+
+    public void on_drag_leave () {
+    }
 
     /**
      * @overrided

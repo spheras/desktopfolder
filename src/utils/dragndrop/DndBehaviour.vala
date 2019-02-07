@@ -287,12 +287,15 @@ namespace DesktopFolder.DragnDrop {
         private void on_drag_leave (Gdk.DragContext context, uint timestamp) {
             // debug("DndBehaviour-on_drag_leave");
             drop_data_ready = false;
+            this.view.on_drag_leave ();
         }
 
         private bool on_drag_motion (Gdk.DragContext context,
             int                                      x,
             int                                      y,
             uint                                     timestamp) {
+
+            this.view.on_drag_motion ();
 
             // debug("DndBehaviour-on_drag_motion");
             /* if we don't have drop data already ... */

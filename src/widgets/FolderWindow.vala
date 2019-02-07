@@ -1562,8 +1562,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
             }
 
-
-
             cr.reset_clip ();
         }
 

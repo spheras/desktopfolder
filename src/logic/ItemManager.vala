@@ -53,7 +53,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         this.folder        = folder;
         this.selected      = false;
         this.view          = new ItemView (this);
-        this.dnd_behaviour = new DragnDrop.DndBehaviour (this, true, false);
+        this.dnd_behaviour = new DragnDrop.DndBehaviour (this, true, this.is_folder ());
     }
 
     /**
@@ -483,6 +483,16 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     // ---------------------------------------------------------------------------------------
     // ---------------------------DndView Implementation--------------------------------------
     // ---------------------------------------------------------------------------------------
+
+    public void on_drag_motion () {
+        // we force the opened folder icon
+        this.view.force_opened_folder_icon ();
+    }
+
+    public void on_drag_leave () {
+        // restoring the normal icon
+        this.view.refresh_icon ();
+    }
 
     /**
      * @name get_widget

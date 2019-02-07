@@ -95,6 +95,18 @@ namespace DesktopFolder.DragnDrop {
         public abstract void on_drag_end ();
 
         /**
+         * @name on_drag_motion
+         * @description the mouse is over the dnd view
+         */
+        public abstract void on_drag_motion ();
+
+        /**
+         * @name on_drag_leave
+         * @description the mouse leave the view
+         */
+        public abstract void on_drag_leave ();
+
+        /**
          * @name get_all_selected_views
          * @description return all the selected views at this moment
          * @return DndView[] the list of DndViews selected
