@@ -478,12 +478,15 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_leave signal
      */
     public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
-        // debug("detail: %d",eventCrossing.detail);
+        debug ("detail: %d", eventCrossing.detail);
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
 
         if (this.flagMoved) {
+            if (this.manager.get_folder ().get_view () is DesktopWindow && eventCrossing.y < 0) {
+                return true;
+            }
             // if the item is outside the current windows, we cancel the movement, and start dragging
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
@@ -492,10 +495,18 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int          window_height;
             window.get_size (out window_width, out window_height);
             if (eventCrossing.detail == Gdk.NotifyType.NONLINEAR ||
-                allocation.x < 0 ||
-                allocation.y < 0 ||
-                allocation.x > window_width - DesktopFolder.ICON_DEFAULT_WIDTH ||
-                allocation.y > window_height - DesktopFolder.ICON_DEFAULT_WIDTH) {
+                eventCrossing.detail == Gdk.NotifyType.NONLINEAR_VIRTUAL ||
+                (
+                    !(this.manager.get_folder ().get_view () is DesktopWindow)
+                    &&
+                    (
+                        allocation.x < 0 ||
+                        allocation.y < 0 ||
+                        allocation.x > window_width - DesktopFolder.ICON_DEFAULT_WIDTH ||
+                        allocation.y > window_height - DesktopFolder.ICON_DEFAULT_WIDTH
+                    )
+                )
+            ) {
                 this.cancel_movement_and_start_drag_action (eventCrossing);
 
             }
@@ -1086,7 +1097,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH;
             icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH;
             ItemManager im = this.manager.get_folder ().get_item_at (icon_rectangle);
-            if (im != null && im != this.manager && im.is_folder () && !im.is_selected()) {
+            if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
                 this.cancel_movement_and_start_drag_action (event);
             }
 
