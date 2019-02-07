@@ -478,7 +478,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_leave signal
      */
     public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
-        debug ("detail: %d", eventCrossing.detail);
+        //debug ("detail: %d", eventCrossing.detail);
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
@@ -1093,6 +1093,15 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             // debug("motion: %d,%d",(int) event.x_root,(int) event.y_root);
             // debug("offset_motion: %d,%d",this.offsetx,this.offsety);
 
+
+            // removing parent absolute position due to scroll
+            // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
+            FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
+            x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+            // }
+
+
             Gdk.Rectangle icon_rectangle = Gdk.Rectangle ();
             int qwidth=DesktopFolder.ICON_DEFAULT_WIDTH/2;
             icon_rectangle.x      = x+qwidth;
@@ -1102,19 +1111,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gee.List<ItemManager> ims = this.manager.get_folder ().get_items_at (icon_rectangle);
             for(int i=0;i<ims.size;i++){
               ItemManager im=ims.@get(i);
+              //if(im!=null){
+              //  debug("im is folder? %s",(im.is_folder()?"true":"false"));
+              //}
               if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
                   this.cancel_movement_and_start_drag_action (event);
                   break;
               }
             }
-
-            // removing parent absolute position due to scroll
-            // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
-            FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
-            x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            // }
-
 
             // debug("-------------");
             // debug ("offset(%d,%d)", this.offsetx, this.offsety);
