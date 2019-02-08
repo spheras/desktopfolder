@@ -631,6 +631,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 on_double_click ();
             }
         } else {
+          this.flagMoved=false;
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
             // debug("release(%d,%d)",allocation.x,allocation.y);
