@@ -328,7 +328,7 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
             stderr.printf ("Error: %s\n", e.message);
             DesktopFolder.Util.show_error_dialog ("Error", e.message);
         }
-        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
         this.last_custom_color = mycustom;
         return mycustom;
     }
