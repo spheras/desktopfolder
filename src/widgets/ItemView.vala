@@ -478,7 +478,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_leave signal
      */
     public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
-        //debug ("detail: %d", eventCrossing.detail);
+        // debug ("detail: %d", eventCrossing.detail);
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
@@ -631,7 +631,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 on_double_click ();
             }
         } else {
-          this.flagMoved=false;
+            this.flagMoved = false;
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
             // debug("release(%d,%d)",allocation.x,allocation.y);
@@ -769,7 +769,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             }
             this.flagMoved = false;
 
-            if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
+            if (!this.manager.get_folder ().are_items_locked () &&
+                this.manager.get_folder ().get_arrangement ().can_drag ()) {
                 Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
                 for (int i = 0; i < selecteds.size; i++) {
                     ItemView selected = selecteds.@get (i);
@@ -808,8 +809,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.get_allocation (out thisAllocation);
                 this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
                 this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
-            }else{
-              return false;
+            } else {
+                // we must ensure the event is not processed by the folder window parent to avoid unselections
+                return true;
             }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             if (!this.is_selected ()) {
@@ -1104,21 +1106,21 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
 
 
             Gdk.Rectangle icon_rectangle = Gdk.Rectangle ();
-            int qwidth=DesktopFolder.ICON_DEFAULT_WIDTH/2;
-            icon_rectangle.x      = x+qwidth;
-            icon_rectangle.y      = y+qwidth;
-            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
-            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH-qwidth;
-            Gee.List<ItemManager> ims = this.manager.get_folder ().get_items_at (icon_rectangle);
-            for(int i=0;i<ims.size;i++){
-              ItemManager im=ims.@get(i);
-              //if(im!=null){
-              //  debug("im is folder? %s",(im.is_folder()?"true":"false"));
-              //}
-              if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
-                  this.cancel_movement_and_start_drag_action (event);
-                  break;
-              }
+            int           qwidth         = DesktopFolder.ICON_DEFAULT_WIDTH / 2;
+            icon_rectangle.x      = x + qwidth;
+            icon_rectangle.y      = y + qwidth;
+            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH - qwidth;
+            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH - qwidth;
+            Gee.List <ItemManager> ims = this.manager.get_folder ().get_items_at (icon_rectangle);
+            for (int i = 0; i < ims.size; i++) {
+                ItemManager im = ims.@get (i);
+                // if(im!=null){
+                // debug("im is folder? %s",(im.is_folder()?"true":"false"));
+                // }
+                if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
+                    this.cancel_movement_and_start_drag_action (event);
+                    break;
+                }
             }
 
             // debug("-------------");
