@@ -1,3 +1,19 @@
+com.github.spheras.desktopfolder (1.1.0) precise; urgency=low
+
+  * Free, Grid and Automatic arrangements
+  * Drag & Drop without Ctrl Key and autodetection
+  * Transifex translations integration, new translations added
+  * File Synchronization Threads
+  * Animations Fx
+  * Hide/Show Desktop Panel and Icons
+  * Vertical/Horizontal Icons Arrangement
+  * Folder Panels with Scrollbars
+  * Folder/File Info Dialog
+  * Other minor functionality added
+  * Minor bugfixing
+
+ -- José Amuedo <joseamuedo@gmail.com>  Sat, 16 Feb 2019 02:28:00 +0100
+
 com.github.spheras.desktopfolder (1.0.10) precise; urgency=low
 
   * Change Icon for Files and SVG selections
