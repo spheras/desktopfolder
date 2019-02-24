@@ -437,7 +437,7 @@ public class DesktopFolderApp : Gtk.Application {
                 fm.close ();
                 this.folders.remove (fm);
             }
-            this.folders = updated_folder_list.copy ();
+            this.folders = (owned) updated_folder_list;
 
             // finally we close any other not existent note
             while (this.notes.length () > 0) {
@@ -445,7 +445,7 @@ public class DesktopFolderApp : Gtk.Application {
                 nm.close ();
                 this.notes.remove (nm);
             }
-            this.notes = updated_note_list.copy ();
+            this.notes = (owned) updated_note_list;
 
             // finally we close any other not existent photo
             while (this.photos.length () > 0) {
@@ -453,7 +453,7 @@ public class DesktopFolderApp : Gtk.Application {
                 pm.close ();
                 this.photos.remove (pm);
             }
-            this.photos = updated_photo_list.copy ();
+            this.photos = (owned) updated_photo_list;
 
             // by default, we create at least one folder if set by settings
             if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0 && this.desktop == null) {
