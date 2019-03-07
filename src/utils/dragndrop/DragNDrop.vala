@@ -180,11 +180,11 @@ namespace DesktopFolder.DragnDrop {
                             // it is asked only once, and we cannot unset in the future..
                             // So, we allow copy/move/link and after, it is discarded if it was really the same folder.
                             // TODO, need to be further investigated.
-                            GLib.g_object_unref (parent_file);
+                            parent_file.unref ();
                             suggested_action = Gdk.DragAction.COPY; // Gdk.DragAction.ASK;
                             actions          = Gdk.DragAction.COPY | Gdk.DragAction.MOVE | Gdk.DragAction.LINK; // Gdk.DragAction.ASK|Gdk.DragAction.LINK;
                         } else
-                            GLib.g_object_unref (parent_file);
+                            parent_file.unref ();
                     }
 
                     /* Make these tests at the end so that any changes are not reversed subsequently */

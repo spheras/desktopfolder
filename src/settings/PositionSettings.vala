@@ -53,7 +53,7 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
                 // temporal WEIRD hack to avoid the problem of set an SLIST to the json @value deserializer
                 flag_deserialized = false;
             } else {
-                this._resolutions = value.copy ();
+                this._resolutions = value.copy_deep ((CopyFunc) Object.ref);
             }
             flagChanged = false;
         }
@@ -384,6 +384,15 @@ public abstract class DesktopFolder.PositionSettings : Object, Json.Serializable
         GLib.ObjectClass ocl = (GLib.ObjectClass)type.class_ref ();
         unowned GLib.ParamSpec ? spec = ocl.find_property (name);
         return spec;
+    }
+    public GLib.Value Json.Serializable.get_property (GLib.ParamSpec pspec) {
+        GLib.Value result = GLib.Value (pspec.value_type);
+        base.get_property (pspec.name, ref result);
+        return result;
+    }
+
+    public void Json.Serializable.set_property (GLib.ParamSpec pspec, GLib.Value value) {
+        base.set_property (pspec.name, value);
     }
 
     public Json.Node serialize_property (string property_name, Value @value, ParamSpec pspec) {

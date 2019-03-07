@@ -162,7 +162,7 @@ namespace DesktopFolder.DragnDrop {
             return selected_files;
         }
 
-        protected unowned GLib.List <File> get_selected_files_for_transfer (GLib.List <unowned File> selection = get_selected_files ()) {
+        protected unowned GLib.List <File> get_selected_files_for_transfer (GLib.List <File> selection = get_selected_files ()) {
             // debug("DndBehaviour-get_selected_files_for_transfer");
             unowned GLib.List <File> list = null;
             list.prepend (this.view.get_file ());
