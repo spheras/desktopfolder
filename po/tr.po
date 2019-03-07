@@ -595,7 +595,7 @@ msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr ""
+msgstr "⌘-D ile masaüstünde göster"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
