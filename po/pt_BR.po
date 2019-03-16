@@ -5,10 +5,12 @@
 # 
 # Translators:
 # Rainer Bode <rainer.uwe.bode@gmail.com>, 2018
+# Kaio Henrique <kaiohenrique660@gmail.com>, 2018
 # Italo Penaforte <italo.penaforte@gmail.com>, 2018
 # Willian Eduardo <willianeduardot@gmail.com>, 2018
 # Rainer Bode <rainer.uwe@hotmail.com>, 2018
 # Leandro Vital <leandro.vital@yahoo.com.br>, 2018
+# Lynx Medeiros <lynxmedeiros@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -17,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Leandro Vital <leandro.vital@yahoo.com.br>, 2018\n"
+"Last-Translator: Lynx Medeiros <lynxmedeiros@gmail.com>, 2019\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/ubuntu-budgie/teams/72251/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +49,7 @@ msgstr ""
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_Aceitar"
+msgstr "_Continuar "
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
@@ -552,7 +554,7 @@ msgstr "Ocultar área de trabalho"
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr ""
+msgstr "Ordenar verticalmente"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
@@ -574,47 +576,49 @@ msgstr "Pasta da área de trabalho"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr ""
+msgstr "Traga seu desktop de volta à vida"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr ""
+msgstr "Organize sua área de trabalho com painéis que guardam suas coisas"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr ""
+msgstr "Acesse arquivos, pastas e aplicativos da sua área de trabalho"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
-msgstr ""
+msgstr "Solte arquivos, pastas, links e lançadores .desktop dentro de painéis"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr ""
+msgstr "Redimensionar, posicionar e colorir painéis"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr ""
+msgstr "Exibir fotos e manter notas em sua área de trabalho"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr ""
+msgstr "Revelar a área de trabalho com ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
+"Abra como qualquer outro aplicativo após a instalação. A pasta Desktop será "
+"iniciada automaticamente quando você fizer o próximo login."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Visão geral da área de trabalho"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr ""
+msgstr "Desenvolvedores do DesktopFolder"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"

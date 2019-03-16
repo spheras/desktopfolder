@@ -549,7 +549,7 @@ msgstr "Скрыть рабочий стол"
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr ""
+msgstr "Сортировать по вертикали"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format

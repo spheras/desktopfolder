@@ -376,7 +376,7 @@ msgstr ""
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr "Ne csinájlon semmit"
+msgstr "Ne csináljon semmit"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
@@ -613,7 +613,7 @@ msgstr "Átfogó asztali nézet"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr "DesktopFolder fejlesztői"
+msgstr "A DesktopFolder fejlesztői"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
