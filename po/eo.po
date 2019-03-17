@@ -71,7 +71,7 @@ msgstr ""
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr ""
+msgstr "Dosieraj operacioj"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
@@ -141,7 +141,7 @@ msgstr "Alinomi panelon"
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr ""
+msgstr "Movi panelon en la rubujon"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
@@ -151,7 +151,7 @@ msgstr "Alglui"
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr ""
+msgstr "sentitola dosierujo"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
@@ -169,14 +169,14 @@ msgstr "Movi rubujen"
 #. file properties window - properties
 #: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr ""
+msgstr "Ecoj"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr ""
+msgstr "Nova noto"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
@@ -355,7 +355,7 @@ msgstr "Ebligi labortablon:"
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr ""
+msgstr "Ĉi tiu ŝanĝo postulos elsalutado kaj reen"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
@@ -449,7 +449,7 @@ msgstr "Grandeco de dosiero"
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr ""
+msgstr "Permesi plenumadon"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
@@ -459,7 +459,7 @@ msgstr "Uzita"
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr ""
+msgstr "Modifita"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
@@ -474,7 +474,7 @@ msgstr "Libera"
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr ""
+msgstr "Krado"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
@@ -489,7 +489,7 @@ msgstr "Piktogramoj"
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Defaŭlta aranĝo de piktogramoj:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
@@ -524,7 +524,7 @@ msgstr ""
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr ""
+msgstr "Sentitola panelo"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
