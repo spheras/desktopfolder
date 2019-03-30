@@ -5,12 +5,12 @@
 # 
 # Translators:
 # Rainer Bode <rainer.uwe.bode@gmail.com>, 2018
-# Kaio Henrique <kaiohenrique660@gmail.com>, 2018
 # Italo Penaforte <italo.penaforte@gmail.com>, 2018
 # Willian Eduardo <willianeduardot@gmail.com>, 2018
 # Rainer Bode <rainer.uwe@hotmail.com>, 2018
 # Leandro Vital <leandro.vital@yahoo.com.br>, 2018
 # Lynx Medeiros <lynxmedeiros@gmail.com>, 2019
+# Kaio Henrique <kaiohenrique660@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Lynx Medeiros <lynxmedeiros@gmail.com>, 2019\n"
+"Last-Translator: Kaio Henrique <kaiohenrique660@gmail.com>, 2019\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/ubuntu-budgie/teams/72251/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
