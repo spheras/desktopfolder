@@ -56,12 +56,12 @@ msgstr "_Elekti"
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr ""
+msgstr "Estas nenio sur la tondujo por alglui"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr ""
+msgstr "Ne povas demeti ĉi tiu dosiero ĉi tie "
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
@@ -377,7 +377,7 @@ msgstr "Fari nenion"
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr ""
+msgstr "Skali al nova distingivo"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
@@ -566,7 +566,7 @@ msgstr "Labortabla dosierujo"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr ""
+msgstr "Revenigi vian labortablon al vivo"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
@@ -579,6 +579,8 @@ msgstr "Aliri dosierojn, dosierujojn kaj programojn de via labortablo"
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
 msgstr ""
+"Demeti dosierojn, dosierujojn, ligilojn kaj .desktop lanĉilojn ene de "
+"paneloj"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
@@ -602,7 +604,7 @@ msgstr ""
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Entuta labortabla vido"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
@@ -610,4 +612,4 @@ msgstr "DesktopFolder programistoj"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr ""
+msgstr "Ordigi vian labortablon per paneloj, notoj kaj fotoj"
