@@ -533,7 +533,7 @@ msgstr "Névtelen Panel"
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "Linkelés $FILE_NAME -hez"
+msgstr "Linkelés ehhez: $FILE_NAME "
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
