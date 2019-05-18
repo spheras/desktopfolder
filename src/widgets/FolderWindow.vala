@@ -20,28 +20,38 @@
  * Folder Window that is shown above the desktop to manage files and folders
  */
 public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
-    protected FolderManager manager                = null;
-    protected Gtk.Fixed container                  = null;
-    protected Gtk.ScrolledWindow scroll            = null;
-    protected Gtk.Menu context_menu                = null;
-    protected bool flag_moving                     = false;
-    private Gtk.Button trash_button                = null;
-    private DesktopFolder.EditableLabel label      = null;
-    protected Gtk.Button properties_button         = null;
+    protected FolderManager manager = null;
+    protected Gtk.Fixed container = null;
+    protected Gtk.ScrolledWindow scroll = null;
+    protected Gtk.Menu context_menu = null;
+    protected bool flag_moving = false;
+    private Gtk.Button trash_button = null;
+    private DesktopFolder.EditableLabel label = null;
+    protected Gtk.Button properties_button = null;
+    protected Gdk.Point ? press_point = null;
 
-    public const string HEAD_TAGS_COLORS[3]        = { null, "#ffffff", "#000000" };
-    public const string HEAD_TAGS_COLORS_CLASS[3]  = { "df_headless", "df_light", "df_dark" };
+    public const string HEAD_TAGS_COLORS[3]            = { null, "#ffffff", "#000000" };
+    public const string HEAD_TAGS_COLORS_CLASS[3]      = { "df_headless", "df_light", "df_dark" };
 
-    public const string BODY_TAGS_COLORS[10]       = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
-    public const string BODY_TAGS_COLORS_CLASS[10] = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
-    protected string last_custom_color             = "#FF0000";
-    private Gtk.CssProvider custom_color_provider  = new Gtk.CssProvider ();
+    public const string BODY_TAGS_COLORS[10]           = { null, "#ffe16b", "#ffa154", "#795548", "#9bdb4d", "#64baff", "#ad65d6", "#ed5353", "#d4d4d4", "#000000" };
+    public const string BODY_TAGS_COLORS_CLASS[10]     = { "df_transparent", "df_yellow", "df_orange", "df_brown", "df_green", "df_blue", "df_purple", "df_red", "df_gray", "df_black" };
+    protected string last_custom_color                 = "#FF0000";
+    private Gtk.CssProvider custom_color_provider      = new Gtk.CssProvider ();
+    /** timeout id for configure event */
+    private uint configure_event_timeout               = 0;
+    private const int MAX_ITEMS_TO_PROCESS_DINAMICALLY = 50;
+
 
     /** flag to know if the window was painted /packed already */
     private bool flag_realized = false;
     /** flag to create fade_out effect for the grid */
     private double grid_fade   = 0;
 
+    /** flag to know whether any item or header is benig editing */
+    private bool flag_is_editing = false;
+
+    /** spinner widget to show background process indicator */
+    private Gtk.Spinner spinner;
 
     // this is the link image loaded
     static Gdk.Pixbuf LINK_PIXBUF = null;
@@ -66,6 +76,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.set_property ("skip-pager-hint", true);
         this.set_property ("skip_taskbar_hint", true);
         this.set_property ("skip_pager_hint", true);
+        this.set_accept_focus (true);
         this.skip_pager_hint   = true;
         this.skip_taskbar_hint = true;
 
@@ -162,14 +173,15 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         this.configure_event.connect (this.on_configure);
         this.button_press_event.connect (this.on_press);
         this.button_release_event.connect (this.on_release);
-        this.key_release_event.connect (this.on_key);
+        this.motion_notify_event.connect (this.on_motion);
+        // this.key_release_event.connect (this.on_key);
         this.key_press_event.connect (this.on_key);
         this.draw.connect (this.draw_background);
         this.enter_notify_event.connect (this.on_enter_notify);
         this.leave_notify_event.connect (this.on_leave_notify);
 
         // Warning! we need to connect with the press_event, instead of release or clicked to avoid problems
-        trash_button.button_press_event.connect ((event) => {
+        trash_button.button_release_event.connect ((event) => {
             this.manager.trash ();
             return true;
         });
@@ -186,14 +198,37 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // TODO this.dnd_behaviour=new DragnDrop.DndBehaviour(this,false, true);
 
         FolderSettings settings = this.manager.get_settings ();
-
-        // debug (settings.edit_label_on_creation.to_string ());
-        if (settings.edit_label_on_creation) {
+        if (settings.recently_created) {
             GLib.Timeout.add (50, () => {
                 this.label.start_editing ();
-                settings.edit_label_on_creation = false;
+                settings.recently_created = false;
+                settings.save ();
                 return false;
             });
+        }
+    }
+
+    /**
+     * @name show_loading
+     * @description show the loading spinner
+     */
+    public void show_loading () {
+        if (this.spinner != null) {
+            debug ("setting LOADING VISIBLE: %s", this.manager.get_folder_name ());
+            this.spinner.set_visible (true);
+            this.spinner.set_opacity (1);
+        }
+    }
+
+    /**
+     * @name hide_loading
+     * @description hide the loading spinner
+     */
+    public void hide_loading () {
+        if (this.spinner != null) {
+            debug ("setting LOADING NO VISIBLE: %s", this.manager.get_folder_name ());
+            this.spinner.set_visible (false);
+            this.spinner.set_opacity (0);
         }
     }
 
@@ -232,11 +267,26 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         this.set_titlebar (header);
 
+        this.spinner        = new Gtk.Spinner ();
+        this.spinner.active = true;
+        header.pack_start (this.spinner);
+        this.spinner.set_visible (false);
+        this.spinner.set_opacity (0);
+
+
         label.changed.connect ((new_name) => {
             if (this.manager.rename (new_name)) {
                 label.text = new_name;
             }
         });
+
+        label.on_start_editing.connect (() => {
+            this.on_start_editing ();
+        });
+        label.on_stop_editing.connect (() => {
+            this.on_end_editing ();
+        });
+
     }
 
     /**
@@ -271,9 +321,18 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @description resize the window to other position
      */
     public virtual void resize_to (int width, int height) {
-        // debug ("RESIZE_TO: %d,%d", width, height);
-        this.set_default_size (width, height);
-        this.resize (width, height);
+        // strange hack to avoid problems when resizing after the window has a header
+        // (i.e. after new screen resolution change event)
+        Gtk.Allocation title_allocation;
+        this.get_titlebar ().get_allocation (out title_allocation);
+        int height_pad = title_allocation.height;
+        if (height_pad < 2) {
+            height_pad = 0; // hack!
+        }
+
+        debug ("RESIZE_TO: %d,%d", width, height);
+        this.set_default_size (width, height - height_pad);
+        this.resize (width, height - height_pad);
     }
 
     /**
@@ -372,7 +431,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             stderr.printf ("Error: %s\n", e.message);
             DesktopFolder.Util.show_error_dialog ("Error", e.message);
         }
-        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), this.custom_color_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
         this.last_custom_color = mycustom;
 
         return mycustom;
@@ -454,18 +513,40 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // TODO: Is there a way to make a desktop window resizable and movable?
             this.type_hint = Gdk.WindowTypeHint.DESKTOP; // Going to try DIALOG at some point
 
-            int x = event.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            int y = event.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
-            int w = event.width - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
-            int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
-            // debug ("set_new_shape: %i,%i,%i,%i", x, y, w, h);
-            this.manager.set_new_shape (x, y, w, h);
-
-            if (this.manager.get_arrangement ().force_organization ()) {
-                this.manager.organize_panel_items ();
+            if (this.manager.get_settings ().items.length > MAX_ITEMS_TO_PROCESS_DINAMICALLY) {
+                // waiting 400ms of inactivity to save the new position
+                if (this.configure_event_timeout > 0) {
+                    Source.remove (this.configure_event_timeout);
+                    this.configure_event_timeout = 0;
+                }
+                this.configure_event_timeout = Timeout.add (400, () => {
+                    this.configure_event_timeout = 0;
+                    this.save_current_position_and_size (event);
+                    return false;
+                });
+            } else {
+                // saving position inmediatelly, we can afford it
+                this.save_current_position_and_size (event);
             }
+
         }
         return false;
+    }
+
+    /**
+     * @name save_position_and_size
+     * @description save the current position and size of the window
+     */
+    public void save_current_position_and_size (Gdk.EventConfigure event) {
+        // we are saving here the last position and size
+        // we avoid doing it at on_configure because it launches a lot of events
+
+        int x = event.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
+        int y = event.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
+        int w = event.width - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
+        int h = event.height - (DesktopFolder.WINDOW_DECORATION_MARGIN * 2);
+        // debug ("%s - set_new_shape: %i,%i,%i,%i", this.get_manager().get_folder_name(), x, y, w, h);
+        this.manager.set_new_shape (x, y, w, h);
     }
 
     /**
@@ -499,6 +580,12 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_release signal
      */
     private bool on_release (Gdk.EventButton event) {
+        if (this.press_point != null) {
+            // removing old press point
+            this.press_point   = null;
+            this.current_point = null;
+            this.queue_draw ();
+        }
         // This is to avoid minimization when Show Desktop shortcut is used
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
@@ -511,7 +598,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @return bool @see widget on_press signal
      */
     protected virtual bool on_press (Gdk.EventButton event) {
-        // debug("on_press folderwindow");
+        // debug("on_press folderwindow: %d, %d",(int)event.x,(int)event.y);
         // Needed to exit focus from title when editting
         this.activate_focus ();
 
@@ -520,26 +607,35 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
         bool can_drag        = this.manager.get_arrangement ().can_drag ();
         if (!can_drag) {
-            ItemView selected = this.manager.get_selected_item ();
-            if (selected != null) {
+            Gee.List <ItemView> selecteds = this.manager.get_selected_items ();
+            for (int i = 0; i < selecteds.size && !control_pressed; i++) {
+                ItemView selected = selecteds.@get (i);
                 control_pressed = selected.is_dragdrop_started ();
             }
         }
+
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && control_pressed) {
             return false;
         }
+
+        if (!control_pressed) {
+            this.unselect_all ();
+        }
+
 
         // This is to allow moving and resizing the panel
         // TODO: Is there a way to make a desktop window resizable and movable?
         this.type_hint = Gdk.WindowTypeHint.NORMAL; // Going to try DIALOG at some point to make below obsolete
 
-        // debug("press:%i,%i",(int)event.button,(int)event.y);
+        // debug("press:%i,%i,%i",(int)event.button,(int)event.x,(int)event.y);
         if (event.type == Gdk.EventType.BUTTON_PRESS &&
             (event.button == Gdk.BUTTON_SECONDARY)) {
             this.show_popup (event);
             return true;
             // Remove below later if hiding behind Wingpanel is properly fixed (required for drag boxes)
-        } else if (event.type == Gdk.EventType.BUTTON_PRESS && (event.button == Gdk.BUTTON_PRIMARY)) {
+        } else if (event.type == Gdk.EventType.BUTTON_PRESS &&
+            (event.button == Gdk.BUTTON_MIDDLE ||
+            (event.button == Gdk.BUTTON_PRIMARY && event.y < 31))) {
             this.unselect_all ();
 
             if (this.manager.can_move ()) {
@@ -556,7 +652,14 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             } else {
                 return true;
             }
+        } else if (event.x > 11 &&
+            event.type == Gdk.EventType.BUTTON_PRESS &&
+            event.button == Gdk.BUTTON_PRIMARY) {
+            this.press_point   = Gdk.Point ();
+            this.press_point.x = (int) event.x;
+            this.press_point.y = (int) event.y;
         }
+
         return false;
     }
 
@@ -902,6 +1005,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
     }
 
     /**
+     * @name on_start_editing
+     * @description a label is being edited
+     */
+    public void on_start_editing () {
+        this.flag_is_editing = true;
+    }
+
+    /**
+     * @name on_end_editing
+     * @description a label has finished the edition
+     */
+    public void on_end_editing () {
+        this.flag_is_editing = false;
+    }
+
+    /**
      * @name on_key
      * @description the key event captured for the window
      * @param EventKey event the event produced
@@ -909,18 +1028,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     private bool on_key (Gdk.EventKey event) {
         // debug("FolderWindow on_key, event: %s",event.type == Gdk.EventType.KEY_RELEASE?"KEY_RELEASE":event.type == Gdk.EventType.KEY_PRESS?"KEY_PRESS":"OTRO");
-        // If the uses is editing something on an entr
-        if (this.get_focus () is Gtk.Entry) {
+        // If the uses is editing something on an entry
+
+        if (flag_is_editing) {
             // debug ("User is editing!");
-            return false;
-        }
-        if (event.type != Gdk.EventType.KEY_PRESS) {
             return false;
         }
 
         int key = (int) event.keyval;
 
-        // debug("event key %d",key);
+        debug ("event key %d", key);
         const int DELETE_KEY      = 65535;
         const int F2_KEY          = 65471;
         const int ENTER_KEY       = 65293;
@@ -929,18 +1046,31 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         const int ARROW_RIGHT_KEY = 65363;
         const int ARROW_DOWN_KEY  = 65364;
 
-        var      mods             = event.state & Gtk.accelerator_get_default_mod_mask ();
-        bool     control_pressed  = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
-        bool     shift_pressed    = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
-        ItemView selected         = this.manager.get_selected_item ();
+        var  mods                 = event.state & Gtk.accelerator_get_default_mod_mask ();
+        bool control_pressed      = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed        = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
+
+        // lets get the first selected item
+        ItemView[] selecteds = this.manager.get_selected_items ().to_array ();
+        ItemView   selected  = null;
+        for (int i = 0; i < selecteds.length; i++) {
+            ItemView isel = selecteds[i];
+            if (isel != null) {
+                selected = isel;
+            }
+        }
 
         if (control_pressed && selected != null && (key == 'c' || key == 'C')) {
-            selected.copy ();
+            if (selected != null) {
+                selected.copy ();
+            }
             return true;
         }
 
         if (control_pressed && selected != null && (key == 'x' || key == 'X')) {
-            selected.cut ();
+            if (selected != null) {
+                selected.cut ();
+            }
             return true;
         }
 
@@ -950,16 +1080,28 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         if (key == DELETE_KEY) {
             if (selected == null) {
-                this.manager.trash ();
-            } else if (shift_pressed) {
-                selected.delete_dialog ();
+                // I feel this is too drastic
+                // this.manager.trash ();
             } else {
-                selected.trash ();
+
+                for (int i = 0; i < selecteds.length; i++) {
+                    ItemView isel = selecteds[i];
+                    if (isel != null) {
+                        if (shift_pressed) {
+                            isel.delete_dialog ();
+                        } else {
+                            isel.trash ();
+                        }
+                    }
+                }
+
+
             }
             return true;
         }
 
         if (key == F2_KEY) {
+            flag_is_editing = true;
             if (selected != null) {
                 selected.start_editing ();
                 return true;
@@ -1006,6 +1148,7 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             });
         }
 
+
         return false;
     }
 
@@ -1023,7 +1166,11 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      * @param {CompareAllocations} is_selectable a function to check that the next item is in the correct direction
      */
     private void move_selected_to (CompareAllocations same_axis, CompareAllocations is_selectable) {
-        ItemView actual_item = this.manager.get_selected_item ();
+        Gee.List <ItemView> selecteds = this.manager.get_selected_items ();
+        ItemView actual_item          = null;
+        if (selecteds.size > 0) {
+            actual_item = selecteds.@get (0);
+        }
         if (actual_item == null) {
             actual_item = (ItemView) this.container.get_children ().nth_data (0);
             if (actual_item == null) {
@@ -1053,26 +1200,10 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             }
         }
         if (next_item != null) {
-            next_item.select ();
+            next_item.select_only ();
         } else {
             debug ("There are no elements on this direction");
         }
-    }
-
-    /**
-     * @name find_selected_item
-     * @description return the selected item
-     * @return ItemView return the selected item at the desktop folder, or null if none selected
-     */
-    public ItemView find_selected_item () {
-        var children = this.container.get_children ();
-        for (int i = 0; i < children.length (); i++) {
-            ItemView element = (ItemView) children.nth_data (i);
-            if (element.is_selected ()) {
-                return element;
-            }
-        }
-        return null as ItemView;
     }
 
     /**
@@ -1124,19 +1255,16 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_folder (int x, int y) {
         string new_name = this.manager.create_new_folder (x, y);
-        var    item     = this.manager.get_item_by_filename (new_name);
-        if (item == null) {
-            stderr.printf ("Error: Couldn't find the newly created folder's item.");
-            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
-            return;
-        } else {
-            ItemView itemview = item.get_view ();
 
-            GLib.Timeout.add (50, () => {
+        GLib.Timeout.add (50, () => {
+            var item = this.manager.get_item_by_filename (new_name);
+            if (item != null) {
+                ItemView itemview = item.get_view ();
                 itemview.start_editing ();
-                return false;
-            });
-        }
+            }
+
+            return false;
+        });
     }
 
     /**
@@ -1147,18 +1275,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
      */
     protected void new_text_file (int x, int y) {
         string new_name = this.manager.create_new_text_file (x, y);
-        var    item     = this.manager.get_item_by_filename (new_name);
-        if (item == null) {
-            stderr.printf ("Error: Couldn't find the newly created folder's item.");
-            Util.show_error_dialog ("Error:", "Couldn't find the newly created folder's item.");
-            return;
-        } else {
-            ItemView itemview = item.get_view ();
-            GLib.Timeout.add (50, () => {
+
+        GLib.Timeout.add (500, () => {
+            // sync algorithm thread need time to react
+            var item = this.manager.get_item_by_filename (new_name);
+            if (item != null) {
+                ItemView itemview = item.get_view ();
                 itemview.start_editing ();
-                return false;
-            });
-        }
+            }
+
+            return false;
+        });
     }
 
     /**
@@ -1237,6 +1364,61 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         return this.manager;
     }
 
+    private Gdk.Point ? current_point = null;
+
+    /**
+     * @name on_motion
+     * @description the on_motion event captured
+     * @param EventMotion event @see the on_motion signal
+     * @return bool @see the on_motion signal
+     */
+    private bool on_motion (Gdk.EventMotion event) {
+        if (this.press_point != null) {
+            this.current_point   = Gdk.Point ();
+            this.current_point.x = (int) event.x;
+            this.current_point.y = (int) event.y;
+            this.queue_draw ();
+
+            this.manager.select_items (this.get_selected_rectangle ());
+        }
+
+        return true;
+    }
+
+    /**
+     * @name get_selected_rectangle
+     * @description create the rectangle which is being drawed by the selection
+     * @return {Gdk.Rectangle} the rectangle selected
+     */
+    private Gdk.Rectangle ? get_selected_rectangle () {
+        if (this.press_point != null) {
+            Gdk.Rectangle sel_rectangle = Gdk.Rectangle ();
+            Gdk.Point     point_a       = this.press_point;
+            Gdk.Point     point_b       = this.current_point;
+            int           sel_width     = point_b.x - point_a.x;
+            int           sel_height    = point_b.y - point_a.y;
+
+            sel_rectangle.x      = point_a.x;
+            sel_rectangle.y      = point_a.y;
+            sel_rectangle.width  = sel_width;
+            sel_rectangle.height = sel_height;
+
+            if (sel_rectangle.width < 0) {
+                sel_rectangle.x     = sel_rectangle.x + sel_rectangle.width;
+                sel_rectangle.width = -sel_rectangle.width;
+            }
+            if (sel_rectangle.height < 0) {
+                sel_rectangle.y      = sel_rectangle.y + sel_rectangle.height;
+                sel_rectangle.height = -sel_rectangle.height;
+            }
+
+            // debug("rectangle: %d,%d,%d,%d",sel_rectangle.x,sel_rectangle.y,sel_rectangle.width,sel_rectangle.height);
+
+            return sel_rectangle;
+        }
+        return null;
+    }
+
     /**
      * @name draw_backgorund
      * @description draw the folder window background intercepting the draw signal
@@ -1250,6 +1432,22 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // cr.fill();
 
         // we must show the grid if it is enabled and an item being moved
+
+        if (this.press_point != null && this.current_point != null) {
+            Gdk.Point point_a    = this.press_point;
+            Gdk.Point point_b    = this.current_point;
+            int       sel_width  = point_b.x - point_a.x;
+            int       sel_height = point_b.y - point_a.y;
+            // debug("rectangle: %d,%d   -  %d,%d",point_a.x,point_a.y,sel_width,sel_height);
+            cr.rectangle (point_a.x, point_a.y, sel_width, sel_height);
+            // cr.set_source_rgba (0, 0.5, 1, 0.1);
+            cr.set_source_rgba (0.2, 0.6, 1, 0.8);
+            cr.stroke ();
+
+            cr.rectangle (point_a.x, point_a.y, sel_width, sel_height);
+            cr.set_source_rgba (0.2, 0.6, 1, 0.2);
+            cr.fill ();
+        }
 
         if (flag_moving == true && this.manager.get_settings ().arrangement_type == FolderArrangement.ARRANGEMENT_TYPE_GRID) {
 
@@ -1279,18 +1477,19 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             // debug("panel: width:%d height:%d",width,height);
             // debug("header: x:%d y:%d width:%d height:%d",title_allocation.x,title_allocation.y,title_allocation.width,title_allocation.height);
 
-            int left_padding             = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
-            int top_padding              = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
-            int header                   = title_allocation.height + top_padding;
-            int margin                   = this.manager.get_settings ().arrangement_padding;
-            int sensitivity              = this.get_manager ().get_arrangement ().get_sensitivity ();
+            int left_padding = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+            int top_padding  = FolderArrangement.DEFAULT_EXTERNAL_MARGIN;
+            int header       = title_allocation.height + top_padding;
+            int margin       = this.manager.get_settings ().arrangement_padding;
+            int sensitivity  = this.get_manager ().get_arrangement ().get_sensitivity ();
 
-            ItemView       selected_item = this.manager.get_selected_item ();
+            // TODO Multiselection!!!!!!!!!!!!
+            ItemView       selected_item = this.manager.get_selected_items ().@get (0);
             Gtk.Allocation allocation;
             selected_item.get_allocation (out allocation);
             int selected_cell_x = (allocation.x + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
             int selected_cell_y = (allocation.y + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
-            // debug ("sellected: %d, %d", selected_i, selected_j);
+            // debug ("selected: %d, %d", selected_i, selected_j);
 
 
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X, cell_x = 0; i <= width - left_padding; i += sensitivity + margin, cell_x++) {
@@ -1365,8 +1564,6 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
                 cr.stroke ();
 
             }
-
-
 
             cr.reset_clip ();
         }

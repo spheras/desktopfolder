@@ -205,12 +205,12 @@ public class DesktopFolderApp : Gtk.Application {
      */
     private void on_show_desktopicons_changed () {
         this.show_desktopicons = settings.get_boolean (SHOW_DESKTOPICONS_KEY);
-        debug (@"called, show_desktoppanel: $(this.show_desktoppanel), show_desktopicons: $show_desktopicons");
+        // debug (@"called, show_desktoppanel: $(this.show_desktoppanel), show_desktopicons: $show_desktopicons");
         if (this.show_desktoppanel) {
             if (this.show_desktopicons) {
                 this.desktop.show_items ();
             } else {
-                debug ("calling hide_items");
+                // debug ("calling hide_items");
                 this.desktop.hide_items ();
             }
         }
@@ -275,25 +275,41 @@ public class DesktopFolderApp : Gtk.Application {
         }
     }
 
+    /** resize event timeout id */
+    private uint resize_event_timeout = 0;
+
+
     /**
      * @name on_screen_size_changed
      * @description detecting screen size changes
      */
+
     public void on_screen_size_changed () {
-        debug ("SCREEN SIZE CHANGED!");
-        Gdk.Screen screen = Gdk.Screen.get_default ();
-        if (this.desktop != null) {
-            this.desktop.on_screen_size_changed (screen);
+        if (this.resize_event_timeout > 0) {
+            Source.remove (this.resize_event_timeout);
+            this.resize_event_timeout = 0;
         }
-        foreach (var folder in folders) {
-            folder.on_screen_size_changed (screen);
-        }
-        foreach (var note in notes) {
-            note.on_screen_size_changed (screen);
-        }
-        foreach (var photo in photos) {
-            photo.on_screen_size_changed (screen);
-        }
+        // waiting 1 second to ensure the correct size information from monitors
+        this.resize_event_timeout = Timeout.add (1000, () => {
+            this.resize_event_timeout = 0;
+
+            debug ("SCREEN SIZE CHANGED!");
+            Gdk.Screen screen = Gdk.Screen.get_default ();
+            if (this.desktop != null) {
+                this.desktop.on_screen_size_changed (screen);
+            }
+            foreach (var folder in folders) {
+                folder.on_screen_size_changed (screen);
+            }
+            foreach (var note in notes) {
+                note.on_screen_size_changed (screen);
+            }
+            foreach (var photo in photos) {
+                photo.on_screen_size_changed (screen);
+            }
+
+            return false;
+        });
     }
 
     private static string desktop_folder_name = "";
@@ -527,13 +543,14 @@ public class DesktopFolderApp : Gtk.Application {
                 }
             }
 
+
             // finally we close any other not existent folder
             while (this.folders.length () > 0) {
                 DesktopFolder.FolderManager fm = this.folders.nth (0).data;
                 fm.close ();
                 this.folders.remove (fm);
             }
-            this.folders = updated_folder_list.copy ();
+            this.folders = (owned) updated_folder_list;
 
             // finally we close any other not existent note
             while (this.notes.length () > 0) {
@@ -541,7 +558,7 @@ public class DesktopFolderApp : Gtk.Application {
                 nm.close ();
                 this.notes.remove (nm);
             }
-            this.notes = updated_note_list.copy ();
+            this.notes = (owned) updated_note_list;
 
             // finally we close any other not existent photo
             while (this.photos.length () > 0) {
@@ -549,7 +566,7 @@ public class DesktopFolderApp : Gtk.Application {
                 pm.close ();
                 this.photos.remove (pm);
             }
-            this.photos = updated_photo_list.copy ();
+            this.photos = (owned) updated_photo_list;
 
             // by default, we create at least one folder if set by settings
             if (totalFolders == 0 && totalPhotos == 0 && totalNotes == 0 && this.desktop == null) {
@@ -561,6 +578,7 @@ public class DesktopFolderApp : Gtk.Application {
 
                 this.sync_folders_and_notes ();
             }
+
         } catch (Error e) {
             // error! ??
             stderr.printf ("Error: %s\n", e.message);

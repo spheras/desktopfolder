@@ -126,7 +126,12 @@ namespace DesktopFolder.DragnDrop {
 
             // lets drag
             unowned GLib.List <DragnDrop.DndView> list_of_files = null;
-            list_of_files.prepend (this.view);
+
+            DndView[] selected_views = this.view.get_all_selected_views ();
+            for (int i = 0; i < selected_views.length; i++) {
+                list_of_files.prepend (selected_views[i]);
+            }
+
             DndHandler.set_selection_data_from_file_list_2 (selection_data, list_of_files);
         }
 
@@ -157,7 +162,7 @@ namespace DesktopFolder.DragnDrop {
             return selected_files;
         }
 
-        protected unowned GLib.List <File> get_selected_files_for_transfer (GLib.List <unowned File> selection = get_selected_files ()) {
+        protected unowned GLib.List <File> get_selected_files_for_transfer (GLib.List <File> selection = get_selected_files ()) {
             // debug("DndBehaviour-get_selected_files_for_transfer");
             unowned GLib.List <File> list = null;
             list.prepend (this.view.get_file ());
@@ -282,12 +287,16 @@ namespace DesktopFolder.DragnDrop {
         private void on_drag_leave (Gdk.DragContext context, uint timestamp) {
             // debug("DndBehaviour-on_drag_leave");
             drop_data_ready = false;
+            this.view.on_drag_leave ();
         }
 
         private bool on_drag_motion (Gdk.DragContext context,
             int                                      x,
             int                                      y,
             uint                                     timestamp) {
+
+            this.view.on_drag_motion ();
+
             // debug("DndBehaviour-on_drag_motion");
             /* if we don't have drop data already ... */
             if (!drop_data_ready && !get_drop_data (context, x, y, timestamp))

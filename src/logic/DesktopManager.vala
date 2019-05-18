@@ -113,17 +113,82 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
         }
 
         Gdk.Rectangle boundingbox = DesktopFolder.Util.get_desktop_bounding_box ();
-        debug ("bounding box result: %d,%d -- %d,%d", boundingbox.x, boundingbox.y, boundingbox.width, boundingbox.height);
+        // debug ("bounding box result: %d,%d -- %d,%d", boundingbox.x, boundingbox.y, boundingbox.width, boundingbox.height);
 
-        this.get_view ().move (0, 0); // (-12, -10);
-        int w = boundingbox.width; // deprecated -> screen.get_width (); // + 25;
-        int h = boundingbox.height; // deprecated -> screen.get_height (); // + 25;
+        int[] borders = this.get_dock_borders ();
+
+        this.get_view ().move (borders[0], borders[2]); // (-12, -10);
+        int w = boundingbox.width - borders[0]; // deprecated -> screen.get_width (); // + 25;
+        int h = boundingbox.height - borders[2]; // deprecated -> screen.get_height (); // + 25;
         this.get_view ().resize (w, h);
         this.get_view ().set_default_size (w, h);
         this.get_view ().height_request = h;
         this.get_view ().width_request  = w;
 
-        debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", -12, -10, w, h);
+        debug ("DESKTOP SIZE CHANGED! (%d,%d) (%d,%d)", 0, 0, w, h);
+    }
+
+    /**
+     * @name get_dock_borders
+     * @description return an array with the space needed for system docks, i.e. plank
+     * @return {int[]} the array with space needed [left, right, top, bottom]
+     */
+    public int[] get_dock_borders () {
+        unowned Wnck.Screen screen = Wnck.Screen.get_default ();
+        while (Gtk.events_pending ()) {
+            Gtk.main_iteration ();
+        }
+        unowned List <Wnck.Window> windows = screen.get_windows ();
+        Gee.List <Wnck.Window>     docks   = new Gee.ArrayList <Wnck.Window>();
+        int[] borders = new int[4];
+        foreach (Wnck.Window w in windows) {
+            Wnck.Application window_app = w.get_application ();
+            string           app_name   = window_app.get_name ();
+            if (w.get_window_type () == Wnck.WindowType.DOCK && app_name.index_of ("desktopfolder") < 0) {
+                var name = w.get_name ();
+                debug ("Dock window found: %s", name);
+                docks.add (w);
+                string[] strut = this.get_strut (w.get_xid ());
+                if (strut != null) {
+                    // we get the greatest border
+                    for (int i = 0; i < 4; i++) {
+                        int istrut = int.parse (strut[i]);
+                        if (borders[i] < istrut) {
+                            borders[i] = istrut;
+                        }
+                    }
+                }
+            }
+        }
+
+        return borders;
+    }
+
+    /**
+     * @name ge_strut
+     * @description get the strut- values from xprop, on dock type windows.
+     * This function is inspired in the function for Ubuntu Budgie Window Shuffler
+     * It is based on the xprop command, check it by using: xprop -id {xid of the window}
+     * https://github.com/UbuntuBudgie/window-shuffler/blob/c2df9934fd823f50a2409effccd8349654bf7b5e/shuffler_geo.py#L62
+     * @param {ulong} xid the x id of the window
+     * @return {string[]} the strut info (or null). An array of 4 positions [left,right,top,bottom]
+     */
+    private string[] ? get_strut (ulong xid) {
+        // get the strut- values from xprop, on dock type windows. Since Plank is
+        // an exception, the function indicates if the dock is a plank instance.
+        string       output;
+        string       cmd            = "xprop -id %d".printf ((int) xid);
+        const string STRUT_CARDINAL = "_NET_WM_STRUT(CARDINAL) = ";
+        GLib.Process.spawn_command_line_sync (cmd, out output);
+        string[] all_lines          = output.split ("\n");
+        foreach (string l in all_lines) {
+            // debug("XPROP:    %s",l);
+            if (l.index_of (STRUT_CARDINAL, 0) >= 0) {
+                return l.split ("=")[1].split (",");
+            }
+        }
+
+        return null;
     }
 
     /**

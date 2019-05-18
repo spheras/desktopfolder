@@ -46,6 +46,8 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
     private Gtk.Image icon             = null;
     /** flag to know whether the drag drop event was started */
     private bool flag_dragdrop_started = false;
+    /** the last drag_context used to allow canceling it */
+    private Gdk.DragContext drag_context;
 
 
     /** set of variables to allow move the widget */
@@ -123,6 +125,13 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     this.check_ellipse ();
                 }
             });
+
+            label.on_start_editing.connect (() => {
+                this.manager.get_folder ().get_view ().on_start_editing ();
+            });
+            label.on_stop_editing.connect (() => {
+                this.manager.get_folder ().get_view ().on_end_editing ();
+            });
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
@@ -153,9 +162,20 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @name refresh_icon
      * @description force to refresh the icon imagen shown
      */
-    public void refresh_icon () {
+    public void refresh_icon (string ? forced = null) {
         try {
-            Gtk.Image newImage = this.calculate_icon ();
+            Gtk.Image newImage;
+
+            if (forced == null) {
+                newImage = this.calculate_icon ();
+            } else {
+                GLib.Icon gicon = GLib.Icon.new_for_string ("folder-open");
+                if (this.manager.is_link ()) {
+                    newImage = this.draw_link_mark_gicon (gicon);
+                } else {
+                    newImage = new Gtk.Image.from_gicon (gicon, Gtk.IconSize.DIALOG);
+                }
+            }
 
             if (this.icon != null) {
                 this.container.remove (this.icon);
@@ -170,6 +190,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             stderr.printf ("Error: %s\n", e.message);
             Util.show_error_dialog ("Error", e.message);
         }
+    }
+
+    /**
+     * @name force_opened_folder_icon
+     * @description put the folder-open icon over the item
+     */
+    public void force_opened_folder_icon () {
+        this.refresh_icon ("folder-open");
     }
 
     /**
@@ -409,7 +437,38 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         if (single_click && !this.flagModified) {
             get_window ().set_cursor (new Gdk.Cursor.from_name (Gdk.Display.get_default (), "pointer"));
         }
+
         return true;
+    }
+
+    /**
+     * @name cancel_movement_and_start_drag_action
+     * @description cancel the current icon movement and start a drag action instead
+     */
+    private void cancel_movement_and_start_drag_action (Gdk.Event event) {
+        this.flagModified = false;
+
+        this.drag_context = Gtk.drag_begin_with_coordinates (this,
+                new Gtk.TargetList (DesktopFolder.DragnDrop.drag_targets),
+                DesktopFolder.DragnDrop.file_drag_actions,
+                Gdk.BUTTON_PRIMARY,
+                event, -1, -1);
+        this.flag_dragdrop_started = true;
+
+        // restoring the icon position
+        // debug("restoring to: %d,%d",manager.get_settings ().x,manager.get_settings ().y);
+        // now, moving the rest of selected items to replicate the main movement
+        Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
+        for (int i = 0; i < selecteds.size; i++) {
+            ItemView selected = selecteds.@get (i);
+            UtilGtkAnimation.animate_move (selected, selected.start_drag_point, 500, UtilFx.AnimationMode.EASE_OUT_BACK);
+            var settings      = selected.manager.get_settings ();
+            settings.x = selected.start_drag_point.x;
+            settings.y = selected.start_drag_point.y;
+            selected.manager.save_settings (settings);
+            selected.manager.get_folder ().get_view ().on_item_moving (false);
+
+        }
     }
 
     /**
@@ -419,14 +478,42 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @return bool @see the on_leave signal
      */
     public bool on_leave (Gdk.EventCrossing ? eventCrossing) {
+        // debug ("detail: %d", eventCrossing.detail);
         // we remove the highlight class
         this.get_style_context ().remove_class ("df_item_over");
 
-        if (this.flagModified) {
+
+        if (this.flagMoved) {
+            if (this.manager.get_folder ().get_view () is DesktopWindow && eventCrossing.y < 0) {
+                return true;
+            }
+            // if the item is outside the current windows, we cancel the movement, and start dragging
+            Gtk.Allocation allocation;
+            this.get_allocation (out allocation);
+            FolderWindow window = this.manager.get_folder ().get_view ();
+            int          window_width;
+            int          window_height;
+            window.get_size (out window_width, out window_height);
+            if (eventCrossing.detail == Gdk.NotifyType.NONLINEAR ||
+                eventCrossing.detail == Gdk.NotifyType.NONLINEAR_VIRTUAL ||
+                (
+                    !(this.manager.get_folder ().get_view () is DesktopWindow)
+                    &&
+                    (
+                        allocation.x < 0 ||
+                        allocation.y < 0 ||
+                        allocation.x > window_width - DesktopFolder.ICON_DEFAULT_WIDTH ||
+                        allocation.y > window_height - DesktopFolder.ICON_DEFAULT_WIDTH
+                    )
+                )
+            ) {
+                this.cancel_movement_and_start_drag_action (eventCrossing);
+
+            }
+        } else if (this.flagModified) {
             this.manager.save_current_position ();
             this.flagModified = false;
         }
-        // debug("leave item");
         return true;
     }
 
@@ -454,12 +541,17 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
      * @name select
      * @description the user select the icon
      */
-    public void select () {
+    public void select_only () {
         Gtk.Window window = (Gtk.Window) this.get_toplevel ();
         ((FolderWindow) window).unselect_all ();
-        this.manager.select ();
+        this.manager.select_only ();
         this.get_style_context ().add_class ("df_selected");
 
+    }
+
+    public void select_add () {
+        this.manager.select_add ();
+        this.get_style_context ().add_class ("df_selected");
     }
 
     /**
@@ -539,6 +631,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 on_double_click ();
             }
         } else {
+            this.flagMoved = false;
             Gtk.Allocation allocation;
             this.get_allocation (out allocation);
             // debug("release(%d,%d)",allocation.x,allocation.y);
@@ -559,12 +652,41 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             Gtk.Window window = (Gtk.Window) this.get_toplevel ();
             ((FolderWindow) window).move_item (this, x, y);
 
+            int diff_x = allocation.x - x;
+            int diff_y = allocation.y - y;
+
+
             // notifying to the arrangement
             this.manager.get_folder ().get_arrangement ().end_drag ();
             ItemSettings my_settings = this.manager.get_settings ();
             my_settings.x = x;
             my_settings.y = y;
             this.manager.save_settings (my_settings);
+
+            // now, moving the rest of selected items to replicate the main movement
+            Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
+            for (int i = 0; i < selecteds.size; i++) {
+                ItemView selected = selecteds.@get (i);
+                if (selected != this) {
+                    Gtk.Allocation allocation_selected;
+                    selected.get_allocation (out allocation_selected);
+                    int sel_x = allocation_selected.x - diff_x;
+                    int sel_y = allocation_selected.y - diff_y;
+                    ((FolderWindow) window).move_item (selected, sel_x, sel_y);
+
+                    // we simulate a drag to move the conflict items in that position of the grid
+                    this.manager.get_folder ().get_arrangement ().start_drag (selected);
+                    this.manager.get_folder ().get_arrangement ().motion_drag (sel_x + PADDING_X, sel_y);
+                    this.manager.get_folder ().get_arrangement ().end_drag ();
+
+                    ItemSettings sel_settings = selected.manager.get_settings ();
+                    sel_settings.x = sel_x;
+                    sel_settings.y = sel_y;
+                    selected.manager.save_settings (sel_settings);
+
+                }
+            }
+
         }
 
         return false;
@@ -596,6 +718,9 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.flag_dragdrop_started = false;
     }
 
+    /** start drag point to restore if the drag was cancelled */
+    private Gdk.Point start_drag_point = Gdk.Point ();
+
     /**
      * @name on_press
      * @description the mouse press event captured
@@ -611,28 +736,57 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         // this code is to allow the drag'ndrop of files inside the folder window
         var  mods            = event.state & Gtk.accelerator_get_default_mod_mask ();
         bool control_pressed = ((mods & Gdk.ModifierType.CONTROL_MASK) != 0);
+        bool shift_pressed   = ((mods & Gdk.ModifierType.SHIFT_MASK) != 0);
         bool can_drag        = this.manager.get_folder ().get_arrangement ().can_drag ();
         bool locked          = this.manager.get_folder ().are_items_locked ();
 
-        if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY && (control_pressed || !can_drag || locked)) {
-            this.select ();
+        if (event.type == Gdk.EventType.BUTTON_PRESS &&
+            event.button == Gdk.BUTTON_PRIMARY &&
+            (control_pressed || !can_drag || locked) &&
+            this.is_selected ()) {
             this.flag_dragdrop_started = true;
             return false;
         }
 
+        if (event.type == Gdk.EventType.BUTTON_PRESS &&
+            event.button == Gdk.BUTTON_PRIMARY &&
+            (control_pressed || shift_pressed)) {
+
+            if (!this.is_selected ()) {
+                this.select_add ();
+            } else {
+                this.unselect ();
+            }
+            return false;
+        }
+
+
+
         if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_PRIMARY) {
             // first we must select the item
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             this.flagMoved = false;
 
-            if (!this.manager.get_folder ().are_items_locked () && this.manager.get_folder ().get_arrangement ().can_drag ()) {
+            if (!this.manager.get_folder ().are_items_locked () &&
+                this.manager.get_folder ().get_arrangement ().can_drag ()) {
+                Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
+                for (int i = 0; i < selecteds.size; i++) {
+                    ItemView selected = selecteds.@get (i);
+                    selected.start_drag_point.x = selected.manager.get_settings ().x;
+                    selected.start_drag_point.y = selected.manager.get_settings ().y;
+
+                }
+
                 Gtk.Widget p = this.parent;
                 // offset == distance of parent widget from edge of screen ...
                 p.get_window ().get_position (out this.offsetx, out this.offsety);
-                // debug("offset:%i,%i",this.offsetx,this.offsety);
+                // debug ("offset_1: %i,%i", this.offsetx, this.offsety);
                 // plus distance from pointer to edge of widget
                 this.offsetx += (int) event.x + PADDING_X + PADDING_X;
                 this.offsety += (int) event.y + PADDING_Y;
+                // debug ("offset_2: %i,%i", this.offsetx, this.offsety);
 
                 // if it was grabed the title_label, the event position (y) need to be recalculated
                 if (event.window == this.label.title_label.get_window ()) {
@@ -640,6 +794,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                     int my_y = 0;
                     this.translate_coordinates (this.label.title_label, (int) event.x, (int) event.y, out my_x, out my_y);
                     this.offsety -= my_y;
+                    // debug ("offset_3 %i,%i", this.offsetx, this.offsety);
                 }
 
                 // creating a map of the current grid structure
@@ -654,12 +809,19 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.get_allocation (out thisAllocation);
                 this.maxx = RoundDownToMultiple (pAllocation.width - thisAllocation.width, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
                 this.maxy = RoundDownToMultiple (pAllocation.height - thisAllocation.height, this.manager.get_folder ().get_arrangement ().get_sensitivity ());
+            } else {
+                // we must ensure the event is not processed by the folder window parent to avoid unselections
+                return true;
             }
         } else if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             on_double_click ();
         } else if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == Gdk.BUTTON_SECONDARY) {
-            this.select ();
+            if (!this.is_selected ()) {
+                this.select_only ();
+            }
             this.show_popup (event);
         }
 
@@ -739,7 +901,7 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         menu.append (item);
 
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_TRASH);
-        item.activate.connect ((item) => { this.manager.trash (); });
+        item.activate.connect ((item) => { this.manager.trash_selected (); });
         item.show ();
         menu.append (item);
 
@@ -885,6 +1047,14 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
         this.flagModified = true;
     }
 
+    public Gdk.Rectangle get_bounding_box () {
+        Gtk.Allocation allocation;
+        this.get_allocation (out allocation);
+        allocation.y = allocation.y + PADDING_Y; // damn magic numbers!
+        allocation.x = allocation.x + PADDING_X; // damn magic numbers!
+        return allocation;
+    }
+
     /**
      * @name on_motion
      * @description the on_motion event captured to allow the movement of the icon
@@ -922,12 +1092,36 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
             int x = (int) event.x_root - this.offsetx;
             int y = (int) event.y_root - this.offsety;
 
+
+            // debug("motion: %d,%d",(int) event.x_root,(int) event.y_root);
+            // debug("offset_motion: %d,%d",this.offsetx,this.offsety);
+
+
             // removing parent absolute position due to scroll
             // if (!(this.manager.get_folder ().get_view () is DesktopWindow)) {
             FolderSettings folder_settings = this.manager.get_folder ().get_settings ();
             x = x - folder_settings.x + DesktopFolder.WINDOW_DECORATION_MARGIN;
             y = y - folder_settings.y + DesktopFolder.WINDOW_DECORATION_MARGIN;
             // }
+
+
+            Gdk.Rectangle icon_rectangle = Gdk.Rectangle ();
+            int           qwidth         = DesktopFolder.ICON_DEFAULT_WIDTH / 2;
+            icon_rectangle.x      = x + qwidth;
+            icon_rectangle.y      = y + qwidth;
+            icon_rectangle.width  = DesktopFolder.ICON_DEFAULT_WIDTH - qwidth;
+            icon_rectangle.height = DesktopFolder.ICON_DEFAULT_WIDTH - qwidth;
+            Gee.List <ItemManager> ims = this.manager.get_folder ().get_items_at (icon_rectangle);
+            for (int i = 0; i < ims.size; i++) {
+                ItemManager im = ims.@get (i);
+                // if(im!=null){
+                // debug("im is folder? %s",(im.is_folder()?"true":"false"));
+                // }
+                if (im != null && im != this.manager && im.is_folder () && !im.is_selected ()) {
+                    this.cancel_movement_and_start_drag_action (event);
+                    break;
+                }
+            }
 
             // debug("-------------");
             // debug ("offset(%d,%d)", this.offsetx, this.offsety);
@@ -944,12 +1138,30 @@ public class DesktopFolder.ItemView : Gtk.EventBox {
                 this.px = x;
                 this.py = y;
 
+                Gtk.Allocation allocation0;
+                this.get_allocation (out allocation0);
                 FolderWindow window = this.manager.get_folder ().get_view ();
                 window.move_item (this, x + PADDING_X, y);
+                int diff_x          = allocation0.x - (x + PADDING_X);
+                int diff_y          = allocation0.y - y;
+
+                // now, moving the rest of selected items to replicate the main movement
+                Gee.List <ItemView> selecteds = this.manager.get_folder ().get_selected_items ();
+                for (int i = 0; i < selecteds.size; i++) {
+                    ItemView selected = selecteds.@get (i);
+                    if (selected != this) {
+                        Gtk.Allocation allocation;
+                        selected.get_allocation (out allocation);
+                        window.move_item (selected, allocation.x - diff_x, allocation.y - diff_y);
+                    }
+                }
+
+                // debug("moving to: %d,%d",x+PADDING_X,y);
 
                 // notifying to the arrangement
                 this.manager.get_folder ().get_arrangement ().motion_drag (x + PADDING_X, y);
             }
+
             return true;
         } else {
             return false;

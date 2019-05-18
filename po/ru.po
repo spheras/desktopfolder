@@ -5,15 +5,16 @@
 # 
 # Translators:
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
+# Camellan <camellan@yandex.ru>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
+"Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-30 23:31+0000\n"
+"POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: David Mohammed <fossfreedom@ubuntu.com>, 2018\n"
+"Last-Translator: Camellan <camellan@yandex.ru>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/ubuntu-budgie/teams/72251/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
+#: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
 msgstr "Панель"
 
@@ -37,8 +38,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Вернёт к жизни ваш минималистский Рабочий стол \n"
-"Позволит организовать файлы на Рабочем столе при помощи панелей."
+"Вернёт к жизни ваш упрощённый рабочий стол \n"
+"Позволит организовать файлы на рабочем столе при помощи панелей."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
@@ -58,7 +59,7 @@ msgstr "_Выбрать"
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "В буфере обмена отсутствуют элементы для вставки"
+msgstr "Буфер обмена пуст"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
@@ -108,22 +109,22 @@ msgstr "Панель ссылок"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr ""
+msgstr "Заблокировать значки:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr ""
+msgstr "Заблокировать панели:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr ""
+msgstr "Текст с тенью:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Жирный шрифт:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -153,12 +154,12 @@ msgstr "Вставить"
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr ""
+msgstr "без названия"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr ""
+msgstr "новый файл"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
@@ -208,7 +209,7 @@ msgstr "Открыть"
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "Открыть в другой программе..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
@@ -307,7 +308,7 @@ msgstr "Удалить"
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Фотографию"
+msgstr "Фото"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
@@ -322,7 +323,7 @@ msgstr "Создать"
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr ""
+msgstr "Эта панель"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
@@ -337,7 +338,7 @@ msgstr "Поведение"
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr ""
+msgstr "Внешний вид"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
@@ -347,22 +348,22 @@ msgstr "Закрыть"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr ""
+msgstr "Значки на рабочем столе:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr ""
+msgstr "Включить рабочий стол:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr ""
+msgstr "Данное изменение потребует от вас повторного входа в систему"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr ""
+msgstr "При изменении разрешения:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -370,21 +371,23 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
+"Это значит, что панели, заметки и фотографии будут изменять размер при "
+"изменении разрешения экрана"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr ""
+msgstr "Ничего не делать"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr ""
+msgstr "Масштабировать"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "Сохранять позиции"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -394,170 +397,222 @@ msgstr "Изменить обои"
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Открыть терминал"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr ""
+msgstr "Открыть в терминале"
 
 #. file properties window - file name
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr ""
+msgstr "Расположение"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr ""
+msgstr "Цель"
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr ""
+msgstr "элементы"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr ""
+msgstr "Содержимое"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr ""
+msgstr "Общий размер"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr ""
+msgstr "Размер файла"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr ""
+msgstr "Разрешить выполнение"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr ""
+msgstr "Использовался"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr ""
+msgstr "Изменен"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr ""
+msgstr "Размещение иконок:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr ""
+msgstr "Свободно"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr ""
+msgstr "Сетка"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr ""
+msgstr "Управляет приложение"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr ""
+msgstr "Значок"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Расположение иконок по умолчанию:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr ""
+msgstr "Интервал между значками:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr ""
+msgstr "Интервал между значками по умолчанию:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr ""
+msgstr "Сортировать"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr ""
+msgstr "В обратном порядке"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr ""
+msgstr "Упорядочить значки"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr ""
+msgstr "Без названия"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr ""
+msgstr "Ссылка на  $FILE_NAME"
 
+#. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr ""
+msgstr "Показать рабочий стол"
 
-#: src/LanguageText.vala:230
+#. Menu option to hide the desktop
+#: src/LanguageText.vala:231
 msgid "Hide Desktop"
-msgstr ""
+msgstr "Скрыть рабочий стол"
+
+#. Menu option to sort the items vertically
+#: src/LanguageText.vala:233
+msgid "Sort Vertically"
+msgstr "Сортировать по вертикали"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr ""
+msgstr "Невозможно создать \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr ""
+msgstr " уже существует."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr ""
+msgstr "Неверное имя."
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:7
+#: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
+msgstr "Desktop Folder"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:8
+msgid "Bring your desktop back to life"
 msgstr ""
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:2
-msgid "Organize your desktop with panels, notes and photos"
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:11
+msgid "Organize your desktop with panels that hold your things."
 msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:13
+msgid "Access files, folders and apps from your desktop"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:14
+msgid "Drop files, folders, links and .desktop launchers inside panels"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:15
+msgid "Resize, position and color panels"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:16
+msgid "Display photos and keep notes on your desktop"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:17
+msgid "Reveal the desktop with ⌘-D"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:19
+msgid ""
+"Open it like any other app after installing. Desktop Folder will launch "
+"automatically when you next log in."
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:26
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:30
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:34
+msgid "Overall desktop view"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:38
+msgid "DesktopFolder Developers"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.desktop.in:4
+msgid "Organize your desktop with panels, notes and photos"
+msgstr "Обустройте ваш рабочий стол при помощи панелей, заметок и фотографий"

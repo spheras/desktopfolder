@@ -242,6 +242,10 @@ public class DesktopFolder.FolderGrid <T> {
             int row           = (int) (y / (DesktopFolder.ICON_DEFAULT_WIDTH + padding));
             int col           = (int) (x / (DesktopFolder.ICON_DEFAULT_WIDTH + padding));
 
+            if (col >= total_cols) {
+                col = total_cols - 1;
+            }
+
             if (row < 0) {
                 row = 0;
             }

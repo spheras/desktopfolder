@@ -45,6 +45,26 @@
     </custom>
 
     <releases>
+      <release version="1.1.0" date="2019-02-16">
+        <description>
+          <p>1.1.0 release.</p>
+          <ul>
+              <li>Free, Grid and Automatic arrangements</li>
+              <li>Drag &amp; Drop without Ctrl Key and autodetection</li>
+              <li>Transifex translations integration, new translations added</li>
+              <li>File Synchronization Threads</li>
+              <li>Animations Fx</li>
+              <li>Hide/Show Desktop Panel and Icons</li>
+              <li>Vertical/Horizontal Icons Arrangement</li>
+              <li>Folder Panels with Scrollbars</li>
+              <li>Folder/File Info Dialog</li>
+              <li>Other minor functionality added</li>
+              <li>Minor bugfixing</li>
+          </ul>
+        </description>
+      </release>
+
+
       <release version="1.0.10" date="2018-11-07">
         <description>
           <p>1.0.10 release.</p>

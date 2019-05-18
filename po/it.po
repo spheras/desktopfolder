@@ -6,15 +6,16 @@
 # Translators:
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Nicola Gentile <nikkognt@gmail.com>, 2018
+# Giuseppe Pignataro <rogepix@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
+"Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-30 23:31+0000\n"
+"POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Nicola Gentile <nikkognt@gmail.com>, 2018\n"
+"Last-Translator: Giuseppe Pignataro <rogepix@gmail.com>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/ubuntu-budgie/teams/72251/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
+#: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
 msgstr "Pannello"
 
@@ -536,13 +537,20 @@ msgstr "Pannello senza titolo"
 msgid "Link to $FILE_NAME"
 msgstr "Link a $FILE_NAME"
 
+#. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
 msgstr "Mostra Desktop"
 
-#: src/LanguageText.vala:230
+#. Menu option to hide the desktop
+#: src/LanguageText.vala:231
 msgid "Hide Desktop"
 msgstr "Nascondi Desktop"
+
+#. Menu option to sort the items vertically
+#: src/LanguageText.vala:233
+msgid "Sort Vertically"
+msgstr "Ordina verticalmente"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
@@ -557,10 +565,58 @@ msgstr "esiste già."
 msgid "Name is invalid."
 msgstr "Il nome è invalido."
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:7
+#: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
 msgstr "Cartella Desktop"
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:2
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:8
+msgid "Bring your desktop back to life"
+msgstr "Riporta in vita il tuo desktop"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:11
+msgid "Organize your desktop with panels that hold your things."
+msgstr "Organizza il tuo desktop con pannelli che contengono le tue cose."
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:13
+msgid "Access files, folders and apps from your desktop"
+msgstr "Accedi a file, cartelle e app dal tuo desktop"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:14
+msgid "Drop files, folders, links and .desktop launchers inside panels"
+msgstr ""
+"Rilascia file, cartelle, link e launcher .desktop all'interno dei panelli"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:15
+msgid "Resize, position and color panels"
+msgstr "Ridimensiona, posiziona e colora i panelli"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:16
+msgid "Display photos and keep notes on your desktop"
+msgstr "Visualizza foto e prendi note sul tuo desktop"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:17
+msgid "Reveal the desktop with ⌘-D"
+msgstr "Mostra il desktop con ⌘-D"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:19
+msgid ""
+"Open it like any other app after installing. Desktop Folder will launch "
+"automatically when you next log in."
+msgstr ""
+"Aprilo come qualsiasi altra app dopo l'installazione. La cartella desktop "
+"verrà avviata automaticamente al tuo prossimo login."
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:26
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:30
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:34
+msgid "Overall desktop view"
+msgstr "Visualizzazione desktop generale"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:38
+msgid "DesktopFolder Developers"
+msgstr "Sviluppatori DesktopFolder"
+
+#: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
 msgstr "Organizza il tuo desktop con pannelli, note e foto"

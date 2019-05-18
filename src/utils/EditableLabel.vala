@@ -186,6 +186,7 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
                 this.undo_changes ();
             }
         } else if (key == ESCAPE_KEY) {
+            // debug("undo changes");
             this.undo_changes ();
             this.stop_editing ();
         } else {
@@ -199,9 +200,10 @@ public class DesktopFolder.EditableLabel : Gtk.EventBox {
      * Updates Entry width to fit its content
      */
     private void update_entry_width () {
-        int width, height;
+        int       width, height;
+        const int margin = 10;
         title_entry.get_layout ().get_size (out width, out height);
-        width = (width / Pango.SCALE) + 5;
+        width = (width / Pango.SCALE) + margin;
 
         Gtk.Allocation label_allocation;
         title_label.get_allocation (out label_allocation);

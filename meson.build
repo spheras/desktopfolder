@@ -1,5 +1,5 @@
 project('com.github.spheras.desktopfolder', ['vala', 'c'],
-    version: '1.0.10'
+    version: '1.1.0'
 )
 
 gnome = import('gnome')

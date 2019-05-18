@@ -219,10 +219,10 @@ namespace DesktopFolder.Util {
         File file                       = File.new_for_path (folder_name + "/.desktopfolder");
         DesktopFolder.FolderSettings fs = new DesktopFolder.FolderSettings (name);
 
-        fs.x                      = x;
-        fs.y                      = y;
-        fs.edit_label_on_creation = true;
-        fs.arrangement_type       = get_default_arrangement_setting ();
+        fs.x                = x;
+        fs.y                = y;
+        fs.recently_created = true;
+        fs.arrangement_type = get_default_arrangement_setting ();
 
         fs.save_to_file (file);
     }
@@ -348,7 +348,7 @@ namespace DesktopFolder.Util {
         if (found) {
             default_arrangement = (int) settings.get_enum ("default-arrangement");
         }
-        debug ("default_arrangement: %d", default_arrangement);
+        // debug ("default_arrangement: %d", default_arrangement);
         return default_arrangement;
     }
 

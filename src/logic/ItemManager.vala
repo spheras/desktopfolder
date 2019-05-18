@@ -53,7 +53,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         this.folder        = folder;
         this.selected      = false;
         this.view          = new ItemView (this);
-        this.dnd_behaviour = new DragnDrop.DndBehaviour (this, true, false);
+        this.dnd_behaviour = new DragnDrop.DndBehaviour (this, true, this.is_folder ());
     }
 
     /**
@@ -151,9 +151,18 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @name select
      * @description the item is selected
      */
-    public void select () {
+    public void select_only () {
         this.selected = true;
         this.get_folder ().set_selected_item (this.view);
+    }
+
+    /**
+     * @name select_add
+     * @desription add this istem as selected
+     */
+    public void select_add () {
+        this.selected = true;
+        this.get_folder ().add_selected_item (this.view);
     }
 
     /**
@@ -162,7 +171,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void unselect () {
         this.selected = false;
-        this.get_folder ().set_selected_item (null);
+        this.get_folder ().remove_selected_item (this.view);
     }
 
     /**
@@ -268,6 +277,23 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name is_openable_contenttype
+     * @description check whether the item file can be executable or not (if not, could be opened instead)
+     */
+    public bool is_openable_contenttype () {
+        bool   uncertain    = false;
+        string content_type = GLib.ContentType.guess (this.file_name, null, out uncertain);
+        bool   executable   = GLib.ContentType.can_be_executable (content_type);
+        debug ("content_type: %s   --  %s", content_type, (executable ? "true" : "false"));
+        if (executable) {
+            return this.is_executable ();
+        } else if (content_type == "application/octet-stream") {
+            return this.is_executable ();
+        }
+        return false;
+    }
+
+    /**
      * @name open_in_terminal
      * @description open the folder item in a terminal (it is only called by folder items, see popup)
      * @param string path the path of the folder to open
@@ -292,7 +318,7 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
             if (this.is_desktop_file ()) {
                 GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.get_absolute_path ());
                 desktopApp.launch_uris (null, null);
-            } else if (this.is_executable ()) {
+            } else if (this.is_openable_contenttype ()) {
                 var command = "\"" + this.get_absolute_path () + "\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.NONE);
                 appinfo.launch_uris (null, null);
@@ -392,7 +418,10 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     public void cut () {
         Clipboard.ClipboardManager     cm    = Clipboard.ClipboardManager.get_for_display ();
         List <Clipboard.ClipboardFile> items = new List <Clipboard.ClipboardFile> ();
-        items.append (this);
+        Gee.List <ItemView> selecteds        = this.folder.get_selected_items ();
+        for (int i = 0; i < selecteds.size; i++) {
+            items.append (selecteds.@get (i).get_manager ());
+        }
         cm.cut_files (items);
     }
 
@@ -403,7 +432,10 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     public void copy () {
         Clipboard.ClipboardManager     cm    = Clipboard.ClipboardManager.get_for_display ();
         List <Clipboard.ClipboardFile> items = new List <Clipboard.ClipboardFile> ();
-        items.append (this);
+        Gee.List <ItemView> selecteds        = this.folder.get_selected_items ();
+        for (int i = 0; i < selecteds.size; i++) {
+            items.append (selecteds.@get (i).get_manager ());
+        }
         cm.copy_files (items);
     }
 
@@ -412,7 +444,12 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      * @description trash the file or folder associated
      */
     public void trash () {
+        if (this.folder.is_sync_running ()) {
+            return;
+        }
+
         try {
+            this.unselect ();
             if (this.is_folder ()) {
                 File file = File.new_for_path (this.get_absolute_path ());
                 file.trash ();
@@ -428,9 +465,34 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
         }
     }
 
+    /**
+     * @name trash_selected
+     * @descriptionsend to trash all the selected files
+     */
+    public void trash_selected () {
+        Gee.List <ItemView> selecteds = this.get_folder ().get_selected_items ();
+        ItemView[]          to_delete = selecteds.to_array ();
+        for (int i = 0; i < to_delete.length; i++) {
+            ItemView view = to_delete[i];
+            if (view != null) {
+                view.get_manager ().trash ();
+            }
+        }
+    }
+
     // ---------------------------------------------------------------------------------------
     // ---------------------------DndView Implementation--------------------------------------
     // ---------------------------------------------------------------------------------------
+
+    public void on_drag_motion () {
+        // we force the opened folder icon
+        this.view.force_opened_folder_icon ();
+    }
+
+    public void on_drag_leave () {
+        // restoring the normal icon
+        this.view.refresh_icon ();
+    }
 
     /**
      * @name get_widget
@@ -508,6 +570,21 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
      */
     public void on_drag_end () {
         this.view.on_drag_end ();
+    }
+
+    /**
+     * @overrided
+     */
+    public DragnDrop.DndView[] get_all_selected_views () {
+        Gee.List <ItemView> selected_views = this.get_folder ().get_selected_items ();
+        DragnDrop.DndView[] result         = new DragnDrop.DndView[selected_views.size];
+        for (int i = 0; i < selected_views.size; i++) {
+            ItemView view = selected_views.@get (i);
+            if (view != null) {
+                result[i] = (DragnDrop.DndView)selected_views.@get (i).get_manager ();
+            }
+        }
+        return result;
     }
 
     // ---------------------------------------------------------------------------------------

@@ -4,17 +4,17 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Moo, 2018
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
+# Moo, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: com.github.spheras.desktopfolder 1.0.10\n"
+"Project-Id-Version: com.github.spheras.desktopfolder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-30 23:31+0000\n"
+"POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: David Mohammed <fossfreedom@ubuntu.com>, 2018\n"
+"Last-Translator: Moo, 2019\n"
 "Language-Team: Lithuanian (https://www.transifex.com/ubuntu-budgie/teams/72251/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
-#: src/logic/FolderManager.vala:677 src/LanguageText.vala:46
+#: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
 msgstr "Skydelis"
 
@@ -109,22 +109,22 @@ msgstr "Susieti skydelį"
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr ""
+msgstr "Užrakinti piktogramas:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr ""
+msgstr "Užrakinti skydelį:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr ""
+msgstr "Teksto šešėlis:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Pusjuodis tekstas:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -154,12 +154,12 @@ msgstr "Įdėti"
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr ""
+msgstr "Aplankas be pavadinimo"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr ""
+msgstr "Naujas failas"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
@@ -209,7 +209,7 @@ msgstr "Atverti"
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "Atverti naudojant kitą programą..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
@@ -323,7 +323,7 @@ msgstr "Naujas"
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr ""
+msgstr "Šis skydelis"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
@@ -338,7 +338,7 @@ msgstr "Elgsena"
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr ""
+msgstr "Išvaizda"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
@@ -348,22 +348,22 @@ msgstr "Užverti"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr ""
+msgstr "Piktogramos darbalaukyje:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr ""
+msgstr "Įjungti darbalaukį:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr ""
+msgstr "Šis pakeitimas reikalauja, kad atsijungtumėte ir vėl prisijungtumėte"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr ""
+msgstr "Keičiant raišką:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -371,21 +371,23 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
+"Tai nurodo kaip bus keičiami skydelių, pastabų ir nuotraukų dydžiai, kai "
+"pakeisite ekrano raišką"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr ""
+msgstr "Nieko nedaryti"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr ""
+msgstr "Keisti mastelį į naują raišką"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "Kiekvienai raiškai saugoti atskirai"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -395,170 +397,228 @@ msgstr "Pakeisti darbalaukio foną"
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Atverti čia terminalą"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr ""
+msgstr "Atverti terminale"
 
 #. file properties window - file name
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr ""
+msgstr "Pavadinimas"
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr ""
+msgstr "Tipas"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr ""
+msgstr "Vieta"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr ""
+msgstr "Paskirtis"
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr ""
+msgstr "Nežinoma"
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr ""
+msgstr "elementų"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr ""
+msgstr "Turinys"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr ""
+msgstr "Bendras dydis"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr ""
+msgstr "Failo dydis"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr ""
+msgstr "Leisti vykdymą"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr ""
+msgstr "Naudota"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr ""
+msgstr "Modifikuota"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr ""
+msgstr "Piktogramų išdėstymas:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr ""
+msgstr "Laisvas"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr ""
+msgstr "Tinklelis"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr ""
+msgstr "Leisti tvarkyti programėlei"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr ""
+msgstr "Piktogramos"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Numatytasis piktogramų išdėstymas:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr ""
+msgstr "Tarpai tarp piktogramų:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr ""
+msgstr "Numatytieji tarpai tarp piktogramų:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr ""
+msgstr "Rikiuoti pagal"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr ""
+msgstr "Dydis"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr ""
+msgstr "Atvirkštinė tvarka"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr ""
+msgstr "Pertvarkyti piktogramas"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr ""
+msgstr "Skydelis be pavadinimo"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr ""
+msgstr "Nuoroda į $FILE_NAME"
 
+#. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr ""
+msgstr "Rodyti darbalaukį"
 
-#: src/LanguageText.vala:230
+#. Menu option to hide the desktop
+#: src/LanguageText.vala:231
 msgid "Hide Desktop"
-msgstr ""
+msgstr "Slėpti darbalaukį"
+
+#. Menu option to sort the items vertically
+#: src/LanguageText.vala:233
+msgid "Sort Vertically"
+msgstr "Rikiuoti vertikaliai"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr ""
+msgstr "Nepavyko sukurti \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr ""
+msgstr " jau yra."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr ""
+msgstr "Pavadinimas yra neteisingas."
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:1
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:7
+#: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
 msgstr "Darbalaukio aplankas"
 
-#: data/com.github.spheras.desktopfolder.desktop.in.h:2
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:8
+msgid "Bring your desktop back to life"
+msgstr "Prikelkite savo darbalaukį naujam gyvenimui"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:11
+msgid "Organize your desktop with panels that hold your things."
+msgstr ""
+"Tvarkykite savo darbalaukį naudodami skydelius, kuriuose yra laikomi jūsų "
+"daiktai."
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:13
+msgid "Access files, folders and apps from your desktop"
+msgstr ""
+"Gaukite prieigą prie failų, aplankų ir programų tiesiai iš darbalaukio"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:14
+msgid "Drop files, folders, links and .desktop launchers inside panels"
+msgstr ""
+"Vilkite failus, aplankus, nuorodas ir .desktop leistukus skydelių viduje"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:15
+msgid "Resize, position and color panels"
+msgstr "Keiskite skydelių dydį, vietą ir spalvą"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:16
+msgid "Display photos and keep notes on your desktop"
+msgstr "Rodykite nuotraukas ir saugokite pastabas savo darbalaukyje"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:17
+msgid "Reveal the desktop with ⌘-D"
+msgstr "Atskleiskite darbalaukį, naudodami ⌘-D"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:19
+msgid ""
+"Open it like any other app after installing. Desktop Folder will launch "
+"automatically when you next log in."
+msgstr ""
+"Įdiegę, paleiskite kaip ir bet kokią kitą programą. Kito prisijungimo metu "
+"darbalaukio aplankas pasileis automatiškai."
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:26
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:30
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:34
+msgid "Overall desktop view"
+msgstr "Bendras darbalaukio rodinys"
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:38
+msgid "DesktopFolder Developers"
+msgstr "DesktopFolder kūrėjai"
+
+#: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
 msgstr "Tvarkyti savo darbalaukį aplanko polangių pagalba"
