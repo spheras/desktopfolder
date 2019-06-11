@@ -6,7 +6,7 @@
 # Translators:
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Logan 8192 <wsses11000@gmail.com>, 2018
-# Adolfo Jayme Barrientos, 2018
+# Fito JB, 2018
 # Víctor Pont <victor@pont.cat>, 2018
 # 
 #, fuzzy
