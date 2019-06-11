@@ -431,6 +431,10 @@ window decoration{
     background:rgba(0,0,0,0);
 }
 
+.df_note.df_light .df_note_text text{
+  color:white;
+}
+
 .df_folder .df_note_text:selected{
     background-color:rgba(0,0,0,0.5);
 }
