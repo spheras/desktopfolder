@@ -376,7 +376,7 @@ msgstr ""
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr "Ne csinájlon semmit"
+msgstr "Ne csináljon semmit"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
@@ -533,7 +533,7 @@ msgstr "Névtelen Panel"
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "Linkelés $FILE_NAME -hez"
+msgstr "Linkelés ehhez: $FILE_NAME "
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
@@ -613,7 +613,7 @@ msgstr "Átfogó asztali nézet"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr "DesktopFolder fejlesztői"
+msgstr "A DesktopFolder fejlesztői"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
