@@ -9,5 +9,7 @@ Type=Application
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 X-GNOME-Autostart-phase=Running
+AutostartCondition=GSettings com.github.spheras.desktopfolder show-desktopfolder
+X-GNOME-AutoRestart=true
 StartupNotify=false
 Categories=GTK;Utility;
