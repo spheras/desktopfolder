@@ -43,7 +43,7 @@ msgstr ""
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_Continuar"
+msgstr "_Confirmar"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
