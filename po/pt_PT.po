@@ -29,7 +29,7 @@ msgstr "Painel"
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
 msgid "Note"
-msgstr "Anotação"
+msgstr "Nota"
 
 #. Application Description
 #: src/LanguageText.vala:20
@@ -178,7 +178,7 @@ msgstr "Propriedades"
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Nova anotação"
+msgstr "Nova Nota"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
