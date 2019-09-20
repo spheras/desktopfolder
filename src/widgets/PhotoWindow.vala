@@ -309,6 +309,8 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             } else {
                 this.flag_resizing = true;
             }
+        } else if (event.type == Gdk.EventType.DOUBLE_BUTTON_PRESS) {
+            this.manager.open ();
         }
 
         return false;
