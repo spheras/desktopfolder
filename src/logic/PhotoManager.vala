@@ -218,6 +218,21 @@ public class DesktopFolder.PhotoManager : Object {
     }
 
     /**
+     * @name open
+     * @description open the photo in the default viewer
+     */
+    public void open () {
+        try {
+            var command = "xdg-open \"" + get_settings ().photo_path + "\"";
+            var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
+            appinfo.launch_uris (null, null);
+        } catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+            Util.show_error_dialog ("Error", e.message);
+        }
+    }
+
+    /**
      * @name delete
      * @description delete the file associated
      */

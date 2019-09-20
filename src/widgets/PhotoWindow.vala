@@ -310,6 +310,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
                 this.flag_resizing = true;
             }
         }
+
         return false;
     }
 
@@ -357,7 +358,11 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             menu.append (new MenuItemSeparator ());
         }
 
-        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
+        Gtk.MenuItem item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.ITEM_MENU_OPEN);
+        item.activate.connect ((item) => { this.manager.open (); });
+        menu.append (item);
+
+        item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.PHOTO_MENU_DELETE_PHOTO);
         item.activate.connect ((item) => { this.manager.delete (); });
         menu.append (item);
 
