@@ -24,6 +24,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
     private string[] tags_colors;
     private string custom;
     private Gtk.Window window_parent;
+    private const int XPAD = 17;
 
     public MenuItemColor (string[] tags_colors, Gtk.Window window_parent, string ? custom) {
         this.window_parent = window_parent;
@@ -55,7 +56,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         int btnh = 10;
         int y0   = (height - btnh) / 2;
         int x0   = btnw + 5;
-        int xpad = 9;
+        int xpad = XPAD;
 
         if (event.y >= y0 && event.y <= y0 + btnh) {
             for (i = 1; i <= this.tags_colors.length + 1; i++) {
@@ -93,7 +94,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         int btnh = 10;
         int y0   = (height - btnh) / 2;
         int x0   = btnw + 5;
-        int xpad = 9;
+        int xpad = XPAD;
 
         for (i = 1; i <= this.tags_colors.length + 1; i++) {
             if (i == 1) {
