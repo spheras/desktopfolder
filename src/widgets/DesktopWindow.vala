@@ -253,16 +253,15 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             context_menu.append (new MenuItemSeparator ());
         }
         context_menu.append (desktop_item);
-        context_menu.append (new MenuItemSeparator ());
         context_menu.append (show_desktop_item);
-        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (openterminal_item);
         context_menu.append (properties_item);
+
         if (show_icon_options) {
             context_menu.append (new MenuItemSeparator ());
             context_menu.append (textcolor_item);
-            context_menu.append (new MenuItemSeparator ());
-            context_menu.append (openterminal_item);
         }
+        
         context_menu.show_all ();
         context_menu.popup_at_pointer (null);
     }
