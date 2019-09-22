@@ -795,7 +795,9 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         if (this.manager.get_arrangement ().can_organize ()) {
             context_menu.append (organize_item);
         }
-        // -------------------------
+        context_menu.append (new MenuItemSeparator ());
+        context_menu.append (openterminal_item);
+// -------------------------
 
         // context_menu.append (new MenuItemSeparator ());
         // context_menu.append (aligntogrid_item);
@@ -807,11 +809,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
         // context_menu.append (lockitems_item);
         // context_menu.append (textshadow_item);
         // context_menu.append (textbold_item);
-        context_menu.append (new MenuItemSeparator ());
         context_menu.append (textcolor_item);
         context_menu.append (backgroundcolor_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (openterminal_item);
 
 
         context_menu.show_all ();
