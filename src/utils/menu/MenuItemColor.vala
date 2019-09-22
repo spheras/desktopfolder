@@ -63,7 +63,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
                 if (event.x >= xpad + x0 * i && event.x <= xpad + x0 * i + btnw) {
                     if (i > this.tags_colors.length) {
                         Gtk.ColorSelectionDialog dialog = new Gtk.ColorSelectionDialog (DesktopFolder.Lang.MENU_COLOR_DIALOG_TITLE);
-                        dialog.set_transient_for (this.window_parent);
+                        dialog.set_transient_for ((Gtk.Window)this.get_toplevel());
                         dialog.get_color_selection ().set_has_opacity_control (true);
                         Gdk.RGBA _rgba = Gdk.RGBA ();
                         _rgba.parse (this.custom);
