@@ -61,9 +61,9 @@ namespace DesktopFolder.Lang {
     // desktopfolder menu - create a new empty Text File
     public const string DESKTOPFOLDER_MENU_NEW_EMPTY_FILE        = _("Empty File");
     // desktopfolder menu - rename a Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER = _("Rename Panel");
+    public const string DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER = _("Rename");
     // desktopfolder menu - remove a Desktop-Folder Pane
-    public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER = _("Move Panel to Trash");
+    public const string DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER = _("Move to Trash");
     // desktopfolder menu - past from clipboard to the desktop-folder
     public const string DESKTOPFOLDER_MENU_PASTE                 = _("Paste");
     // desktopfolder - The default name for the new folder to be created
@@ -83,7 +83,7 @@ namespace DesktopFolder.Lang {
     // Note - popup option to set allways on back or not
     public const string NOTE_MENU_ON_BACK          = _("Always on back");
     // Menu popup option to rename the note
-    public const string NOTE_MENU_RENAME_NOTE      = _("Rename Note");
+    public const string NOTE_MENU_RENAME_NOTE      = _("Rename");
     // Menu popup option to delete the note
     public const string NOTE_MENU_DELETE_NOTE      = _("Move to Trash");
     // Item Menu - Open the file
@@ -231,5 +231,6 @@ namespace DesktopFolder.Lang {
     public const string DESKTOPFOLDER_MENU_HIDE_DESKTOP  = _("Hide Desktop");
     // Menu option to sort the items vertically
     public const string DESKTOPFOLDER_MENU_SORT_VERTICAL = _("Sort Vertically");
-
+    // Menu color selection dialog
+    public const string MENU_COLOR_DIALOG_TITLE          = _("Select Your Favorite Color");
 }
