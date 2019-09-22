@@ -361,7 +361,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         item.activate.connect ((item) => { this.manager.delete (); });
         menu.append (item);
 
-        item = new MenuItemColor (FIXO_TAGS_COLORS, this, null);
+        item = new MenuItemColor (FIXO_TAGS_COLORS, null);
         ((MenuItemColor) item).color_changed.connect (change_fixo_color);
         menu.append (item);
 

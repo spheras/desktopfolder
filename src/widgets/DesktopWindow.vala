@@ -155,7 +155,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var organize_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_ORGANIZE);
         // ----------------------------
 
-        var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
+        var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
         if (show_icon_options) {

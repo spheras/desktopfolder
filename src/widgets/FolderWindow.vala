@@ -706,8 +706,8 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
 
         var trash_item           = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_REMOVE_DESKTOP_FOLDER);
         var rename_item          = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_RENAME_DESKTOP_FOLDER);
-        var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
-        var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
+        var textcolor_item       = new MenuItemColor (HEAD_TAGS_COLORS, null);
+        var backgroundcolor_item = new MenuItemColor (BODY_TAGS_COLORS, this.last_custom_color);
 
         // Events (please try and keep these in the same order as appended to the menu)
         newfolder_item.activate.connect (() => { this.new_folder ((int) event.x, (int) event.y); });

@@ -553,11 +553,11 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
 
         menu.append (new MenuItemSeparator ());
 
-        item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
+        item = new MenuItemColor (HEAD_TAGS_COLORS, null);
         ((MenuItemColor) item).color_changed.connect (change_head_color);
         menu.append (item);
 
-        item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
+        item = new MenuItemColor (BODY_TAGS_COLORS, this.last_custom_color);
         ((MenuItemColor) item).color_changed.connect (change_body_color);
         ((MenuItemColor) item).custom_changed.connect (change_body_color_custom);
         menu.append (item);

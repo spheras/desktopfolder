@@ -23,11 +23,9 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
 
     private string[] tags_colors;
     private string custom;
-    private Gtk.Window window_parent;
     private const int XPAD = 17;
 
-    public MenuItemColor (string[] tags_colors, Gtk.Window window_parent, string ? custom) {
-        this.window_parent = window_parent;
+    public MenuItemColor (string[] tags_colors, string ? custom) {
         this.tags_colors   = tags_colors;
         this.custom        = custom;
         set_size_request (160, 20);
