@@ -51,7 +51,7 @@ namespace DesktopFolder.UtilGtkAnimation  {
          * @param {double} duration the duration of the animation
          * @param {AnimateFn} animation_fn the animation function
          */
-        public WidgetAnimation (Gtk.Widget widget, double duration, AnimateFn animation_fn) {
+        protected WidgetAnimation (Gtk.Widget widget, double duration, AnimateFn animation_fn) {
             this._widget       = widget;
             this._animation_fn = animation_fn;
             this._duration     = duration;
