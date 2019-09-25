@@ -545,19 +545,15 @@ public class DesktopFolder.NoteWindow : Gtk.ApplicationWindow {
         item.activate.connect ((item) => { this.manager.trash (); });
         menu.append (item);
 
-        menu.append (new MenuItemSeparator ());
-
         item = new Gtk.MenuItem.with_label (DesktopFolder.Lang.NOTE_MENU_RENAME_NOTE);
         item.activate.connect (this.label.start_editing);
         menu.append (item);
 
-        menu.append (new MenuItemSeparator ());
-
-        item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
+        item = new MenuItemColor (HEAD_TAGS_COLORS, null);
         ((MenuItemColor) item).color_changed.connect (change_head_color);
         menu.append (item);
 
-        item = new MenuItemColor (BODY_TAGS_COLORS, this, this.last_custom_color);
+        item = new MenuItemColor (BODY_TAGS_COLORS, this.last_custom_color);
         ((MenuItemColor) item).color_changed.connect (change_body_color);
         ((MenuItemColor) item).custom_changed.connect (change_body_color_custom);
         menu.append (item);

@@ -23,10 +23,9 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
 
     private string[] tags_colors;
     private string custom;
-    private Gtk.Window window_parent;
+    private const int XPAD = 17;
 
-    public MenuItemColor (string[] tags_colors, Gtk.Window window_parent, string ? custom) {
-        this.window_parent = window_parent;
+    public MenuItemColor (string[] tags_colors, string ? custom) {
         this.tags_colors   = tags_colors;
         this.custom        = custom;
         set_size_request (160, 20);
@@ -55,14 +54,14 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         int btnh = 10;
         int y0   = (height - btnh) / 2;
         int x0   = btnw + 5;
-        int xpad = 9;
+        int xpad = XPAD;
 
         if (event.y >= y0 && event.y <= y0 + btnh) {
             for (i = 1; i <= this.tags_colors.length + 1; i++) {
                 if (event.x >= xpad + x0 * i && event.x <= xpad + x0 * i + btnw) {
                     if (i > this.tags_colors.length) {
-                        Gtk.ColorSelectionDialog dialog = new Gtk.ColorSelectionDialog ("Select Your Favorite Color");
-                        dialog.set_transient_for (this.window_parent);
+                        Gtk.ColorSelectionDialog dialog = new Gtk.ColorSelectionDialog (DesktopFolder.Lang.MENU_COLOR_DIALOG_TITLE);
+                        dialog.set_transient_for ((Gtk.Window)this.get_toplevel());
                         dialog.get_color_selection ().set_has_opacity_control (true);
                         Gdk.RGBA _rgba = Gdk.RGBA ();
                         _rgba.parse (this.custom);
@@ -93,7 +92,7 @@ private class DesktopFolder.MenuItemColor : Gtk.MenuItem {
         int btnh = 10;
         int y0   = (height - btnh) / 2;
         int x0   = btnw + 5;
-        int xpad = 9;
+        int xpad = XPAD;
 
         for (i = 1; i <= this.tags_colors.length + 1; i++) {
             if (i == 1) {

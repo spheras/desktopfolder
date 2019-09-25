@@ -155,7 +155,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
         var organize_item        = new Gtk.MenuItem.with_label (DesktopFolder.Lang.DESKTOPFOLDER_MENU_SORT_ORGANIZE);
         // ----------------------------
 
-        var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, this, null);
+        var textcolor_item = new MenuItemColor (HEAD_TAGS_COLORS, null);
 
         // Events (please try and keep these in the same order as appended to the menu)
         if (show_icon_options) {
@@ -253,16 +253,15 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             context_menu.append (new MenuItemSeparator ());
         }
         context_menu.append (desktop_item);
-        context_menu.append (new MenuItemSeparator ());
         context_menu.append (show_desktop_item);
-        context_menu.append (new MenuItemSeparator ());
-        context_menu.append (properties_item);
+        context_menu.append (openterminal_item);
+
         if (show_icon_options) {
             context_menu.append (new MenuItemSeparator ());
+            context_menu.append (properties_item);
             context_menu.append (textcolor_item);
-            context_menu.append (new MenuItemSeparator ());
-            context_menu.append (openterminal_item);
         }
+        
         context_menu.show_all ();
         context_menu.popup_at_pointer (null);
     }
