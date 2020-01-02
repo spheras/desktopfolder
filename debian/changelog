@@ -1,3 +1,18 @@
+com.github.spheras.desktopfolder (1.1.2) precise; urgency=low
+
+  * Reorganised Menu
+  * Double click on photos to open
+  * Translations Added and Updated
+  * Minor bugfixing
+
+ -- José Amuedo <joseamuedo@gmail.com>  Thu, 2 Jan 2020 02:28:00 +0100
+
+ com.github.spheras.desktopfolder (1.1.1) precise; urgency=low
+
+   * Exactly the same as 1.1.0
+
+  -- José Amuedo <joseamuedo@gmail.com>  Tue, 26 Feb 2019 02:28:00 +0100
+
 com.github.spheras.desktopfolder (1.1.0) precise; urgency=low
 
   * Free, Grid and Automatic arrangements
