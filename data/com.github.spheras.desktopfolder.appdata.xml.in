@@ -45,6 +45,18 @@
     </custom>
 
     <releases>
+      <release version="1.1.2" date="2020-01-02">
+        <description>
+          <p>1.1.2 release.</p>
+          <ul>
+            <li>Reorganised Menu</li>
+            <li>Double click on photos to open</li>
+            <li>Translations Added and Updated</li>
+            <li>Minor bugfixing</li>
+          </ul>
+        </description>
+      </release>
+
       <release version="1.1.0" date="2019-02-16">
         <description>
           <p>1.1.0 release.</p>
