@@ -323,14 +323,13 @@
     }
 
     private void on_workspace_change(Wnck.Workspace? previous) {
-        Timeout.add (200, () => {
-            this.hide_everything ();
+        Timeout.add (100, () => {
             this.desktop = null;
             return false;
         });
 
-        Timeout.add (500, () => { 
-            this.create_fake_desktop();
+        Timeout.add (200, () => { 
+            this.create_fake_desktop ();
             return false;
         });
     }
