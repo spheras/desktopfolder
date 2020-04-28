@@ -353,6 +353,7 @@
      */
     private void create_fake_desktop () {
         this.desktop = new DesktopFolder.DesktopManager (this);
+        this.clear_all ();
     }
 
     /**
