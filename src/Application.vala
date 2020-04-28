@@ -323,13 +323,14 @@
     }
 
     private void on_workspace_change(Wnck.Workspace? previous) {
-        Timeout.add (100, () => {
+        Timeout.add (500, () => {
+            this.hide_everything();
             this.desktop = null;
+            this.create_fake_desktop ();
             return false;
         });
-
-        Timeout.add (200, () => { 
-            this.create_fake_desktop ();
+        Timeout.add (1000, () => {
+            this.show_everything ();
             return false;
         });
     }
@@ -352,7 +353,6 @@
      */
     private void create_fake_desktop () {
         this.desktop = new DesktopFolder.DesktopManager (this);
-        this.clear_all ();
     }
 
     /**
