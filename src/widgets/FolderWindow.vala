@@ -1483,12 +1483,17 @@ public class DesktopFolder.FolderWindow : Gtk.ApplicationWindow {
             int sensitivity  = this.get_manager ().get_arrangement ().get_sensitivity ();
 
             // TODO Multiselection!!!!!!!!!!!!
-            ItemView       selected_item = this.manager.get_selected_items ().@get (0);
-            Gtk.Allocation allocation;
-            selected_item.get_allocation (out allocation);
-            int selected_cell_x = (allocation.x + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
-            int selected_cell_y = (allocation.y + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
-            // debug ("selected: %d, %d", selected_i, selected_j);
+            int selected_cell_x = 0;
+            int selected_cell_y = 0;
+
+            if(this.manager.are_items_selected()){
+              ItemView       selected_item = this.manager.get_selected_items ().@get (0);
+              Gtk.Allocation allocation;
+              selected_item.get_allocation (out allocation);
+              selected_cell_x = (allocation.x + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
+              selected_cell_y = (allocation.y + DesktopFolder.ICON_DEFAULT_WIDTH / 2) / (sensitivity + margin);
+              // debug ("selected: %d, %d", selected_i, selected_j);
+            }
 
 
             for (int i = left_padding + DesktopFolder.ItemView.PADDING_X, cell_x = 0; i <= width - left_padding; i += sensitivity + margin, cell_x++) {

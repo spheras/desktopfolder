@@ -261,7 +261,7 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             context_menu.append (properties_item);
             context_menu.append (textcolor_item);
         }
-        
+
         context_menu.show_all ();
         context_menu.popup_at_pointer (null);
     }

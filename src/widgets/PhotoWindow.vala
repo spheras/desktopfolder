@@ -115,8 +115,9 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
             return true;
         });
 
-        this.button_press_event.connect (this.on_press);
-        this.button_release_event.connect (this.on_release);
+        this.button_press_event.connect (this.on_button_press);
+        this.key_release_event.connect(this.on_key_release);
+        this.button_release_event.connect (this.on_button_release);
         this.draw.connect (this.draw_background);
 
         // help: doesn't have the gtk window any active signal? or css :active state?
@@ -275,7 +276,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
      * @description release event captured.
      * @return bool @see widget on_release signal
      */
-    private bool on_release (Gdk.EventButton event) {
+    private bool on_button_release (Gdk.EventButton event) {
         // we are now a dock Window, to avoid minimization when show desktop
         // TODO exists a way to make resizable and moveable a dock window?
         this.type_hint = Gdk.WindowTypeHint.DESKTOP;
@@ -283,11 +284,25 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     }
 
     /**
-     * @name on_press
+    *  @name on_key_release
+    *  @description a key pressed was released
+    *  @return bool @see widget key_release_event
+    */
+    private bool on_key_release (Gdk.EventKey event) {
+      if (event.type == Gdk.EventType.KEY_RELEASE && event.str==" ") {
+        this.manager.open ();
+        return true;
+      }
+      return false;
+    }
+
+
+    /**
+     * @name on_button_press
      * @description press event captured. The Window should show the popup on right button
-     * @return bool @see widget on_press signal
+     * @return bool @see widget button_press_event signal
      */
-    private bool on_press (Gdk.EventButton event) {
+    private bool on_button_press (Gdk.EventButton event) {
         // we are now a normal Window, to allow resizing and movement
         // TODO exists a way to make resizable and moveable a dock window?
         this.type_hint = Gdk.WindowTypeHint.NORMAL;
