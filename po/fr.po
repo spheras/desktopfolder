@@ -7,7 +7,7 @@
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Youness Belhassnaoui, 2018
 # George Bungarzescu <george.bungarzescu@gmail.com>, 2019
-# David Mohammed <foss.freedom@gmail.com>, 2019
+# david mohammed <foss.freedom@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: David Mohammed <foss.freedom@gmail.com>, 2019\n"
+"Last-Translator: david mohammed <foss.freedom@gmail.com>, 2019\n"
 "Language-Team: French (https://www.transifex.com/ubuntu-budgie/teams/72251/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

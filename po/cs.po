@@ -4,13 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Rainer Bode <rainer.uwe.bode@gmail.com>, 2018
-# Italo Penaforte <italo.penaforte@gmail.com>, 2018
-# Willian Eduardo <willianeduardot@gmail.com>, 2018
-# Rainer Bode <rainer.uwe@hotmail.com>, 2018
-# Leandro Vital <leandro.vital@yahoo.com.br>, 2018
-# Lynx Medeiros <lynxmedeiros@gmail.com>, 2019
-# Luis Forman <lf@lfsqr.co>, 2020
+# Jan Kvoch <kvochj@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -19,23 +13,23 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Luis Forman <lf@lfsqr.co>, 2020\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/ubuntu-budgie/teams/72251/pt_BR/)\n"
+"Last-Translator: Jan Kvoch <kvochj@gmail.com>, 2020\n"
+"Language-Team: Czech (https://www.transifex.com/ubuntu-budgie/teams/72251/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Painel"
+msgstr "Panel"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
 msgid "Note"
-msgstr "Anotação"
+msgstr "Poznámka"
 
 #. Application Description
 #: src/LanguageText.vala:20
@@ -43,208 +37,208 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Recarregar área de trabalho minimalista. \n"
-" Organize arquivos na sua área de trabalho usando painéis."
+"Přiveďte zpět minimalistickou plochu.\n"
+"Organizujte soubory na ploše s pomocí panelů."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_Ok"
+msgstr "OK"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr "Zrušit"
 
 #. Generic Dialog Select Button
 #: src/LanguageText.vala:26
 msgid "_Select"
-msgstr "_Selecionar"
+msgstr "Vybrat"
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "Não há nada para colar na área de transferência"
+msgstr "Nelze nic vložit - schránka je prázdná"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "Impossível remover este arquivo"
+msgstr "Soubor nelze přetáhnout"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
 msgid "Invalid file name provided"
-msgstr "Nome do arquivo inválido"
+msgstr "Neplatný název souboru"
 
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr "Operações de Arquivos"
+msgstr "Obsluha souborů"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
 msgid "Copying"
-msgstr "Copiando"
+msgstr "Kopírování"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Copiar aqui"
+msgstr "Zkopírovat zde"
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Mover aqui"
+msgstr "Přesunout zde"
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Atalho aqui"
+msgstr "Odkaz zde"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Zrušit"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Atalho por painel"
+msgstr "Panel odkazů"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr "Bloquear ícones:"
+msgstr "Zamknout ikony:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr "Bloquear painel:"
+msgstr "Zamknout panel:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr "Sombra do texto:"
+msgstr "Stín textu:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr "Texto negrito:"
+msgstr "Tučně:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
 msgid "Folder"
-msgstr "Pasta"
+msgstr "Složka"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:62
 msgid "Empty File"
-msgstr "Arquivo vazio"
+msgstr "Prázdný soubor"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Renomear painel"
+msgstr "Přejmenovat panel"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Enviar painel para lixeira"
+msgstr "Přesunout panel do koše"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
 msgid "Paste"
-msgstr "Colar"
+msgstr "Vložit"
 
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr "pasta sem título"
+msgstr "složka bez názvu"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr "novo arquivo"
+msgstr "nový soubor"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Mover para lixeira"
+msgstr "Přesunout do koše"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
 #: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr "Propriedades"
+msgstr "Vlastnosti"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Nova anotação"
+msgstr "Nová poznámka"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr "Textura de papel"
+msgstr "Textura papíru"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
 msgid "Always on top"
-msgstr "Sempre no topo"
+msgstr "Vždy na popředí"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr "Sempre atrás"
+msgstr "Vždy na pozadí"
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Renomear nota"
+msgstr "Přejmenovat poznámku"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
 msgid "Open"
-msgstr "Abrir"
+msgstr "Otevřít"
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr "Abrir com outro aplicativo..."
+msgstr "Otevřít v jiné aplikaci..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
 msgid "Execute"
-msgstr "Executar"
+msgstr "Spustit"
 
 #. Item Menu - cut the file/folder
 #: src/LanguageText.vala:96
 msgid "Cut"
-msgstr "Cortar"
+msgstr "Vyjmout"
 
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:98
 msgid "Copy"
-msgstr "Copiar"
+msgstr "Zkopírovat"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:100
 msgid "Rename"
-msgstr "Renomear"
+msgstr "Přejmenovat"
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:104
 msgid "Delete"
-msgstr "Apagar"
+msgstr "Smazat"
 
 #. Item Menu - change icon
 #: src/LanguageText.vala:106
 msgid "Change Icon"
-msgstr "Mudar Ícone"
+msgstr "Změnit ikonu"
 
 #. Item - Delete Folder Item Dialog message
 #: src/LanguageText.vala:108
@@ -252,8 +246,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Está ação irá APAGAR a pasta e TUDO que contém nela.\n"
-"<b>Tem certeza?</b>"
+"Tímto  SMAŽETE tuto složku a VEŠKERÝ její obsah.\n"
+"<b>Opravdu chcete pokračovat?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -261,8 +255,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Está ação irá APAGAR o arquivo.\n"
-"<b>Tem certeza?</b>"
+"Tímto SMAŽETE tento soubor.\n"
+"<b>Opravdu chcete pokračovat?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -270,105 +264,105 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta ação irá DELETAR o atalho (apenas o atalho).\n"
-"<b>Tem certeza? </b>"
+"Tímto SMAŽETE tento odkaz (pouze odkaz).\n"
+"<b>Opravdu chcete pokračovat?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr "Selecione o ícone que você deseja usar."
+msgstr "Vyberte ikonu, která se má použít."
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "Meu primeiro painel"
+msgstr "Můj první panel"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Atalho para arquivo"
+msgstr "Vytvořit odkaz na soubor"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Atalho para pasta"
+msgstr "Vytvořit odkaz na složku"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Selecione o arquivo ou pasta de destino do atalho"
+msgstr "Vyberte cílový soubor/cílovou složku odkazu"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Selecione a pasta de destino do painel"
+msgstr "Vyberte cílovou složku panelu"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
 msgid "Remove"
-msgstr "Remover"
+msgstr "Odstranit"
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Foto"
+msgstr "Fotka"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Selecione a imagem para exibir"
+msgstr "Vyberte, který obrázek se ukáže"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
 msgid "New"
-msgstr "Novo"
+msgstr "Nový"
 
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr "Este painel"
+msgstr "Tento panel"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
 msgid "General"
-msgstr "Geral"
+msgstr "Obecné"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:140
 msgid "Behavior"
-msgstr "Comportamento"
+msgstr "Chování"
 
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr "Aparência"
+msgstr "Vzhled"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
 msgid "Close"
-msgstr "Fechar"
+msgstr "Zavřít"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Ícones na área de trabalho:"
+msgstr "Ikony na ploše:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "Ativar área de trabalho:"
+msgstr "Povolit plochu:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr "Essa alteração exigirá que você feche sua sessão e reinicie"
+msgstr "Tato změna vyžaduje odhlášení a opětovné přihlášení zpět"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "Ao alterar a resolução:"
+msgstr "Při změně rozlišení:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -376,250 +370,250 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
-"Assim os painéis, anotações e fotos são redimensionados quando a resolução "
-"da tela muda"
+"Takto budou panely, poznámky a fotky měnit velikost, když změníte rozlišení "
+"obrazovky"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr "Fazer nada"
+msgstr "Nedělat nic"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr "Adaptar à nova resolução"
+msgstr "Škálovat na nové rozlišení"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr "Salvar pela resolução"
+msgstr "Uchovat pro každé rozlišení"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr "Alterar papel de parede"
+msgstr "Změnit tapetu"
 
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr "Abrir terminal aqui"
+msgstr "Otevřít terminál"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr "Abrir no terminal"
+msgstr "Otevřít v terminálu"
 
 #. file properties window - file name
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr "Nome"
+msgstr "Jméno"
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr "Tipo"
+msgstr "Typ"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr "Local"
+msgstr "Umístění"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr "Destino"
+msgstr "Cíl"
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr "Desconhecido"
+msgstr "Není známo"
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr "itens"
+msgstr "položky"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr "Conteúdo"
+msgstr "Obsah"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr "Tamanho total"
+msgstr "Celková velikost"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr "Tamanho do arquivo"
+msgstr "Velikost souboru"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr "Permitir execução"
+msgstr "Povolit spuštění"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr "Usado"
+msgstr "Naposledy použit"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr "Modificado"
+msgstr "Naposledy změněn"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "Ordem dos ícones:"
+msgstr "Rozložení ikon:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr "Livre"
+msgstr "Volné"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr "Grade"
+msgstr "Mřížka"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr "Controlado pelo aplicativo"
+msgstr "Nechat rozhodnout aplikaci"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr "Ícones"
+msgstr "Ikony"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr "Ordem padrão dos ícones:"
+msgstr "Výchozí rozložení ikon:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "Espaçamento dos ícones:"
+msgstr "Prokládání ikon:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "Espaçamento padrão dos ícones:"
+msgstr "Výchozí prokládání ikon:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr "Organizar por"
+msgstr "Seřadit podle:"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr "Tamanho"
+msgstr "Velikosti"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr "Ordem inversa"
+msgstr "Obráceně"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr "Reorganizar ícones"
+msgstr "Přeorganizovat"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr "Painel sem título"
+msgstr "Panel bez názvu"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "Atalho para $FILE_NAME"
+msgstr "Odkaz na $FILE_NAME"
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr "Exibir área de trabalho"
+msgstr "Zobrazit plochu"
 
 #. Menu option to hide the desktop
 #: src/LanguageText.vala:231
 msgid "Hide Desktop"
-msgstr "Ocultar área de trabalho"
+msgstr "Skrýt plochu"
 
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr "Ordenar verticalmente"
+msgstr "Seřadit vertikálně"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr "Não foi possível criar \"%'s\""
+msgstr "Nelze vytvořit \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr " já existe."
+msgstr "již existuje."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr "Nome é inválido."
+msgstr "Název je neplatný."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr "Pasta da área de trabalho"
+msgstr "Složka na ploše"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr "Traga seu desktop de volta à vida"
+msgstr "Oživte svou plochu"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr "Organize sua área de trabalho com painéis que guardam suas coisas"
+msgstr "Organizujte věci ze své plochy v panelech"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr "Acesse arquivos, pastas e aplicativos da sua área de trabalho"
+msgstr "Přistupujte k souborům, složkám a aplikacím z vaší plochy"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
-msgstr "Solte arquivos, pastas, links e lançadores .desktop dentro de painéis"
+msgstr "Přesuňte soubory, složky, odkazy a \".desktop\" spouštěče do panelů"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr "Redimensionar, posicionar e colorir painéis"
+msgstr "Změňte velikost, umístěte a obarvěte panely"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr "Exibir fotos e manter notas em sua área de trabalho"
+msgstr "Zobrazte fotky a udržujte své poznámky na ploše"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr "Revelar a área de trabalho com ⌘-D"
+msgstr "Odkryjte plochu pomocí ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
-"Abra como qualquer outro aplicativo após a instalação. A pasta Desktop será "
-"iniciada automaticamente quando você fizer o próximo login."
+"Po instalaci otevřete DesktopFolder jako jakoukoli jinou aplikaci. "
+"DesktopFolder se automaticky spustí při příštím přihlášení."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr "Visão geral da área de trabalho"
+msgstr "Celkový náhled plochy"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr "Desenvolvedores do DesktopFolder"
+msgstr "Vývojaři DesktopFolder"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Organize sua área de trabalho com painéis, notas e fotos"
+msgstr "Organizujte svou plochu s panely, poznámkami a fotkami"
