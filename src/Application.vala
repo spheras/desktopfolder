@@ -19,7 +19,7 @@
  * @class
  * The Main Application
  */
- public class DesktopFolderApp : Gtk.Application {
+public class DesktopFolderApp : Gtk.Application {
 
     /** File Monitor of desktop folder */
     private FileMonitor monitor = null;
@@ -53,10 +53,10 @@
 
         /* Needed by Granite.Application */
         /*
-            this.program_name = _(DesktopFolder.APP_TITLE);
-            this.exec_name = DesktopFolder.APP_NAME;
-            this.build_version = DesktopFolder.VERSION;
-        */
+           this.program_name = _(DesktopFolder.APP_TITLE);
+           this.exec_name = DesktopFolder.APP_NAME;
+           this.build_version = DesktopFolder.VERSION;
+         */
     }
 
     /**
@@ -145,7 +145,7 @@
         // Commented out because it allows specific conditions where it will currently crash Mutter
         // This application may also have an unknown bug causing the crash
         //
-        //  settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
+        // settings.changed[SHOW_DESKTOPPANEL_KEY].connect (on_show_desktoppanel_changed);
 
         on_show_desktoppanel_changed ();
 
@@ -190,10 +190,6 @@
         Gdk.Screen.get_default ().composited_changed.connect (this.on_screen_size_changed);
         Gdk.Screen.get_default ().monitors_changed.connect (this.on_screen_size_changed);
 
-
-        Wnck.Screen screen = Wnck.Screen.get_default ();
-        screen.active_workspace_changed.connect (this.on_workspace_change);
-
         // Listening mount change events
         this.volume_monitor = VolumeMonitor.get ();
         volume_monitor.mount_changed.connect ((mount) => {
@@ -202,7 +198,7 @@
         this.volume_monitor.volume_changed.connect ((volume) => {
             this.on_mount_changed ();
         });
-                
+
         Timeout.add (500, () => { // 1000
             this.toggle_desktop_visibility ();
             return false;
@@ -318,19 +314,6 @@
                 photo.on_screen_size_changed (screen);
             }
 
-            return false;
-        });
-    }
-
-    private void on_workspace_change(Wnck.Workspace? previous) {
-        Timeout.add (500, () => {
-            this.hide_everything();
-            this.desktop = null;
-            this.create_fake_desktop ();
-            return false;
-        });
-        Timeout.add (1000, () => {
-            this.show_everything ();
             return false;
         });
     }
@@ -649,42 +632,34 @@
      * @name toggle_desktop_visiblity
      * @description show or hide the desktop
      */
-
-     public void toggle_desktop_visibility () {
+    public void toggle_desktop_visibility () {
         this.desktop_visible = !this.desktop_visible;
         debug (@"desktop_visible is now $(this.desktop_visible)");
         if (this.desktop_visible) {
-            show_everything ();
+            this.desktop.show_view ();
+            foreach (var folder in folders) {
+                folder.show_view ();
+            }
+            foreach (var note in notes) {
+                note.show_view ();
+            }
+            foreach (var photo in photos) {
+                photo.show_view ();
+            }
         } else {
-            hide_everything ();
+            this.desktop.hide_view ();
+            foreach (var folder in folders) {
+                folder.hide_view ();
+            }
+            foreach (var note in notes) {
+                note.hide_view ();
+            }
+            foreach (var photo in photos) {
+                photo.hide_view ();
+            }
         }
     }
-    
-    public void show_everything(){
-        this.desktop.show_view ();
-        foreach (var folder in folders) {
-            folder.show_view ();
-        }
-        foreach (var note in notes) {
-            note.show_view ();
-        }
-        foreach (var photo in photos) {
-            photo.show_view ();
-        }
-    }
-    
-    public void hide_everything(){
-        this.desktop.hide_view ();
-        foreach (var folder in folders) {
-            folder.hide_view ();
-        }
-        foreach (var note in notes) {
-            note.hide_view ();
-        }
-        foreach (var photo in photos) {
-            photo.hide_view ();
-        }
-    }
+
     /**
      * @name clear_folders
      * @description close all the folders launched
