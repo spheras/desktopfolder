@@ -93,3 +93,16 @@ $ sudo apt install snapcraft
 
 $ sudo docker pull snapcore/snapcraft
 $ sudo docker run -v $PWD:$PWD -w $PWD snapcore/snapcraft snapcraft
+
+Relase a new version
+····················
+https://wiki.debian.org/Creating%20signed%20GitHub%20releases
+1. tag the code (change version): $ git tag -s v1.1.2
+2. push the tag created: $ git push --tags
+3. then publish a new release into github
+4. download the .gz generated at the release
+5. sign the tarball (change version): $ gpg --armor --detach-sign desktopfolder-1.1.2.tar.gz
+6. it will create a desktopfolder-1.1.2.tar.gz.asc file
+7. Edit your release again and attach the detached signature desktopfolder-1.1.2.tar.gz.asc as binary to the release.
+8. Compile with debian at the root: $ debuild -uc -us
+9. Attach also the .dsc .tar.xz and .deb generated
