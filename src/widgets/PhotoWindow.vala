@@ -286,7 +286,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     /**
     *  @name on_key_release
     *  @description a key pressed was released
-    @return bool @see widget key_release_event
+    *  @return bool @see widget key_release_event
     */
     private bool on_key_release (Gdk.EventKey event) {
       if (event.type == Gdk.EventType.KEY_RELEASE && event.str==" ") {
