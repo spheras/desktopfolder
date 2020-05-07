@@ -116,7 +116,7 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
         });
 
         this.button_press_event.connect (this.on_button_press);
-        this.key_release_event.connect(this.on_key_release);
+        this.key_release_event.connect (this.on_key_release);
         this.button_release_event.connect (this.on_button_release);
         this.draw.connect (this.draw_background);
 
@@ -284,18 +284,17 @@ public class DesktopFolder.PhotoWindow : Gtk.ApplicationWindow {
     }
 
     /**
-    *  @name on_key_release
-    *  @description a key pressed was released
-    *  @return bool @see widget key_release_event
-    */
+     *  @name on_key_release
+     *  @description a key pressed was released
+     *  @return bool @see widget key_release_event
+     */
     private bool on_key_release (Gdk.EventKey event) {
-      if (event.type == Gdk.EventType.KEY_RELEASE && event.str==" ") {
-        this.manager.open ();
-        return true;
-      }
-      return false;
+        if (event.type == Gdk.EventType.KEY_RELEASE && event.str == " ") {
+            this.manager.open ();
+            return true;
+        }
+        return false;
     }
-
 
     /**
      * @name on_button_press

@@ -41,7 +41,6 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
     }
 
     protected override bool on_press (Gdk.EventButton event) {
-        this.present ();
         if (event.type == Gdk.EventType.@2BUTTON_PRESS) {
             debug ("toggling desktop visiblity");
             base.get_manager ().get_application ().toggle_desktop_visibility ();

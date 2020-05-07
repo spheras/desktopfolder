@@ -190,6 +190,10 @@ public class DesktopFolderApp : Gtk.Application {
         Gdk.Screen.get_default ().composited_changed.connect (this.on_screen_size_changed);
         Gdk.Screen.get_default ().monitors_changed.connect (this.on_screen_size_changed);
 
+        // Listening to workspace changes events
+        Wnck.Screen screen = Wnck.Screen.get_default ();
+        screen.active_workspace_changed.connect (this.on_workspace_change);
+
         // Listening mount change events
         this.volume_monitor = VolumeMonitor.get ();
         volume_monitor.mount_changed.connect ((mount) => {
@@ -203,6 +207,114 @@ public class DesktopFolderApp : Gtk.Application {
             this.toggle_desktop_visibility ();
             return false;
         });
+    }
+
+    /** the uid reference for timeout workspace change */
+    private uint _workspace_change_ref1;
+    private uint _workspace_change_ref2;
+
+    /**
+     * @name on_workspace_change
+     * @param previous workspace
+     */
+    private void on_workspace_change (Wnck.Workspace ? previous) {
+      // removing the pending threads
+      try {
+          Source.remove (this._workspace_change_ref1);
+      } catch (Error err) {
+
+      }
+      try {
+          Source.remove (this._workspace_change_ref2);
+      } catch (Error err) {
+
+      }
+
+      this._workspace_change_ref1=Timeout.add (500, () => {
+        this.desktop.get_view ().visible=false;
+        foreach (var note in notes) {
+          note.get_view().visible=false;
+        }
+        foreach (var folder in folders) {
+            folder.get_view().visible=false;
+        }
+        foreach (var photo in photos) {
+          photo.get_view().visible=false;
+        }
+        return false;
+      });
+      this._workspace_change_ref2=Timeout.add (1000, () => {
+        this.desktop.get_view ().visible=true;
+        foreach (var note in notes) {
+          note.get_view().visible=true;
+        }
+        foreach (var folder in folders) {
+            folder.get_view().visible=true;
+        }
+        foreach (var photo in photos) {
+          photo.get_view().visible=true;
+        }
+        return false;
+      });
+
+
+
+        /*
+              Timeout.add (500, () => {
+                  this.hide_everything ();
+
+                  this.clear_folders ();
+                  this.clear_notes ();
+                  this.clear_photos ();
+
+                  this.desktop_visible = false;
+                  this.desktop = null;
+                  return false;
+              });
+              Timeout.add (1000, () => {
+                  this.desktop_visible = true;
+                  this.desktop = new DesktopFolder.DesktopManager (this);
+
+                  this.show_everything ();
+                  //  this.sync_folders_and_notes();
+                  return false;
+              });
+      */
+
+          /*
+      Timeout.add (500, () => {
+        debug("heyyy1111: %s", (this.desktop.get_view ().visible?"true":"false"));
+        this.desktop.get_view ().visible=true;
+        debug("heyyy2222: %s", (this.desktop.get_view ().visible?"true":"false"));
+        this.desktop.get_view ().show();
+        return false;
+      });
+
+      Timeout.add (1000, () => {
+        debug("heyyy3333");
+        this.desktop.get_view ().show();
+        this.desktop.get_view ().visible=false;
+        this.desktop.get_view ().realize();
+        this.desktop.get_view ().show_now();
+        this.desktop.get_view ().show_all();
+        this.desktop.get_view ().present ();
+        this.desktop.get_view ().set_visible(true);
+        debug("heyyy4444");
+        return false;
+      });
+      */
+        /*
+           Timeout.add (500, () => {
+            this.hide_everything();
+            this.desktop = null;
+            this.create_fake_desktop ();
+            return false;
+           });
+         */
+        /*Timeout.add (1000, () => {
+            this.show_everything ();
+            return false;
+           });*/
     }
 
     /**
@@ -636,27 +748,35 @@ public class DesktopFolderApp : Gtk.Application {
         this.desktop_visible = !this.desktop_visible;
         debug (@"desktop_visible is now $(this.desktop_visible)");
         if (this.desktop_visible) {
-            this.desktop.show_view ();
-            foreach (var folder in folders) {
-                folder.show_view ();
-            }
-            foreach (var note in notes) {
-                note.show_view ();
-            }
-            foreach (var photo in photos) {
-                photo.show_view ();
-            }
+            this.show_everything ();
         } else {
-            this.desktop.hide_view ();
-            foreach (var folder in folders) {
-                folder.hide_view ();
-            }
-            foreach (var note in notes) {
-                note.hide_view ();
-            }
-            foreach (var photo in photos) {
-                photo.hide_view ();
-            }
+            hide_everything ();
+        }
+    }
+
+    public void show_everything () {
+        this.desktop.show_view ();
+        foreach (var folder in folders) {
+            folder.show_view ();
+        }
+        foreach (var note in notes) {
+            note.show_view ();
+        }
+        foreach (var photo in photos) {
+            photo.show_view ();
+        }
+    }
+
+    public void hide_everything () {
+        this.desktop.hide_view ();
+        foreach (var folder in folders) {
+            folder.hide_view ();
+        }
+        foreach (var note in notes) {
+            note.hide_view ();
+        }
+        foreach (var photo in photos) {
+            photo.hide_view ();
         }
     }
 
