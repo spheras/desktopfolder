@@ -4,11 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# David Mohammed <fossfreedom@ubuntu.com>, 2018
-# Logan 8192 <logan8192@protonmail.com>, 2018
-# Adolfo Jayme-Barrientos, 2018
-# Víctor Pont <victor@pont.cat>, 2018
-# Marcos Olave <marcosolave3@gmail.com>, 2020
+# Oi Suomi On! <oisuomion@protonmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -17,23 +13,23 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Marcos Olave <marcosolave3@gmail.com>, 2020\n"
-"Language-Team: Spanish (https://www.transifex.com/ubuntu-budgie/teams/72251/es/)\n"
+"Last-Translator: Oi Suomi On! <oisuomion@protonmail.com>, 2020\n"
+"Language-Team: Finnish (https://www.transifex.com/ubuntu-budgie/teams/72251/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Panel"
+msgstr "Palkki"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
 msgid "Note"
-msgstr "Nota"
+msgstr "Huomautus"
 
 #. Application Description
 #: src/LanguageText.vala:20
@@ -41,208 +37,208 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Reviva el escritorio minimalista\n"
-"Organice archivos y carpetas en su escritorio mediante paneles."
+"Palauta minimalistinen työpöytä eloon \n"
+"  Järjestele tiedostoja työpöydälläsi käyttäen ikkunaruutuja."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_Aceptar"
+msgstr "_Ok"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr "_Peruuta"
 
 #. Generic Dialog Select Button
 #: src/LanguageText.vala:26
 msgid "_Select"
-msgstr "_Seleccionar"
+msgstr "_Valitse"
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "No hay nada que pegar en el portapapeles"
+msgstr "Leikepöydällä ei ole mitään liitettäväksi"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "No se puede soltar este archivo"
+msgstr "Tätä tiedostoa ei voi pudottaa"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
 msgid "Invalid file name provided"
-msgstr "El nombre del archivo no es válido"
+msgstr "On annettu epäkelpo tiedostonimi"
 
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr "Operaciones de archivos"
+msgstr "Tiedostotoiminnot"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
 msgid "Copying"
-msgstr "Copiando"
+msgstr "Kopioidaan"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Copiar aquí"
+msgstr "Kopioi tähän"
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Mover aquí"
+msgstr "Siirrä tähän"
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Acceso directo aquí"
+msgstr "Linkitä tähän"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Peruuta"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Acceso directo a panel"
+msgstr "Linkitä palkki"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr "Bloquear iconos:"
+msgstr "Lukitse kuvakkeet:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr "Bloquear panel:"
+msgstr "Lukitse palkki:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr "Sombra del texto:"
+msgstr "Tekstin varjo:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr "Negrita del texto:"
+msgstr "Tekstin lihavointi:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
 msgid "Folder"
-msgstr "Carpeta"
+msgstr "Kansio"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:62
 msgid "Empty File"
-msgstr "Archivo vacío"
+msgstr "Tyhjä tiedosto"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Cambiar nombre de panel"
+msgstr "Uudelleennimeä palkki"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Enviar panel a la papelera"
+msgstr "Siirrä palkki roskakoriin"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
 msgid "Paste"
-msgstr "Pegar"
+msgstr "Liitä"
 
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr "carpeta sin nombre"
+msgstr "nimetön kansio"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr "nuevo archivo"
+msgstr "uusi tiedosto"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Enviar a la papelera"
+msgstr "Siirrä roskakoriin"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
 #: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr "Propiedades"
+msgstr "Ominaisuudet"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Nota nueva"
+msgstr "Uusi muistiinpano"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr "Textura de papel"
+msgstr "Paperitekstuuri"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
 msgid "Always on top"
-msgstr "Siempre encima"
+msgstr "Aina päällimmäisenä"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr "Siempre en el fondo"
+msgstr "Aina taka-alalla"
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Cambiar nombre de nota"
+msgstr "Uudelleennimeä muistiinpano"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
 msgid "Open"
-msgstr "Abrir"
+msgstr "Avaa"
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr "Abrir con otra aplicación..."
+msgstr "Avaa toisella sovelluksella..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
 msgid "Execute"
-msgstr "Ejecutar"
+msgstr "Käynnistä"
 
 #. Item Menu - cut the file/folder
 #: src/LanguageText.vala:96
 msgid "Cut"
-msgstr "Cortar"
+msgstr "Leikkaa"
 
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:98
 msgid "Copy"
-msgstr "Copiar"
+msgstr "Kopioi"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:100
 msgid "Rename"
-msgstr "Cambiar nombre"
+msgstr "Nimeä uudelleen"
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:104
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Poista"
 
 #. Item Menu - change icon
 #: src/LanguageText.vala:106
 msgid "Change Icon"
-msgstr "Cambiar icono"
+msgstr "Muuta kuvake"
 
 #. Item - Delete Folder Item Dialog message
 #: src/LanguageText.vala:108
@@ -250,8 +246,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ la carpeta y TODO su contenido.\n"
-"<b>¿Confirma que quiere eliminarla?</b>"
+"Tämä toiminto POISTAA kansion ja sen KAIKEN sisällön.\n"
+"<b>Oletko varma?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -259,8 +255,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el archivo.\n"
-"<b>¿Confirma que quiere eliminarlo?</b>"
+"Tämä toiminto POISTAA tiedoston.\n"
+"<b>Oletko varma?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -268,105 +264,105 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Esta acción ELIMINARÁ el acceso directo (no el archivo).\n"
-"<b>¿Confirma que quiere eliminarlo?</b>"
+"Tämä toiminto POISTAA linkin (vain linkin).\n"
+"<b>Oletko varma?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr "Seleccione el icono que quiere utilizar."
+msgstr "Valitse käytettävä kuvake."
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "Mi primer panel"
+msgstr "Minun ensimmäinen palkkini"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Acceso directo a archivo"
+msgstr "Linkitä tiedostoon"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Acceso directo a carpeta"
+msgstr "Linkitä kansioon"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Seleccione el archivo o carpeta de destino del acceso directo"
+msgstr "Valitse linkin kohdetiedosto/kansio "
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Seleccione la carpeta de destino del panel"
+msgstr "Valitse palkin kohdekansio"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Poista"
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Foto"
+msgstr "Kuva"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Seleccione la imagen que mostrar"
+msgstr "Valitse näytettävä kuva"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
 msgid "New"
-msgstr "Nuevo"
+msgstr "Uusi"
 
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr "Este Panel"
+msgstr "Tämä palkki"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
 msgid "General"
-msgstr "General"
+msgstr "Yleiset"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:140
 msgid "Behavior"
-msgstr "Comportamiento"
+msgstr "Käytös"
 
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr "Apariencia"
+msgstr "Ulkoasu"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
 msgid "Close"
-msgstr "Cerrar"
+msgstr "Sulje"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Iconos en el escritorio:"
+msgstr "Kuvakkeet työpöydällä:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "Activar escritorio:"
+msgstr "Kytke työpöytä päälle:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr "Este cambio requerirá que cierre su sesión y vuelva a iniciarla."
+msgstr "Tämä muutos vaatii ulos- ja takaisin sisäänkirjautumisen"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "Al cambiar la resolución:"
+msgstr "Kun näytön erottelutarkkuutta muutetaan:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -374,252 +370,252 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
-"Así es como los paneles, notas y fotos se redimensionarán cuando cambie la "
-"resolución de la pantalla"
+"Palkit, muistiinpanot ja valokuvat muuttuvat kooltaan tällä tavalla kun "
+"muutat näytön erottelutarkkuutta"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr "Hacer nada"
+msgstr "Älä tee mitään"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr "Escalar a una nueva resolución"
+msgstr "Mitoita uuteen erottelutarkkuuteen"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr "Guardar por resolución"
+msgstr "Taltioi aina eri erottelutarkkuuden suhteen"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr "Cambiar fondo de pantalla"
+msgstr "Muuta taustakuvaa"
 
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr "Abrir un terminal aquí"
+msgstr "Avaa pääte tähän"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr "Abrir en un terminal"
+msgstr "Avaa päätteessä"
 
 #. file properties window - file name
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr "Nombre"
+msgstr "Nimi"
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr "Tipo"
+msgstr "Muoto"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr "Ubicación"
+msgstr "Sijainti"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr "Objetivo"
+msgstr "Kohde"
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr "Desconocido"
+msgstr "Tuntematon"
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr "elementos"
+msgstr "esineet"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr "Contenido"
+msgstr "Sisältö"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr "Tamaño total"
+msgstr "Yhteiskoko"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr "Tamaño del archivo"
+msgstr "Tiedostokoko"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr "Permitir ejecución"
+msgstr "Salli ajettavaksi"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr "Usado"
+msgstr "Käytetty"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr "Modificado"
+msgstr "Mukautettu"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "Orden de los íconos:"
+msgstr "Kuvakkeiden asettelu:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr "Libre"
+msgstr "Vapaa"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr "Cuadrícula"
+msgstr "Ruudukko"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr "Controlado por la app"
+msgstr "Anna sovelluksen hallinoida"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr "Iconos"
+msgstr "Kuvakkeet"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr "Orden de los íconos por defecto:"
+msgstr "Vakiollinen kuvakeasettelu:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "Espaciado de iconos"
+msgstr "Kuvakkeiden väli:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "Espaciado de los iconos por defecto"
+msgstr "Kuvakkeiden vakioväli:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr "Ordenar por"
+msgstr "Järjestä"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr "Tamaño"
+msgstr "Koon mukaan"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr "Revertir orden"
+msgstr "Käänteisen järjestyksen mukaan"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr "Reorganizar Iconos"
+msgstr "Uudelleenjärjestele kuvakkeet"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr "Panel sin nombre"
+msgstr "Nimetön palkki"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "Enlazar a $FILE_NAME"
+msgstr "Linkitä tähän $TIEDOSTO_NIMI"
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr "Mostrar el escritorio"
+msgstr "Näytä työpöytä"
 
 #. Menu option to hide the desktop
 #: src/LanguageText.vala:231
 msgid "Hide Desktop"
-msgstr "Ocultar el escritorio"
+msgstr "Piilota työpöytä"
 
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr "Organizar Verticalmente"
+msgstr "Järjestele pystysuuntaisesti"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr "No se pudo crear «%'s»"
+msgstr "\"%'s\" ei voitu luoda"
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr "ya existe."
+msgstr "on jo olemassa."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr "El nombre no es válido."
+msgstr "Nimi on epäkelpo."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr "Carpeta de escritorio"
+msgstr "Työpöytäkansio"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr "Revitaliza tu escritorio"
+msgstr "Elvytä työpöytäsi takaisin eloon"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr "Organiza tu escritorio con paneles que contengan tus cosas"
+msgstr "Järjestele työpöytä palkeilla jotka sisältävät asioitasi."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr "Acceder a archivos, carpetas y aplicaciones desde el escritorio"
+msgstr "Käytä tiedostoja, kansioita ja sovelluksia työpöydältäsi"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
 msgstr ""
-"Suelta archivos, carpetas, links y accesos directos .desktop dentro de los "
-"paneles"
+"Pudota tiedostoja, kansioita, linkkejä ja .desktop -työpöytäkäynnistimiä "
+"palkin sisälle"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr "Redimensionar, posicionar y cambiar el color de los paneles"
+msgstr "Muuta palkkien kokoa, sijaintia ja väriä"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr "Mostrar fotografías y notas en el escritorio"
+msgstr "Näytä työpöydälläsi valokuvia ja muistiinpanoja"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr "Mostrar el escritorio con ⌘-D"
+msgstr "Paljasta työpöytä näppäinyhdistelmällä ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
-"Abrir como cualquier otra aplicación cuando se instale. La Carpeta "
-"Escritorio se abrirá automáticamente la siguiente vez que accedas."
+"Avaa se kuten mikä tahansa sovellus asennuksen jälkeen. Työpöytäkansio "
+"käynnistyy seuraavan sisäänkirjautumisen yhteydessä automaattisesti."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr "Vista general de escritorio"
+msgstr "Työpöydän yleisnäkymä"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr "Desarrolladores de la Carpeta Escritorio"
+msgstr "TyöpöytäKansio Kehittäjille"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Organice el escritorio con paneles, notas y fotos"
+msgstr "Järjestele työpöytääsi palkeilla, muistiinpanoilla ja valokuvilla"

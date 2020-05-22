@@ -37,6 +37,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
+"Reviscola vòstre burèu minimal\n"
+"Organizatz los fichièrs del burèu amb de panèls."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
@@ -101,17 +103,17 @@ msgstr "Anullar"
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr ""
+msgstr "Ligam panèl"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr ""
+msgstr "Icòna verrolhatge :"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr ""
+msgstr "Verrolhar lo panèl :"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
@@ -121,7 +123,7 @@ msgstr "Ombra del tèxte :"
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Tèxt gras :"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -141,7 +143,7 @@ msgstr "Renomenar panèl"
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr ""
+msgstr "Desplaçar lo panèl a l’escobilhièr"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
@@ -181,7 +183,7 @@ msgstr "Nòta novèla"
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr ""
+msgstr "Textura papièr"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
@@ -191,7 +193,7 @@ msgstr "Totjorn amont"
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr ""
+msgstr "Totjorn en arrièr"
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
@@ -244,6 +246,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
+"Aquesta accion SUPRIMIRÀ lo dossièr e TOT son contengut.\n"
+"<b>Es çò que volètz ?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -251,6 +255,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
+"Aquesta accion SUPRIMIRÀ lo fichièr.\n"
+"<b>Es çò que volètz ?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -258,11 +264,13 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
+"Aquesta accion SUPRIMIRÀ lo ligam (pas que lo ligam).\n"
+"<b>Es çò que volètz ?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr ""
+msgstr "Seleccionatz l’imatge a utilizar."
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
@@ -274,22 +282,22 @@ msgstr "Mon primièr panèl"
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr ""
+msgstr "Ligam cap al fichièr"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr ""
+msgstr "Ligam cap al dossier"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr ""
+msgstr "Seleccionatz lo fichièr/dossièr de destinacion del ligam"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr ""
+msgstr "Seleccionatz lo dossièr de destinacion del panèl"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
@@ -339,22 +347,23 @@ msgstr "Tampar"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr ""
+msgstr "Icòna sul burèu :"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr ""
+msgstr "Activar sul burèu :"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
 msgstr ""
+"Aquesta modificacion requerirà la tampadura de la session e sa reobertura."
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr ""
+msgstr "En cambiant la resolucion :"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
@@ -371,7 +380,7 @@ msgstr "Pas res far"
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr ""
+msgstr "Adaptar l’escala a la nòva resolucion"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
@@ -443,7 +452,7 @@ msgstr "Talha fichièr"
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr ""
+msgstr "Autorizar l’execucion"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
