@@ -371,6 +371,8 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
+"Aquò’s cossí los panèls, las nòtas e las fòtos se redimensionaràn quand "
+"cambiaretz la resolucion de l’ecran"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
@@ -385,7 +387,7 @@ msgstr "Adaptar l’escala a la nòva resolucion"
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "Gardar per resolucion"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -467,7 +469,7 @@ msgstr "Modificat"
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr ""
+msgstr "Agençament icònas :"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
@@ -482,7 +484,7 @@ msgstr "Grasilha"
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr ""
+msgstr "Daissar las aplicacions gerir"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
@@ -492,17 +494,17 @@ msgstr "Icònas"
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr ""
+msgstr "Agençament icònas per defaut :"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr ""
+msgstr "Espaçament icòna :"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr ""
+msgstr "Espaçament icòna per defaut :"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
@@ -532,7 +534,7 @@ msgstr "Panèl sens nom"
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr ""
+msgstr "Ligam cap a $FILE_NAME"
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
@@ -547,7 +549,7 @@ msgstr "Rescondre lo burèu"
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr ""
+msgstr "Triar verticalament"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
@@ -565,52 +567,56 @@ msgstr "Lo nom es pas valid."
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr ""
+msgstr "Dossièr burèu"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr ""
+msgstr "Reviscolatz vòstre burèu "
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr ""
+msgstr "Organizatz lo burèu amb de panèls que tenen vòstras causas."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr ""
+msgstr "Accedissètz als fichièrs, dossièrs e aplicacions a partir del burèu"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
 msgstr ""
+"Pausatz de fichièrs, dossièrs, ligams e d'aviadors burèu a l’interior de "
+"panèls"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr ""
+msgstr "Retalhatz, posicionatz e coloratz los panèls"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr ""
+msgstr "Afichatz de fòtos e gardatz las nòtas pel burèu"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr ""
+msgstr "Fasètz veire lo burèu amb ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
+"Dobrissètz-la coma quala que siá aplicacion aprèp l’installacion. Desktop "
+"Folder se lançarà automaticament a vòstra connexion venenta."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Apercebut del burèu"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr ""
+msgstr "Desvolopaires de DesktopFolder"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr ""
+msgstr "Organizatz lo burèu amb de panèls, nòtas e de fòtos"
