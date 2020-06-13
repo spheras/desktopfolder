@@ -92,6 +92,9 @@ spinner{
 
 /* BODY COLORS */
 /* TRANSPARENT */
+.df_transparent * {
+    background-color: @colorBackgroundTRANSPARENT;
+}
 .df_folder.df_note.window-frame.df_transparent, .df_folder.df_note.window-frame.df_transparent:backdrop,
 .df_folder.df_note.background.df_transparent, .df_folder.df_note.background.df_transparent:backdrop,
 .df_folder.df_note.df_transparent .titlebar, .df_folder.df_note.df_transparent .titlebar:backdrop {
