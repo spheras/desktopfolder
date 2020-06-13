@@ -8,7 +8,7 @@
 #
 
 #removing old instances
-killall com.github.spheras.desktopfolder
+#killall com.github.spheras.desktopfolder
 
 echo "Desktop Folder will automatically start the next time you log in, but you can begin using it by launching it like any other app."
 
