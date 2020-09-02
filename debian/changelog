@@ -1,3 +1,15 @@
+com.github.spheras.desktopfolder (1.1.3) precise; urgency=low
+
+  * fix: removed ubuntu installations post scripts
+  * fix: houston ci node version
+  * fix: transparent icons on changing desktops
+  * fix: fast double click (issue #293)
+  * fix: black backdrop on Fedora (issue #297)
+  * Translations Added and Updated
+  * Minor bugfixing
+
+ -- José Amuedo <joseamuedo@gmail.com>  Thu, 2 Sep 2020 02:28:00 +0100
+
 com.github.spheras.desktopfolder (1.1.2) precise; urgency=low
 
   * Reorganised Menu
