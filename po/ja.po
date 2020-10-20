@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Ryo Nakano, 2019
+# Ryo Nakano, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Ryo Nakano, 2019\n"
+"Last-Translator: Ryo Nakano, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/ubuntu-budgie/teams/72251/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -572,7 +572,7 @@ msgstr "デスクトップを生活に取り戻します"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr ""
+msgstr "デスクトップをお気に入りのパネルで整理します"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
@@ -604,7 +604,7 @@ msgstr "インストール後は、他のアプリと同様に開いてくださ
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "デスクトップ全体を表示"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"

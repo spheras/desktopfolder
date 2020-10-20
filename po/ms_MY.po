@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# abuyop <abuyop@gmail.com>, 2019
+# abuyop <abuyop@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: abuyop <abuyop@gmail.com>, 2019\n"
+"Last-Translator: abuyop <abuyop@gmail.com>, 2020\n"
 "Language-Team: Malay (Malaysia) (https://www.transifex.com/ubuntu-budgie/teams/72251/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,8 +37,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Hidupkan kembali Desktop minimalist anda\n"
-" Urus fail pada Desktop anda melalui Anak Tetingkap."
+"Hidupkan kembali Atas Meja minimalist anda\n"
+" Urus fail pada Atas Meja anda melalui Anak Tetingkap."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
@@ -83,17 +83,17 @@ msgstr "Menyalin"
 #. Drop Menu - Copy
 #: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Salin Di Sini"
+msgstr "Salin di Sini"
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Alih Ke Sini"
+msgstr "Alih ke Sini"
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Paut Di Sini"
+msgstr "Paut di Sini"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
@@ -347,12 +347,12 @@ msgstr "Tutup"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Ikon atas desktop:"
+msgstr "Ikon atas meja:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "Benarkan desktop:"
+msgstr "Benarkan atas meja:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
@@ -396,7 +396,7 @@ msgstr "Ubah Kertas Dinding"
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr "Buka Terminal Di Sini"
+msgstr "Buka Terminal di Sini"
 
 #. open terminal here
 #: src/LanguageText.vala:166
@@ -463,7 +463,7 @@ msgstr "Digunakan"
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr "Diubahsuai"
+msgstr "Diubah Suai"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
@@ -538,12 +538,12 @@ msgstr "Paut ke $FILE_NAME"
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr "Tunjuk Desktop"
+msgstr "Tunjuk Atas Meja"
 
 #. Menu option to hide the desktop
 #: src/LanguageText.vala:231
 msgid "Hide Desktop"
-msgstr "Sembunyi Desktop"
+msgstr "Sembunyi Atas Meja"
 
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
@@ -557,7 +557,7 @@ msgstr "Tidak dapat cipta \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr "sudah wujud"
+msgstr "sudah wujud."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
@@ -566,19 +566,20 @@ msgstr "Nama tidak sah."
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr "Folder Dekstop"
+msgstr "Folder Atas Meja"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr "Ceriakan desktop anda"
+msgstr "Ceriakan atas meja anda"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr "Urus desktop anda dengan menambah panel yang memenuhi keperluan anda."
+msgstr ""
+"Urus atas meja anda dengan menambah panel yang memenuhi keperluan anda."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr "Capai fail, folder dan aplikasi melalui desktop anda"
+msgstr "Capai fail, folder dan aplikasi melalui atas meja anda"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
@@ -590,30 +591,30 @@ msgstr "Saiz semula, tentukan kedudukan dan warna panel"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr "Papar foto dan letak nota di atas desktop anda"
+msgstr "Papar foto dan letak nota di atas meja anda"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr "Dedahkan desktop dengan ⌘-D"
+msgstr "Dedah atas meja dengan ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
-"Buka ia sepertimana aplikasi lain selepas dipasang. Desktop Folder akan "
+"Buka ia sepertimana aplikasi lain selepas dipasang. Folder Atas Meja akan "
 "dilancarkan secara automatik ketika anda mendaftar masuk."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr "Pandangan keseluruhan desktop"
+msgstr "Pandangan keseluruhan atas meja"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr "Pembangun DesktopFolder"
+msgstr "Pembangun Folder Atas Meja"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Urus desktop anda dengan panel, nota dan foto"
+msgstr "Urus atas meja anda dengan panel, nota dan foto"
