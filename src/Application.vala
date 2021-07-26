@@ -128,8 +128,11 @@ public class DesktopFolderApp : Gtk.Application {
             if (f_check_elementary.query_exists ()) {
                 // it seems we can't control an error reading settings!!
                 // loki -> GLib.Settings elementary_files_settings = new GLib.Settings ("org.pantheon.files.preferences");
-                GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
-                single_click = elementary_files_settings.get_boolean ("single-click");
+
+                // single-click option is not available in elementary-files 6.0.0. So, set it to false by default.
+                // GLib.Settings elementary_files_settings = new GLib.Settings ("io.elementary.files.preferences");
+                // single_click = elementary_files_settings.get_boolean ("single-click");
+                single_click = false;
             }
         } catch (Error error) {
             // we don't have any files settings, using default config
