@@ -1,0 +1,611 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.spheras.desktopfolder package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Algent Albrahimi <algent@protonmail.com>, 2021
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.spheras.desktopfolder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-27 12:15+0000\n"
+"PO-Revision-Date: 2018-11-08 12:46+0000\n"
+"Last-Translator: Algent Albrahimi <algent@protonmail.com>, 2021\n"
+"Language-Team: Albanian (https://www.transifex.com/ubuntu-budgie/teams/72251/sq/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
+msgid "Panel"
+msgstr "Paneli"
+
+#. desktopfolder menu - create a new Note
+#: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
+msgid "Note"
+msgstr "Shënime"
+
+#. Application Description
+#: src/LanguageText.vala:20
+msgid ""
+"Come back to life your minimalist Desktop \n"
+" Organize files at your Desktop using Panes."
+msgstr ""
+"Ktheni në jetë Desktopin juaj minimalist\n"
+"Organizoni skedarët në desktopin tuaj duke përdorur Panet."
+
+#. Generic Dialog OK Button
+#: src/LanguageText.vala:22
+msgid "_Ok"
+msgstr "_Në rregull"
+
+#. Generic Dialog CANCEL Button
+#: src/LanguageText.vala:24
+msgid "_Cancel"
+msgstr "_ Anulo"
+
+#. Generic Dialog Select Button
+#: src/LanguageText.vala:26
+msgid "_Select"
+msgstr "_Zgjidh"
+
+#. Trying to paste and the clipboard is empty
+#: src/LanguageText.vala:28
+msgid "There is nothing on the clipboard to paste"
+msgstr "Nuk ka asgjë për të ngjitur në kujtesën e fragmenteve"
+
+#. Dialog Error Title: Invalid Filename provided
+#: src/LanguageText.vala:30
+msgid "Cannot drop this file"
+msgstr "Ky skedar nuk mund të hidhet"
+
+#. Dialog Error Message while trying to drop
+#: src/LanguageText.vala:32
+msgid "Invalid file name provided"
+msgstr "U dha emër i pavlefshëm i skedarit"
+
+#. Title dialog for File Operations
+#: src/LanguageText.vala:34
+msgid "File Operations"
+msgstr ""
+
+#. Copying File message for progress dialog
+#: src/LanguageText.vala:36
+msgid "Copying"
+msgstr ""
+
+#. Drop Menu - Copy
+#: src/LanguageText.vala:38
+msgid "Copy Here"
+msgstr "Kopjo Këtu"
+
+#. Drop Menu - Move
+#: src/LanguageText.vala:40
+msgid "Move Here"
+msgstr "Lëviz Këtu"
+
+#. Drop Menu - Link
+#: src/LanguageText.vala:42
+msgid "Link Here"
+msgstr "Lidhe Këtu"
+
+#. Drop Menu - Cancel
+#: src/LanguageText.vala:44
+msgid "Cancel"
+msgstr "Anulo"
+
+#. desktopfolder menu - create a new Desktop-Folder Pane
+#: src/LanguageText.vala:48
+msgid "Link Panel"
+msgstr ""
+
+#. desktopfolder menu - enable/disable lock items
+#: src/LanguageText.vala:50
+msgid "Lock icons:"
+msgstr ""
+
+#. desktopfolder menu - enable/disable lock panel
+#: src/LanguageText.vala:52
+msgid "Lock panel:"
+msgstr ""
+
+#. desktopfolder menu - enable/disable text shadows
+#: src/LanguageText.vala:54
+msgid "Text shadow:"
+msgstr "Hija e tekstit:"
+
+#. desktopfolder menu - enable/disable text bolds
+#: src/LanguageText.vala:56
+msgid "Text bold:"
+msgstr ""
+
+#. desktopfolder menu - create a new Folder
+#: src/LanguageText.vala:60
+msgid "Folder"
+msgstr "Dosje"
+
+#. desktopfolder menu - create a new empty Text File
+#: src/LanguageText.vala:62
+msgid "Empty File"
+msgstr "Skedar Bosh"
+
+#. desktopfolder menu - rename a Desktop-Folder Pane
+#: src/LanguageText.vala:64
+msgid "Rename Panel"
+msgstr "Riemërto Panelin"
+
+#. desktopfolder menu - remove a Desktop-Folder Pane
+#: src/LanguageText.vala:66
+msgid "Move Panel to Trash"
+msgstr "Hidhe Panelin tek Koshi"
+
+#. desktopfolder menu - past from clipboard to the desktop-folder
+#: src/LanguageText.vala:68
+msgid "Paste"
+msgstr "Ngjit"
+
+#. desktopfolder - The default name for the new folder to be created
+#: src/LanguageText.vala:70
+msgid "untitled folder"
+msgstr "dosje pa titull"
+
+#. desktopfolder - The default name for the new text file to be created
+#: src/LanguageText.vala:72
+msgid "new file"
+msgstr "skedar i ri"
+
+#. desktopfolder - The message to confirm the deletion of a Desktop Folder
+#. Menu popup option to delete the note
+#. Item Menu - trash the file/folder
+#: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
+msgid "Move to Trash"
+msgstr "Hidhe tek Koshi"
+
+#. desktopfolder - The message to confirm the deletion of a Desktop Folder
+#. file properties window - properties
+#: src/LanguageText.vala:76 src/LanguageText.vala:168
+msgid "Properties"
+msgstr "Vetitë"
+
+#. desktopfolder - Title for a Dialog Text to ask the new name for the
+#. Desktop-Folder
+#. the title of a note when a new one is created
+#: src/LanguageText.vala:78 src/LanguageText.vala:225
+msgid "New Note"
+msgstr "Shënim i ri"
+
+#. Note - popup option to set the paper texture or not
+#: src/LanguageText.vala:80
+msgid "Paper Texture"
+msgstr "Sfonde të Letrës"
+
+#. Note - popup option to set allways on top or not
+#: src/LanguageText.vala:82
+msgid "Always on top"
+msgstr "Gjithmonë në krye"
+
+#. Note - popup option to set allways on back or not
+#: src/LanguageText.vala:84
+msgid "Always on back"
+msgstr ""
+
+#. Menu popup option to rename the note
+#: src/LanguageText.vala:86
+msgid "Rename Note"
+msgstr "Riemërto Shënimin"
+
+#. Item Menu - Open the file
+#: src/LanguageText.vala:90
+msgid "Open"
+msgstr "Hap"
+
+#. Item Menu - Execute the file
+#: src/LanguageText.vala:92
+msgid "Open With Other Application..."
+msgstr "Hapeni me një aplikacion tjetër..."
+
+#. Item Menu - Execute the file
+#: src/LanguageText.vala:94
+msgid "Execute"
+msgstr "Ekzekuto"
+
+#. Item Menu - cut the file/folder
+#: src/LanguageText.vala:96
+msgid "Cut"
+msgstr "Prije"
+
+#. Item Menu - copy the file/folder
+#: src/LanguageText.vala:98
+msgid "Copy"
+msgstr "Kopjo"
+
+#. Item Menu - rename the file/folder
+#: src/LanguageText.vala:100
+msgid "Rename"
+msgstr "Riemërto"
+
+#. Item Menu - delete the file/folder
+#: src/LanguageText.vala:104
+msgid "Delete"
+msgstr "Fshi"
+
+#. Item Menu - change icon
+#: src/LanguageText.vala:106
+msgid "Change Icon"
+msgstr "Ndrysho Ikonën"
+
+#. Item - Delete Folder Item Dialog message
+#: src/LanguageText.vala:108
+msgid ""
+"This action will DELETE the folder and ALL its content.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
+#. Item - Delete File Item Dialog message
+#: src/LanguageText.vala:110
+msgid ""
+"This action will DELETE the file.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
+#. Item - Delete File Link Dialog message
+#: src/LanguageText.vala:112
+msgid ""
+"This action will DELETE the link (just the link).\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
+#. Item - Change icon dialog message to select an image file
+#: src/LanguageText.vala:114
+msgid "Select the image icon to be used."
+msgstr "Zgjidhni imazhin e ikonës që do të përdoret"
+
+#. Name of the first desktop-folder panel, when no panels found
+#: src/LanguageText.vala:116
+msgid "My First Panel"
+msgstr "Paneli Im i Parë"
+
+#. Hint to show desktop shortcut
+#. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
+#. Menu option to create a link to a file
+#: src/LanguageText.vala:120
+msgid "Link to File"
+msgstr ""
+
+#. Menu option to create a link to a folder
+#: src/LanguageText.vala:122
+msgid "Link to Folder"
+msgstr ""
+
+#. Dialog message to create a new link
+#: src/LanguageText.vala:124
+msgid "Select the destination file/folder of the link"
+msgstr ""
+
+#. Dialog message to create a new link panel
+#: src/LanguageText.vala:126
+msgid "Select the destination folder for the Panel"
+msgstr ""
+
+#. Menu popup option to remove a photo
+#: src/LanguageText.vala:128
+msgid "Remove"
+msgstr "Hiq"
+
+#. desktopfolder menu - create a new Photo
+#: src/LanguageText.vala:130
+msgid "Photo"
+msgstr "Foto"
+
+#. dialog message to select an image file to be shown at the desktop
+#: src/LanguageText.vala:132
+msgid "Select the picture to show"
+msgstr "Zgjidhni figurën që do të shfaqet"
+
+#. desktopfolder menu - create a new empty Text File
+#: src/LanguageText.vala:134
+msgid "New"
+msgstr "I ri"
+
+#. panel properties - Properties section
+#: src/LanguageText.vala:136
+msgid "This Panel"
+msgstr "Ky Panel"
+
+#. panel properties - General section
+#: src/LanguageText.vala:138
+msgid "General"
+msgstr "Të përgjithshme"
+
+#. panel properties - Behavior section
+#: src/LanguageText.vala:140
+msgid "Behavior"
+msgstr "Sjellja"
+
+#. panel properties - Appearance section
+#: src/LanguageText.vala:142
+msgid "Appearance"
+msgstr "Pamja"
+
+#. panel properties - Close button
+#: src/LanguageText.vala:144
+msgid "Close"
+msgstr "Mbylle"
+
+#. panel properties - Panel over Desktop title
+#: src/LanguageText.vala:146
+msgid "Icons on desktop:"
+msgstr "Ikonat në desktop:"
+
+#. panel properties - Panel over Desktop title
+#: src/LanguageText.vala:148
+msgid "Enable desktop:"
+msgstr "Aktivizo desktopin:"
+
+#. panel properties - Panel over desktop description
+#: src/LanguageText.vala:150
+msgid "This change will require you to log out and in again"
+msgstr "Ky ndryshim do t'ju kërkojë të dilni dhe të hyni përsëri"
+
+#. panel properties - Resolution Strategy title
+#: src/LanguageText.vala:152
+msgid "When changing resolution:"
+msgstr "Kur ndryshoni rezolucionin:"
+
+#. panel properties - Resolution Strategy Description
+#: src/LanguageText.vala:154
+msgid ""
+"This is how panels, notes and photos will resize when you change the screen "
+"resolution"
+msgstr ""
+"Kjo është mënyra se si panelet, shënimet dhe fotot do të ndryshojnë "
+"madhësinë kur ndryshoni rezolucionin e ekranit"
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:156
+msgid "Do nothing"
+msgstr "Mos bëj asgjë"
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:158
+msgid "Scale to new resolution"
+msgstr "Shkallëzoni në rezolucion të ri"
+
+#. panel properties - Resolution Strategy NONE
+#: src/LanguageText.vala:160
+msgid "Store per resolution"
+msgstr ""
+
+#. change desktop menu
+#: src/LanguageText.vala:162
+msgid "Change Wallpaper"
+msgstr "Ndrysho Sfondin"
+
+#. open terminal here
+#: src/LanguageText.vala:164
+msgid "Open Terminal Here"
+msgstr "Hapni Terminalin Këtu"
+
+#. open terminal here
+#: src/LanguageText.vala:166
+msgid "Open in terminal"
+msgstr "Hape në terminal"
+
+#. file properties window - file name
+#. sort panel's items by name
+#: src/LanguageText.vala:170 src/LanguageText.vala:213
+msgid "Name"
+msgstr "Emri"
+
+#. file properties window - file type
+#. sort panel's items by file type
+#: src/LanguageText.vala:172 src/LanguageText.vala:217
+msgid "Type"
+msgstr "Lloji"
+
+#. file properties window - file location
+#: src/LanguageText.vala:174
+msgid "Location"
+msgstr "Vendndodhja"
+
+#. file properties window - link target
+#: src/LanguageText.vala:176
+msgid "Target"
+msgstr "Objektivi"
+
+#. file properties window - property value is unknown
+#: src/LanguageText.vala:178
+msgid "Unknown"
+msgstr "E panjohur"
+
+#. file properties window - property value - number of items
+#: src/LanguageText.vala:180
+msgid "items"
+msgstr "Artikujt"
+
+#. file properties window - content
+#: src/LanguageText.vala:182
+msgid "Content"
+msgstr "Përmbajtja"
+
+#. file properties window - total folder size
+#: src/LanguageText.vala:184
+msgid "Total size"
+msgstr "Madhësia totale"
+
+#. file properties window - file size
+#: src/LanguageText.vala:186
+msgid "File size"
+msgstr "Madhësia e skedarit"
+
+#. file properties window - file is executable?
+#: src/LanguageText.vala:188
+msgid "Allow execution"
+msgstr "Lejo ekzekutimin"
+
+#. file properties window - last time used
+#: src/LanguageText.vala:190
+msgid "Used"
+msgstr "Përdorur"
+
+#. file properties window - last time modified
+#: src/LanguageText.vala:192
+msgid "Modified"
+msgstr "Modifikuar"
+
+#. Items Arrangement Configuration
+#: src/LanguageText.vala:194
+msgid "Icon arrangement:"
+msgstr "Rregullimi i ikonës:"
+
+#. Free arrangement
+#: src/LanguageText.vala:196
+msgid "Free"
+msgstr ""
+
+#. Grid arrangement
+#: src/LanguageText.vala:198
+msgid "Grid"
+msgstr "Rrjeta"
+
+#. Managed arrangement
+#: src/LanguageText.vala:200
+msgid "Let app manage"
+msgstr "Lëreni aplikacionin të menaxhojë"
+
+#. Default Panel Management
+#: src/LanguageText.vala:202
+msgid "Icons"
+msgstr "Ikonat"
+
+#. Default Panel Management
+#: src/LanguageText.vala:204
+msgid "Default icon arrangement:"
+msgstr ""
+
+#. Default Panel Arrangement Padding for Items
+#: src/LanguageText.vala:206
+msgid "Icon spacing:"
+msgstr "Hapësira e ikonave:"
+
+#. Default Panel Arrangement Padding for Items
+#: src/LanguageText.vala:208
+msgid "Default icon spacing:"
+msgstr "Hapësira e parazgjedhur e ikonave:"
+
+#. sort by submenu
+#: src/LanguageText.vala:211
+msgid "Sort by"
+msgstr "Rendit sipas"
+
+#. sort panel's items by size
+#: src/LanguageText.vala:215
+msgid "Size"
+msgstr "Madhësia"
+
+#. sort panel's in reverse
+#: src/LanguageText.vala:219
+msgid "Reverse Order"
+msgstr "Rendi i kundërt"
+
+#. force panels to be organized automatically one time
+#: src/LanguageText.vala:221
+msgid "Reorganize Icons"
+msgstr "Riorganizoni ikonat"
+
+#. the title of a panel when a new one is created
+#: src/LanguageText.vala:223
+msgid "Untitled Panel"
+msgstr "Panel pa titull"
+
+#. / Please keep $FILE_NAME, it will be replaced by it's value
+#: src/LanguageText.vala:227
+msgid "Link to $FILE_NAME"
+msgstr ""
+
+#. Menu option to show the desktop
+#: src/LanguageText.vala:229
+msgid "Show Desktop"
+msgstr "Shfaq Desktopin"
+
+#. Menu option to hide the desktop
+#: src/LanguageText.vala:231
+msgid "Hide Desktop"
+msgstr "Fshih Desktopin"
+
+#. Menu option to sort the items vertically
+#: src/LanguageText.vala:233
+msgid "Sort Vertically"
+msgstr "Rendit vertikalisht"
+
+#: src/utils/Util.vala:397 src/utils/Util.vala:420
+#, c-format
+msgid "Could not create \"%'s\""
+msgstr ""
+
+#: src/utils/Util.vala:399
+msgid " already exists."
+msgstr "tashmë ekziston."
+
+#: src/utils/Util.vala:422
+msgid "Name is invalid."
+msgstr "Emri është i pavlefshëm."
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:7
+#: data/com.github.spheras.desktopfolder.desktop.in:3
+msgid "Desktop Folder"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:8
+msgid "Bring your desktop back to life"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:11
+msgid "Organize your desktop with panels that hold your things."
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:13
+msgid "Access files, folders and apps from your desktop"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:14
+msgid "Drop files, folders, links and .desktop launchers inside panels"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:15
+msgid "Resize, position and color panels"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:16
+msgid "Display photos and keep notes on your desktop"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:17
+msgid "Reveal the desktop with ⌘-D"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:19
+msgid ""
+"Open it like any other app after installing. Desktop Folder will launch "
+"automatically when you next log in."
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:26
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:30
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:34
+msgid "Overall desktop view"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.appdata.xml.in:38
+msgid "DesktopFolder Developers"
+msgstr ""
+
+#: data/com.github.spheras.desktopfolder.desktop.in:4
+msgid "Organize your desktop with panels, notes and photos"
+msgstr ""
