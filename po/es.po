@@ -6,7 +6,7 @@
 # Translators:
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Logan 8192 <logan8192@protonmail.com>, 2018
-# Adolfo Jayme-Barrientos, 2018
+# Adolfo Jayme Barrientos, 2018
 # Víctor Pont <victor@pont.cat>, 2018
 # Marcos Olave, 2020
 # 

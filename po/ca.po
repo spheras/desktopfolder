@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Adolfo Jayme-Barrientos, 2018
+# Adolfo Jayme Barrientos, 2018
 # Víctor Pont <victor@pont.cat>, 2018
 # Davidmp <medipas@gmail.com>, 2019
 # 
