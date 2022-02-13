@@ -25,7 +25,6 @@ desktop_exe = configure_file(   input : meson.project_name() + '.desktop.in',
                                 configuration : desktop_conf)
 
 i18n.merge_file (
-    'appdata',
     input: meson.project_name() + '.appdata.xml.in',
     output: meson.project_name() + '.appdata.xml',
     install: true,
@@ -34,7 +33,6 @@ i18n.merge_file (
 )
 
 i18n.merge_file (
-    'desktop',
     input: desktop_exe,
     output: meson.project_name() + '.desktop',
     install: true,
@@ -44,7 +42,6 @@ i18n.merge_file (
 )
 
 i18n.merge_file (
-    'desktop',
     input: desktop_exe,
     output: meson.project_name() + '-autostart.desktop',
     install: true,
