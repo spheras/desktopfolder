@@ -123,7 +123,7 @@ msgstr "Hija e tekstit:"
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr ""
+msgstr "Teksti i theksuar:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
@@ -246,6 +246,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
+"Ky veprim do të FSHIJË dosjen dhe të gjithë përmbajtjen e tij.\n"
+"<b>A je i sigurt?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -253,6 +255,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
+"Ky veprim do të FSHIJË skedarin.\n"
+"<b>A je i sigurt?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -260,6 +264,8 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
+"Ky veprim do të FSHIJË lidhjen (vetëm lidhja).\n"
+"<b>A je i sigurt?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
@@ -276,22 +282,22 @@ msgstr "Paneli Im i Parë"
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr ""
+msgstr "Lidhje me Skedarin"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr ""
+msgstr "Lidhje me Dosjen"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr ""
+msgstr "Zgjidhni destinacionin e skedarit/dosjes për lidhjen"
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr ""
+msgstr "Zgjidhni dosjen e destinacionit për Panelin"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
@@ -467,7 +473,7 @@ msgstr "Rregullimi i ikonës:"
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr ""
+msgstr "Lirë"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
@@ -527,7 +533,7 @@ msgstr "Panel pa titull"
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr ""
+msgstr "Lidh me $FILE_NAME"
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
@@ -547,7 +553,7 @@ msgstr "Rendit vertikalisht"
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr ""
+msgstr "Nuk mund të krijojë \"%'s\""
 
 #: src/utils/Util.vala:399
 msgid " already exists."
@@ -560,31 +566,32 @@ msgstr "Emri është i pavlefshëm."
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr ""
+msgstr "Desktop Folder"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr ""
+msgstr "Rikthe në jetë desktopin tuaj"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr ""
+msgstr "Organizoni desktopin tuaj me panele që mbajnë gjërat tuaja."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr ""
+msgstr "Hyni në skedarë, dosje dhe aplikacione nga desktopi juaj"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
 msgstr ""
+"Hidhni skedarët, dosjet, lidhjet dhe lëshuesit .desktop brenda paneleve"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr ""
+msgstr "Ndryshoni madhësinë, poziciononin dhe panelet me ngjyra"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr ""
+msgstr "Shfaqni fotografi dhe mbani shënime në desktopin tuaj"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
@@ -595,17 +602,19 @@ msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
+"Hapeni atë si çdo aplikacion tjetër pas instalimit. Desktop Folder do të "
+"hapet automatikisht kur të hyni herën tjetër në kompjuter."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Pamja e përgjithshme e desktopit"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr ""
+msgstr "Zhvilluesit e DesktopFolder"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr ""
+msgstr "Organizoni desktopin tuaj me panele, shënime dhe fotografi"
