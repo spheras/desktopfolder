@@ -4,6 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2022
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2022
 # 
 #, fuzzy
@@ -297,7 +298,7 @@ msgstr "נא לבחור את קובץ/תיקיית היעד לקישור"
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "נא לבחור את תיקיית היעד ללוח"
+msgstr "נא לבחור את תיקייה שתוצג בלוח"
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
@@ -352,7 +353,7 @@ msgstr "סמלים בשולחן העבודה:"
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr ""
+msgstr "הפעלת שולחן עבודה:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
@@ -384,7 +385,7 @@ msgstr "התאמה לרזולוציה החדשה"
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr ""
+msgstr "אחסון לפי רזולוציה"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
@@ -461,7 +462,7 @@ msgstr "בשימוש"
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr ""
+msgstr "שינוי אחרון"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
@@ -580,7 +581,7 @@ msgstr "גישה לקבצים, לתיקיות וליישומים משולחן ה
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
-msgstr ""
+msgstr "ניתן לגרור קבצים, תיקיות, קישורים ומשגרי ‎.desktop לתוך לוחות"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
@@ -604,7 +605,7 @@ msgstr ""
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "תצוגת שולחן עבודה כוללת"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
