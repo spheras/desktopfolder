@@ -600,6 +600,8 @@ msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
+"לאחר ההתקנה, הפתיחה תיעשה כמו פתיחה של כל יישום אחר. תיקיית שולחן העבודה "
+"תיפתח אוטומטית בכניסה הבאה."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
