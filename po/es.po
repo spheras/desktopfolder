@@ -5,10 +5,10 @@
 # 
 # Translators:
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
-# Logan 8192 <logan8192@protonmail.com>, 2018
+# a1a9b52a3f40dff112eca965c254c602_089360e <d1597d94e208cfb976efe0f2ce18d2e5_734602>, 2018
 # Adolfo Jayme-Barrientos, 2018
 # Víctor Pont <victor@pont.cat>, 2018
-# Marcos Olave <marcosolave3@gmail.com>, 2020
+# 1471bc07071b59374514b2320e0322e1_7c5bfd9, 2020
 # 
 #, fuzzy
 msgid ""
@@ -17,13 +17,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Marcos Olave <marcosolave3@gmail.com>, 2020\n"
+"Last-Translator: 1471bc07071b59374514b2320e0322e1_7c5bfd9, 2020\n"
 "Language-Team: Spanish (https://www.transifex.com/ubuntu-budgie/teams/72251/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:654 src/LanguageText.vala:46

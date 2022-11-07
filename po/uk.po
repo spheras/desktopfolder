@@ -4,8 +4,9 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# zubr139, 2019
 # ya_Bob _Jonez <yabobjonez@gmail.com>, 2020
+# dsafsadf <heneral@gmail.com>, 2021
+# zubr139, 2021
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: ya_Bob _Jonez <yabobjonez@gmail.com>, 2020\n"
+"Last-Translator: zubr139, 2021\n"
 "Language-Team: Ukrainian (https://www.transifex.com/ubuntu-budgie/teams/72251/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,12 +60,12 @@ msgstr "_Вибрати"
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr ""
+msgstr "У буфер обміну немає чого вставити"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr ""
+msgstr "Не вдається скинути цей файл"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
@@ -74,7 +75,7 @@ msgstr "Задане неправильне ім'я файлу"
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr ""
+msgstr "Файлові операції"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
@@ -94,7 +95,7 @@ msgstr "Перемістити Сюди"
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr ""
+msgstr "Посилання тут"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
@@ -166,7 +167,7 @@ msgstr "новий файл"
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr ""
+msgstr "Перемістити до кошика"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
@@ -179,12 +180,12 @@ msgstr "Властивості"
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr ""
+msgstr "Нова примітка"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr ""
+msgstr "Текстура паперу"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
@@ -199,7 +200,7 @@ msgstr "Завжди позаду"
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr ""
+msgstr "Відкрити у терміналі"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
@@ -309,7 +310,7 @@ msgstr "Фото"
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr ""
+msgstr "Оберіть зображення для показу"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
@@ -386,17 +387,17 @@ msgstr ""
 #. change desktop menu
 #: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr ""
+msgstr "Змінити шпалери"
 
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Відкрийте термінал тут"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr ""
+msgstr "Відкрити в терміналі"
 
 #. file properties window - file name
 #. sort panel's items by name
@@ -561,7 +562,7 @@ msgstr ""
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr ""
+msgstr "Тека робочого столу"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
@@ -581,7 +582,7 @@ msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr ""
+msgstr "Змінення розміру, розташування та кольорових панелей"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
@@ -601,12 +602,12 @@ msgstr ""
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Загальний вигляд робочого столу"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr ""
+msgstr "Розробники DesktopFolder"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr ""
+msgstr "Організуйте робочий стіл за допомогою панелей, нотаток та фотографій"

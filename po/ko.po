@@ -4,9 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Emre JILTA <jilta.e@gmail.com>, 2019
-# Yasin ÇUKUR <yasincukur@gmail.com>, 2020
-# Bengünur <bengunur2@gmail.com>, 2021
+# Kwon.Yongchan <ruvyn@naver.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -15,23 +13,23 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Bengünur <bengunur2@gmail.com>, 2021\n"
-"Language-Team: Turkish (https://www.transifex.com/ubuntu-budgie/teams/72251/tr/)\n"
+"Last-Translator: Kwon.Yongchan <ruvyn@naver.com>, 2021\n"
+"Language-Team: Korean (https://www.transifex.com/ubuntu-budgie/teams/72251/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/logic/FolderManager.vala:654 src/LanguageText.vala:46
 msgid "Panel"
-msgstr "Panel"
+msgstr "패널"
 
 #. desktopfolder menu - create a new Note
 #: src/logic/NoteManager.vala:294 src/LanguageText.vala:58
 msgid "Note"
-msgstr "Not"
+msgstr "노트"
 
 #. Application Description
 #: src/LanguageText.vala:20
@@ -39,208 +37,206 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Hayata minimalist Masaüstünüz ile dönün.\n"
-"Dosyalarınızı Panellerle Masaüstünüzde düzenleyin."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
 msgid "_Ok"
-msgstr "_Tamam"
+msgstr "_확인"
 
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
 msgid "_Cancel"
-msgstr "_İptal"
+msgstr "_취소"
 
 #. Generic Dialog Select Button
 #: src/LanguageText.vala:26
 msgid "_Select"
-msgstr "_Seç"
+msgstr "_선택"
 
 #. Trying to paste and the clipboard is empty
 #: src/LanguageText.vala:28
 msgid "There is nothing on the clipboard to paste"
-msgstr "Panoda yapıştırılacak hiçbir şey yok"
+msgstr "붙여넣을 클립보드 내용이 없습니다"
 
 #. Dialog Error Title: Invalid Filename provided
 #: src/LanguageText.vala:30
 msgid "Cannot drop this file"
-msgstr "Bu dosya silinemiyor"
+msgstr "이 파일을 삭제할 수 없습니다"
 
 #. Dialog Error Message while trying to drop
 #: src/LanguageText.vala:32
 msgid "Invalid file name provided"
-msgstr "Geçersiz dosya adı düzenlendi"
+msgstr "사용할 수 없는 파일명입니다"
 
 #. Title dialog for File Operations
 #: src/LanguageText.vala:34
 msgid "File Operations"
-msgstr "Dosya İşlemleri"
+msgstr "파일 작업"
 
 #. Copying File message for progress dialog
 #: src/LanguageText.vala:36
 msgid "Copying"
-msgstr "Kopyalanıyor"
+msgstr "복사 중"
 
 #. Drop Menu - Copy
 #: src/LanguageText.vala:38
 msgid "Copy Here"
-msgstr "Buraya Kopyalayın"
+msgstr "여기에 복사"
 
 #. Drop Menu - Move
 #: src/LanguageText.vala:40
 msgid "Move Here"
-msgstr "Buraya Taşıyın"
+msgstr "여기로 이동"
 
 #. Drop Menu - Link
 #: src/LanguageText.vala:42
 msgid "Link Here"
-msgstr "Buraya Bağlantı Kurun"
+msgstr "여기에 링크"
 
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
 msgid "Cancel"
-msgstr "İptal"
+msgstr "취소"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
 msgid "Link Panel"
-msgstr "Paneli bağla"
+msgstr "링크 패널"
 
 #. desktopfolder menu - enable/disable lock items
 #: src/LanguageText.vala:50
 msgid "Lock icons:"
-msgstr "Simgeleri kilitle:"
+msgstr "아이콘 잠금:"
 
 #. desktopfolder menu - enable/disable lock panel
 #: src/LanguageText.vala:52
 msgid "Lock panel:"
-msgstr "Paneli kilitle"
+msgstr "패널 잠금:"
 
 #. desktopfolder menu - enable/disable text shadows
 #: src/LanguageText.vala:54
 msgid "Text shadow:"
-msgstr "Gölgeli Metin:"
+msgstr "텍스트 음영:"
 
 #. desktopfolder menu - enable/disable text bolds
 #: src/LanguageText.vala:56
 msgid "Text bold:"
-msgstr "Kalın Metin:"
+msgstr "텍스트 굵게:"
 
 #. desktopfolder menu - create a new Folder
 #: src/LanguageText.vala:60
 msgid "Folder"
-msgstr "Klasör"
+msgstr "폴더"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:62
 msgid "Empty File"
-msgstr "Boş Dosya"
+msgstr "비어 있는 파일"
 
 #. desktopfolder menu - rename a Desktop-Folder Pane
 #: src/LanguageText.vala:64
 msgid "Rename Panel"
-msgstr "Paneli Yeniden Adlandır"
+msgstr "패널 재명명"
 
 #. desktopfolder menu - remove a Desktop-Folder Pane
 #: src/LanguageText.vala:66
 msgid "Move Panel to Trash"
-msgstr "Paneli Çöpe Taşı"
+msgstr "패널을 휴지통으로 이동"
 
 #. desktopfolder menu - past from clipboard to the desktop-folder
 #: src/LanguageText.vala:68
 msgid "Paste"
-msgstr "Yapıştır"
+msgstr "붙여넣기"
 
 #. desktopfolder - The default name for the new folder to be created
 #: src/LanguageText.vala:70
 msgid "untitled folder"
-msgstr "adsız klasör"
+msgstr "이름 없는 폴더"
 
 #. desktopfolder - The default name for the new text file to be created
 #: src/LanguageText.vala:72
 msgid "new file"
-msgstr "yeni dosya"
+msgstr "새 파일"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. Menu popup option to delete the note
 #. Item Menu - trash the file/folder
 #: src/LanguageText.vala:74 src/LanguageText.vala:88 src/LanguageText.vala:102
 msgid "Move to Trash"
-msgstr "Çöpe Taşı"
+msgstr "휴지통으로 이동"
 
 #. desktopfolder - The message to confirm the deletion of a Desktop Folder
 #. file properties window - properties
 #: src/LanguageText.vala:76 src/LanguageText.vala:168
 msgid "Properties"
-msgstr "Özellikler"
+msgstr "속성"
 
 #. desktopfolder - Title for a Dialog Text to ask the new name for the
 #. Desktop-Folder
 #. the title of a note when a new one is created
 #: src/LanguageText.vala:78 src/LanguageText.vala:225
 msgid "New Note"
-msgstr "Yeni Not"
+msgstr "새 노트"
 
 #. Note - popup option to set the paper texture or not
 #: src/LanguageText.vala:80
 msgid "Paper Texture"
-msgstr "Sayfa Yapısı"
+msgstr "종이 텍스처"
 
 #. Note - popup option to set allways on top or not
 #: src/LanguageText.vala:82
 msgid "Always on top"
-msgstr "Her zaman üstte"
+msgstr "언제나 맨 위로"
 
 #. Note - popup option to set allways on back or not
 #: src/LanguageText.vala:84
 msgid "Always on back"
-msgstr "Her zaman arkada"
+msgstr "언제나 배후로"
 
 #. Menu popup option to rename the note
 #: src/LanguageText.vala:86
 msgid "Rename Note"
-msgstr "Notu Yeniden Adlandırın"
+msgstr "노트 재명명"
 
 #. Item Menu - Open the file
 #: src/LanguageText.vala:90
 msgid "Open"
-msgstr "Aç"
+msgstr "열기"
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:92
 msgid "Open With Other Application..."
-msgstr "Diğer Uygulamalarla Aç..."
+msgstr "다른 애플리케이션으로 열기..."
 
 #. Item Menu - Execute the file
 #: src/LanguageText.vala:94
 msgid "Execute"
-msgstr "Çalıştır"
+msgstr "실행"
 
 #. Item Menu - cut the file/folder
 #: src/LanguageText.vala:96
 msgid "Cut"
-msgstr "Kes"
+msgstr "잘라내기"
 
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:98
 msgid "Copy"
-msgstr "Kopyala"
+msgstr "복사"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:100
 msgid "Rename"
-msgstr "Yeniden Adlandır"
+msgstr "재명명"
 
 #. Item Menu - delete the file/folder
 #: src/LanguageText.vala:104
 msgid "Delete"
-msgstr "Sil"
+msgstr "삭제"
 
 #. Item Menu - change icon
 #: src/LanguageText.vala:106
 msgid "Change Icon"
-msgstr "Simgeyi Değiştir"
+msgstr "아이콘 변경"
 
 #. Item - Delete Folder Item Dialog message
 #: src/LanguageText.vala:108
@@ -248,8 +244,8 @@ msgid ""
 "This action will DELETE the folder and ALL its content.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Bu eylem klasörü TÜM içeriğiyle birlikte SİLECEK.\n"
-"<b>Emin misiniz?</b>"
+"이 작업은 폴더와 그 모든 내용물을 삭제할 것입니다.\n"
+"<b>진행하시겠습니까?</b>"
 
 #. Item - Delete File Item Dialog message
 #: src/LanguageText.vala:110
@@ -257,8 +253,8 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Bu eylem dosyayı SİLECEK.\n"
-"<b>Emin misiniz?</b>"
+"이 작업은 파일을 삭제할 것입니다.\n"
+"<b>진행하시겠습니까?</b>"
 
 #. Item - Delete File Link Dialog message
 #: src/LanguageText.vala:112
@@ -266,359 +262,352 @@ msgid ""
 "This action will DELETE the link (just the link).\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Bu eylem bağlantıyı SİLECEK (sadece bağlantı).\n"
-"<b>Emin misiniz?</b>"
+"이 작업은 링크(만) 삭제할 것입니다.\n"
+"<b>진행하시겠습니까?</b>"
 
 #. Item - Change icon dialog message to select an image file
 #: src/LanguageText.vala:114
 msgid "Select the image icon to be used."
-msgstr "Kullanılması için resim simgesini seçiniz."
+msgstr "사용할 이미지 아이콘을 선택하십시오."
 
 #. Name of the first desktop-folder panel, when no panels found
 #: src/LanguageText.vala:116
 msgid "My First Panel"
-msgstr "İlk Panelim"
+msgstr "내 첫 패널"
 
 #. Hint to show desktop shortcut
 #. public const string HINT_SHOW_DESKTOP=_("Press ⌘-D to Show Desktop");
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Dosyaya Bağlantıla"
+msgstr "파일로 링크"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Klasöre Bağlantıla"
+msgstr "폴더로 링크"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
 msgid "Select the destination file/folder of the link"
-msgstr "Bağlantının hedef dosyasını/klasörünü seçiniz"
+msgstr "링크의 대상 파일/폴더를 선택하십시오."
 
 #. Dialog message to create a new link panel
 #: src/LanguageText.vala:126
 msgid "Select the destination folder for the Panel"
-msgstr "Panel için hedef klasörü seçiniz"
+msgstr "패널 용 대상 폴더를 선택하십시오."
 
 #. Menu popup option to remove a photo
 #: src/LanguageText.vala:128
 msgid "Remove"
-msgstr "Kaldır"
+msgstr "제거"
 
 #. desktopfolder menu - create a new Photo
 #: src/LanguageText.vala:130
 msgid "Photo"
-msgstr "Fotoğraf"
+msgstr "사진"
 
 #. dialog message to select an image file to be shown at the desktop
 #: src/LanguageText.vala:132
 msgid "Select the picture to show"
-msgstr "Görüntülemek için resmi seçiniz"
+msgstr "표시할 그림을 선택하십시오"
 
 #. desktopfolder menu - create a new empty Text File
 #: src/LanguageText.vala:134
 msgid "New"
-msgstr "Yeni"
+msgstr "신규"
 
 #. panel properties - Properties section
 #: src/LanguageText.vala:136
 msgid "This Panel"
-msgstr "Bu Panel"
+msgstr "이 패널"
 
 #. panel properties - General section
 #: src/LanguageText.vala:138
 msgid "General"
-msgstr "Genel"
+msgstr "일반"
 
 #. panel properties - Behavior section
 #: src/LanguageText.vala:140
 msgid "Behavior"
-msgstr "Davranış"
+msgstr "습성"
 
 #. panel properties - Appearance section
 #: src/LanguageText.vala:142
 msgid "Appearance"
-msgstr "Görünüm"
+msgstr "모양"
 
 #. panel properties - Close button
 #: src/LanguageText.vala:144
 msgid "Close"
-msgstr "Kapat"
+msgstr "닫기"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:146
 msgid "Icons on desktop:"
-msgstr "Masaüstü simgeleri:"
+msgstr "데스크톱의 아이콘:"
 
 #. panel properties - Panel over Desktop title
 #: src/LanguageText.vala:148
 msgid "Enable desktop:"
-msgstr "Masaüstünü etkinleştir:"
+msgstr "데스크톱 활성화:"
 
 #. panel properties - Panel over desktop description
 #: src/LanguageText.vala:150
 msgid "This change will require you to log out and in again"
-msgstr ""
-"Bu değişiklik çıkış yapmanızı ve tekrar giriş yapmanızı gerektirmektedir"
+msgstr "이 변경 사항을 적용하려면 로그아웃한 다음 다시 로그인하십시오"
 
 #. panel properties - Resolution Strategy title
 #: src/LanguageText.vala:152
 msgid "When changing resolution:"
-msgstr "Çözünürlük değiştiğinde:"
+msgstr "해상도 변경 시:"
 
 #. panel properties - Resolution Strategy Description
 #: src/LanguageText.vala:154
 msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
-msgstr ""
-"Ekran çözünürlüğünü değiştirdiğinizde panel, not ve fotoğrafların nasıl "
-"yeniden boyutlandırıldığını gösterir"
+msgstr "화면 해상도를 변경할 경우 패널, 노트, 사진 등의 크기가 이렇게 변경될 것입니다"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
 msgid "Do nothing"
-msgstr "Hiçbir şey yapma"
+msgstr "아무것도 하지 않기"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:158
 msgid "Scale to new resolution"
-msgstr "Yeni çözünürlüğe ölçeklendir"
+msgstr "새 해상도로 축척 변경"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:160
 msgid "Store per resolution"
-msgstr "Çözünürlüğe göre kaydet "
+msgstr "각 해상도 별로 저장"
 
 #. change desktop menu
 #: src/LanguageText.vala:162
 msgid "Change Wallpaper"
-msgstr "Duvar Kâğıdını Değiştir"
+msgstr "배경 화면 변경"
 
 #. open terminal here
 #: src/LanguageText.vala:164
 msgid "Open Terminal Here"
-msgstr "Uçbirimi Burada Aç"
+msgstr "여기에 터미널 열기"
 
 #. open terminal here
 #: src/LanguageText.vala:166
 msgid "Open in terminal"
-msgstr "Uçbirimde aç"
+msgstr "터미널에서 열기"
 
 #. file properties window - file name
 #. sort panel's items by name
 #: src/LanguageText.vala:170 src/LanguageText.vala:213
 msgid "Name"
-msgstr "Ad"
+msgstr "이름"
 
 #. file properties window - file type
 #. sort panel's items by file type
 #: src/LanguageText.vala:172 src/LanguageText.vala:217
 msgid "Type"
-msgstr "Tür"
+msgstr "유형"
 
 #. file properties window - file location
 #: src/LanguageText.vala:174
 msgid "Location"
-msgstr "Yer"
+msgstr "위치"
 
 #. file properties window - link target
 #: src/LanguageText.vala:176
 msgid "Target"
-msgstr "Hedef"
+msgstr "대상"
 
 #. file properties window - property value is unknown
 #: src/LanguageText.vala:178
 msgid "Unknown"
-msgstr "bilinmeyen"
+msgstr "알 수 없음"
 
 #. file properties window - property value - number of items
 #: src/LanguageText.vala:180
 msgid "items"
-msgstr "öğeler"
+msgstr "항목"
 
 #. file properties window - content
 #: src/LanguageText.vala:182
 msgid "Content"
-msgstr "İçerik"
+msgstr "내용"
 
 #. file properties window - total folder size
 #: src/LanguageText.vala:184
 msgid "Total size"
-msgstr "Toplam boyut"
+msgstr "총 용량"
 
 #. file properties window - file size
 #: src/LanguageText.vala:186
 msgid "File size"
-msgstr "Dosya boyutu"
+msgstr "파일 용량"
 
 #. file properties window - file is executable?
 #: src/LanguageText.vala:188
 msgid "Allow execution"
-msgstr "Çalışmaya izin ver"
+msgstr "실행 허용"
 
 #. file properties window - last time used
 #: src/LanguageText.vala:190
 msgid "Used"
-msgstr "Kullanılan"
+msgstr "사용됨"
 
 #. file properties window - last time modified
 #: src/LanguageText.vala:192
 msgid "Modified"
-msgstr "Düzenlenen"
+msgstr "수정됨"
 
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "Simge düzeni:"
+msgstr "아이콘 배치:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
 msgid "Free"
-msgstr "Ücretsiz"
+msgstr "무료"
 
 #. Grid arrangement
 #: src/LanguageText.vala:198
 msgid "Grid"
-msgstr "Kılavuz"
+msgstr "그리드"
 
 #. Managed arrangement
 #: src/LanguageText.vala:200
 msgid "Let app manage"
-msgstr "Uygulamanın yönetmesine izin ver "
+msgstr "앱이 관리하도록 허용"
 
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr "Simgeler"
+msgstr "아이콘"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
 msgid "Default icon arrangement:"
-msgstr "Varsayılan simge düzeni:"
+msgstr "기본 아이콘 배치:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:206
 msgid "Icon spacing:"
-msgstr "Simge aralığı:"
+msgstr "아이콘 간격:"
 
 #. Default Panel Arrangement Padding for Items
 #: src/LanguageText.vala:208
 msgid "Default icon spacing:"
-msgstr "Varsayılan simge aralığı:"
+msgstr "기본 아이콘 간격:"
 
 #. sort by submenu
 #: src/LanguageText.vala:211
 msgid "Sort by"
-msgstr "Sırala"
+msgstr "다음으로 정렬"
 
 #. sort panel's items by size
 #: src/LanguageText.vala:215
 msgid "Size"
-msgstr "Boyut"
+msgstr "용량"
 
 #. sort panel's in reverse
 #: src/LanguageText.vala:219
 msgid "Reverse Order"
-msgstr "Ters Sırala"
+msgstr "순서 역전"
 
 #. force panels to be organized automatically one time
 #: src/LanguageText.vala:221
 msgid "Reorganize Icons"
-msgstr "Simgeleri Yeniden Düzenle"
+msgstr "아이콘 재정리"
 
 #. the title of a panel when a new one is created
 #: src/LanguageText.vala:223
 msgid "Untitled Panel"
-msgstr "Adsız Panel"
+msgstr "이름 없는 패널"
 
 #. / Please keep $FILE_NAME, it will be replaced by it's value
 #: src/LanguageText.vala:227
 msgid "Link to $FILE_NAME"
-msgstr "$FILE_NAME Dosyasına Bağlantıla"
+msgstr "$FILE_NAME 으로 링크"
 
 #. Menu option to show the desktop
 #: src/LanguageText.vala:229
 msgid "Show Desktop"
-msgstr "Masaüstünü Görüntüle"
+msgstr "데스크톱 보이기"
 
 #. Menu option to hide the desktop
 #: src/LanguageText.vala:231
 msgid "Hide Desktop"
-msgstr "Masaüstünü Gizle"
+msgstr "데스크톱 숨기기"
 
 #. Menu option to sort the items vertically
 #: src/LanguageText.vala:233
 msgid "Sort Vertically"
-msgstr "Dikey sırala"
+msgstr "수직으로 정렬"
 
 #: src/utils/Util.vala:397 src/utils/Util.vala:420
 #, c-format
 msgid "Could not create \"%'s\""
-msgstr "\"%'s\" oluşturulamıyor"
+msgstr "\"%'s\" 을/를 생성할 수 없습니다"
 
 #: src/utils/Util.vala:399
 msgid " already exists."
-msgstr "zaten var."
+msgstr "이미 존재합니다."
 
 #: src/utils/Util.vala:422
 msgid "Name is invalid."
-msgstr "Ad geçersizdir."
+msgstr "사용할 수 없는 이름입니다."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr "Masaüstü Klasörü"
+msgstr "데스크톱 폴더"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr "Masaüstünü canlandır."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
-msgstr "Masaüstünü kullandıklarını tutan paneller ile tekrar dizayn et ."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr "Masaüstünden dosyalarına, dizinlerine ve uygulamalarına eriş ."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
 msgstr ""
-"Panellerin içine dosyaları, dizinleri, bağlantıları ve masaüstü "
-"başlangıçlarını sürükle ."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr "Panellerin pozisyonunu, rengini ve büyüklüğünü ayarlayın ."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr "Resimleri görüntüle ve masaüstünde notlar tut ."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr "⌘-D ile masaüstünde göster"
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
-"Herhangi bir uygulamayı yükledikten sonra açtığınız gibi açın . Masaüstü "
-"Dosyası birdahaki girişinizde otomatik olarak açılacak ."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr "Genel Masaüstü görünümü."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr "Masaüstü Dosyaları geliştiriciler için ."
+msgstr ""
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Masaüstünüzü panel, not ve fotoğraflarla düzenleyin"
+msgstr ""
