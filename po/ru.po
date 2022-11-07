@@ -7,6 +7,7 @@
 # David Mohammed <fossfreedom@ubuntu.com>, 2018
 # Camellan <camellan@yandex.ru>, 2019
 # Keeper Holderson <falex7835@gmail.com>, 2020
+# Виктор, 2022
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-27 12:15+0000\n"
 "PO-Revision-Date: 2018-11-08 12:46+0000\n"
-"Last-Translator: Keeper Holderson <falex7835@gmail.com>, 2020\n"
+"Last-Translator: Виктор, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/ubuntu-budgie/teams/72251/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,8 +40,8 @@ msgid ""
 "Come back to life your minimalist Desktop \n"
 " Organize files at your Desktop using Panes."
 msgstr ""
-"Вернёт к жизни ваш упрощённый рабочий стол \n"
-"Позволит организовать файлы на рабочем столе при помощи панелей."
+"Верните к жизни свой минималистичный рабочий стол \n"
+"Организуйте файлы на рабочем столе с помощью панелей."
 
 #. Generic Dialog OK Button
 #: src/LanguageText.vala:22
@@ -50,7 +51,7 @@ msgstr "_OK"
 #. Generic Dialog CANCEL Button
 #: src/LanguageText.vala:24
 msgid "_Cancel"
-msgstr "_Отмена"
+msgstr "_Отменить"
 
 #. Generic Dialog Select Button
 #: src/LanguageText.vala:26
@@ -100,7 +101,7 @@ msgstr "Ссылку сюда"
 #. Drop Menu - Cancel
 #: src/LanguageText.vala:44
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Отменить"
 
 #. desktopfolder menu - create a new Desktop-Folder Pane
 #: src/LanguageText.vala:48
@@ -225,7 +226,7 @@ msgstr "Вырезать"
 #. Item Menu - copy the file/folder
 #: src/LanguageText.vala:98
 msgid "Copy"
-msgstr "Копировать"
+msgstr "Скопировать"
 
 #. Item Menu - rename the file/folder
 #: src/LanguageText.vala:100
@@ -257,7 +258,7 @@ msgid ""
 "This action will DELETE the file.\n"
 "<b>Are you sure?</b>"
 msgstr ""
-"Это действие приведёт к удалению файла.\n"
+"Это действие удалит файл.\n"
 "<b>Вы уверены?</b>"
 
 #. Item - Delete File Link Dialog message
@@ -284,12 +285,12 @@ msgstr "Моя первая панель"
 #. Menu option to create a link to a file
 #: src/LanguageText.vala:120
 msgid "Link to File"
-msgstr "Ссылку на файл"
+msgstr "Ссылка на файл"
 
 #. Menu option to create a link to a folder
 #: src/LanguageText.vala:122
 msgid "Link to Folder"
-msgstr "Ссылку на папку"
+msgstr "Ссылка на папку"
 
 #. Dialog message to create a new link
 #: src/LanguageText.vala:124
@@ -372,8 +373,8 @@ msgid ""
 "This is how panels, notes and photos will resize when you change the screen "
 "resolution"
 msgstr ""
-"Это значит, что панели, заметки и фотографии будут изменять размер при "
-"изменении разрешения экрана"
+"Так панели, заметки и фотографии будут изменять размер при изменении "
+"разрешения экрана"
 
 #. panel properties - Resolution Strategy NONE
 #: src/LanguageText.vala:156
@@ -470,7 +471,7 @@ msgstr "Изменен"
 #. Items Arrangement Configuration
 #: src/LanguageText.vala:194
 msgid "Icon arrangement:"
-msgstr "Размещение иконок:"
+msgstr "Расположение значков:"
 
 #. Free arrangement
 #: src/LanguageText.vala:196
@@ -490,7 +491,7 @@ msgstr "Управляет приложение"
 #. Default Panel Management
 #: src/LanguageText.vala:202
 msgid "Icons"
-msgstr "Значок"
+msgstr "Значки"
 
 #. Default Panel Management
 #: src/LanguageText.vala:204
@@ -568,52 +569,56 @@ msgstr "Неверное имя."
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:7
 #: data/com.github.spheras.desktopfolder.desktop.in:3
 msgid "Desktop Folder"
-msgstr "Desktop Folder"
+msgstr "Папка рабочего стола"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:8
 msgid "Bring your desktop back to life"
-msgstr ""
+msgstr "Оживите свой рабочий стол"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:11
 msgid "Organize your desktop with panels that hold your things."
 msgstr ""
+"Организуйте свой рабочий стол с помощью панелей, на которых можно хранить "
+"самое нужное."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:13
 msgid "Access files, folders and apps from your desktop"
-msgstr ""
+msgstr "Доступ к файлам, папкам и приложениям прямо с рабочего стола"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:14
 msgid "Drop files, folders, links and .desktop launchers inside panels"
-msgstr ""
+msgstr "Переносите файлы, папки, ссылки и лаунчеры .desktop внутрь панелей"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:15
 msgid "Resize, position and color panels"
-msgstr ""
+msgstr "Изменение размера, положения и цвета панелей"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:16
 msgid "Display photos and keep notes on your desktop"
-msgstr ""
+msgstr "Отображение фотографий и сохранение заметок на рабочем столе"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:17
 msgid "Reveal the desktop with ⌘-D"
-msgstr ""
+msgstr "Откройте рабочий стол с помощью ⌘-D"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:19
 msgid ""
 "Open it like any other app after installing. Desktop Folder will launch "
 "automatically when you next log in."
 msgstr ""
+"Откройте его, как и любое другое приложение после установки. Папка рабочего "
+"стола запустится автоматически при следующем входе в систему."
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:26
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:30
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:34
 msgid "Overall desktop view"
-msgstr ""
+msgstr "Общий вид рабочего стола"
 
 #: data/com.github.spheras.desktopfolder.appdata.xml.in:38
 msgid "DesktopFolder Developers"
-msgstr ""
+msgstr "Разработчики"
 
 #: data/com.github.spheras.desktopfolder.desktop.in:4
 msgid "Organize your desktop with panels, notes and photos"
-msgstr "Обустройте ваш рабочий стол при помощи панелей, заметок и фотографий"
+msgstr "Организуйте ваш рабочий стол с помощью панелей, заметок и фотографий"
